@@ -1,48 +1,41 @@
 RECURSOS | Arley Zarate
-=======================
+Versión: 09/octubre/2026
 
-VERSION GITHUB PAGES Y WINDOWS | 09/octubre/2026
+PUBLICAR EN GITHUB PAGES
+1. Suba index.html, archivos.js y palabras.js a la carpeta publicada.
+2. Suba sus archivos HTML, LSP, DWG, PDF y otros formatos al MISMO directorio.
+3. Abra el sitio PUBLICADO (usuario.github.io/repositorio/), no la vista github.com.
+4. Escriba una letra o parte del nombre; por ejemplo, "texto" encontrará
+   "organzador_texto.html". Los resultados aparecen mientras escribe.
+5. Seleccione con clic o flechas Arriba/Abajo y Enter.
+6. Los HTML se abren en una pestaña nueva. Los demás archivos solicitan
+   confirmar la descarga (Sí o No).
+7. Los archivos de control index, LEAME, actualizar, archivos y palabras
+   no se muestran entre los resultados.
 
-PUBLICAR EN GITHUB PAGES (sin localhost)
-1. En la carpeta publicada por GitHub Pages, coloque index.html y palabras.js.
-2. Coloque los archivos de sus utilidades HTML en la MISMA carpeta que index.html.
-3. Abra la DIRECCION PUBLICADA DE GITHUB PAGES, no el enlace a la vista del archivo en github.com.
-   La dirección publicada suele tener esta forma: https://usuario.github.io/repositorio/
-4. Escriba el nombre exacto de un archivo HTML con o sin la extensión y pulse Enter.
-   Ejemplo: organzador_texto o organzador_texto.html
-5. Si el archivo existe, se abre en otra pestaña y aparece "Comando correcto".
-   Si no existe, aparece "Error de comando".
-6. No es necesario modificar archivos.js ni ejecutar actualizar_archivos.bat en GitHub Pages.
+BÚSQUEDA EN GITHUB
+- En direcciones usuario.github.io se identifica automáticamente el repositorio.
+- Se utiliza la API pública de GitHub para obtener todos los nombres de archivos.
+- Solo busca archivos del MISMO directorio, no de subcarpetas.
+- No necesita mantener manualmente una lista de archivos en GitHub Pages.
+- Para sitios con dominio personalizado, edite CONFIG_GITHUB en index.html
+  e indique usuario y repositorio. Opcionalmente carpeta y rama.
+- Si publicó mediante GitHub Actions con rama/carpeta no convencional,
+  puede definir también CONFIG_GITHUB.rama y CONFIG_GITHUB.carpeta.
+- La API pública tiene límites de consultas sin autenticación. Si se alcanza
+  el límite o no hay conexión, el catálogo local archivos.js sirve de respaldo.
+- Un archivo recién publicado puede tardar en aparecer en GitHub Pages.
 
-IMPORTANTE PARA GITHUB PAGES
-- Los nombres de los archivos y sus mayúsculas/minúsculas deben coincidir exactamente.
-- El index.html y las utilidades deben estar en la carpeta que publica GitHub Pages.
-- Asegúrese de que la publicación corresponda a la versión más reciente del repositorio.
-- GitHub Pages debe estar activado en Settings > Pages del repositorio.
-- La comprobación se hace en línea usando una petición HEAD (con GET de respaldo).
+USO EN WINDOWS, SIN LOCALHOST
+1. Ponga index.html, archivos.js, palabras.js y sus utilidades en una carpeta.
+2. Ejecute actualizar_archivos.bat al añadir o quitar archivos.
+3. Abra index.html con doble clic. El .bat actualiza archivos.js para uso local.
 
-USAR EN WINDOWS SIN SERVIDOR, SIN LOCALHOST
-1. Extraiga todos los archivos del ZIP a la misma carpeta.
-2. Copie sus archivos HTML junto a index.html.
-3. Ejecute actualizar_archivos.bat cada vez que cambie los archivos HTML.
-   Este paso crea el catálogo archivos.js, requerido al abrir páginas con file://.
-4. Abra index.html con doble clic y escriba el nombre del archivo.
-5. La pagina abre la utilidad en una nueva pestaña.
-
-DISEÑO Y COMPORTAMIENTO
-- Nombre central: Arley Zarate.
-- Mensaje flotante: Ingrese comando.
-- No hay texto de instrucciones debajo de la barra.
-- Muestra "Comando correcto" o "Error de comando" según el resultado.
-- Diez colores oscuros que se alternan automáticamente cada cinco segundos.
-- Fondo con letras verticales animadas a partir de 1.000 palabras editables.
-
-ARCHIVOS
-- index.html: página principal y búsqueda de las utilidades HTML.
-- palabras.js: 1.000 palabras del fondo.
-- archivos.js: catálogo necesario únicamente para utilizar desde file://.
-- actualizar_archivos.bat: actualiza el catálogo para Windows local.
-- LEAME.txt: esta guía.
+VISUAL
+- Nombre central Arley Zarate.
+- Indicador Ingrese comando_ con guion bajo intermitente.
+- Sin leyendas en esquinas superior e inferior izquierda.
+- Fondo con diez colores sólidos oscuros que se alternan cada cinco segundos.
+- Animación de letras verticales de palabras.js (1.000 palabras).
 
 Diseño: Arley Zarate
-Fecha: 09/octubre/2026

@@ -1,7 +1,3 @@
-/*
- * Lista de archivos HTML disponibles para ingresar por comando.
- * Para actualizarla automáticamente en Windows, ejecute actualizar_archivos.bat.
- * También puede editar la lista manualmente, por ejemplo:
- * window.RECURSOS_ARCHIVOS = ["organizador-de-texto.html", "otra-utilidad.html"];
- */
+/* Catálogo para uso local (file://), actualizado con actualizar_archivos.bat.
+ * En GitHub Pages se consulta automáticamente la API de GitHub. */
 window.RECURSOS_ARCHIVOS = [];

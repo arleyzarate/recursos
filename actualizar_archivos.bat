@@ -1,12 +1,12 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-echo Actualizando comandos de Recursos...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$directorio = (Get-Location).Path; $nombres = @(Get-ChildItem -LiteralPath $directorio -File -Filter '*.html' | Where-Object { $_.Name -ine 'index.html' } | Sort-Object Name | ForEach-Object { $_.Name }); $json = ConvertTo-Json -InputObject $nombres -Compress; $ruta = Join-Path $directorio 'archivos.js'; Set-Content -LiteralPath $ruta -Value ('window.RECURSOS_ARCHIVOS = ' + $json + ';') -Encoding UTF8; Write-Host ('Archivos HTML disponibles: ' + $nombres.Count)"
+echo Actualizando archivos disponibles en Recursos...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference = 'Stop'; $excluidos = '^(index([.]|$)|leame([._ -]|$)|readme([._ -]|$)|actualizar([._ -]|$)|archivos([._ -]|$)|palabras([._ -]|$)|catalogo([._ -]|$)|license([.]|$)|[.]nojekyll$|[.]gitignore$|[.]ds_store$|recursos_web_arley_zarate([._ -]|$))'; $lista = @(Get-ChildItem -LiteralPath (Get-Location).Path -File | Where-Object { $_.Name -notmatch $excluidos -and $_.Name -notlike '.*' } | Sort-Object Name | ForEach-Object { $_.Name }); $json = ConvertTo-Json -InputObject $lista -Compress; Set-Content -LiteralPath 'archivos.js' -Value ('window.RECURSOS_ARCHIVOS = ' + $json + ';') -Encoding UTF8; Write-Host ('Archivos disponibles: ' + $lista.Count)"
 if errorlevel 1 (
-  echo No se pudo actualizar la lista. Puede editar archivos.js manualmente.
+  echo No se pudo actualizar archivos.js.
   pause
   exit /b 1
 )
-echo Lista actualizada. Recargue index.html si ya estaba abierto.
+echo Catálogo actualizado. Abra o recargue index.html.
 pause
