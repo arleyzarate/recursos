@@ -1,36 +1,48 @@
 RECURSOS | Arley Zarate
 =======================
 
+VERSION GITHUB PAGES Y WINDOWS | 09/octubre/2026
+
+PUBLICAR EN GITHUB PAGES (sin localhost)
+1. En la carpeta publicada por GitHub Pages, coloque index.html y palabras.js.
+2. Coloque los archivos de sus utilidades HTML en la MISMA carpeta que index.html.
+3. Abra la DIRECCION PUBLICADA DE GITHUB PAGES, no el enlace a la vista del archivo en github.com.
+   La dirección publicada suele tener esta forma: https://usuario.github.io/repositorio/
+4. Escriba el nombre exacto de un archivo HTML con o sin la extensión y pulse Enter.
+   Ejemplo: organzador_texto o organzador_texto.html
+5. Si el archivo existe, se abre en otra pestaña y aparece "Comando correcto".
+   Si no existe, aparece "Error de comando".
+6. No es necesario modificar archivos.js ni ejecutar actualizar_archivos.bat en GitHub Pages.
+
+IMPORTANTE PARA GITHUB PAGES
+- Los nombres de los archivos y sus mayúsculas/minúsculas deben coincidir exactamente.
+- El index.html y las utilidades deben estar en la carpeta que publica GitHub Pages.
+- Asegúrese de que la publicación corresponda a la versión más reciente del repositorio.
+- GitHub Pages debe estar activado en Settings > Pages del repositorio.
+- La comprobación se hace en línea usando una petición HEAD (con GET de respaldo).
+
+USAR EN WINDOWS SIN SERVIDOR, SIN LOCALHOST
+1. Extraiga todos los archivos del ZIP a la misma carpeta.
+2. Copie sus archivos HTML junto a index.html.
+3. Ejecute actualizar_archivos.bat cada vez que cambie los archivos HTML.
+   Este paso crea el catálogo archivos.js, requerido al abrir páginas con file://.
+4. Abra index.html con doble clic y escriba el nombre del archivo.
+5. La pagina abre la utilidad en una nueva pestaña.
+
+DISEÑO Y COMPORTAMIENTO
+- Nombre central: Arley Zarate.
+- Mensaje flotante: Ingrese comando.
+- No hay texto de instrucciones debajo de la barra.
+- Muestra "Comando correcto" o "Error de comando" según el resultado.
+- Diez colores oscuros que se alternan automáticamente cada cinco segundos.
+- Fondo con letras verticales animadas a partir de 1.000 palabras editables.
+
 ARCHIVOS
-- index.html: página principal, comandos y animación.
-- palabras.js: banco de 1.000 palabras separadas por comas.
-
-CÓMO USAR
-1. Guarde index.html y palabras.js juntos en una misma carpeta de Windows.
-2. Abra index.html con doble clic en Chrome, Edge o Firefox.
-3. No necesita internet, localhost, instaladores ni un servidor.
-4. Escriba «ayuda» en el campo central y presione Enter.
-
-COMANDOS
-ayuda, recursos, organizador, palabras, buscar [término], colores,
-color [1-10], pausar, reanudar, limpiar.
-
-CÓMO CAMBIAR LAS PALABRAS
-Abra palabras.js con un editor de texto. Modifique las palabras entre
-las comillas invertidas; separe cada palabra por una coma. Guarde el archivo
-y recargue la página. No quite las comillas invertidas ni la línea inicial
-window.RECURSOS_PALABRAS = ni el punto y coma final.
-
-CÓMO AGREGAR EL ORGANIZADOR DE TEXTO
-Coloque el archivo de su organizador de texto junto a index.html.
-Renómbrelo como: organizador-de-texto.html
-Al escribir «organizador», la página mostrará un vínculo para abrirlo.
-Si prefiere otro nombre, modifique la ruta del enlace en index.html.
-
-PALETA
-10 colores sólidos de fondo, transición automática cada 5 segundos.
-La paleta toma como referencia familias oscuras habituales en diseño web,
-no es una clasificación estadística de popularidad.
+- index.html: página principal y búsqueda de las utilidades HTML.
+- palabras.js: 1.000 palabras del fondo.
+- archivos.js: catálogo necesario únicamente para utilizar desde file://.
+- actualizar_archivos.bat: actualiza el catálogo para Windows local.
+- LEAME.txt: esta guía.
 
 Diseño: Arley Zarate
 Fecha: 09/octubre/2026
