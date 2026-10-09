@@ -1,0 +1,36 @@
+RECURSOS | Arley Zarate
+=======================
+
+ARCHIVOS
+- index.html: página principal, comandos y animación.
+- palabras.js: banco de 1.000 palabras separadas por comas.
+
+CÓMO USAR
+1. Guarde index.html y palabras.js juntos en una misma carpeta de Windows.
+2. Abra index.html con doble clic en Chrome, Edge o Firefox.
+3. No necesita internet, localhost, instaladores ni un servidor.
+4. Escriba «ayuda» en el campo central y presione Enter.
+
+COMANDOS
+ayuda, recursos, organizador, palabras, buscar [término], colores,
+color [1-10], pausar, reanudar, limpiar.
+
+CÓMO CAMBIAR LAS PALABRAS
+Abra palabras.js con un editor de texto. Modifique las palabras entre
+las comillas invertidas; separe cada palabra por una coma. Guarde el archivo
+y recargue la página. No quite las comillas invertidas ni la línea inicial
+window.RECURSOS_PALABRAS = ni el punto y coma final.
+
+CÓMO AGREGAR EL ORGANIZADOR DE TEXTO
+Coloque el archivo de su organizador de texto junto a index.html.
+Renómbrelo como: organizador-de-texto.html
+Al escribir «organizador», la página mostrará un vínculo para abrirlo.
+Si prefiere otro nombre, modifique la ruta del enlace en index.html.
+
+PALETA
+10 colores sólidos de fondo, transición automática cada 5 segundos.
+La paleta toma como referencia familias oscuras habituales en diseño web,
+no es una clasificación estadística de popularidad.
+
+Diseño: Arley Zarate
+Fecha: 09/octubre/2026

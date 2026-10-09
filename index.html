@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#09090b">
+  <meta name="description" content="Recursos de Arley Zarate: utilidades web y comandos en una interfaz local sin servidor.">
+  <title>Recursos | Arley Zarate</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --fondo: #09090b;
+      --acento: #8cf8de;
+      --texto: #f4f7fc;
+      --texto-suave: #aab9c7;
+      --borde: rgba(167, 225, 224, .18);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      background-color: var(--fondo);
+      color: var(--texto);
+      font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+      transition: background-color 1.8s ease;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: -1;
+      background: transparent;
+      pointer-events: none;
+    }
+    button, input { font: inherit; }
+    .matrix {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+      opacity: .88;
+    }
+    .matrix-columna {
+      position: absolute; top: 0;
+      width: 1.3em;
+      display: flex; flex-direction: column; align-items: center;
+      white-space: pre;
+      color: var(--acento);
+      text-shadow: 0 0 10px rgba(94, 245, 204, .38);
+      font: 500 var(--tam, 15px)/1.39 Consolas, "Cascadia Code", monospace;
+      opacity: var(--opacidad, .53);
+      will-change: transform;
+      animation: ascender var(--duracion, 27s) linear infinite;
+      animation-delay: var(--retraso, -10s);
+    }
+    .matriz-letra { min-height: 1.39em; display: block; }
+    .matriz-letra.destacada { color: #d4fff4; font-weight: 700; text-shadow: 0 0 12px #85ffd3; }
+    .matriz-letra.espacio { opacity: .18; }
+    @keyframes ascender {
+      from { transform: translate3d(0, 110vh, 0); }
+      to { transform: translate3d(0, -125%, 0); }
+    }
+    .pagina {
+      isolation: isolate;
+      position: relative; z-index: 1;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(17px, 3vw, 44px);
+    }
+    .barra-superior, .pie {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 14px;
+      color: var(--texto-suave);
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    }
+    .identidad { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #e6fdf5; }
+    .icono-marca { width: 28px; height: 28px; border: 1px solid #5eecd0; border-radius: 9px; display: grid; place-items: center; color: var(--acento); box-shadow: 0 0 23px rgba(80,250,205,.13); font-size: 14px; }
+    .indicadores { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .indicador { display: flex; gap: 9px; align-items: center; }
+    .punto { height: 7px; width: 7px; display: inline-block; flex: 0 0 auto; background: var(--acento); border-radius: 50%; box-shadow: 0 0 12px rgba(107, 255, 199, .8); }
+    .centro { align-self: center; justify-self: center; width: min(710px, 100%); margin-top: -18px; }
+    .introduccion { text-align: center; margin-bottom: 39px; }
+    .ceja { color: #8bf7d8; font: 700 10px/1.5 Consolas, monospace; letter-spacing: .36em; text-transform: uppercase; margin-bottom: 18px; }
+    h1 {
+      font-size: clamp(48px, 8vw, 89px);
+      font-weight: 700;
+      letter-spacing: -.065em;
+      line-height: 1.05;
+      margin: 0;
+      text-shadow: 0 5px 38px rgba(0,0,0,.65);
+    }
+    .descripcion { margin: 19px 0 0; color: #c0d2de; letter-spacing: .035em; font-size: clamp(12px, 1.4vw, 15px); text-shadow: 0 2px 15px #050708; }
+    .consola {
+      position: relative;
+      border: 1px solid rgba(125, 225, 210, .21);
+      border-radius: 19px;
+      background: rgba(7, 13, 23, .86);
+      box-shadow: 0 18px 68px rgba(0, 0, 0, .47), inset 0 1px 0 rgba(255,255,255,.04);
+      padding: 8px;
+      backdrop-filter: blur(16px);
+    }
+    .etiqueta-flotante {
+      position: absolute; top: -13px; left: 22px;
+      border-radius: 8px;
+      background: #0a1920;
+      color: #aafde1;
+      padding: 5px 11px;
+      border: 1px solid rgba(115, 239, 204, .27);
+      font: 700 11px/1.2 Consolas, monospace;
+      letter-spacing: .075em;
+      box-shadow: 0 6px 22px rgba(0,0,0,.4);
+      animation: flotar 3.8s ease-in-out infinite;
+    }
+    @keyframes flotar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    .entrada { display: flex; align-items: center; gap: 10px; min-height: 65px; }
+    .indicador-comando { color: #80eccd; font: 700 25px/1 Consolas, monospace; padding-left: 14px; }
+    #comando {
+      flex: 1; min-width: 0; width: 100%; background: transparent;
+      outline: none; border: none; color: #f4fffb; font-size: clamp(15px, 2vw, 18px);
+      padding: 14px 4px; caret-color: var(--acento);
+    }
+    #comando::placeholder { color: #8497a3; opacity: 1; }
+    .ejecutar {
+      width: 46px; height: 46px; border: 1px solid rgba(142, 247, 207, .37);
+      background: rgba(91, 199, 168, .15); color: #a6ffe0;
+      border-radius: 12px; font-size: 20px; cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+      flex-shrink: 0;
+    }
+    .ejecutar:hover, .ejecutar:focus-visible { background: rgba(119, 244, 199, .28); transform: translateY(-2px); outline: none; }
+    .texto-ayuda { text-align: center; color: #abc0c8; margin-top: 16px; font-size: 12px; line-height: 1.6; }
+    .texto-ayuda kbd { font-family: Consolas, monospace; color: #ddfff4; border: 1px solid rgba(143,217,200,.25); border-radius: 5px; padding: 2px 6px; background: rgba(8,16,22,.8); }
+    .resultado {
+      margin-top: 18px;
+      padding: 21px 23px;
+      background: rgba(7,13,23,.93);
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      box-shadow: 0 15px 48px rgba(0,0,0,.3);
+      line-height: 1.6;
+      color: #c9dce4;
+      max-height: min(46vh, 380px); overflow-y: auto;
+      scrollbar-color: #447b75 transparent;
+    }
+    .resultado[hidden] { display: none; }
+    .resultado h2 { color: #f1fff9; margin: 0 0 6px; font-size: 17px; letter-spacing: -.01em; }
+    .resultado p { margin: 6px 0; font-size: 13px; }
+    .resultado ul { margin: 12px 0 0; padding-left: 20px; font-size: 13px; }
+    .resultado li { padding: 2px 0; }
+    .resultado code { font: 600 12px Consolas, monospace; color: #9affd7; }
+    .resultado a { display: inline-flex; margin-top: 12px; padding: 9px 13px; background: rgba(88,200,168,.15); border: 1px solid rgba(125,225,210,.3); border-radius: 9px; color: #adffe3; text-decoration: none; font-size: 13px; }
+    .resultado a:hover { background: rgba(88,200,168,.25); }
+    .paleta-lista { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .paleta-muestra { display: inline-flex; gap: 7px; align-items: center; border: 1px solid rgba(200,240,242,.2); padding: 7px 9px; border-radius: 8px; font: 12px Consolas, monospace; }
+    .paleta-muestra i { width: 13px; height: 13px; display: inline-block; border: 1px solid #ffffff55; border-radius: 4px; }
+    .pie { text-transform: none; letter-spacing: .06em; }
+    .pie-izquierda { display: flex; align-items: center; gap: 10px; }
+    .pie-derecha { font-family: Consolas, monospace; }
+    @media (max-width: 560px) {
+      .pagina { padding: 19px 14px; }
+      .barra-superior, .pie { font-size: 10px; letter-spacing: .05em; }
+      .barra-superior .indicadores .indicador:first-child { display: none; }
+      .centro { margin-top: -25px; }
+      .introduccion { margin-bottom: 35px; }
+      .ceja { letter-spacing: .24em; }
+      .descripcion { line-height: 1.6; }
+      .etiqueta-flotante { left: 16px; }
+      .entrada { min-height: 57px; }
+      #comando { font-size: 14px; }
+      .texto-ayuda { line-height: 1.9; }
+      .pie { gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .matrix { opacity: .26; }
+    }
+    .pausado .matrix-columna, .pausado .etiqueta-flotante { animation-play-state: paused; }
+  </style>
+</head>
+<body>
+  <!-- Las palabras se cargan directamente del archivo vecino; no usa fetch ni localhost. -->
+  <script src="palabras.js"></script>
+  <div class="matrix" id="matrix" aria-hidden="true"></div>
+
+  <div class="pagina">
+    <header class="barra-superior">
+      <div class="identidad"><span class="icono-marca" aria-hidden="true">A</span><span>RECURSOS</span></div>
+      <div class="indicadores" aria-label="Estado de la página">
+        <span class="indicador"><i class="punto" aria-hidden="true"></i><span>Sin servidor</span></span>
+        <span class="indicador" id="contadorPalabras">Cargando palabras...</span>
+      </div>
+    </header>
+
+    <main class="centro">
+      <section class="introduccion" aria-labelledby="nombre">
+        <div class="ceja">Centro de recursos digitales</div>
+        <h1 id="nombre">Arley Zarate</h1>
+        <p class="descripcion">Herramientas, utilidades y soluciones en un solo lugar.</p>
+      </section>
+
+      <form class="consola" id="formulario" autocomplete="off">
+        <label class="etiqueta-flotante" for="comando">Ingrese comando</label>
+        <div class="entrada">
+          <span class="indicador-comando" aria-hidden="true">&gt;</span>
+          <input id="comando" name="comando" type="text" spellcheck="false" placeholder="Escriba aquí..." aria-describedby="textoAyuda">
+          <button class="ejecutar" type="submit" aria-label="Ejecutar comando" title="Ejecutar comando">↗</button>
+        </div>
+      </form>
+      <div class="texto-ayuda" id="textoAyuda">Pruebe <kbd>ayuda</kbd>, <kbd>recursos</kbd> o <kbd>organizador</kbd> y presione <kbd>Enter</kbd>.</div>
+      <section class="resultado" id="resultado" aria-label="Resultado del comando" aria-live="polite" hidden></section>
+    </main>
+
+    <footer class="pie">
+      <div class="pie-izquierda"><i class="punto" aria-hidden="true"></i><span>Arley Zarate · Recursos</span></div>
+      <div class="pie-derecha" id="estadoTema">TEMA 01/10 · 5 s</div>
+    </footer>
+  </div>
+
+  <script>
+    'use strict';
+
+    // Diez tonos oscuros de uso habitual en interfaces. Todos son fondos sólidos.
+    const COLORES = [
+      { nombre: 'Grafito',      hex: '#09090b' },
+      { nombre: 'Azul noche',   hex: '#071b34' },
+      { nombre: 'Pizarra',      hex: '#1a2436' },
+      { nombre: 'Verde bosque', hex: '#0a2923' },
+      { nombre: 'Índigo',       hex: '#17183b' },
+      { nombre: 'Ciruela',      hex: '#29152c' },
+      { nombre: 'Petróleo',     hex: '#092b35' },
+      { nombre: 'Carbón',       hex: '#24282d' },
+      { nombre: 'Café oscuro',  hex: '#2d211c' },
+      { nombre: 'Azul verdoso', hex: '#102a2a' }
+    ];
+
+    const listaPalabras = (typeof window.RECURSOS_PALABRAS === 'string'
+      ? window.RECURSOS_PALABRAS.split(',') : [])
+      .map(p => p.trim()).filter(Boolean);
+    // El sitio sigue mostrando la estructura si se abre sin el archivo secundario.
+    const palabrasAnimadas = listaPalabras.length ? listaPalabras : [
+      'Recursos', 'Smart3D', 'AutoCAD', 'Excel', 'ingeniería', 'web', 'diseño', 'programación'
+    ];
+    const matrix = document.getElementById('matrix');
+    const indicadorCantidad = document.getElementById('contadorPalabras');
+    const indicadorTema = document.getElementById('estadoTema');
+    const formulario = document.getElementById('formulario');
+    const entrada = document.getElementById('comando');
+    const panel = document.getElementById('resultado');
+    const normalizar = texto => texto.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    let temaActual = 0;
+    let detenido = false;
+    let temporizador = null;
+    let reajuste = null;
+
+    indicadorCantidad.textContent = listaPalabras.length
+      ? `${listaPalabras.length.toLocaleString('es-CO')} palabras`
+      : 'Falta palabras.js';
+
+    function aplicarTema(indice) {
+      temaActual = (indice + COLORES.length) % COLORES.length;
+      document.documentElement.style.setProperty('--fondo', COLORES[temaActual].hex);
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', COLORES[temaActual].hex);
+      indicadorTema.textContent = `TEMA ${String(temaActual + 1).padStart(2, '0')}/10 · ${detenido ? 'PAUSA' : '5 s'}`;
+    }
+    function detenerAnimaciones() {
+      detenido = true;
+      window.clearInterval(temporizador);
+      document.documentElement.classList.add('pausado');
+      aplicarTema(temaActual);
+    }
+    function reanudarAnimaciones() {
+      detenido = false;
+      document.documentElement.classList.remove('pausado');
+      window.clearInterval(temporizador);
+      temporizador = window.setInterval(() => aplicarTema(temaActual + 1), 5000);
+      aplicarTema(temaActual);
+    }
+    function generarColumnas() {
+      matrix.replaceChildren();
+      const ancho = window.innerWidth;
+      const cantidad = Math.min(56, Math.max(12, Math.round(ancho / 29)));
+      const fragmento = document.createDocumentFragment();
+      for (let i = 0; i < cantidad; i++) {
+        const columna = document.createElement('div');
+        columna.className = 'matrix-columna';
+        columna.style.left = `${((i + .5) / cantidad) * 100}%`;
+        columna.style.setProperty('--tam', `${Math.round(12 + Math.random() * 5)}px`);
+        columna.style.setProperty('--opacidad', (0.28 + Math.random() * .48).toFixed(2));
+        columna.style.setProperty('--duracion', `${(19 + Math.random() * 27).toFixed(1)}s`);
+        columna.style.setProperty('--retraso', `${(-Math.random() * 42).toFixed(1)}s`);
+        let secuencia = '';
+        while (secuencia.length < 44) {
+          secuencia += palabrasAnimadas[Math.floor(Math.random() * palabrasAnimadas.length)] + ' ';
+        }
+        for (const [j, letra] of [...secuencia.slice(0, 50)].entries()) {
+          const span = document.createElement('span');
+          span.className = 'matriz-letra';
+          if (letra === ' ') span.classList.add('espacio');
+          else if (j % 13 === 0 || (j > 0 && secuencia[j - 1] === ' ')) span.classList.add('destacada');
+          span.textContent = letra === ' ' ? '·' : letra;
+          columna.appendChild(span);
+        }
+        fragmento.appendChild(columna);
+      }
+      matrix.appendChild(fragmento);
+    }
+    function mostrarResultado(titulo, descripcion) {
+      panel.replaceChildren();
+      const encabezado = document.createElement('h2');
+      encabezado.textContent = titulo;
+      const texto = document.createElement('p');
+      texto.textContent = descripcion;
+      panel.append(encabezado, texto);
+      panel.hidden = false;
+    }
+    function añadirLista(items) {
+      const ul = document.createElement('ul');
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+      panel.appendChild(ul);
+    }
+    function mostrarOrganizador(vistaBiblioteca = false) {
+      mostrarResultado(vistaBiblioteca ? 'Biblioteca de recursos' : 'Organizador de texto',
+        vistaBiblioteca ? 'Aplicaciones disponibles para abrir desde esta carpeta.' : 'Aplicación para organizar textos técnicos, ajustar sangrías y controlar el ancho de las líneas.');
+      const enlace = document.createElement('a');
+      enlace.href = './organizador-de-texto.html';
+      enlace.textContent = 'Abrir organizador de texto ↗';
+      panel.appendChild(enlace);
+      const ayuda = document.createElement('p');
+      ayuda.textContent = 'Para abrirlo, coloque su archivo HTML en esta carpeta y asígnele el nombre organizador-de-texto.html.';
+      panel.appendChild(ayuda);
+    }
+    function gestionarComando(valor) {
+      const comando = normalizar(valor.trim());
+      if (!comando) {
+        mostrarResultado('Ingrese un comando', 'Escriba ayuda para ver las opciones disponibles.');
+        return;
+      }
+      if (comando === 'limpiar') { panel.hidden = true; panel.replaceChildren(); entrada.value = ''; return; }
+      if (comando === 'ayuda' || comando === '?') {
+        mostrarResultado('Comandos disponibles', 'Escriba uno de los siguientes comandos y presione Enter:');
+        añadirLista([
+          'recursos: ver las aplicaciones disponibles',
+          'organizador: acceder al organizador de texto',
+          'palabras: consultar la cantidad de palabras cargadas',
+          'buscar ingeniería: buscar palabras por coincidencia',
+          'colores: ver los diez colores de fondo',
+          'color 3: elegir un color y detener la rotación',
+          'pausar: detener animación y cambio de fondo',
+          'reanudar: reactivar el movimiento y los colores',
+          'limpiar: cerrar los resultados'
+        ]);
+      } else if (comando === 'recursos') {
+        mostrarOrganizador(true);
+      } else if (comando === 'organizador' || comando === 'organizador de texto' || comando === 'texto') {
+        mostrarOrganizador();
+      } else if (comando === 'palabras') {
+        mostrarResultado('Banco de palabras', `${listaPalabras.length} palabras cargadas desde palabras.js. Puede editar ese archivo para cambiar los textos verticales.`);
+      } else if (comando === 'colores') {
+        mostrarResultado('Paleta de fondos', 'Diez colores sólidos oscuros. El fondo cambia automáticamente cada cinco segundos.');
+        const muestras = document.createElement('div');
+        muestras.className = 'paleta-lista';
+        COLORES.forEach((color, i) => {
+          const item = document.createElement('span');
+          item.className = 'paleta-muestra';
+          const muestra = document.createElement('i');
+          muestra.style.backgroundColor = color.hex;
+          const rotulo = document.createTextNode(`${i + 1}. ${color.nombre}`);
+          item.append(muestra, rotulo);
+          muestras.appendChild(item);
+        });
+        panel.appendChild(muestras);
+      } else if (comando === 'pausar') {
+        detenerAnimaciones();
+        mostrarResultado('Animaciones pausadas', 'El fondo permanece en el color actual. Escriba reanudar para activarlas.');
+      } else if (comando === 'reanudar') {
+        reanudarAnimaciones();
+        mostrarResultado('Animaciones activas', 'Las letras ascienden y el fondo cambia cada cinco segundos.');
+      } else if (/^color\s+\d+$/.test(comando)) {
+        const elegido = Number(comando.split(/\s+/)[1]);
+        if (elegido < 1 || elegido > 10) {
+          mostrarResultado('Número fuera de rango', 'Seleccione un color entre 1 y 10.');
+        } else {
+          detenerAnimaciones();
+          aplicarTema(elegido - 1);
+          mostrarResultado(`Color ${elegido}: ${COLORES[elegido-1].nombre}`, `Fondo establecido en ${COLORES[elegido-1].hex}. Escriba reanudar para continuar la rotación.`);
+        }
+      } else if (comando.startsWith('buscar ')) {
+        const termino = comando.slice(7).trim();
+        if (!termino) { mostrarResultado('Buscar palabras', 'Escriba buscar y la palabra que desea encontrar.'); return; }
+        const halladas = listaPalabras.filter(p => normalizar(p).includes(termino));
+        mostrarResultado('Resultado de búsqueda', `${halladas.length} coincidencia(s) con «${valor.trim().slice(7)}» en palabras.js.`);
+        if (halladas.length) añadirLista(halladas.slice(0, 25));
+        if (halladas.length > 25) { const extra = document.createElement('p'); extra.textContent = 'Se muestran las primeras 25 coincidencias.'; panel.append(extra); }
+      } else {
+        const halladas = listaPalabras.filter(p => normalizar(p).includes(comando));
+        mostrarResultado('Comando no reconocido', halladas.length
+          ? `La palabra aparece en el banco de datos (${halladas.length} coincidencia(s)), pero todavía no tiene una acción asignada. Escriba ayuda.`
+          : 'No existe ese comando. Escriba ayuda para ver las opciones disponibles.');
+      }
+    }
+
+    formulario.addEventListener('submit', event => {
+      event.preventDefault();
+      gestionarComando(entrada.value);
+    });
+    entrada.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { panel.hidden = true; panel.replaceChildren(); entrada.value = ''; }
+    });
+    window.addEventListener('resize', () => {
+      window.clearTimeout(reajuste);
+      reajuste = window.setTimeout(generarColumnas, 180);
+    });
+    aplicarTema(0);
+    generarColumnas();
+    reanudarAnimaciones();
+  </script>
+</body>
+</html>
