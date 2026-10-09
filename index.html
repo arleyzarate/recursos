@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#09090b">
-  <meta name="description" content="Recursos | Arley Zarate. Inicio local de utilidades web mediante comandos.">
+  <meta name="description" content="Recursos | Arley Zarate. Acceso a utilidades HTML por comandos, sin servidor local.">
   <title>Recursos | Arley Zarate</title>
   <style>
     :root { color-scheme: dark; --fondo: #09090b; --acento: #90ffe0; }
@@ -113,7 +113,7 @@
   </style>
 </head>
 <body>
-  <!-- Los archivos .js vecinos funcionan al abrir index.html con doble clic, sin servidor. -->
+  <!-- Compatible con GitHub Pages y con archivos locales sin localhost. -->
   <script src="palabras.js"></script>
   <script src="archivos.js"></script>
   <div id="lluvia" class="lluvia" aria-hidden="true"></div>
@@ -192,8 +192,8 @@
     const normalizar = valor => valor.trim().toLocaleLowerCase('es-CO')
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-    // El navegador no permite explorar silenciosamente la carpeta desde file://.
-    // archivos.js es el índice de nombres generado por actualizar_archivos.bat.
+    // En file:// se utiliza archivos.js (generado por el .bat).
+    // En GitHub Pages y otros sitios HTTPS se verifica el archivo en el servidor.
     const archivos = (Array.isArray(window.RECURSOS_ARCHIVOS) ? window.RECURSOS_ARCHIVOS : [])
       .filter(nombre => typeof nombre === 'string'
         && /^[^/\\]+\.html?$/i.test(nombre)
@@ -204,23 +204,95 @@
       estado.className = `estado ${tipo}`;
     }
     entrada.addEventListener('input', () => notificar('', ''));
-    formulario.addEventListener('submit', evento => {
+    function prepararComando(valor) {
+      const nombre = valor.trim().replace(/\.html?$/i, '');
+      // Se admiten guiones, espacios, subrayados y tildes; no rutas ni URL externas.
+      if (!nombre || nombre === '.' || nombre === '..' ||
+          nombre.toLowerCase() === 'index' ||
+          /[/\\\u0000-\u001f]/.test(nombre) || nombre.length > 180) return null;
+      return nombre;
+    }
+
+    function generarCandidatos(nombre, textoOriginal) {
+      const tieneExtension = /\.html?$/i.test(textoOriginal.trim());
+      const extension = tieneExtension ? textoOriginal.trim().match(/\.(html?)$/i)[0].toLowerCase() : null;
+      const registrados = archivos.filter(archivo =>
+        normalizar(archivo.replace(/\.html?$/i, '')) === normalizar(nombre) &&
+        (!extension || archivo.toLowerCase().endsWith(extension))
+      );
+      const propuestos = tieneExtension ? [nombre + extension] : [nombre + '.html', nombre + '.htm'];
+      return [...new Set([...registrados, ...propuestos])];
+    }
+
+    async function existeEnSitio(url) {
+      // GitHub Pages contesta 200 si existe y 404 si no existe.
+      // HEAD solo lee las cabeceras, no descarga la página de destino.
+      let respuesta = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+      if (respuesta.status === 405 || respuesta.status === 501) {
+        respuesta = await fetch(url, { method: 'GET', cache: 'no-store' });
+      }
+      return respuesta.ok && (respuesta.headers.get('content-type') || '').toLowerCase().includes('text/html');
+    }
+
+    function abrirEnPestana(pestana, destino) {
+      try {
+        pestana.opener = null;
+        pestana.location.replace(destino);
+        notificar('Comando correcto', 'correcto');
+      } catch (_) {
+        try { pestana.close(); } catch (_) { /* Sin permiso para cerrar */ }
+        notificar('No se pudo abrir la pestaña.', 'error');
+      }
+    }
+
+    formulario.addEventListener('submit', async evento => {
       evento.preventDefault();
-      let comando = normalizar(entrada.value);
-      comando = comando.replace(/\.html?$/, '').trim();
-      const archivo = archivos.find(nombre => normalizar(nombre.replace(/\.html?$/i, '')) === comando);
-      if (!comando || !archivo) {
+      const texto = entrada.value;
+      const nombre = prepararComando(texto);
+      if (!nombre) {
         notificar('Error de comando', 'error');
         return;
       }
-      // Abrir directamente dentro del gesto del usuario evita bloqueos habituales.
-      const destino = './' + encodeURIComponent(archivo);
-      const pestaña = window.open(destino, '_blank');
-      if (pestaña) {
-        try { pestaña.opener = null; } catch (_) { /* navegadores restrictivos */ }
+      const candidatos = generarCandidatos(nombre, texto);
+      const modoLocal = window.location.protocol === 'file:';
+
+      if (modoLocal) {
+        // file:// no deja consultar qué archivos existen: se usa el catálogo.
+        const registrado = candidatos.find(candidato => archivos.includes(candidato));
+        if (!registrado) {
+          notificar('Error de comando', 'error');
+          return;
+        }
+        const pestana = window.open('./' + encodeURIComponent(registrado), '_blank');
+        if (!pestana) {
+          notificar('El navegador bloqueó la pestaña nueva.', 'error');
+          return;
+        }
+        try { pestana.opener = null; } catch (_) { /* No compatible */ }
         notificar('Comando correcto', 'correcto');
-      } else {
-        notificar('No se pudo abrir la pestaña. Revise el bloqueo de ventanas emergentes.', 'error');
+        return;
+      }
+
+      // Reservar la pestaña antes de esperar al servidor evita bloqueos de ventanas.
+      const pestana = window.open('about:blank', '_blank');
+      if (!pestana) {
+        notificar('El navegador bloqueó la pestaña nueva.', 'error');
+        return;
+      }
+      notificar('Verificando comando…', '');
+      try {
+        for (const archivo of candidatos) {
+          const destino = './' + encodeURIComponent(archivo);
+          if (await existeEnSitio(destino)) {
+            abrirEnPestana(pestana, destino);
+            return;
+          }
+        }
+        pestana.close();
+        notificar('Error de comando', 'error');
+      } catch (_) {
+        pestana.close();
+        notificar('No se pudo verificar el archivo. Revise la conexión.', 'error');
       }
     });
   </script>
