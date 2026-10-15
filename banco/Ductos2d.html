@@ -1,0 +1,1313 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ductos 2D · v1.3</title>
+<style>
+:root{font-family:system-ui,Segoe UI,Arial,sans-serif;color:#18302d;background:#edf2f0}
+*{box-sizing:border-box}html,body{height:100%;overflow:hidden}body{margin:0;min-height:100dvh;display:flex;flex-direction:column}header{flex:0 0 auto;background:#153b35;color:white;padding:clamp(7px,1.25vh,14px) max(2vw,14px)}h1{font-size:clamp(1rem,1.45vw,1.35rem);margin:0 0 3px;line-height:1.1}header p{margin:0;color:#c9dfd6;font-size:clamp(.7rem,.9vw,.86rem);line-height:1.1}
+main{width:min(1500px,97%);margin:clamp(4px,.8vh,10px) auto;flex:1 1 auto;min-height:0;display:flex;flex-direction:column}.tabs{display:flex;gap:7px;margin-bottom:clamp(3px,.6vh,7px);flex:0 0 auto}.tabs button,.btn{border:0;border-radius:8px;padding:8px 12px;cursor:pointer;background:#d7e6df;color:#163a33;font-weight:650}.tabs button.active,.btn.primary{background:#176c54;color:white}.btn.small{padding:8px 10px;font-size:.86rem}.btn.danger{background:#f8dfda;color:#8a2518}
+.panel{display:none}.panel.active{display:flex;flex:1 1 auto;min-height:0;flex-direction:column}#catalog.panel.active{overflow:auto}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;background:white;padding:14px;border-radius:12px;box-shadow:0 2px 9px #1232}.hidden-controls{display:none!important}.field{display:grid;gap:5px;min-width:112px;flex:1}.field label{font-size:.81rem;font-weight:650}.field input,.field select,table input{width:100%;padding:9px;border:1px solid #b7c9c3;border-radius:6px;font:inherit}.field input:focus,.field select:focus,table input:focus{outline:2px solid #45a68a}.note{flex:0 0 auto;font-size:clamp(.68rem,.86vw,.8rem);line-height:1.18;color:#4b625b;margin:3px 2px 5px}.drawing{position:relative;margin:3px auto;background:#b8a18b;border-radius:12px;overflow:hidden;width:100%;min-height:0;flex:1 1 auto}
+svg{display:block;width:100%;height:100%;min-height:0;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}svg text{font-family:system-ui,Arial,sans-serif}.dim{stroke:#263f3a;stroke-width:1.4;fill:none}.dim-arrow{stroke:#263f3a;stroke-width:1.5;fill:none;stroke-linecap:round}.dimtext{fill:#12362f;font-size:13px;font-weight:750;paint-order:stroke;stroke:#f5f2e8;stroke-width:4px;cursor:pointer}.dimtext:hover{fill:#086c51}.dimtext.selected-dim{fill:#0968d8;stroke:#fff8df;stroke-width:5px}.pipe{cursor:pointer}.pipe:hover .rim{stroke:#e5e94d;stroke-width:3}.pipe.selected .rim{stroke:#ffca28;stroke-width:4}.pipe.active .rim{stroke:#ff8f00;stroke-width:5}.pipe-label{font-size:13px;font-weight:750;fill:#083b26;pointer-events:none}.pipe-tag{font-size:12px;font-weight:850;fill:#fff;paint-order:stroke;stroke:#173b35;stroke-width:3px;stroke-linejoin:round;pointer-events:none}.cable{cursor:pointer}.cable:hover .cable-rim{stroke:#fff2a4;stroke-width:3}.cable-label{font-size:12px;font-weight:850;fill:#6f3314;paint-order:stroke;stroke:#fff4e5;stroke-width:4px;cursor:pointer}.level-line{stroke:#46655d;stroke-width:1.7}.signal-line-black{stroke:#111;stroke-width:4;fill:none}.signal-line-yellow{stroke:#f2d400;stroke-width:4;fill:none;stroke-dasharray:12 12;stroke-dashoffset:12}.grade-boundary{stroke:#6b4933;stroke-width:5.5;fill:none}.signal-label{font-size:11px;font-weight:800;fill:#684318;paint-order:stroke;stroke:#f6f3e9;stroke-width:3px}.level-label{font-size:13px;font-weight:800;fill:#12362f;paint-order:stroke;stroke:#f6f3e9;stroke-width:4px}.support{stroke:#4a4f52;stroke-width:1.55;fill:none}.support-tie{stroke:#6a7074;stroke-width:1.15;fill:none}
+.status{position:absolute;left:10px;bottom:8px;z-index:5;max-width:min(68%,850px);background:#fffffff0;padding:6px 10px;border-radius:8px;margin:0;color:#28443b;font-size:clamp(.66rem,.78vw,.78rem);line-height:1.15;box-shadow:0 1px 4px #0001}.status.bad{background:#fff0e9f2;color:#922e1b}.tablewrap{background:white;border-radius:12px;padding:18px;overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;border-bottom:1px solid #d8e3de;padding:8px}td:last-child{width:90px}.danger{color:#a52c2c;background:#ffe7e4;border:0;padding:8px;border-radius:6px;cursor:pointer}.design-credit{position:absolute;right:10px;bottom:8px;z-index:5;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap;background:#ffffffe6;padding:6px 9px;border-radius:8px;font-size:clamp(.66rem,.75vw,.78rem);color:#486158;box-shadow:0 1px 4px #0001}.design-credit strong{color:#18302d}
+dialog{border:0;border-radius:12px;padding:22px;box-shadow:0 14px 60px #0006;max-width:min(440px,92vw)}dialog select,dialog input{width:100%;padding:10px;margin:10px 0;border:1px solid #aebdb5;border-radius:6px}dialog menu{display:flex;justify-content:end;gap:8px;padding:0;margin:12px 0 0}button{font:inherit}
+.top-tools{position:absolute;right:12px;top:10px;z-index:8;display:flex;gap:8px;align-items:flex-start}.top-tools .tool-icon{flex:0 0 auto}.right-tools{position:absolute;right:12px;top:80px;z-index:8;display:flex;flex-direction:column;gap:8px;align-items:flex-end}.floating-tools{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:7;display:flex;flex-direction:column;gap:7px;max-height:calc(100% - 24px);overflow-y:auto;padding:6px 4px;scrollbar-width:none}.floating-tools::-webkit-scrollbar{display:none}.tool-icon{position:relative;width:44px;height:44px;border:1px solid #aac2b9;border-radius:12px;background:#f8fbfae8;color:#153b35;box-shadow:0 3px 10px #0002;display:grid;place-items:center;font-weight:850;font-size:18px;cursor:pointer;backdrop-filter:blur(4px)}.tool-icon:hover{background:#e6f3ee;border-color:#4f947f}.tool-icon.primary{background:#176c54;color:#fff;border-color:#176c54}.tool-icon:disabled{opacity:.35;cursor:not-allowed}.tool-icon.emphasis{transition:width .18s,height .18s,font-size .18s,margin .18s}.tool-icon.emphasis:not(:disabled){width:57px;height:57px;font-size:23px}.tool-icon::after{content:attr(data-tip);position:absolute;left:52px;top:50%;transform:translateY(-50%);background:#153b35;color:#fff;padding:6px 9px;border-radius:7px;font-size:12px;font-weight:650;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;box-shadow:0 3px 12px #0003}.top-tools .tool-icon::after,.right-tools .tool-icon::after{left:auto;right:52px}.top-tools .tool-icon.emphasis:not(:disabled)::after{right:65px}.tool-icon:hover::after,.tool-icon:focus-visible::after{opacity:1}.unit-icon{font-size:14px;font-weight:900;letter-spacing:.2px}.csv-icon{font-size:10px;line-height:1;font-weight:900;letter-spacing:-.35px}.layer-icon{position:relative;width:31px;height:25px;display:grid;place-items:center}.layer-icon svg{width:30px;height:17px;min-height:0}.layer-icon svg *{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.layer-badge{position:absolute;right:-4px;top:-6px;min-width:16px;height:16px;border-radius:8px;padding:0 4px;background:#176c54;color:#fff;font-size:10px;line-height:16px;text-align:center;border:1px solid #fff}.mirror-icon{width:27px;height:27px}.mirror-icon *{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.catalog-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.selection-panel{position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:6;width:232px;background:#f9fcfbf2;border:1px solid #a9c4ba;border-radius:14px;padding:13px;box-shadow:0 6px 22px #0003;backdrop-filter:blur(5px);display:none}.selection-panel.visible{display:block}.dim-selection-panel{position:absolute;right:12px;bottom:12px;z-index:6;width:232px;background:#f9fcfbf2;border:1px solid #9bbcb1;border-radius:14px;padding:13px;box-shadow:0 6px 22px #0003;backdrop-filter:blur(5px);display:none}.dim-selection-panel.visible{display:block}.dim-selection-panel h3{font-size:.96rem;margin:0 0 8px;color:#153b35}.dim-selection-panel label{display:grid;gap:5px;font-size:.78rem;font-weight:750;color:#345a50}.dim-selection-panel input{width:100%;padding:9px;border:1px solid #aac2b9;border-radius:8px;background:#fff;color:#18302d;font:inherit}.selection-panel h3{font-size:.96rem;margin:0 0 8px;color:#153b35}.selection-count{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#dfeee8;color:#174f40;padding:5px 9px;font-size:.79rem;font-weight:800;margin-bottom:9px}.selection-panel label{display:grid;gap:5px;font-size:.78rem;font-weight:750;color:#345a50}.selection-panel select,.selection-panel input{width:100%;padding:9px;border:1px solid #aac2b9;border-radius:8px;background:#fff;color:#18302d;font:inherit}.selection-panel label+label{margin-top:9px}.selection-actions{display:flex;gap:7px;margin-top:10px}.selection-actions .btn{flex:1}.selection-active{font-size:.74rem;color:#60756f;margin-top:7px}
+.svg-action{cursor:pointer}.svg-action circle{fill:#f9fcfb;stroke:#176c54;stroke-width:2}.svg-action:hover circle{fill:#dff1ea}.svg-action.delete circle{stroke:#9b3024}.svg-action.delete:hover circle{fill:#fde5e1}.svg-action .glyph{stroke:#153b35;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.svg-action.delete .glyph{stroke:#8d2c20}.svg-action plus{pointer-events:none}
+.delete-options{display:grid;gap:8px;margin:10px 0}.delete-options label{display:flex;gap:8px;align-items:center;border:1px solid #d3dfda;border-radius:9px;padding:9px;cursor:pointer}.delete-options input{width:auto;margin:0}.multi-dim-list{display:grid;gap:7px;max-height:230px;overflow:auto;margin-top:10px;padding:9px;border:1px solid #d3dfda;border-radius:9px;background:#f8fbfa}.multi-dim-list>span{font-size:.78rem;font-weight:800;color:#345a50}.multi-dim-list label{display:flex;align-items:center;gap:8px;padding:6px 7px;border-radius:7px;background:#fff;border:1px solid #e1e9e6;font-size:.78rem;cursor:pointer}.multi-dim-list input{width:auto;margin:0}.multi-dim-all{font-weight:800!important;background:#e9f4ef!important}
+.tool-icon.copy-active{background:#274f47;color:#fff;border-color:#f0c84b;box-shadow:0 0 0 3px #f0c84b55,0 3px 10px #0002}.copy-hint{position:absolute;inset:0;z-index:11;display:grid;place-items:center;background:#102a2550;opacity:0;pointer-events:none;transition:opacity .16s}.copy-hint.visible{opacity:1}.copy-hint span{max-width:min(520px,78%);background:#153b35ee;color:#fff;border:1px solid #ffffff55;border-radius:12px;padding:12px 17px;font-weight:800;text-align:center;box-shadow:0 8px 28px #0004}.copy-panel{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);z-index:9;display:none;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;max-width:min(680px,82%);background:#f9fcfbf2;border:1px solid #9bbcb1;border-radius:999px;padding:7px 9px 7px 13px;box-shadow:0 6px 22px #0003;backdrop-filter:blur(5px)}.copy-panel.visible{display:flex}.copy-panel .copy-msg{font-size:.78rem;font-weight:800;color:#27483f;white-space:normal}.copy-panel .btn{flex:0 0 auto}.copy-ghost{pointer-events:none}.copy-ghost .ghost-outer{fill:#d7efe6aa;stroke:#0b7f68;stroke-width:2.2;stroke-dasharray:7 5}.copy-ghost .ghost-inner{fill:#6db59077;stroke:#0b7f68aa;stroke-width:1}.copy-ghost .ghost-tag{fill:#fff;font-size:11px;font-weight:850;paint-order:stroke;stroke:#0e5748;stroke-width:3px}.copy-ghost.invalid .ghost-outer{stroke:#b52e26;fill:#f3b4ad66}.copy-direction{font-weight:900;color:#0b6a57}.selection-marquee{fill:#2d7ff51f;stroke:#176fd1;stroke-width:1.6;stroke-dasharray:7 5;pointer-events:none}.selection-marquee-touch{stroke-width:2}.drawing.marquee-active #drawing{touch-action:none}
+@media(max-width:760px){header{padding:7px 10px}.top-tools{right:5px;left:auto;top:5px;gap:4px}.right-tools{right:5px;top:62px;gap:4px}main{width:98%;margin:4px auto}.toolbar{gap:8px;padding:11px}.field{min-width:46%}.tabs{overflow:auto}.tabs button{white-space:nowrap;padding:7px 9px}.btn{padding:8px 10px}.floating-tools{left:5px;gap:4px}.tool-icon{width:38px;height:38px;border-radius:10px;font-size:16px}.tool-icon.emphasis:not(:disabled){width:49px;height:49px;font-size:20px}.tool-icon::after{display:none}.selection-panel{right:5px;width:min(220px,58vw);padding:10px}.dim-selection-panel{right:5px;bottom:5px;width:min(220px,58vw);padding:10px}.selection-panel h3{font-size:.88rem}.selection-actions{flex-direction:column}}
+@media(max-height:700px){header p{display:none}.tabs button{padding:6px 9px;font-size:.78rem}.note{max-height:2.4em;overflow:auto;margin:2px}.status{padding:4px 7px;bottom:5px}.design-credit{font-size:.64rem;padding:4px 7px;bottom:5px}.floating-tools{gap:3px}.tool-icon{width:38px;height:38px;font-size:16px}.tool-icon.emphasis:not(:disabled){width:49px;height:49px;font-size:20px}}
+
+@media(max-width:900px){.status{left:7px;bottom:7px;max-width:calc(100% - 14px);right:7px}.design-credit{right:7px;bottom:42px}.drawing{padding-bottom:0}}
+@media(max-width:760px){
+  html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
+  body{display:block;min-height:100%;padding-bottom:66px}
+  header{position:relative}
+  main{width:100%;margin:4px 0 10px;padding:0 4px;display:block}
+  .panel.active{display:block;min-height:0}
+  .tabs{padding:0 3px;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .note{margin:3px 4px 6px;max-height:3.7em;overflow:auto}
+  .drawing{display:block;flex:none;width:100%;height:auto;min-height:0;margin:2px 0 10px;border-radius:9px;overflow:hidden}
+  #drawing{display:block;width:100%;height:auto;min-height:0}
+  .floating-tools{position:fixed;left:50%;right:auto;top:auto;bottom:8px;transform:translateX(-50%);z-index:90;flex-direction:row;align-items:center;width:calc(100% - 16px);max-height:none;overflow-x:auto;overflow-y:hidden;padding:5px 6px;gap:5px;scrollbar-width:none;background:#f8fbfaf2;border:1px solid #aac2b9;border-radius:13px;box-shadow:0 5px 18px #0003;backdrop-filter:blur(8px)}
+  .floating-tools::-webkit-scrollbar{display:none}
+  .top-tools{position:fixed;right:8px;left:auto;top:auto;bottom:64px;z-index:96;gap:5px;padding:4px;background:#f8fbfaf0;border:1px solid #aac2b9;border-radius:12px;box-shadow:0 5px 18px #0003;backdrop-filter:blur(8px)}
+  .right-tools{right:6px;top:59px;gap:5px}
+  .tool-icon{flex:0 0 40px;width:40px;height:40px;border-radius:10px;font-size:16px}
+  .tool-icon.emphasis:not(:disabled){width:46px;height:46px;flex-basis:46px;font-size:19px}
+  .selection-panel,.dim-selection-panel{position:fixed;left:8px;right:8px;top:auto;bottom:64px;transform:none;width:auto;max-width:none;max-height:52vh;overflow:auto;z-index:60;padding:12px}
+  .selection-actions{flex-direction:row}
+  .status{left:7px;right:7px;bottom:61px;max-width:none;font-size:.66rem;padding:5px 7px}
+  .design-credit{left:auto;right:7px;bottom:94px;max-width:calc(100% - 14px);font-size:.64rem;padding:4px 7px}
+  dialog{max-width:calc(100vw - 20px);padding:16px}
+  .dimtext{font-size:11px;stroke-width:3px}.pipe-label{font-size:11px}.pipe-tag{font-size:10px;stroke-width:2.5px}.cable-label,.level-label{font-size:11px}.signal-label{font-size:10px}
+}
+
+
+/* ===== Ductos 2D · visual skin inspired by ScaleSyn ===== */
+:root{
+  --d2-bg:#0f0b18;--d2-panel:#171120;--d2-panel-2:#21172d;--d2-purple:#7c3aed;--d2-purple-2:#a78bfa;
+  --d2-purple-3:#5b21b6;--d2-text:#f5f1ff;--d2-muted:#b9aecb;--d2-line:#4b3c5d;--d2-glass:rgba(23,17,32,.86)
+}
+html,body{background:var(--d2-bg);color:var(--d2-text)}
+body{background:radial-gradient(circle at 50% -20%,#2b1743 0,#130d1d 34%,#0d0914 70%)}
+header{background:linear-gradient(180deg,rgba(18,12,28,.98),rgba(18,12,28,.84));border-bottom:1px solid #332441;padding:10px 16px;box-shadow:0 8px 30px #0004;position:relative;z-index:30}
+.brand-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:1500px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand h1{font-size:clamp(1.05rem,1.6vw,1.45rem);font-weight:760;letter-spacing:.2px;margin:0;color:#f9f7ff}.brand h1 span{color:var(--d2-purple-2)}
+.brand-mark{position:relative;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#a78bfa 0 13%,#6d28d9 14% 29%,#2a173d 30% 49%,#8b5cf6 50% 55%,transparent 56%);box-shadow:0 0 0 1px #9b7cff55,0 0 24px #7c3aed66;flex:0 0 68px}
+.brand-mark::after{content:"";position:absolute;inset:8px;border:1px solid #c4b5fd88;border-radius:50%;transform:rotate(-22deg)}.brand-mark i{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;right:2px;top:26px;box-shadow:0 0 10px #fff}.brand-mark b{font-size:16px;color:#fff;letter-spacing:-.4px;z-index:2}
+.meta-tools{display:flex;gap:7px;align-items:center}.meta-icon{position:relative;width:36px;height:36px;border:1px solid #4d3a61;border-radius:12px;background:#1b1327cc;color:#d8cced;display:grid;place-items:center;font-weight:850;font-size:16px;cursor:pointer;box-shadow:inset 0 1px 0 #ffffff0c,0 5px 14px #0004;transition:.18s ease}.meta-icon:hover,.meta-icon:focus-visible{border-color:#9b7cff;color:#fff;background:#2b1943;transform:translateY(-1px)}
+.meta-icon::after,.icon-tabs button::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:0;background:#271a35;color:#fff;border:1px solid #6b4d85;padding:6px 9px;border-radius:7px;font-size:11px;font-weight:650;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(-3px);transition:.15s;z-index:120}.meta-icon:hover::after,.meta-icon:focus-visible::after,.icon-tabs button:hover::after,.icon-tabs button:focus-visible::after{opacity:1;transform:none}
+main{width:min(1500px,98%);margin:7px auto 10px}.tabs{margin-bottom:7px}.icon-tabs{justify-content:flex-start;gap:6px}.icon-tabs button{position:relative;width:42px;height:38px;padding:0;display:grid;place-items:center;border:1px solid #3b2c4a;background:#171020;color:#b9aecb;box-shadow:0 5px 18px #0003}.icon-tabs button.active{background:linear-gradient(145deg,#6d28d9,#8b5cf6);color:#fff;border-color:#9b7cff;box-shadow:0 0 0 1px #a78bfa30,0 7px 22px #6d28d94a}.icon-tabs button::after{left:0;right:auto}
+.tab-bank-icon{display:grid;grid-template-columns:repeat(2,7px);grid-template-rows:repeat(2,7px);gap:3px}.tab-bank-icon i{width:7px;height:7px;border:1.5px solid currentColor;border-radius:50%}.tab-dia-icon{font-size:20px;font-weight:750}.app-note{display:none!important}
+.drawing{background:#aa9582;border:1px solid #3d2f49;border-radius:15px;box-shadow:0 18px 50px #0006,0 0 0 1px #ffffff08;overflow:hidden}
+.tool-icon{border:1px solid #554167;background:linear-gradient(145deg,rgba(33,23,45,.92),rgba(19,13,28,.92));color:#ddd3ec;box-shadow:inset 0 1px 0 #ffffff0e,0 5px 16px #0004;backdrop-filter:blur(8px);transition:transform .16s ease,background .16s,border-color .16s,color .16s,box-shadow .16s}
+.tool-icon:hover,.tool-icon:focus-visible{background:linear-gradient(145deg,#35204e,#241633);border-color:#9b7cff;color:#fff;transform:translateY(-1px);box-shadow:0 0 0 1px #9b7cff38,0 7px 18px #0005}
+.tool-icon.primary{background:linear-gradient(145deg,#7c3aed,#5b21b6);color:#fff;border-color:#9b7cff;box-shadow:0 7px 20px #6d28d955}.tool-icon.primary:hover{background:linear-gradient(145deg,#8b5cf6,#6d28d9)}
+.tool-icon::after{background:#241731;border:1px solid #6a4b83;color:#fff}.layer-badge{background:#7c3aed;border-color:#d8cced}.top-tools .tool-icon.emphasis:not(:disabled){box-shadow:0 0 0 1px #9b7cff55,0 8px 24px #6d28d955}
+.top-tools,.right-tools,.floating-tools{filter:drop-shadow(0 8px 16px #0002)}
+.selection-panel,.dim-selection-panel,.copy-panel{background:rgba(25,17,36,.94)!important;border-color:#5a416e!important;color:#f2ecff!important;box-shadow:0 14px 40px #0007!important}.selection-panel h3,.dim-selection-panel h3{color:#fff}.selection-panel label,.dim-selection-panel label{color:#cabddd}.selection-panel select,.selection-panel input,.dim-selection-panel input{background:#120d1a;color:#fff;border-color:#5a416e}.selection-count{background:#342047;color:#e9ddff}.selection-active,.copy-msg{color:#bfaed5!important}.btn{background:#2a1d38;color:#e8ddf5;border:1px solid #4c365f}.btn.primary{background:linear-gradient(145deg,#7c3aed,#5b21b6);color:#fff;border-color:#8b5cf6}.btn.danger,.danger{background:#3d1d2a;color:#ffc8d1;border-color:#6b2d42}
+dialog{background:#171020;color:#f7f3ff;border:1px solid #543a69;box-shadow:0 25px 80px #0009}.field input,.field select,table input,dialog select,dialog input{background:#120d1a;color:#fff;border-color:#564168}.field input:focus,.field select:focus,table input:focus{outline:2px solid #8b5cf6}.tablewrap{background:#16101f;color:#f7f3ff;border:1px solid #3e2c4d;box-shadow:0 14px 40px #0005}.tablewrap h2{color:#fff}.tablewrap .note{color:#b9aecb}.tablewrap th,.tablewrap td{border-color:#34263f}.catalog-actions .btn{background:#241732}.design-credit{display:none!important}
+.status{background:#171020e8;color:#d8cfe5;border:1px solid #4d3a61;box-shadow:0 8px 22px #0005}.status.bad{background:#351820e8;color:#ffd5da;border-color:#6e3242}
+/* info modal */
+.info-dialog{position:relative;width:min(520px,92vw);padding:26px 26px 22px;overflow:visible}.info-close{position:absolute;right:12px;top:10px;width:34px;height:34px;border:0;border-radius:10px;background:#2a1c38;color:#ddd1ef;font-size:22px;cursor:pointer}.info-close:hover{background:#4b2b66;color:#fff}.info-orb{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;position:relative;display:grid;place-items:center;background:radial-gradient(circle,#b9a5ff 0 10%,#7c3aed 11% 26%,#2d1841 27% 48%,#8b5cf6 49% 53%,transparent 54%);box-shadow:0 0 35px #7c3aed66}.info-orb span{position:absolute;inset:7px;border:1px solid #c4b5fd99;border-radius:50%}.info-orb b{font-size:11px;color:#fff}.info-dialog h2{text-align:center;margin:0 0 14px}.info-body{color:#cfc3dd;line-height:1.55;font-size:.94rem}.info-body strong{color:#fff}.info-body .info-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin-top:14px;padding-top:12px;border-top:1px solid #443254}.info-body .info-grid span:nth-child(odd){color:#9f8cb9;font-weight:700}.info-body ul{margin:8px 0 0;padding-left:20px}.info-body li+li{margin-top:6px}
+/* startup animation */
+.intro-splash{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 46%,#2a1542 0,#120b1d 36%,#09060e 78%);display:grid;place-items:center;overflow:hidden;animation:introFade 2.25s ease forwards;pointer-events:none}.intro-stage{position:relative;width:min(420px,82vw);height:220px;display:grid;place-items:center}.intro-mark{position:absolute;left:50%;top:49%;width:86px;height:86px;transform:translate(-50%,-50%) scale(.2);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#d9ceff 0 9%,#8b5cf6 10% 27%,#321949 28% 48%,#7c3aed 49% 54%,transparent 55%);box-shadow:0 0 55px #7c3aed88;opacity:0;animation:introLogo 1.45s .42s cubic-bezier(.2,.85,.2,1) forwards}.intro-ring{position:absolute;border:1px solid #bfa9ff88;border-radius:50%;inset:10px}.intro-ring.ring-b{inset:19px;border-color:#7c3aed99}.intro-core{font-size:13px;color:#fff;letter-spacing:-.4px}.intro-name{position:absolute;top:75%;left:50%;transform:translateX(-50%) translateY(10px);font-size:25px;font-weight:750;letter-spacing:.3px;color:#f8f4ff;opacity:0;animation:introName .6s 1.05s ease forwards}.intro-name strong{color:#b9a5ff}.intro-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 16px #c4b5fd,0 0 34px #7c3aed;left:5%;top:78%;animation:introDot 1.05s .12s cubic-bezier(.38,.01,.2,1) forwards}.intro-trace{position:absolute;height:1px;background:linear-gradient(90deg,transparent,#8b5cf6aa,transparent);opacity:0}.intro-trace-a{width:64%;left:4%;top:78%;transform:rotate(-19deg);transform-origin:right center;animation:traceIn .72s .2s ease forwards}.intro-trace-b{width:48%;right:5%;top:38%;transform:rotate(17deg);animation:traceIn .52s .68s ease forwards}.intro-sparks i{position:absolute;width:7px;height:7px;border:1px solid #a78bfa;border-radius:3px;opacity:0;animation:spark .45s 1.28s ease forwards}.intro-sparks i:nth-child(1){left:15%;top:25%}.intro-sparks i:nth-child(2){right:16%;top:27%;animation-delay:1.36s}.intro-sparks i:nth-child(3){left:18%;bottom:18%;animation-delay:1.44s}.intro-sparks i:nth-child(4){right:18%;bottom:20%;animation-delay:1.52s}
+@keyframes introDot{0%{left:5%;top:78%;transform:scale(.65)}58%{left:49%;top:49%;transform:scale(1)}72%{left:49%;top:49%;transform:scale(3);opacity:1}100%{left:49%;top:49%;transform:scale(10);opacity:0}}@keyframes introLogo{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-20deg)}60%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(2deg)}100%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}}@keyframes introName{to{opacity:1;transform:translateX(-50%) translateY(0)}}@keyframes traceIn{0%{opacity:0;transform-origin:right center;filter:blur(2px)}100%{opacity:.8;filter:blur(0)}}@keyframes spark{0%{opacity:0;transform:scale(.2) rotate(0)}75%{opacity:1;transform:scale(1.25) rotate(65deg)}100%{opacity:.6;transform:scale(1) rotate(90deg)}}@keyframes introFade{0%,78%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.intro-splash{animation-duration:.35s}.intro-dot,.intro-mark,.intro-name,.intro-trace,.intro-sparks i{animation:none!important}.intro-mark,.intro-name{opacity:1}.tool-icon,.meta-icon{transition:none}}
+@media(max-width:760px){header{padding:8px 10px}.brand-mark{width:60px;height:60px;flex-basis:60px}.brand{gap:8px}.meta-tools{gap:5px}.meta-icon{width:32px;height:32px;border-radius:10px}.icon-tabs{padding-left:5px}.icon-tabs button{width:39px;height:36px}.top-tools{background:#171020f2;border-color:#554167}.floating-tools{background:#171020f2;border-color:#554167}.selection-panel,.dim-selection-panel{background:#171020f6!important}.right-tools{top:54px}.meta-icon::after,.icon-tabs button::after{display:none}}
+
+/* ===== Responsive dual background · ScaleSync reference ===== */
+.drawing{isolation:isolate;background:#b8a18b}
+.scene-background{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:.50;transition:opacity .22s ease;background:#d8c6b4}
+.scene-background[hidden]{display:none}
+.scalesync-origin{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}
+.scalesync-layer{position:absolute;display:block;max-width:none;width:1448px;height:1086px;left:-222.91389932100844px;top:-167.02929196265328px;transform:scale(.330669527508771);transform-origin:top left;pointer-events:none;user-select:none;-webkit-user-drag:none;filter:saturate(.82) brightness(1.04) contrast(.94)}
+.scene-background::after{content:"";position:absolute;inset:0;background:rgba(244,239,232,.16);pointer-events:none}
+#drawing{position:relative;z-index:1;background:transparent}
+.tool-icon.background-active{background:linear-gradient(145deg,#7c3aed,#5b21b6);color:#fff;border-color:#b59cff;box-shadow:0 0 0 2px #a78bfa44,0 7px 20px #6d28d955}
+.bg-icon{width:26px;height:24px;position:relative;display:block}
+.bg-icon:before,.bg-icon:after{content:"";position:absolute;width:17px;height:13px;border:1.8px solid currentColor;border-radius:3px;transform:skewY(-8deg)}
+.bg-icon:before{left:2px;top:7px;opacity:.65}
+.bg-icon:after{left:7px;top:2px;background:linear-gradient(135deg,transparent 46%,currentColor 47% 52%,transparent 53%);box-shadow:inset 0 0 0 1px #ffffff10}
+.bg-icon:before{left:2px;top:7px;opacity:.65}
+.bg-icon:after{left:7px;top:2px;background:linear-gradient(135deg,transparent 46%,currentColor 47% 52%,transparent 53%);box-shadow:inset 0 0 0 1px #ffffff10}
+
+</style>
+</head>
+<body>
+<div id="introSplash" class="intro-splash" aria-hidden="true">
+  <div class="intro-stage">
+    <span class="intro-trace intro-trace-a"></span><span class="intro-trace intro-trace-b"></span>
+    <span class="intro-dot"></span>
+    <div class="intro-mark">
+      <span class="intro-ring ring-a"></span><span class="intro-ring ring-b"></span><span class="intro-core">2D</span>
+    </div>
+    <div class="intro-name">Ductos <strong>2D</strong></div>
+    <div class="intro-sparks"><i></i><i></i><i></i><i></i></div>
+  </div>
+</div>
+<header>
+  <div class="brand-bar">
+    <div class="brand" aria-label="Ductos 2D">
+      <span class="brand-mark" aria-hidden="true"><i></i><b>2D</b></span>
+      <h1>Ductos <span>2D</span></h1>
+    </div>
+    <div class="meta-tools" aria-label="Información de la aplicación">
+      <button class="meta-icon" id="showAbout" data-tip="Acerca de" title="Acerca de" type="button">ⓘ</button>
+      <button class="meta-icon" id="showHelp" data-tip="Instrucciones de uso" title="Instrucciones de uso" type="button">?</button>
+      <button class="meta-icon" id="showIntent" data-tip="Intención" title="Intención" type="button">◎</button>
+    </div>
+  </div>
+</header>
+<main>
+<nav class="tabs icon-tabs" aria-label="Vistas">
+  <button class="active" data-tab="section" data-tip="Sección del banco" title="Sección del banco" aria-label="Sección del banco"><span class="tab-bank-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+  <button data-tab="catalog" data-tip="Diámetros de tubería" title="Diámetros de tubería" aria-label="Diámetros de tubería"><span class="tab-dia-icon" aria-hidden="true">Ø</span></button>
+</nav>
+<section id="section" class="panel active">
+  <div class="toolbar hidden-controls" aria-hidden="true">
+    <select id="units"><option value="mm">Milímetros (mm)</option><option value="m">Metros (m)</option><option value="in">Pulgadas (in)</option><option value="ft">Pies (ft)</option></select>
+    <input id="rows" type="number" min="1" max="15" step="1" value="1">
+    <input id="cols" type="number" min="1" max="15" step="1" value="1">
+    <label id="widthLabel" for="width">Ancho del banco (mm)</label><input id="width" type="number" min="0.001" step="any" value="300">
+    <label id="heightLabel" for="height">Alto del banco (mm)</label><input id="height" type="number" min="0.001" step="any" value="300">
+    <select id="cable"></select>
+    <select id="layer"><option value="2">Encadenada</option><option value="3">Centro</option><option value="1">Inferior</option></select>
+  </div>
+  <p class="note app-note" aria-hidden="true">Clic sobre un ducto = seleccionar o quitar de la selección. Arrastre un rectángulo sobre el dibujo para seleccionar todos los ductos que toque; en móvil, mantenga presionada un área vacía durante un instante y, sin levantar el dedo, arrastre. La edición queda al centro y las acciones forman un control radial. Copiar permite copias sucesivas; Mover desplaza uno o varios ductos alineados y crea filas o columnas cuando hace falta. Esc cancela ventanas y modos activos. CSV↓/CSV↑ exportan e importan geometría, dimensiones y etiquetas. Deshacer: ↶ o Ctrl+Z. Capas: Encadenada, Centro e Inferior.</p>
+  <div class="drawing">
+    <div class="top-tools" aria-label="Acciones generales">
+      <button class="tool-icon emphasis" id="undo" data-tip="Deshacer" title="Deshacer" disabled>↶</button>
+      <button class="tool-icon emphasis" id="reset" data-tip="Restablecer" title="Restablecer">⟳</button>
+    </div>
+    <div class="right-tools" aria-label="Herramientas laterales derechas">
+    </div>
+    <div class="floating-tools" aria-label="Herramientas de edición">
+      <button class="tool-icon background-active" id="toolBackground" data-tip="Fondo: imagen" title="Fondo: imagen"><span class="bg-icon" aria-hidden="true"></span></button>
+      <button class="tool-icon" id="toolUnits" data-tip="Unidades" title="Unidades"><span class="unit-icon" id="unitIcon">mm</span></button>
+      <button class="tool-icon" id="toolRows" data-tip="Filas" title="Filas">≡</button>
+      <button class="tool-icon" id="toolCols" data-tip="Columnas" title="Columnas">⋮</button>
+      <button class="tool-icon" id="toolWidth" data-tip="Ancho del banco" title="Ancho del banco">↔</button>
+      <button class="tool-icon" id="toolHeight" data-tip="Alto del banco" title="Alto del banco">↕</button>
+      <button class="tool-icon" id="toolCable" data-tip="Cable de puesta a tierra" title="Cable de puesta a tierra">⏚</button>
+      <button class="tool-icon" id="toolLayer" data-tip="Capa de dimensiones" title="Capa de dimensiones">
+        <span class="layer-icon">
+          <svg viewBox="0 0 32 18" aria-hidden="true"><path d="M3 3v12M29 3v12M5 9h22M5 9l4-3M5 9l4 3M27 9l-4-3M27 9l-4 3"/></svg>
+          <span class="layer-badge" id="layerBadge">1</span>
+        </span>
+      </button>
+      <button class="tool-icon" id="toolMirror" data-tip="Simetría" title="Simetría">
+        <svg class="mirror-icon" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 3v22"/><path d="M11 7 4 14l7 7z"/><path d="m17 7 7 7-7 7z"/></svg>
+      </button>
+      <button class="tool-icon primary" id="export" data-tip="Exportar SVG" title="Exportar SVG">⇩</button>
+      <button class="tool-icon csv-icon" id="exportCsv" data-tip="Exportar CSV" title="Exportar CSV">CSV↓</button>
+      <button class="tool-icon csv-icon" id="importCsv" data-tip="Importar CSV" title="Importar CSV">CSV↑</button>
+      <input id="csvImportInput" type="file" accept=".csv,text/csv" hidden>
+    </div>
+
+    <aside class="selection-panel" id="selectionPanel" aria-live="polite">
+      <h3>Propiedades de ductos</h3>
+      <div class="selection-count" id="selectionCount">Seleccionados: 0</div>
+      <label>Diámetro nominal
+        <select id="selectionDiameter"></select>
+      </label>
+      <div class="selection-actions">
+        <button class="btn primary small" id="applyDiameter">Aplicar Ø</button>
+      </div>
+      <label>Etiqueta
+        <input id="selectionTag" type="text" maxlength="60" enterkeyhint="done" placeholder="Texto sobre el ducto">
+      </label>
+      <div class="selection-actions">
+        <button class="btn primary small" id="applyTag">Aplicar texto</button>
+        <button class="btn small" id="clearSelection">Cancelar</button>
+      </div>
+      <div class="selection-active" id="selectionActive"></div>
+    </aside>
+
+    <aside class="dim-selection-panel" id="dimSelectionPanel" aria-live="polite">
+      <h3>Propiedades de dimensiones</h3>
+      <div class="selection-count" id="dimSelectionCount">Seleccionadas: 0</div>
+      <label id="dimValueLabel">Valor (mm)
+        <input id="dimValue" type="number" step="any" placeholder="Valor común">
+      </label>
+      <div class="selection-actions">
+        <button class="btn primary small" id="applyDimensions">Aplicar</button>
+        <button class="btn small" id="cancelDimensions">Cancelar</button>
+      </div>
+      <div class="selection-active" id="dimSelectionInfo"></div>
+    </aside>
+
+    <aside class="copy-panel" id="copyPanel" aria-live="polite">
+      <span class="copy-msg" id="copyPanelText">Seleccione los ductos que desea copiar.</span>
+      <button class="btn primary small" id="copyConfirm" type="button" disabled>Copiar</button>
+      <button class="btn primary small" id="mirrorHorizontal" type="button" hidden disabled>Horizontal</button>
+      <button class="btn primary small" id="mirrorVertical" type="button" hidden disabled>Vertical</button>
+      <button class="btn primary small" id="moveNumeric" type="button" hidden>Δ Desplazamiento</button>
+      <button class="btn small" id="copyCancel" type="button">Cancelar</button>
+    </aside>
+    <div class="copy-hint" id="copyHint" aria-live="polite"><span id="copyHintText">Seleccione los ductos que desea copiar</span></div>
+
+    <div id="sceneBackground" class="scene-background" aria-hidden="true">
+      <div id="sceneBackgroundOrigin" class="scalesync-origin">
+        <img id="sceneBackgroundImage" class="scalesync-layer"
+          src="images/01_1000139599_1280w.webp"
+          srcset="images/01_1000139599_320w.webp 320w, images/01_1000139599_640w.webp 640w, images/01_1000139599_960w.webp 960w, images/01_1000139599_1280w.webp 1280w"
+          sizes="100vw" width="1448" height="1086" alt="">
+      </div>
+    </div>
+    <svg id="drawing" role="img" aria-label="Sección del banco de ductos con cotas editables"></svg>
+    <div id="status" class="status" aria-live="polite"></div>
+    <p class="design-credit">Diseño: <strong>Arley Zarate</strong> · Desarrollo: <strong>Nova (IA)</strong> · Fecha: <strong>14 de octubre de 2026</strong></p>
+  </div>
+</section>
+<section id="catalog" class="panel">
+  <div class="tablewrap">
+    <h2>Biblioteca editable de diámetros</h2>
+    <p class="note">Pulgadas = diámetro nominal. La segunda columna usa la unidad seleccionada. La tabla se carga desde <strong>diametros_tuberia.js</strong>. Los cambios hechos aquí afectan la sesión actual; para agregar, quitar o modificar valores de forma permanente, edite ese archivo y vuelva a abrir la aplicación.</p>
+    <table><thead><tr><th>Diámetro nominal (in)</th><th id="catalogUnitHead">Diámetro exterior (mm)</th><th>Acción</th></tr></thead><tbody id="catalogBody"></tbody></table>
+    <p><button id="add" class="btn primary">Agregar diámetro</button></p>
+    <div class="catalog-actions">
+      <button id="exportCatalogCsv" class="btn" type="button">CSV↓ Exportar tabla</button>
+      <button id="importCatalogCsv" class="btn" type="button">CSV↑ Importar tabla</button>
+      <input id="catalogCsvInput" type="file" accept=".csv,text/csv" hidden>
+    </div>
+  </div>
+</section>
+</main>
+<dialog id="infoDialog" class="info-dialog">
+  <button class="info-close" id="infoClose" type="button" aria-label="Cerrar">×</button>
+  <div class="info-orb" aria-hidden="true"><span></span><b>2D</b></div>
+  <h2 id="infoTitle">Ductos 2D</h2>
+  <div id="infoBody" class="info-body"></div>
+</dialog>
+<dialog id="editDialog"><h3 id="dialogTitle"></h3><div id="dialogBody"></div><menu><button class="btn" id="cancel" type="button">Cancelar</button><button class="btn primary" id="apply" type="button">Aplicar</button></menu></dialog>
+<script src="diametros_tuberia.js"></script>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
+function loadExternalCatalog(){
+  const src=Array.isArray(window.DIAMETROS_TUBERIA)?window.DIAMETROS_TUBERIA:[];
+  const seen=new Set();
+  return src.map(it=>{
+    const label=String(it?.pulgadas??'').trim();
+    const raw=it?.exterior_mm;
+    const n=raw===null||raw===''||raw===undefined?null:Number(raw);
+    return {label,mm:Number.isFinite(n)&&n>0?n:null};
+  }).filter(it=>it.label&&!seen.has(it.label)&&seen.add(it.label));
+}
+const externalCatalog=loadExternalCatalog();
+const base=externalCatalog.length?externalCatalog:[{label:'SIN CATALOGO',mm:null}];
+const defaultPipeLabel=(base.find(x=>x.label==='2')||base.find(x=>x.mm!=null)||base[0]).label;
+const defaultCableLabel=(base.find(x=>x.label==='1')||base.find(x=>x.label==='3/4')||base.find(x=>x.mm!=null)||base[0]).label;
+const initial=()=>({rows:1,cols:1,width:300,height:300,layer:'2',units:'mm',catalog:base.map(x=>({...x})),pipes:[[defaultPipeLabel]],tags:[['']],xs:[150],ys:[100],cable:defaultCableLabel,gradeToSignal:150,signalToBank:300});
+const savedV23=localStorage.getItem('bancoDuctosV23');const savedV19=localStorage.getItem('bancoDuctosV19');const savedV18=localStorage.getItem('bancoDuctosV18');const savedV17=localStorage.getItem('bancoDuctosV17');const savedV16=localStorage.getItem('bancoDuctosV16');const savedV15=localStorage.getItem('bancoDuctosV15');let s;try{s=JSON.parse(savedV23)||JSON.parse(savedV19)||JSON.parse(savedV18)||JSON.parse(savedV17)||JSON.parse(savedV16)||JSON.parse(savedV15)||JSON.parse(localStorage.getItem('bancoDuctosV14'))||JSON.parse(localStorage.getItem('bancoDuctosV10'))||JSON.parse(localStorage.getItem('bancoDuctosV9'))||JSON.parse(localStorage.getItem('bancoDuctosV8'))||JSON.parse(localStorage.getItem('bancoDuctosV7'))||JSON.parse(localStorage.getItem('bancoDuctosV6'))||JSON.parse(localStorage.getItem('bancoDuctosV5'))||JSON.parse(localStorage.getItem('bancoDuctosV2'))||initial()}catch{s=initial()}
+if(!s||!s.pipes)s=initial();
+// El catálogo externo es la fuente autoritativa en cada carga.
+s.catalog=base.map(x=>({...x}));
+const availableLabels=new Set(s.catalog.map(x=>x.label));
+s.pipes=(s.pipes||[[defaultPipeLabel]]).map(row=>row.map(v=>v===null?null:(availableLabels.has(v)?v:defaultPipeLabel)));
+if(!['mm','m','in','ft'].includes(s.units))s.units='mm';
+if(!availableLabels.has(s.cable))s.cable=defaultCableLabel;
+if(!['1','2','3'].includes(String(s.layer)))s.layer='2';
+if(!savedV23&&!savedV19&&!savedV18&&!savedV17&&!savedV16&&!savedV15)s.layer='2';
+if(!validCompat(s.gradeToSignal))s.gradeToSignal=150;if(!validCompat(s.signalToBank))s.signalToBank=300;
+// Normalizar ductos eliminados de versiones previas.
+s.pipes=s.pipes.map(row=>row.map(v=>v===undefined?'2':v));
+const oldTags=Array.isArray(s.tags)?s.tags:[];s.tags=Array.from({length:s.rows},(_,r)=>Array.from({length:s.cols},(_,c)=>String(oldTags[r]?.[c]??'')));
+let action=null;
+const history=[];
+let selected=new Set();
+let activeKey=null;
+let selectedDimIds=new Set();
+let dimRegistry=new Map();
+let copyMode='idle'; // idle | select | place
+let copySource=[];
+let copyDirection=null;
+let mirrorSelectMode=false;
+let moveMode='idle'; // idle | place
+let moveSource=[];
+let moveDirection=null;
+let copyHintTimer=null;
+let layoutCache=null;
+let marqueeState=null;
+let marqueeRectEl=null;
+let marqueeTouchTimer=null;
+let touchMarqueePending=null;
+let suppressBackgroundClick=false;
+let lastPipeFocusSignature='';
+let lastDimFocusSignature='';
+let backgroundMode='image'; // Fondo 1 activo por defecto; Fondo 2 = estilo sólido actual.
+const key=(r,c)=>`${r}:${c}`;
+const parseKey=k=>k?{r:Number(k.split(':')[0]),c:Number(k.split(':')[1])}:null;
+const snapshot=()=>JSON.stringify(s);
+const updateUndo=()=>{const b=$('undo');if(b)b.disabled=history.length===0};
+const remember=before=>{if(before&&before!==snapshot()){history.push(before);if(history.length>60)history.shift();updateUndo()}};
+const save=()=>{try{const persisted={...s};delete persisted.catalog;localStorage.setItem('bancoDuctosV23',JSON.stringify(persisted))}catch{}};
+function validCompat(v){return Number.isFinite(Number(v))&&Number(v)>0}
+const factor=()=>s.units==='m'?1000:s.units==='in'?25.4:s.units==='ft'?304.8:1;
+const suffix=()=>s.units==='m'?'m':s.units==='in'?'in':s.units==='ft'?'ft':'mm';
+const toDisplay=mm=>mm/factor();
+const fromDisplay=v=>v*factor();
+const unitDecimals=()=>s.units==='mm'?2:s.units==='in'?3:4;
+const fmtVal=n=>{const d=toDisplay(n),max=unitDecimals();return Number(d.toFixed(max)).toLocaleString('en-US',{maximumFractionDigits:max})};
+const fmtInput=n=>{const d=toDisplay(n),max=s.units==='mm'?3:s.units==='in'?4:5;return Number(d.toFixed(max))};
+const valid=v=>Number.isFinite(v)&&v>0;
+function mm(label){const e=s.catalog.find(x=>x.label===label);return e&&valid(Number(e.mm))?Number(e.mm):null}
+function escapeHTML(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function resize(){
+  const old=s.pipes,oldTags=Array.isArray(s.tags)?s.tags:[];
+  s.pipes=Array.from({length:s.rows},(_,r)=>Array.from({length:s.cols},(_,c)=>old[r]?.[c]===undefined?defaultPipeLabel:old[r]?.[c]));
+  s.tags=Array.from({length:s.rows},(_,r)=>Array.from({length:s.cols},(_,c)=>String(oldTags[r]?.[c]??'')));
+  while(s.xs.length<s.cols)s.xs.push(s.width*(s.xs.length+1)/(s.cols+1));s.xs=s.xs.slice(0,s.cols);
+  while(s.ys.length<s.rows)s.ys.push(s.height*(s.ys.length+1)/(s.rows+1));s.ys=s.ys.slice(0,s.rows)
+}
+function svgEl(tag,attrs={},parent=$('drawing')){const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));parent.append(e);return e}
+function line(x1,y1,x2,y2,cls='dim',parent,extra={}){return svgEl('line',{x1,y1,x2,y2,class:cls,...extra},parent)}
+function dimArrow(x,y,dx,dy){const len=7,w=3.2,mag=Math.hypot(dx,dy)||1,ux=dx/mag,uy=dy/mag,px=-uy,py=ux;line(x,y,x+ux*len+px*w,y+uy*len+py*w,'dim-arrow');line(x,y,x+ux*len-px*w,y+uy*len-py*w,'dim-arrow')}
+function dimDef(id,title,value,setter){return {id,title,value,setter}}
+function text(x,y,t,rot,meta){
+  const cls='dimtext'+(meta&&selectedDimIds.has(meta.id)?' selected-dim':'');
+  const el=svgEl('text',{x,y,'text-anchor':'middle','dominant-baseline':'central',class:cls,...(rot?{transform:`rotate(-90 ${x} ${y})`}:{})});
+  el.textContent=t+' '+suffix();
+  if(meta){
+    dimRegistry.set(meta.id,meta);
+    const toggle=e=>{e?.stopPropagation();if(copyMode!=='idle')return;if(selectedDimIds.has(meta.id))selectedDimIds.delete(meta.id);else selectedDimIds.add(meta.id);render()};
+    el.addEventListener('click',toggle);el.setAttribute('tabindex','0');el.setAttribute('role','button');el.setAttribute('aria-label',`${meta.title}: ${t} ${suffix()}`);
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(e)}});
+  }
+  return el
+}
+function dimension(a,b,offset,vertical,label,meta){if(vertical){line(offset-7,a,offset+7,a);line(offset-7,b,offset+7,b);line(offset,a,offset,b);const dir=Math.sign(b-a)||1;dimArrow(offset,a,0,dir);dimArrow(offset,b,0,-dir);line(offset+5,a,offset+13,a);line(offset+5,b,offset+13,b);text(offset-15,(a+b)/2,label,true,meta)}else{line(a,offset-7,a,offset+7);line(b,offset-7,b,offset+7);line(a,offset,b,offset);const dir=Math.sign(b-a)||1;dimArrow(a,offset,dir,0);dimArrow(b,offset,-dir,0);line(a,offset-6,a,offset-13);line(b,offset-6,b,offset-13);text((a+b)/2,offset-14,label,false,meta)}}
+function focusEditableField(root){
+  const field=root?.querySelector('input:not([type="radio"]):not([type="checkbox"]),textarea,select');
+  if(!field)return;
+  requestAnimationFrame(()=>{try{field.focus({preventScroll:true})}catch{field.focus()}if(typeof field.select==='function'&&field.tagName!=='SELECT')try{field.select()}catch{}});
+}
+function ask(title,html,fn){action=fn;$('dialogTitle').textContent=title;$('dialogBody').innerHTML=html;$('editDialog').showModal();focusEditableField($('dialogBody'))}
+$('cancel').onclick=()=>{action=null;$('editDialog').close()};$('editDialog').addEventListener('cancel',()=>{action=null});
+$('apply').onclick=()=>{const before=snapshot();if(action?.()!==false){remember(before);$('editDialog').close();save();render();renderCatalog()}};
+$('editDialog').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!['textarea','button'].includes(e.target?.tagName?.toLowerCase())){e.preventDefault();$('apply').click()}});
+function editNumber(title,valueMm,fn){ask(title,`<label>Valor (${suffix()})<input id="editValue" type="number" step="any" value="${fmtInput(valueMm)}"></label>`,()=>{const raw=Number($('editValue').value);if(!valid(raw)){alert('Ingrese un valor mayor que cero.');return false}fn(fromDisplay(raw))})}
+function editCable(){ask('Cable de puesta a tierra',`<label>Diámetro nominal (pulgadas)<select id="cablePick">${s.catalog.map(x=>`<option value="${escapeHTML(x.label)}" ${x.label===s.cable?'selected':''}>${escapeHTML(x.label)}" ${valid(Number(x.mm))?'':'(sin diámetro exterior)'}</option>`).join('')}</select></label>`,()=>{s.cable=$('cablePick').value})}
+function syncControls(){
+  $('rows').value=s.rows;$('cols').value=s.cols;$('layer').value=s.layer;$('units').value=s.units;$('width').value=fmtInput(s.width);$('height').value=fmtInput(s.height);
+  $('widthLabel').textContent=`Ancho del banco (${suffix()})`;$('heightLabel').textContent=`Alto del banco (${suffix()})`;$('catalogUnitHead').textContent=`Diámetro exterior (${suffix()})`;
+  $('unitIcon').textContent=s.units;$('layerBadge').textContent=s.layer==='1'?'I':s.layer==='2'?'E':'C';
+  const cableSel=$('cable');cableSel.replaceChildren();s.catalog.forEach(it=>{const o=document.createElement('option');o.value=it.label;o.textContent=`${it.label}"${valid(Number(it.mm))?'':' · sin Ø exterior'}`;o.selected=it.label===s.cable;cableSel.append(o)});
+}
+function normalizeSelection(){
+  const next=new Set();
+  selected.forEach(k=>{const p=parseKey(k);if(p&&p.r>=0&&p.r<s.rows&&p.c>=0&&p.c<s.cols&&s.pipes[p.r]?.[p.c])next.add(k)});
+  selected=next;
+  if(activeKey&&!selected.has(activeKey))activeKey=[...selected].at(-1)||null;
+}
+function selectedItems(){normalizeSelection();return [...selected].map(k=>({...parseKey(k),k})).filter(p=>s.pipes[p.r]?.[p.c])}
+function updateSelectionPanel(){
+  const items=selectedItems(),panel=$('selectionPanel');
+  const panelVisible=items.length>0&&copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle';
+  panel.classList.toggle('visible',panelVisible);
+  $('selectionCount').textContent=`Seleccionados: ${items.length}`;
+  const sel=$('selectionDiameter');sel.replaceChildren();
+  if(!items.length){lastPipeFocusSignature='';return;}
+  const values=[...new Set(items.map(p=>s.pipes[p.r][p.c]))];
+  if(values.length>1){const o=document.createElement('option');o.value='';o.textContent='— varios diámetros —';o.disabled=true;o.selected=true;sel.append(o)}
+  s.catalog.forEach(it=>{const o=document.createElement('option');o.value=it.label;o.textContent=`${it.label}"${valid(Number(it.mm))?'':' · sin Ø exterior'}`;if(values.length===1&&values[0]===it.label)o.selected=true;sel.append(o)});
+  const tagInput=$('selectionTag'),tagValues=[...new Set(items.map(p=>String(s.tags?.[p.r]?.[p.c]??'')))];
+  tagInput.value=tagValues.length===1?tagValues[0]:'';tagInput.placeholder=tagValues.length>1?'— varias etiquetas —':'Texto sobre el ducto';tagInput.dataset.mixed=tagValues.length>1?'1':'0';
+  const a=parseKey(activeKey);$('selectionActive').textContent=a?`Activo: fila ${a.r+1}, columna ${a.c+1}`:'';
+  const signature=items.map(p=>p.k).sort().join('|');
+  if(panelVisible&&signature!==lastPipeFocusSignature){
+    lastPipeFocusSignature=signature;
+    requestAnimationFrame(()=>{const f=$('selectionTag');if(!f)return;try{f.focus({preventScroll:true})}catch{f.focus()}try{f.select()}catch{}});
+  }
+}
+function updateDimSelectionPanel(){
+  const panel=$('dimSelectionPanel');
+  const ids=[...selectedDimIds].filter(id=>dimRegistry.has(id));
+  selectedDimIds=new Set(ids);
+  const items=ids.map(id=>dimRegistry.get(id));
+  panel.classList.toggle('visible',items.length>0);
+  $('dimSelectionCount').textContent=`Seleccionadas: ${items.length}`;
+  $('dimValueLabel').firstChild.textContent=`Valor (${suffix()}) `;
+  if(!items.length){$('dimValue').value='';$('dimSelectionInfo').textContent='';lastDimFocusSignature='';return}
+  const first=items[0].value,same=items.every(x=>Math.abs(x.value-first)<1e-9);
+  $('dimValue').value=same?fmtInput(first):'';
+  $('dimValue').placeholder=same?'Valor común':'Valores diferentes';
+  $('dimSelectionInfo').textContent=items.length===1?items[0].title:'Se aplicará el mismo valor a todas las cotas seleccionadas.';
+  const signature=ids.slice().sort().join('|');
+  if(signature!==lastDimFocusSignature){
+    lastDimFocusSignature=signature;
+    requestAnimationFrame(()=>{const f=$('dimValue');try{f.focus({preventScroll:true})}catch{f.focus()}try{f.select()}catch{}});
+  }
+}
+function layerName(){return s.layer==='1'?'Inferior':s.layer==='2'?'Encadenada':'Centro'}
+function togglePipe(r,c){
+  if(copyMode==='place'){commitCopy();return}
+  if(moveMode==='place'){commitMove();return}
+  const k=key(r,c);if(selected.has(k)){selected.delete(k);if(activeKey===k)activeKey=[...selected].at(-1)||null}else{selected.add(k);activeKey=k}render();
+}
+function pointInSvg(e){
+  const rect=$('drawing').getBoundingClientRect();
+  if(!rect.width||!rect.height||!layoutCache)return null;
+  return {x:(e.clientX-rect.left)*(layoutCache.outerW/rect.width),y:(e.clientY-rect.top)*(layoutCache.outerH/rect.height)};
+}
+function isDrawingBackgroundTarget(t){
+  if(!(t instanceof Element))return false;
+  return !t.closest('.pipe,.svg-action,.dimtext,.cable,.copy-panel,.selection-panel,.dim-selection-panel');
+}
+function startMarquee(e){
+  if(copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'||!isDrawingBackgroundTarget(e.target))return false;
+  const pt=pointInSvg(e);if(!pt)return false;
+  marqueeState={pointerId:e.pointerId,startX:pt.x,startY:pt.y,x:pt.x,y:pt.y,additive:!!(e.ctrlKey||e.metaKey||e.shiftKey),pointerType:e.pointerType};
+  $('drawing').parentElement.classList.add('marquee-active');
+  try{$('drawing').setPointerCapture(e.pointerId)}catch{}
+  marqueeRectEl=svgEl('rect',{x:pt.x,y:pt.y,width:0,height:0,class:'selection-marquee'+(e.pointerType==='touch'?' selection-marquee-touch':'')},$('drawing'));
+  return true;
+}
+function updateMarquee(e){
+  if(!marqueeState||e.pointerId!==marqueeState.pointerId||!marqueeRectEl)return;
+  const pt=pointInSvg(e);if(!pt)return;marqueeState.x=pt.x;marqueeState.y=pt.y;
+  const x=Math.min(marqueeState.startX,pt.x),y=Math.min(marqueeState.startY,pt.y),w=Math.abs(pt.x-marqueeState.startX),h=Math.abs(pt.y-marqueeState.startY);
+  marqueeRectEl.setAttribute('x',x);marqueeRectEl.setAttribute('y',y);marqueeRectEl.setAttribute('width',w);marqueeRectEl.setAttribute('height',h);
+}
+function finishMarquee(e,cancel=false){
+  if(!marqueeState||e.pointerId!==marqueeState.pointerId)return false;
+  clearTimeout(marqueeTouchTimer);marqueeTouchTimer=null;
+  const st=marqueeState;marqueeState=null;$('drawing').parentElement.classList.remove('marquee-active');
+  try{$('drawing').releasePointerCapture(e.pointerId)}catch{}
+  marqueeRectEl?.remove();marqueeRectEl=null;
+  const w=Math.abs(st.x-st.startX),h=Math.abs(st.y-st.startY);if(cancel||Math.max(w,h)<8)return false;
+  const x1=Math.min(st.startX,st.x),x2=Math.max(st.startX,st.x),y1=Math.min(st.startY,st.y),y2=Math.max(st.startY,st.y);
+  const hit=[];
+  for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++){const label=s.pipes[r]?.[c];if(!label)continue;const d=mm(label);if(!d)continue;const cx=layoutCache.left+s.xs[c]*layoutCache.scale,cy=layoutCache.bottom-(s.ys[r]+d/2)*layoutCache.scale,rr=d*layoutCache.scale/2;const qx=Math.max(x1,Math.min(cx,x2)),qy=Math.max(y1,Math.min(cy,y2));if((cx-qx)**2+(cy-qy)**2<=rr**2)hit.push(key(r,c));}
+  if(!st.additive)selected.clear();hit.forEach(k=>selected.add(k));activeKey=hit.at(-1)||[...selected].at(-1)||null;selectedDimIds.clear();suppressBackgroundClick=true;render();return true;
+}
+function startTouchMarquee(touch,target){
+  if(copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'||!isDrawingBackgroundTarget(target))return false;
+  const pt=pointInSvg({clientX:touch.clientX,clientY:touch.clientY});if(!pt)return false;
+  marqueeState={pointerId:`touch-${touch.identifier}`,startX:pt.x,startY:pt.y,x:pt.x,y:pt.y,additive:false,pointerType:'touch-native'};
+  $('drawing').parentElement.classList.add('marquee-active');
+  marqueeRectEl=svgEl('rect',{x:pt.x,y:pt.y,width:0,height:0,class:'selection-marquee selection-marquee-touch'},$('drawing'));
+  if(navigator.vibrate)try{navigator.vibrate(18)}catch{}
+  return true;
+}
+function touchById(list,id){for(const t of list)if(t.identifier===id)return t;return null}
+function updateTouchMarquee(touch){
+  if(!marqueeState||marqueeState.pointerId!==`touch-${touch.identifier}`||!marqueeRectEl)return;
+  const pt=pointInSvg({clientX:touch.clientX,clientY:touch.clientY});if(!pt)return;marqueeState.x=pt.x;marqueeState.y=pt.y;
+  const x=Math.min(marqueeState.startX,pt.x),y=Math.min(marqueeState.startY,pt.y),w=Math.abs(pt.x-marqueeState.startX),h=Math.abs(pt.y-marqueeState.startY);
+  marqueeRectEl.setAttribute('x',x);marqueeRectEl.setAttribute('y',y);marqueeRectEl.setAttribute('width',w);marqueeRectEl.setAttribute('height',h);
+}
+function finishTouchMarquee(id,cancel=false){return finishMarquee({pointerId:`touch-${id}`},cancel)}
+function showCopyHint(message,ms=1050){
+  clearTimeout(copyHintTimer);$('copyHintText').textContent=message;$('copyHint').classList.add('visible');copyHintTimer=setTimeout(()=>$('copyHint').classList.remove('visible'),ms);
+}
+function directionLabel(d){return d==='left'?'Izquierda':d==='right'?'Derecha':d==='up'?'Superior':d==='down'?'Inferior':''}
+function updateCopyPanel(){
+  const panel=$('copyPanel'),btn=$('copyConfirm'),msg=$('copyPanelText'),mh=$('mirrorHorizontal'),mv=$('mirrorVertical'),mn=$('moveNumeric');
+  const active=copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle';panel.classList.toggle('visible',active);
+  btn.hidden=true;mh.hidden=true;mv.hidden=true;if(mn)mn.hidden=true;
+  if(!active)return;
+  if(mirrorSelectMode){const n=selectedItems().length;msg.textContent=n?`${n} ducto(s) seleccionado(s) para simetría.`:'Seleccione uno o varios ductos para aplicar simetría.';mh.hidden=false;mv.hidden=false;mh.disabled=n===0;mv.disabled=n===0;return}
+  if(moveMode==='place'){
+    const type=moveSelectionType(moveSource);
+    msg.innerHTML=`Mover activo · <span class="copy-direction">${moveDirection?directionLabel(moveDirection):'elija una dirección'}</span> · clic para mover por grilla · Esc cancela`;
+    if(mn&&(type==='row'||type==='col')){mn.hidden=false;mn.textContent=type==='row'?'Δ vertical':'Δ horizontal'}
+    return
+  }
+  if(copyMode==='select'){const n=selectedItems().length;msg.textContent=n?`${n} ducto(s) seleccionado(s).`:'Seleccione uno o varios ductos.';btn.hidden=false;btn.disabled=n===0;btn.textContent='Copiar'}
+  else{msg.innerHTML=`Copia múltiple activa · mueva el puntero · <span class="copy-direction">${copyDirection?directionLabel(copyDirection):'elija una dirección'}</span> · clic para colocar · Esc cancela`;}
+}
+function startCopySelect(){
+  mirrorSelectMode=false;moveMode='idle';moveSource=[];moveDirection=null;copyMode='select';copySource=[];copyDirection=null;selected.clear();activeKey=null;selectedDimIds.clear();showCopyHint('Seleccione los ductos que desea copiar');render();
+}
+function startMirrorSelect(){
+  copyMode='idle';copySource=[];copyDirection=null;moveMode='idle';moveSource=[];moveDirection=null;mirrorSelectMode=true;selected.clear();activeKey=null;selectedDimIds.clear();showCopyHint('Seleccione los ductos para aplicar simetría');render();
+}
+function cancelMirror(clearSelection=true){mirrorSelectMode=false;if(clearSelection){selected.clear();activeKey=null}render()}
+function cancelMove(clearSelection=true){moveMode='idle';moveSource=[];moveDirection=null;if(clearSelection){selected.clear();activeKey=null}render()}
+function cancelInteractive(clearSelection=true){if(copyMode!=='idle')return cancelCopy(clearSelection);if(mirrorSelectMode)return cancelMirror(clearSelection);if(moveMode!=='idle')return cancelMove(clearSelection);}
+function cancelCopy(clearSelection=true){
+  copyMode='idle';copySource=[];copyDirection=null;if(clearSelection){selected.clear();activeKey=null}render();
+}
+function beginCopyPlacement(){
+  const items=selectedItems();if(!items.length)return;copySource=items.map(p=>({r:p.r,c:p.c,label:s.pipes[p.r][p.c],tag:String(s.tags?.[p.r]?.[p.c]??'')}));copyMode='place';copyDirection=null;activeKey=null;showCopyHint('Mueva el puntero: la huella indicará dónde se insertará la copia',1250);render();
+}
+function beginMovePlacement(){
+  const items=selectedItems();if(!items.length)return;
+  copyMode='idle';copySource=[];copyDirection=null;mirrorSelectMode=false;
+  moveSource=items.map(p=>({r:p.r,c:p.c,label:s.pipes[p.r][p.c],tag:String(s.tags?.[p.r]?.[p.c]??'')}));
+  moveMode='place';moveDirection=null;activeKey=null;
+  showCopyHint('Mover: horizontal o vertical, siempre alineado a la grilla',1250);render();
+}
+function moveBounds(src=moveSource){if(!src.length)return null;const rs=src.map(p=>p.r),cs=src.map(p=>p.c);return {minR:Math.min(...rs),maxR:Math.max(...rs),minC:Math.min(...cs),maxC:Math.max(...cs)}}
+function moveSelectionType(src=moveSource){
+  if(!src.length)return 'none';
+  if(src.length===1)return 'single';
+  const rows=[...new Set(src.map(p=>p.r))],cols=[...new Set(src.map(p=>p.c))];
+  if(rows.length===1){
+    const r=rows[0],all=s.pipes[r].map((v,c)=>v?c:null).filter(c=>c!==null),chosen=new Set(src.map(p=>p.c));
+    if(all.length===chosen.size&&all.every(c=>chosen.has(c)))return 'row';
+  }
+  if(cols.length===1){
+    const c=cols[0],all=s.pipes.map((row,r)=>row[c]?r:null).filter(r=>r!==null),chosen=new Set(src.map(p=>p.r));
+    if(all.length===chosen.size&&all.every(r=>chosen.has(r)))return 'col';
+  }
+  return 'group';
+}
+function insertedOne(values,atStart,max){
+  if(atStart){const next=values[0]??max;return Math.max(0,next/2)}
+  const prev=values.at(-1)??0;return prev+(max-prev)/2;
+}
+function cloneGrid(){return {pipes:s.pipes.map(r=>r.slice()),tags:s.tags.map(r=>r.slice()),xs:s.xs.slice(),ys:s.ys.slice(),rows:s.rows,cols:s.cols}}
+function rotateLine(arrP,arrT,indices,delta){
+  if(!indices.length)return;
+  indices=[...indices].sort((a,b)=>a-b);
+  let start=indices[0],prev=indices[0];const runs=[];
+  for(let i=1;i<indices.length;i++){const v=indices[i];if(v===prev+1)prev=v;else{runs.push([start,prev]);start=prev=v}}
+  runs.push([start,prev]);
+  for(const [a,b] of runs){
+    const p0=arrP.slice(),t0=arrT.slice();
+    if(delta>0){
+      arrP[a]=p0[b+1]??null;arrT[a]=t0[b+1]??'';
+      for(let j=a;j<=b;j++){arrP[j+1]=p0[j];arrT[j+1]=t0[j]}
+    }else{
+      arrP[b]=p0[a-1]??null;arrT[b]=t0[a-1]??'';
+      for(let j=a;j<=b;j++){arrP[j-1]=p0[j];arrT[j-1]=t0[j]}
+    }
+  }
+}
+function simulateGridMove(direction){
+  if(!moveSource.length||!direction)return null;
+  const type=moveSelectionType(moveSource);
+  if(type==='row'&&!['up','down'].includes(direction))return {valid:false,reason:'Una fila completa solo puede moverse verticalmente.'};
+  if(type==='col'&&!['left','right'].includes(direction))return {valid:false,reason:'Una columna completa solo puede moverse horizontalmente.'};
+  const g=cloneGrid();let src=moveSource.map(p=>({...p}));
+  const horizontal=direction==='left'||direction==='right',delta=(direction==='right'||direction==='up')?1:-1;
+  const needInsert=horizontal?src.some(p=>p.c+delta<0||p.c+delta>=g.cols):src.some(p=>p.r+delta<0||p.r+delta>=g.rows);
+  if(needInsert){
+    if(horizontal){
+      if(g.cols>=15)return {valid:false,reason:'El movimiento superaría el máximo de 15 columnas.'};
+      const atStart=direction==='left',idx=atStart?0:g.cols,x=insertedOne(g.xs,atStart,s.width);
+      g.pipes.forEach(r=>r.splice(idx,0,null));g.tags.forEach(r=>r.splice(idx,0,''));g.xs.splice(idx,0,x);g.cols++;
+      if(atStart)src=src.map(p=>({...p,c:p.c+1}));
+    }else{
+      if(g.rows>=15)return {valid:false,reason:'El movimiento superaría el máximo de 15 filas.'};
+      const atStart=direction==='down',idx=atStart?0:g.rows,y=insertedOne(g.ys,atStart,s.height);
+      g.pipes.splice(idx,0,Array(g.cols).fill(null));g.tags.splice(idx,0,Array(g.cols).fill(''));g.ys.splice(idx,0,y);g.rows++;
+      if(atStart)src=src.map(p=>({...p,r:p.r+1}));
+    }
+  }
+  if(horizontal){
+    const byRow=new Map();for(const p of src){if(!byRow.has(p.r))byRow.set(p.r,[]);byRow.get(p.r).push(p.c)}
+    for(const [r,idxs] of byRow)rotateLine(g.pipes[r],g.tags[r],idxs,delta);
+  }else{
+    const byCol=new Map();for(const p of src){if(!byCol.has(p.c))byCol.set(p.c,[]);byCol.get(p.c).push(p.r)}
+    for(const [c,idxs] of byCol){
+      const colP=g.pipes.map(r=>r[c]),colT=g.tags.map(r=>r[c]);rotateLine(colP,colT,idxs,delta);
+      for(let r=0;r<g.rows;r++){g.pipes[r][c]=colP[r];g.tags[r][c]=colT[r]}
+    }
+  }
+  const moved=src.map(p=>({r:p.r+(horizontal?0:delta),c:p.c+(horizontal?delta:0),label:p.label,tag:p.tag}));
+  const items=moved.map(p=>({...p,nr:p.r,nc:p.c,xMm:g.xs[p.c],bottomMm:g.ys[p.r]}));
+  return {valid:true,mode:'grid',direction,grid:g,items,moved};
+}
+function buildMovePlan(direction){return simulateGridMove(direction)}
+function commitMove(){
+  if(moveMode!=='place'||!moveDirection)return;
+  const plan=buildMovePlan(moveDirection);if(!plan)return;if(!plan.valid){showCopyHint(plan.reason,1400);return}
+  if(!geometryClearanceValid(plan.grid)){showCopyHint('Ese destino no respeta el área de los ductos. Elija otro eje.',1500);return}
+  const before=snapshot(),g=plan.grid;
+  s.pipes=g.pipes;s.tags=g.tags;s.xs=g.xs;s.ys=g.ys;s.rows=g.rows;s.cols=g.cols;
+  const newSel=plan.moved.map(p=>key(p.r,p.c));selected=new Set(newSel);activeKey=newSel.at(-1)||null;
+  moveMode='idle';moveSource=[];moveDirection=null;remember(before);save();showCopyHint('Movimiento aplicado · posiciones ocupadas intercambiadas',900);render();
+}
+function moveNumericDialog(){
+  const type=moveSelectionType(moveSource);if(type!=='row'&&type!=='col')return;
+  const axis=type==='row'?'vertical':'horizontal';
+  ask(`Desplazamiento ${axis}`,`<label>Desplazamiento (${suffix()})<input id="moveDeltaValue" type="number" step="any" value="0"></label><p class="note">Use valores positivos o negativos. Si atraviesa otra ${type==='row'?'fila':'columna'}, ésta se desplazará en sentido contrario.</p>`,()=>{
+    const raw=Number($('moveDeltaValue').value);if(!Number.isFinite(raw)||raw===0){alert('Ingrese un desplazamiento diferente de cero.');return false}
+    return applyNumericMove(type,fromDisplay(raw));
+  });
+}
+function applyNumericMove(type,deltaMm){
+  const src=moveSource.slice();if(!src.length)return false;const before=snapshot();
+  if(type==='row'){
+    const r=src[0].r,target=s.ys[r]+deltaMm;
+    if(target<0||target>s.height){alert('El desplazamiento deja la fila fuera del banco.');return false}
+    const rowP=s.pipes[r].slice(),rowT=s.tags[r].slice(),dir=Math.sign(deltaMm);
+    let nr=r;
+    if(dir>0){
+      const crossed=[];for(let i=r+1;i<s.rows&&s.ys[i]<=target;i++)crossed.push(i);
+      for(const i of crossed){s.pipes[i-1]=s.pipes[i];s.tags[i-1]=s.tags[i]}
+      nr=r+crossed.length;
+    }else{
+      const crossed=[];for(let i=r-1;i>=0&&s.ys[i]>=target;i--)crossed.push(i);
+      for(const i of crossed){s.pipes[i+1]=s.pipes[i];s.tags[i+1]=s.tags[i]}
+      nr=r-crossed.length;
+    }
+    s.pipes[nr]=rowP;s.tags[nr]=rowT;s.ys[nr]=target;
+    selected=new Set(rowP.map((v,c)=>v?key(nr,c):null).filter(Boolean));activeKey=[...selected].at(-1)||null;
+  }else{
+    const c=src[0].c,target=s.xs[c]+deltaMm;
+    if(target<0||target>s.width){alert('El desplazamiento deja la columna fuera del banco.');return false}
+    const colP=s.pipes.map(r=>r[c]),colT=s.tags.map(r=>r[c]),dir=Math.sign(deltaMm);let nc=c;
+    if(dir>0){
+      const crossed=[];for(let i=c+1;i<s.cols&&s.xs[i]<=target;i++)crossed.push(i);
+      for(const i of crossed)for(let r=0;r<s.rows;r++){s.pipes[r][i-1]=s.pipes[r][i];s.tags[r][i-1]=s.tags[r][i]}
+      nc=c+crossed.length;
+    }else{
+      const crossed=[];for(let i=c-1;i>=0&&s.xs[i]>=target;i--)crossed.push(i);
+      for(const i of crossed)for(let r=0;r<s.rows;r++){s.pipes[r][i+1]=s.pipes[r][i];s.tags[r][i+1]=s.tags[r][i]}
+      nc=c-crossed.length;
+    }
+    for(let r=0;r<s.rows;r++){s.pipes[r][nc]=colP[r];s.tags[r][nc]=colT[r]}
+    s.xs[nc]=target;
+    selected=new Set(colP.map((v,r)=>v?key(r,nc):null).filter(Boolean));activeKey=[...selected].at(-1)||null;
+  }
+  if(!geometryClearanceValid()){
+    s=JSON.parse(before);
+    alert('Ese desplazamiento produciría interferencia entre ductos. Use otro valor.');return false
+  }
+  moveMode='idle';moveSource=[];moveDirection=null;showCopyHint('Desplazamiento numérico aplicado',850);return true;
+}
+function geometryClearanceValid(state=s){
+  const pipes=state.pipes||s.pipes,xs=state.xs||s.xs,ys=state.ys||s.ys,rows=state.rows??pipes.length,cols=state.cols??(pipes[0]?.length||0);
+  const circles=[];
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const label=pipes[r]?.[c],d=mm(label);if(!label||!d)continue;
+    circles.push({x:xs[c],y:ys[r]+d/2,r:d/2,rIndex:r,cIndex:c});
+  }
+  for(let i=0;i<circles.length;i++)for(let j=i+1;j<circles.length;j++){
+    const a=circles[i],b=circles[j];
+    if(Math.hypot(a.x-b.x,a.y-b.y)<a.r+b.r-1e-6)return false;
+  }
+  return true;
+}
+function restoreSnapshot(before){
+  s=JSON.parse(before);
+  s.catalog=base.map(x=>({...x}));
+}
+function rejectIfOverlap(before,message='La operación produciría interferencia entre ductos. Se mantuvo la geometría anterior.'){
+  if(geometryClearanceValid())return false;
+  restoreSnapshot(before);
+  showCopyHint(message,1600);
+  return true;
+}
+function repairGeometryClearance(){
+  if(geometryClearanceValid())return false;
+  const colR=Array.from({length:s.cols},(_,c)=>Math.max(0,...s.pipes.map((row,r)=>{const d=mm(row?.[c]);return d?d/2:0})));
+  const rowD=Array.from({length:s.rows},(_,r)=>Math.max(0,...(s.pipes[r]||[]).map(v=>mm(v)||0)));
+  let minW=2*colR.reduce((a,b)=>a+b,0),minH=rowD.reduce((a,b)=>a+b,0);
+  if(minW>s.width)s.width=minW;
+  if(minH>s.height)s.height=minH;
+  const gx=Math.max(0,(s.width-minW)/(s.cols+1));
+  let x=gx+(colR[0]||0);s.xs=[];
+  for(let c=0;c<s.cols;c++){
+    if(c===0)s.xs.push(x);
+    else{x=s.xs[c-1]+(colR[c-1]||0)+gx+(colR[c]||0);s.xs.push(x)}
+  }
+  const gy=Math.max(0,(s.height-minH)/(s.rows+1));
+  s.ys=[];let y=gy;
+  for(let r=0;r<s.rows;r++){s.ys.push(y);y+=rowD[r]+gy}
+  return geometryClearanceValid();
+}
+function sourceBounds(){
+  if(!copySource.length)return null;const rs=copySource.map(p=>p.r),cs=copySource.map(p=>p.c);return {minR:Math.min(...rs),maxR:Math.max(...rs),minC:Math.min(...cs),maxC:Math.max(...cs)};
+}
+function insertedPositions(values,index,count,max){
+  const prev=index>0?values[index-1]:0,next=index<values.length?values[index]:max;return Array.from({length:count},(_,i)=>prev+(next-prev)*(i+1)/(count+1));
+}
+function buildCopyPlan(direction){
+  const b=sourceBounds();if(!b||!direction)return null;const spanR=b.maxR-b.minR+1,spanC=b.maxC-b.minC+1;let dr=0,dc=0;
+  if(direction==='left')dc=-spanC;if(direction==='right')dc=spanC;if(direction==='down')dr=-spanR;if(direction==='up')dr=spanR;
+  const direct=copySource.map(p=>({...p,nr:p.r+dr,nc:p.c+dc}));
+  const directFits=direct.every(p=>p.nr>=0&&p.nr<s.rows&&p.nc>=0&&p.nc<s.cols&&s.pipes[p.nr][p.nc]===null);
+  if(directFits)return {valid:true,mode:'existing',direction,items:direct.map(p=>({...p,xMm:s.xs[p.nc],bottomMm:s.ys[p.nr]}))};
+  if(direction==='left'||direction==='right'){
+    if(s.cols+spanC>15)return {valid:false,direction,reason:'La copia superaría el máximo de 15 columnas.',items:[]};
+    const index=direction==='left'?b.minC:b.maxC+1,vals=insertedPositions(s.xs,index,spanC,s.width);
+    return {valid:true,mode:'insert-cols',direction,index,count:spanC,values:vals,items:copySource.map(p=>{const off=p.c-b.minC,nc=index+off;return {...p,nr:p.r,nc,xMm:vals[off],bottomMm:s.ys[p.r]}})};
+  }
+  if(s.rows+spanR>15)return {valid:false,direction,reason:'La copia superaría el máximo de 15 filas.',items:[]};
+  const index=direction==='down'?b.minR:b.maxR+1,vals=insertedPositions(s.ys,index,spanR,s.height);
+  return {valid:true,mode:'insert-rows',direction,index,count:spanR,values:vals,items:copySource.map(p=>{const off=p.r-b.minR,nr=index+off;return {...p,nr,nc:p.c,xMm:s.xs[p.c],bottomMm:vals[off]}})};
+}
+function insertColsBlock(index,count,values){
+  s.pipes.forEach(row=>row.splice(index,0,...Array(count).fill(null)));s.tags.forEach(row=>row.splice(index,0,...Array(count).fill('')));s.xs.splice(index,0,...values);s.cols+=count;
+}
+function insertRowsBlock(index,count,values){
+  s.pipes.splice(index,0,...Array.from({length:count},()=>Array(s.cols).fill(null)));s.tags.splice(index,0,...Array.from({length:count},()=>Array(s.cols).fill('')));s.ys.splice(index,0,...values);s.rows+=count;
+}
+function commitCopy(){
+  if(copyMode!=='place'||!copyDirection)return;const plan=buildCopyPlan(copyDirection);if(!plan)return;if(!plan.valid){alert(plan.reason);return}
+  const before=snapshot();if(plan.mode==='insert-cols')insertColsBlock(plan.index,plan.count,plan.values);else if(plan.mode==='insert-rows')insertRowsBlock(plan.index,plan.count,plan.values);
+  const newSel=[],nextSource=[];for(const p of plan.items){s.pipes[p.nr][p.nc]=p.label;s.tags[p.nr][p.nc]=p.tag;newSel.push(key(p.nr,p.nc));nextSource.push({r:p.nr,c:p.nc,label:p.label,tag:p.tag})}
+  if(rejectIfOverlap(before,'No se creó la copia porque los ductos quedarían superpuestos.')){render();return}
+  selected=new Set(newSel);activeKey=null;copySource=nextSource;copyMode='place';copyDirection=null;remember(before);save();showCopyHint('Copia creada · puede continuar copiando · Esc cancela',850);render();
+}
+function updateCopyDirectionFromPointer(e){
+  const source=copyMode==='place'?copySource:(moveMode==='place'?moveSource:null);if(!source||!layoutCache||!source.length)return;const rect=$('drawing').getBoundingClientRect();if(!rect.width||!rect.height)return;
+  const x=(e.clientX-rect.left)*(layoutCache.outerW/rect.width),y=(e.clientY-rect.top)*(layoutCache.outerH/rect.height);
+  let sx=0,sy=0,n=0;for(const p of source){const d=mm(p.label);if(!d)continue;sx+=layoutCache.left+s.xs[p.c]*layoutCache.scale;sy+=layoutCache.bottom-(s.ys[p.r]+d/2)*layoutCache.scale;n++}
+  if(!n)return;sx/=n;sy/=n;const dx=x-sx,dy=y-sy;if(Math.hypot(dx,dy)<18)return;const next=Math.abs(dx)>=Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down');
+  if(copyMode==='place'&&next!==copyDirection){copyDirection=next;render()}else if(moveMode==='place'&&next!==moveDirection){moveDirection=next;render()}
+}
+function focusDiameterPanel(){
+  updateSelectionPanel();const field=$('selectionTag');if(field){try{field.focus({preventScroll:true})}catch{field.focus()}try{field.select()}catch{}}
+}
+function addActionButton(parent,cx,cy,type,title,handler,radius=14){
+  if(window.innerWidth<=760)radius=Math.max(radius,17);
+  const g=svgEl('g',{class:`svg-action${type==='trash'?' delete':''}`,tabindex:'0',role:'button','aria-label':title},parent);
+  const tt=svgEl('title',{},g);tt.textContent=title;
+  svgEl('circle',{cx,cy,r:radius},g);
+  if(type==='plus'){
+    line(cx-5,cy,cx+5,cy,'glyph',g);line(cx,cy-5,cx,cy+5,'glyph',g);
+  }else if(type==='pencil'){
+    svgEl('path',{d:`M ${cx-6} ${cy+5} L ${cx+5} ${cy-6} L ${cx+8} ${cy-3} L ${cx-3} ${cy+8} L ${cx-7} ${cy+9} Z`,class:'glyph'},g);
+  }else if(type==='copy'){
+    svgEl('rect',{x:cx-5,y:cy-6,width:9,height:10,rx:1,class:'glyph'},g);svgEl('rect',{x:cx-1,y:cy-2,width:9,height:10,rx:1,class:'glyph'},g);
+  }else if(type==='move'){
+    line(cx-6,cy,cx+6,cy,'glyph',g);line(cx,cy-6,cx,cy+6,'glyph',g);svgEl('path',{d:`M ${cx+6} ${cy} l-3 -3 M ${cx+6} ${cy} l-3 3 M ${cx-6} ${cy} l3 -3 M ${cx-6} ${cy} l3 3 M ${cx} ${cy-6} l-3 3 M ${cx} ${cy-6} l3 3 M ${cx} ${cy+6} l-3 -3 M ${cx} ${cy+6} l3 -3`,class:'glyph'},g);
+  }else if(type==='trash'){
+    svgEl('path',{d:`M ${cx-5} ${cy-5} L ${cx+5} ${cy-5} M ${cx-3} ${cy-8} L ${cx+3} ${cy-8} M ${cx-4} ${cy-3} L ${cx-3} ${cy+7} L ${cx+3} ${cy+7} L ${cx+4} ${cy-3} M ${cx-1.5} ${cy-1} L ${cx-1.5} ${cy+5} M ${cx+1.5} ${cy-1} L ${cx+1.5} ${cy+5}`,class:'glyph'},g);
+  }
+  const fire=e=>{e.stopPropagation();handler()};g.addEventListener('click',fire);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fire(e)}});return g;
+}
+function insertRowData(r,where,label,c,mode='full'){
+  if(s.rows>=15){alert('Máximo 15 filas.');return false}
+  const idx=where==='above'?r+1:r;
+  let y;
+  if(where==='above'){const hi=r+1<s.rows?s.ys[r+1]:s.height;y=(s.ys[r]+hi)/2}else{const lo=r>0?s.ys[r-1]:0;y=(lo+s.ys[r])/2}
+  const row=Array.from({length:s.cols},()=>mode==='full'?label:null);if(mode==='single')row[c]=label;
+  s.pipes.splice(idx,0,row);s.tags.splice(idx,0,Array.from({length:s.cols},()=>''));s.ys.splice(idx,0,y);s.rows++;
+  selected=new Set([key(idx,c)]);activeKey=key(idx,c);return true
+}
+function insertColData(r,c,where,label,mode='full'){
+  if(s.cols>=15){alert('Máximo 15 columnas.');return false}
+  const idx=where==='right'?c+1:c;
+  let x;
+  if(where==='right'){const hi=c+1<s.cols?s.xs[c+1]:s.width;x=(s.xs[c]+hi)/2}else{const lo=c>0?s.xs[c-1]:0;x=(lo+s.xs[c])/2}
+  s.pipes.forEach((row,ri)=>row.splice(idx,0,mode==='full'?label:(ri===r?label:null)));s.tags.forEach(row=>row.splice(idx,0,''));s.xs.splice(idx,0,x);s.cols++;
+  selected=new Set([key(r,idx)]);activeKey=key(r,idx);return true
+}
+function addSelection(direction){
+  const items=selectedItems();if(!items.length)return;
+  const before=snapshot(),saved=copySource;
+  copySource=items.map(p=>({r:p.r,c:p.c,label:s.pipes[p.r][p.c],tag:''}));
+  const plan=buildCopyPlan(direction);copySource=saved;
+  if(!plan||!plan.valid){showCopyHint(plan?.reason||'No fue posible agregar la selección.',1300);return}
+  if(plan.mode==='insert-cols')insertColsBlock(plan.index,plan.count,plan.values);
+  else if(plan.mode==='insert-rows')insertRowsBlock(plan.index,plan.count,plan.values);
+  const newSel=[];for(const p of plan.items){s.pipes[p.nr][p.nc]=p.label;s.tags[p.nr][p.nc]='';newSel.push(key(p.nr,p.nc))}
+  if(rejectIfOverlap(before,'No se agregó la selección porque los ductos quedarían superpuestos.')){render();return}
+  selected=new Set(newSel);activeKey=newSel.at(-1)||null;remember(before);save();showCopyHint(`Selección agregada · ${directionLabel(direction)}`,700);render();
+}
+function deleteSelection(){
+  const targets=selectedItems();if(!targets.length)return false;
+  const before=snapshot();
+  targets.forEach(p=>{s.pipes[p.r][p.c]=null;s.tags[p.r][p.c]=''});
+  const count=targets.length;selected.clear();activeKey=null;selectedDimIds.clear();
+  remember(before);save();showCopyHint(`${count} ducto${count===1?'':'s'} eliminado${count===1?'':'s'}`,700);render();return true;
+}
+function rowCenterMm(r){
+  const first=s.pipes[r]?.find(Boolean),d=mm(first)||0;
+  return s.ys[r]+d/2;
+}
+function editLinkedDimensions(axis,clickedGap){
+  const horizontal=axis==='h';
+  const values=horizontal
+    ? s.xs.slice(1).map((x,i)=>x-s.xs[i])
+    : s.ys.slice(1).map((y,i)=>y-s.ys[i]);
+  if(!values.length)return;
+  const title=horizontal?'Editar separaciones horizontales':'Editar separaciones verticales';
+  const itemName=horizontal?(i=>`Columnas ${i+1}–${i+2}`):(i=>`Filas ${i+1}–${i+2}`);
+  const list=values.map((v,i)=>`<label><input type="checkbox" name="linkedGap" value="${i}" ${i===clickedGap?'checked':''}> ${itemName(i)} · ${fmtVal(v)} ${suffix()}</label>`).join('');
+  ask(title,`<label>Nuevo valor (${suffix()})<input id="editValue" type="number" step="any" value="${fmtInput(values[clickedGap])}"></label>
+    <div class="multi-dim-list"><span>Aplicar el mismo valor a:</span>
+      <label class="multi-dim-all"><input type="checkbox" id="allLinkedGaps"> Seleccionar todas</label>${list}
+    </div>`,()=>{
+      const raw=Number($('editValue').value);if(!valid(raw)){alert('Ingrese un valor mayor que cero.');return false}
+      const newValue=fromDisplay(raw);
+      const picked=[...document.querySelectorAll('input[name="linkedGap"]:checked')].map(el=>Number(el.value));
+      if(!picked.length){alert('Seleccione al menos una separación.');return false}
+      const gaps=[...values];picked.forEach(i=>gaps[i]=newValue);
+      if(horizontal){
+        const next=[s.xs[0]];
+        for(let i=0;i<gaps.length;i++)next.push(next[i]+gaps[i]);
+        s.xs=next;
+      }else{
+        const bottoms=[s.ys[0]];
+        for(let i=0;i<gaps.length;i++)bottoms.push(bottoms[i]+gaps[i]);
+        s.ys=bottoms;
+      }
+    });
+  const all=$('allLinkedGaps');
+  if(all)all.onchange=()=>document.querySelectorAll('input[name="linkedGap"]').forEach(el=>el.checked=all.checked);
+}
+function editSingleHorizontalChain(c,a,b){
+  if(c>0&&c<s.cols)return editLinkedDimensions('h',c-1);
+  editNumber('Tramo horizontal',b-a,n=>{
+    const delta=n-(b-a);
+    if(c===0)s.xs=s.xs.map(v=>v+delta);
+    else if(c<s.cols)s.xs=s.xs.map((v,i)=>i>=c?v+delta:v);
+    else s.width+=delta;
+  });
+}
+function editSingleVerticalChain(r,a,b){
+  if(r>0&&r<s.rows)return editLinkedDimensions('v',r-1);
+  editNumber('Tramo vertical (referencia: primer ducto de fila)',b-a,n=>{
+    const delta=n-(b-a);
+    if(r===0)s.ys=s.ys.map(v=>v+delta);
+    else if(r<s.rows)s.ys=s.ys.map((v,i)=>i>=r?v+delta:v);
+    else s.height+=delta;
+  });
+}
+function setHorizontalChainSegment(c,n){
+  const xx=[0,...s.xs,s.width],a=xx[c],b=xx[c+1],delta=n-(b-a);
+  if(c===0)s.xs=s.xs.map(v=>v+delta);
+  else if(c<s.cols)s.xs=s.xs.map((v,i)=>i>=c?v+delta:v);
+  else s.width+=delta;
+  return s.width>0
+}
+function setVerticalChainSegment(r,n){
+  const yy=[0,...s.ys,s.height];
+  const a=yy[r],b=yy[r+1],delta=n-(b-a);
+  if(r===0)s.ys=s.ys.map(v=>v+delta);
+  else if(r<s.rows)s.ys=s.ys.map((v,i)=>i>=r?v+delta:v);
+  else s.height+=delta;
+  return s.height>0
+}
+function render(){
+  resize();syncControls();normalizeSelection();dimRegistry=new Map();
+  const svg=$('drawing');svg.replaceChildren();
+  const outerW=svg.clientWidth||1000;
+  const mobileLayout=outerW<=760;
+  const layer1=s.layer==='1',layer3=s.layer==='3';
+  const hDimStep=mobileLayout?Math.max(16,Math.min(22,150/Math.max(1,s.cols))):Math.max(16,Math.min(28,190/Math.max(1,s.cols)));
+  const vDimStep=mobileLayout?Math.max(17,Math.min(22,150/Math.max(1,s.rows))):Math.max(20,Math.min(30,210/Math.max(1,s.rows)));
+  const cableD=mm(s.cable)||0;
+  const bottomDimStack=(layer1||layer3)?(82+(s.cols-1)*hDimStep):96;
+  const panelReserve=mobileLayout?0:((copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle'&&selected.size)?255:0);
+  const centerVerticalCount=s.pipes.reduce((sum,row)=>sum+new Set(row.filter(Boolean).filter(label=>mm(label))).size,0);
+  const rightDims=layer3?Math.max(1,centerVerticalCount)*vDimStep:(layer1?s.rows*vDimStep:52);
+  const pad=mobileLayout
+    ?{l:72,r:Math.max(68,34+rightDims),b:Math.max(205,bottomDimStack+120),t:44}
+    :{l:Math.max(190,outerW*.16),r:Math.max(155,outerW*.10)+rightDims+panelReserve,b:Math.max(145,bottomDimStack+42),t:56};
+  const drawableW=Math.max(20,outerW-pad.l-pad.r);
+  const topDepth=s.gradeToSignal+s.signalToBank;
+  const beddingDepth=50; // 5 cm de capa inferior #F49E48
+  const totalModelH=s.height+topDepth+beddingDepth;
+  let outerH,drawableH,scale;
+  if(mobileLayout){
+    // En móvil manda el ancho: el banco y sus cotas horizontales conservan un tamaño útil.
+    // Si hace falta altura, el lienzo crece y la página se desplaza verticalmente en lugar de encoger el banco.
+    scale=Math.max(.02,Math.min(1.25,drawableW/s.width));
+    outerH=Math.max(720,Math.ceil(pad.t+totalModelH*scale+pad.b));
+    svg.style.height=outerH+'px';
+    drawableH=Math.max(20,outerH-pad.t-pad.b);
+  }else{
+    svg.style.height='';
+    outerH=svg.clientHeight||760;
+    drawableH=Math.max(20,outerH-pad.t-pad.b);
+    scale=Math.max(.02,Math.min(drawableW/s.width,drawableH/totalModelH));
+  }
+  const bw=s.width*scale,bh=s.height*scale,totalH=totalModelH*scale;
+  const left=pad.l+(drawableW-bw)/2,gradeY=pad.t+(drawableH-totalH)/2,top=gradeY+topDepth*scale,bottom=top+bh,right=left+bw;
+  const signalY=top-s.signalToBank*scale;
+  const layoutCenterX=(left+right)/2;
+  svg.setAttribute('viewBox',`0 0 ${outerW} ${outerH}`);
+  layoutCache={outerW,outerH,left,right,top,bottom,scale,gradeY};
+
+  // ScaleSync: referencia vertical de 200 unidades.
+  // La imagen se escala solo por la altura N±0.00 → cara inferior del banco.
+  // Se conserva su proporción y el ancho se centra sobre el eje del banco.
+  const bgOrigin=$('sceneBackgroundOrigin');
+  if(bgOrigin){
+    const referenceLength=200;
+    const targetH=Math.max(1,bottom-gradeY);
+    const factorUniform=targetH/referenceLength;
+    bgOrigin.style.left=layoutCenterX+'px';
+    bgOrigin.style.top=((gradeY+bottom)/2)+'px';
+    bgOrigin.style.transform=`scale(${factorUniform})`;
+  }
+
+  // Fondo constructivo en escala: cielo, terreno y capas superiores.
+  const defs=svgEl('defs');
+  const makeTexture=(id,base,accent,opacity=.12,kind='diag')=>{
+    const p=svgEl('pattern',{id,width:24,height:24,patternUnits:'userSpaceOnUse'},defs);
+    svgEl('rect',{x:0,y:0,width:24,height:24,fill:base},p);
+    if(kind==='dots'){
+      svgEl('circle',{cx:6,cy:7,r:1.15,fill:accent,opacity},p);svgEl('circle',{cx:18,cy:17,r:.85,fill:accent,opacity:opacity*.8},p);
+    }else if(kind==='soft'){
+      svgEl('path',{d:'M-5 8 Q 2 4 9 8 T 23 8 T 37 8',stroke:accent,'stroke-width':1,fill:'none',opacity},p);
+      svgEl('circle',{cx:18,cy:18,r:.8,fill:accent,opacity:opacity*.65},p);
+    }else{
+      svgEl('path',{d:'M-7 5 L 7 12 M 5 -2 L 29 10 M 15 18 L 31 26',stroke:accent,'stroke-width':1,fill:'none',opacity},p);
+      svgEl('circle',{cx:6,cy:18,r:.9,fill:accent,opacity:opacity*.8},p);
+    }
+    return `url(#${id})`;
+  };
+  const skyFill=makeTexture('skyTexture','#cfeaf5','#ffffff',.28,'soft');
+  const earthFill=makeTexture('earthTexture','#b8a18b','#6f5b49',.16,'diag');
+  const orangeFill=makeTexture('orangeTexture','#745B54','#ffffff',.10,'diag');
+  const purpleFill=makeTexture('purpleTexture','#A98C73','#f2e8df',.13,'dots');
+  const redFill=makeTexture('redTexture','#D03036','#ffffff',.11,'diag');
+  const yellowFill=makeTexture('yellowTexture','#C5AA91','#ffffff',.16,'dots');
+  const coneFill=makeTexture('coneTexture','#d8c6b4','#8e765f',.13,'diag');
+
+  // Cielo hasta N±0.00 y terreno por debajo.
+  svgEl('rect',{x:0,y:0,width:outerW,height:Math.max(0,gradeY),fill:backgroundMode==='image'?'transparent':skyFill});
+  svgEl('rect',{x:0,y:gradeY,width:outerW,height:Math.max(0,outerH-gradeY),fill:backgroundMode==='image'?'transparent':earthFill});
+
+  // Estratigrafía visual revisada.
+  // El cono exterior envuelve el conjunto; dentro quedan la franja #E18532,
+  // la capa roja inmediatamente sobre el banco y la cama #F49E48 bajo el banco.
+  const topCourseH=(100/3)*scale; // franja café bajo N±0.00 reducida a un tercio
+  const redH=50*scale;            // 5 cm, ancho igual al banco
+  const yellowH=50*scale;         // 5 cm, ancho = banco + 10 cm
+  const brownBottom=gradeY+topCourseH;
+  const redTop=top-redH,redBottom=top;
+  const yellowTop=bottom,yellowBottom=bottom+yellowH;
+  const yellowW=(s.width+100)*scale,yellowLeft=layoutCenterX-yellowW/2;
+  const coneTopW=yellowW+200*scale; // 10 cm adicionales por lado en la parte superior
+
+  // Cono exterior: ocupa toda el área de transición alrededor del banco.
+  svgEl('polygon',{points:`${layoutCenterX-coneTopW/2},${brownBottom} ${layoutCenterX+coneTopW/2},${brownBottom} ${layoutCenterX+yellowW/2},${yellowBottom} ${layoutCenterX-yellowW/2},${yellowBottom}`,fill:coneFill,stroke:'#9d8268','stroke-width':1.5});
+
+  // Franja café de transición tierra/aire, a todo el ancho del navegador.
+  svgEl('rect',{x:0,y:gradeY,width:outerW,height:Math.max(0,topCourseH),fill:orangeFill});
+
+  // Material de relleno café medio: se extiende verticalmente con el mismo ancho del banco.
+  if(redTop>brownBottom)svgEl('rect',{x:left,y:brownBottom,width:bw,height:redTop-brownBottom,fill:purpleFill});
+
+  // Capa roja: debajo de la puesta a tierra y directamente encima del banco.
+  svgEl('rect',{x:left,y:redTop,width:bw,height:redH,fill:redFill});
+
+  // Cama inferior café claro: 5 cm de alto y 5 cm de sobreancho a cada lado.
+  svgEl('rect',{x:yellowLeft,y:yellowTop,width:yellowW,height:yellowH,fill:yellowFill});
+  line(0,gradeY,outerW,gradeY,'grade-boundary');
+
+  // Banco
+  svgEl('rect',{x:left,y:top,width:bw,height:bh,fill:'#c7c9bd',stroke:'#5c615b','stroke-width':3});
+  svgEl('rect',{x:left+5,y:top+5,width:Math.max(0,bw-10),height:Math.max(0,bh-10),fill:'none',stroke:'#ffffff77','stroke-width':2});
+
+  // Varillas dobles: horizontales debajo de los ductos, tapas superiores y amarres en X.
+  const supportInset=Math.max(12,Math.min(24,bw*.06)),supportLeft=left+supportInset,supportRight=right-supportInset,rodGap=5.75;
+  const doubleV=(x,y1,y2)=>{line(x-rodGap,y1,x-rodGap,y2,'support');line(x+rodGap,y1,x+rodGap,y2,'support')};
+  const doubleH=(x1,x2,y)=>{const y1=y+1,y2=y+1+rodGap*2;line(x1,y1,x2,y1,'support');line(x1,y2,x2,y2,'support')};
+  const cap=(x,y)=>line(x-rodGap,y,x+rodGap,y,'support');
+  const tieX=(x,y)=>{const a=Math.max(4,rodGap*.85);line(x-a,y-a,x+a,y+a,'support-tie');line(x-a,y+a,x+a,y-a,'support-tie')};
+  const supportRows=s.ys.map((y,r)=>s.pipes[r]?.some(Boolean)?{r,y}:null).filter(Boolean);
+  const rowSupports=supportRows.map(o=>bottom-o.y*scale);
+  if(rowSupports.length){
+    const topSupport=Math.min(...rowSupports)-6,bottomSupport=bottom-7;
+    doubleV(supportLeft,topSupport,bottomSupport);doubleV(supportRight,topSupport,bottomSupport);
+    cap(supportLeft,topSupport);cap(supportRight,topSupport);
+    rowSupports.forEach(yy=>{
+      doubleH(supportLeft-rodGap,supportRight+rodGap,yy);
+      const mid=yy+1+rodGap;
+      tieX(supportLeft,mid);tieX(supportRight,mid);
+    });
+  }
+
+  // Cable de puesta a tierra sobre el borde superior. Solo se rotula el radio en unidades activas.
+  let cableCenterY=top,ccx=(left+right)/2;
+  if(cableD){
+    const cr=Math.max(5,cableD*scale/2);cableCenterY=top-cr;
+    const cg=svgEl('g',{class:'cable',tabindex:'0',role:'button','aria-label':'Cable de puesta a tierra'});
+    svgEl('circle',{cx:ccx,cy:cableCenterY,r:cr,fill:'#c9742f',stroke:'#6f3314','stroke-width':2,class:'cable-rim'},cg);
+    svgEl('circle',{cx:ccx-cr*.25,cy:cableCenterY-cr*.28,r:Math.max(1.5,cr*.18),fill:'#ffdca4',opacity:.7},cg);
+    const lab=svgEl('text',{x:ccx+cr+14,y:cableCenterY,'text-anchor':'start','dominant-baseline':'central',class:'cable-label'},cg);lab.textContent=`R = ${fmtVal(cableD/2)} ${suffix()}`;
+    const editCableFn=()=>editCable();cg.addEventListener('click',editCableFn);cg.addEventListener('keydown',e=>{if(e.key==='Enter')editCableFn()});lab.addEventListener('click',editCableFn);
+  }
+
+  const bottomBase=bottom+58;
+  // Nivel 0 fijo y señalización. En capas 1 y 2, las tres cotas verticales comparten un solo eje.
+  const lvl=svgEl('text',{x:(left+right)/2,y:gradeY-12,'text-anchor':'middle',class:'level-label'});lvl.textContent='N±0.00';
+  svgEl('path',{d:`M ${(left+right)/2-7} ${gradeY+2} L ${(left+right)/2+7} ${gradeY+2} L ${(left+right)/2} ${gradeY+12} Z`,fill:'#5b3d2c'});
+  const signalHalf=Math.max(12,100*scale),signalLeft=ccx-signalHalf,signalRight=ccx+signalHalf;
+  line(signalLeft,signalY,signalRight,signalY,'signal-line-black');
+  line(signalLeft,signalY,signalRight,signalY,'signal-line-yellow');
+  const sig=svgEl('text',{x:signalRight,y:signalY-8,'text-anchor':'end',class:'signal-label'});sig.textContent='SEÑALIZACIÓN';
+  const verticalAxis=left-(mobileLayout?48:92);
+  if(!layer3){
+    dimension(gradeY,signalY,verticalAxis,true,fmtVal(s.gradeToSignal),dimDef('grade-signal','Nivel 0 a señalización',s.gradeToSignal,n=>{s.gradeToSignal=n;return true}));
+    dimension(signalY,top,verticalAxis,true,fmtVal(s.signalToBank),dimDef('signal-bank','Señalización a cara superior del banco',s.signalToBank,n=>{s.signalToBank=n;return true}));
+  }
+  const cableRadiusPx=cableD?Math.max(5,cableD*scale/2):0;
+  const widthDimY=cableCenterY-cableRadiusPx-34;
+  if(!layer3)dimension(left,right,widthDimY,false,fmtVal(s.width),dimDef('bank-width','Ancho del banco',s.width,n=>{s.width=n;return true}));
+
+  let warnings=[];const circles=[];
+  for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++){
+    const label=s.pipes[r][c];if(!label)continue;
+    const d=mm(label);if(!d){warnings.push(`Fila ${r+1}, columna ${c+1}: diámetro exterior pendiente para ${label}".`);continue}
+    const cx=s.xs[c],cy=s.ys[r]+d/2,px=left+cx*scale,py=bottom-cy*scale,rr=d*scale/2,k=key(r,c);circles.push({r,c,cx,cy,rad:d/2});
+    if(cx-d/2<0||cx+d/2>s.width||s.ys[r]<0||s.ys[r]+d>s.height)warnings.push(`Tubería F${r+1} C${c+1} fuera del banco.`);
+    const classes=['pipe'];if(selected.has(k))classes.push('selected');if(activeKey===k)classes.push('active');
+    const g=svgEl('g',{class:classes.join(' '),tabindex:'0',role:'button','aria-label':`Tubería fila ${r+1}, columna ${c+1}, ${label} pulgadas`});
+    svgEl('circle',{cx:px,cy:py,r:rr,fill:'#328c5e',stroke:'#15543c','stroke-width':2,class:'rim'},g);
+    svgEl('circle',{cx:px,cy:py,r:Math.max(0,rr-Math.min(7,Math.max(2,rr*.12))),fill:'#a6d7b4',stroke:'#226847','stroke-width':1},g);
+    const ductTag=String(s.tags?.[r]?.[c]??'').trim();if(ductTag){const tagTxt=svgEl('text',{x:px,y:py-rr-9,'text-anchor':'middle','dominant-baseline':'central',class:'pipe-tag'},g);tagTxt.textContent=ductTag}
+    if(activeKey!==k){const txt=svgEl('text',{x:px,y:py,'text-anchor':'middle','dominant-baseline':'central',class:'pipe-label'},g);txt.textContent=label+'"'}
+    const pick=e=>{e?.stopPropagation();togglePipe(r,c)};g.addEventListener('click',pick);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e)}});
+
+
+  }
+  // Controles radiales: edición al centro; acciones alrededor. Con selección múltiple, el conjunto se centra en la selección.
+  if(selected.size&&copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle'){
+    const items=selectedItems();
+    if(items.length){
+      let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity,maxR=0;
+      for(const p of items){const d=mm(s.pipes[p.r][p.c]);if(!d)continue;const x=left+s.xs[p.c]*scale,y=bottom-(s.ys[p.r]+d/2)*scale,r=d*scale/2;minX=Math.min(minX,x-r);maxX=Math.max(maxX,x+r);minY=Math.min(minY,y-r);maxY=Math.max(maxY,y+r);maxR=Math.max(maxR,r)}
+      const anchor=parseKey(activeKey)||items.at(-1),label=s.pipes[anchor.r][anchor.c];
+      const acx=Number.isFinite(minX)?(minX+maxX)/2:left+s.xs[anchor.c]*scale,acy=Number.isFinite(minY)?(minY+maxY)/2:bottom-(s.ys[anchor.r]+(mm(label)||0)/2)*scale;
+      const ring=Math.max(maxR+34,mobileLayout?58:52);
+      const pos=a=>({x:acx+Math.cos(a*Math.PI/180)*ring,y:acy+Math.sin(a*Math.PI/180)*ring});
+      let q=pos(-90);addActionButton(svg,q.x,q.y,'plus','Agregar selección arriba',()=>addSelection('up'));
+      q=pos(0);addActionButton(svg,q.x,q.y,'plus','Agregar selección a la derecha',()=>addSelection('right'));
+      q=pos(90);addActionButton(svg,q.x,q.y,'plus','Agregar selección abajo',()=>addSelection('down'));
+      q=pos(180);addActionButton(svg,q.x,q.y,'plus','Agregar selección a la izquierda',()=>addSelection('left'));
+      q=pos(-45);addActionButton(svg,q.x,q.y,'trash',`Eliminar selección (${items.length})`,()=>deleteSelection(),mobileLayout?15:13);
+      q=pos(45);addActionButton(svg,q.x,q.y,'move',`Mover ${items.length>1?items.length+' ductos':'ducto'}`,()=>beginMovePlacement(),mobileLayout?15:13);
+      q=pos(135);addActionButton(svg,q.x,q.y,'copy',`Copiar ${items.length>1?items.length+' ductos':'ducto'}`,()=>beginCopyPlacement(),mobileLayout?15:13);
+      addActionButton(svg,acx,acy,'pencil',items.length>1?'Editar selección':'Editar diámetro',()=>focusDiameterPanel(),mobileLayout?18:16);
+    }
+  }
+  if((copyMode==='place'&&copyDirection)||(moveMode==='place'&&moveDirection)){
+    const plan=copyMode==='place'?buildCopyPlan(copyDirection):buildMovePlan(moveDirection);
+    if(plan?.valid){for(const p of plan.items){const d=mm(p.label);if(!d)continue;const px=left+p.xMm*scale,py=bottom-(p.bottomMm+d/2)*scale,rr=d*scale/2,g=svgEl('g',{class:'copy-ghost'});svgEl('circle',{cx:px,cy:py,r:rr,class:'ghost-outer'},g);svgEl('circle',{cx:px,cy:py,r:Math.max(0,rr-Math.min(7,Math.max(2,rr*.12))),class:'ghost-inner'},g);if(p.tag){const t=svgEl('text',{x:px,y:py-rr-9,'text-anchor':'middle','dominant-baseline':'central',class:'ghost-tag'},g);t.textContent=p.tag}}}
+  }
+  for(let i=0;i<circles.length;i++)for(let j=i+1;j<circles.length;j++){const a=circles[i],b=circles[j];if(Math.hypot(a.cx-b.cx,a.cy-b.cy)<a.rad+b.rad-0.01)warnings.push(`Interferencia entre F${a.r+1} C${a.c+1} y F${b.r+1} C${b.c+1}.`)}
+
+  if(!layer3)dimension(top,bottom,verticalAxis,true,fmtVal(s.height),dimDef('bank-height','Alto del banco',s.height,n=>{s.height=n;return true}));
+  const ypx=y=>bottom-y*scale,xpx=x=>left+x*scale;
+  if(layer1){
+    s.xs.forEach((x,c)=>dimension(left,xpx(x),bottomBase+c*hDimStep,false,fmtVal(x),dimDef(`inf-h-${c}`,`Inferior · eje de columna ${c+1}`,x,n=>{s.xs[c]=n;return true})));
+    s.ys.forEach((y,r)=>dimension(ypx(y),bottom,right+24+r*vDimStep,true,fmtVal(y),dimDef(`inf-v-${r}`,`Inferior · apoyo de fila ${r+1}`,y,n=>{s.ys[r]=n;return true})));
+  }else if(layer3){
+    // Centro: solo cotas referidas a centros, incluido N±0.00 al centro geométrico del banco.
+    const bankCenterDepth=topDepth+s.height/2,bankCenterY=top+bh/2;
+    dimension(gradeY,bankCenterY,verticalAxis,true,fmtVal(bankCenterDepth),dimDef('ctr-bank-depth','Centro · N±0.00 al centro del banco',bankCenterDepth,n=>{const next=n-s.gradeToSignal-s.height/2;if(next<=0){alert('La profundidad al centro debe ser mayor que la suma del tramo superior y la mitad de la altura del banco.');return false}s.signalToBank=next;return true}));
+    s.xs.forEach((x,c)=>dimension(left,xpx(x),bottomBase+c*hDimStep,false,fmtVal(x),dimDef(`ctr-h-${c}`,`Centro horizontal · columna ${c+1}`,x,n=>{s.xs[c]=n;return true})));
+    let centerDimIndex=0;
+    s.pipes.forEach((row,r)=>{
+      const uniqueLabels=[...new Set(row.filter(Boolean))].filter(label=>mm(label));
+      uniqueLabels.forEach(label=>{
+        const d=mm(label),center=s.ys[r]+d/2;
+        const axis=right+24+centerDimIndex*vDimStep;
+        dimension(ypx(center),bottom,axis,true,fmtVal(center),dimDef(`ctr-v-${r}-${label.replace(/[^a-zA-Z0-9_-]/g,'_')}`,`Centro vertical · fila ${r+1} · Ø ${label}"`,center,n=>{s.ys[r]=Math.max(0,n-d/2);return true}));
+        centerDimIndex++;
+      });
+    });
+  }else{
+    const xx=[0,...s.xs,s.width];
+    for(let c=0;c<xx.length-1;c++){const a=xx[c],b=xx[c+1],value=b-a;dimension(xpx(a),xpx(b),bottomBase,false,fmtVal(value),dimDef(`enc-h-${c}`,`Encadenada horizontal · tramo ${c+1}`,value,n=>setHorizontalChainSegment(c,n)))}
+    const yy=[0,...s.ys,s.height];
+    for(let r=0;r<yy.length-1;r++){const a=yy[r],b=yy[r+1],value=b-a;dimension(ypx(a),ypx(b),right+32,true,fmtVal(value),dimDef(`enc-v-${r}`,`Encadenada vertical · borde inferior · tramo ${r+1}`,value,n=>setVerticalChainSegment(r,n)))}
+  }
+
+  updateSelectionPanel();updateDimSelectionPanel();updateCopyPanel();
+  const visiblePipes=s.pipes.flat().filter(Boolean).length;
+  const st=$('status');st.className='status'+(warnings.length?' bad':'');
+  st.textContent=mirrorSelectMode?`Modo simetría · seleccione uno o varios ductos (${selected.size} seleccionado(s)) y elija Horizontal o Vertical.`:moveMode==='place'?`Modo mover · ${moveDirection?'destino '+directionLabel(moveDirection).toLowerCase():'mueva el puntero para elegir dirección'} · clic para colocar · Esc cancela.`:copyMode==='select'?`Modo copia · seleccione uno o varios ductos (${selected.size} seleccionado(s)).`:copyMode==='place'?`Modo copia · ${copyDirection?'destino '+directionLabel(copyDirection).toLowerCase():'mueva el puntero para elegir dirección'} · clic para colocar · Esc cancela.`:(warnings.length?`Revisar geometría: ${[...new Set(warnings)].slice(0,7).join(' | ')}${warnings.length>7?' …':''}`:`Sin interferencias detectadas. ${visiblePipes} ducto(s) visibles · ${selected.size} seleccionado(s) · ${layerName()}. Autoescala: ${Number(scale.toFixed(3))} px/mm.`);
+  save();
+}
+function applySymmetry(axis){
+  const items=selectedItems().map(p=>({...p,label:s.pipes[p.r][p.c],tag:String(s.tags?.[p.r]?.[p.c]??'')}));if(!items.length)return false;
+  const before=snapshot();let created=0,skipped=0;const next=new Set(selected);
+  for(const p of items){
+    const tr=axis==='vertical'?s.rows-1-p.r:p.r,tc=axis==='horizontal'?s.cols-1-p.c:p.c;
+    if(tr===p.r&&tc===p.c)continue;const targetKey=key(tr,tc);
+    if(s.pipes[tr][tc]!==null&&!selected.has(targetKey)){skipped++;continue}
+    s.pipes[tr][tc]=p.label;s.tags[tr][tc]=p.tag;next.add(targetKey);created++;
+  }
+  selected=next;activeKey=[...next].at(-1)||activeKey;mirrorSelectMode=false;remember(before);save();showCopyHint(`Simetría ${axis==='horizontal'?'horizontal':'vertical'} · ${created} creado(s)${skipped?' · '+skipped+' ocupado(s) omitido(s)':''}`,1100);render();return true;
+}
+function renderCatalog(){
+  syncControls();const body=$('catalogBody');body.replaceChildren();
+  s.catalog.forEach((item,i)=>{const tr=document.createElement('tr'),a=document.createElement('td'),b=document.createElement('td'),c=document.createElement('td'),name=document.createElement('input'),value=document.createElement('input'),del=document.createElement('button');
+    name.value=item.label;name.setAttribute('aria-label','Diámetro nominal');value.type='number';value.step='any';value.min='0.000001';value.placeholder='Pendiente de catálogo';value.value=item.mm==null?'':fmtInput(item.mm);value.setAttribute('aria-label',`Diámetro exterior en ${suffix()}`);
+    name.onchange=()=>{const old=item.label,n=name.value.trim();if(!n||s.catalog.some((x,j)=>j!==i&&x.label===n)){alert('El nombre debe ser único y no estar vacío.');name.value=old;return}const before=snapshot();s.pipes=s.pipes.map(row=>row.map(p=>p===old?n:p));if(s.cable===old)s.cable=n;item.label=n;remember(before);save();render();renderCatalog()};
+    value.onchange=()=>{const raw=value.value.trim(),n=raw===''?null:fromDisplay(Number(raw));if(n!==null&&!valid(n)){alert('El diámetro debe ser mayor que cero.');value.value=item.mm==null?'':fmtInput(item.mm);return}const before=snapshot();item.mm=n;remember(before);save();render()};
+    del.className='danger';del.textContent='Eliminar';del.onclick=()=>{if(s.pipes.some(row=>row.includes(item.label))||s.cable===item.label){alert('Este diámetro está en uso. Cámbielo antes de eliminarlo.');return}const before=snapshot();s.catalog.splice(i,1);remember(before);renderCatalog();save()};
+    a.append(name);b.append(value);c.append(del);tr.append(a,b,c);body.append(tr)
+  })
+}
+['rows','cols','layer'].forEach(id=>$(id).addEventListener('change',()=>{const v=id==='layer'?$(id).value:Number($(id).value);if(id==='rows'||id==='cols'){if(!Number.isInteger(v)||v<1||v>15){alert('Ingrese un número entero entre 1 y 15.');$(id).value=s[id];return}}const before=snapshot();s[id]=v;if(id==='layer')selectedDimIds.clear();if(id==='rows'||id==='cols'){resize();s.xs=Array.from({length:s.cols},(_,i)=>s.width*(i+1)/(s.cols+1));s.ys=Array.from({length:s.rows},(_,i)=>s.height*(i+1)/(s.rows+1));selected.clear();activeKey=null}remember(before);render()}));
+['width','height'].forEach(id=>$(id).addEventListener('change',()=>{const raw=Number($(id).value);if(!valid(raw)){alert('Ingrese una dimensión positiva.');syncControls();return}const before=snapshot();s[id]=fromDisplay(raw);if(id==='width')s.xs=s.xs.map((_,i)=>s.width*(i+1)/(s.cols+1));else s.ys=s.ys.map((_,i)=>s.height*(i+1)/(s.rows+1));remember(before);render()}));
+$('units').addEventListener('change',()=>{const before=snapshot();s.units=$('units').value;remember(before);save();render();renderCatalog()});
+$('cable').addEventListener('change',()=>{const before=snapshot();s.cable=$('cable').value;remember(before);save();render()});
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab));if(b.dataset.tab==='catalog')renderCatalog();else requestAnimationFrame(render)});
+$('add').onclick=()=>{const before=snapshot();s.catalog.push({label:'Nuevo '+(s.catalog.length+1),mm:null});remember(before);renderCatalog();save()};
+
+function updateBackgroundUI(){
+  const layer=$('sceneBackground'),btn=$('toolBackground');
+  const isImage=backgroundMode==='image';
+  if(layer) layer.hidden=!isImage;
+  if(btn){
+    btn.classList.toggle('background-active',isImage);
+    btn.dataset.tip=isImage?'Fondo 1: imagen':'Fondo 2: sólido';
+    btn.title=btn.dataset.tip;
+    btn.setAttribute('aria-pressed',String(isImage));
+  }
+}
+function toggleBackground(e){
+  e?.preventDefault();e?.stopPropagation();
+  backgroundMode=backgroundMode==='image'?'solid':'image';
+  try{localStorage.setItem('ductos2d-background-v27',backgroundMode)}catch{}
+  updateBackgroundUI();render();
+}
+try{const savedBg=localStorage.getItem('ductos2d-background-v27');if(savedBg==='image'||savedBg==='solid')backgroundMode=savedBg}catch{}
+const backgroundButton=$('toolBackground');
+if(backgroundButton){backgroundButton.type='button';backgroundButton.onclick=toggleBackground}
+updateBackgroundUI();
+
+$('reset').onclick=()=>{if(confirm('¿Restablecer toda la sección usando el catálogo externo actual?')){const before=snapshot(),keepUnits=s.units;s=initial();s.units=keepUnits;selected.clear();activeKey=null;selectedDimIds.clear();copyMode='idle';copySource=[];copyDirection=null;mirrorSelectMode=false;moveMode='idle';moveSource=[];moveDirection=null;remember(before);save();renderCatalog();render()}};
+$('export').onclick=()=>{const original=$('drawing'),copy=original.cloneNode(true);copy.setAttribute('xmlns',NS);copy.setAttribute('width',original.clientWidth);copy.setAttribute('height',original.clientHeight);copy.querySelectorAll('.svg-action,.copy-ghost').forEach(n=>n.remove());copy.querySelectorAll('.selected-dim').forEach(n=>n.classList.remove('selected-dim'));const style=document.createElementNS(NS,'style');style.textContent=`text{font-family:system-ui,Segoe UI,Arial,sans-serif}.dim{stroke:#263f3a;stroke-width:1.4;fill:none}.dim-arrow{stroke:#263f3a;stroke-width:1.5;fill:none;stroke-linecap:round}.dimtext{fill:#12362f;font-size:13px;font-weight:750;paint-order:stroke;stroke:#f5f2e8;stroke-width:4px}.pipe-label{font-size:13px;font-weight:750;fill:#083b26}.pipe-tag{font-size:12px;font-weight:850;fill:#fff;paint-order:stroke;stroke:#173b35;stroke-width:3px;stroke-linejoin:round}.cable-label{font-size:12px;font-weight:850;fill:#6f3314;paint-order:stroke;stroke:#fff4e5;stroke-width:4px}.level-line{stroke:#46655d;stroke-width:1.7}.signal-line-black{stroke:#111;stroke-width:4;fill:none}.signal-line-yellow{stroke:#f2d400;stroke-width:4;fill:none;stroke-dasharray:12 12;stroke-dashoffset:12}.grade-boundary{stroke:#6b4933;stroke-width:5.5;fill:none}.signal-label{font-size:11px;font-weight:800;fill:#684318;paint-order:stroke;stroke:#f6f3e9;stroke-width:3px}.level-label{font-size:13px;font-weight:800;fill:#12362f;paint-order:stroke;stroke:#f6f3e9;stroke-width:4px}.support{stroke:#4a4f52;stroke-width:1.55;fill:none}.support-tie{stroke:#6a7074;stroke-width:1.15;fill:none}`;copy.insertBefore(style,copy.firstChild);const blob=new Blob([new XMLSerializer().serializeToString(copy)],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ductos_2d_v29.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};
+function csvEscape(v){const x=String(v??'');return /[",\r\n]/.test(x)?`"${x.replace(/"/g,'""')}"`:x}
+function parseCSV(raw){
+  const src=String(raw||'').replace(/^\uFEFF/,'');const rows=[];let row=[],cell='',quoted=false;
+  for(let i=0;i<src.length;i++){
+    const ch=src[i];
+    if(quoted){if(ch==='"'){if(src[i+1]==='"'){cell+='"';i++}else quoted=false}else cell+=ch}
+    else if(ch==='"')quoted=true;
+    else if(ch===','){row.push(cell);cell=''}
+    else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell=''}
+    else if(ch!=='\r')cell+=ch;
+  }
+  row.push(cell);if(row.some(x=>x!==''))rows.push(row);return rows
+}
+function exportCSV(){
+  const headers=['version','rows','cols','row','column','visible','tag','diameter_nominal','diameter_exterior_mm','column_x_mm','row_bottom_mm','bank_width_mm','bank_height_mm','grade_to_signal_mm','signal_to_bank_mm','cable_nominal','layer','units'];
+  const data=[headers];
+  for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++){
+    const nominal=s.pipes[r]?.[c]||'',visible=nominal?1:0,od=nominal?(mm(nominal)??''):'';
+    data.push(['BD19',s.rows,s.cols,r+1,c+1,visible,String(s.tags?.[r]?.[c]??''),nominal,od,s.xs[c],s.ys[r],s.width,s.height,s.gradeToSignal,s.signalToBank,s.cable,s.layer,s.units]);
+  }
+  const csv='\uFEFF'+data.map(row=>row.map(csvEscape).join(',')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='banco_ductos_datos_v19.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)
+}
+function importCSVText(raw){
+  const table=parseCSV(raw);if(table.length<2)throw new Error('El archivo CSV no contiene datos.');
+  const headers=table[0].map(x=>x.trim()),required=['version','rows','cols','row','column','visible','tag','diameter_nominal','column_x_mm','row_bottom_mm','bank_width_mm','bank_height_mm','grade_to_signal_mm','signal_to_bank_mm','cable_nominal','layer','units'];
+  const missing=required.filter(h=>!headers.includes(h));if(missing.length)throw new Error('Faltan columnas requeridas: '+missing.join(', '));
+  const idx=Object.fromEntries(headers.map((h,i)=>[h,i])),records=table.slice(1).filter(row=>row.some(x=>String(x).trim()!==''));if(!records.length)throw new Error('El archivo CSV no contiene filas de ductos.');
+  const val=(row,name)=>String(row[idx[name]]??'').trim(),num=(row,name)=>Number(val(row,name));
+  const first=records[0],rows=num(first,'rows'),cols=num(first,'cols'),width=num(first,'bank_width_mm'),height=num(first,'bank_height_mm'),gradeToSignal=num(first,'grade_to_signal_mm'),signalToBank=num(first,'signal_to_bank_mm'),layer=val(first,'layer'),units=val(first,'units'),cable=val(first,'cable_nominal');
+  if(!Number.isInteger(rows)||rows<1||rows>15||!Number.isInteger(cols)||cols<1||cols>15)throw new Error('Filas o columnas fuera del rango permitido (1–15).');
+  if(!valid(width)||!valid(height)||!valid(gradeToSignal)||!valid(signalToBank))throw new Error('Las dimensiones generales del CSV no son válidas.');
+  if(!['1','2','3'].includes(layer)||!['mm','m','in','ft'].includes(units))throw new Error('La capa o la unidad del CSV no es válida.');
+  const catalogLabels=new Set(s.catalog.map(x=>x.label));if(!catalogLabels.has(cable))throw new Error(`El diámetro de puesta a tierra ${cable}" no existe en diametros_tuberia.js.`);
+  const pipes=Array.from({length:rows},()=>Array(cols).fill(null)),tags=Array.from({length:rows},()=>Array(cols).fill('')),xs=Array(cols).fill(null),ys=Array(rows).fill(null),missingDiameters=new Set(),seen=new Set();
+  for(const rec of records){
+    const r=num(rec,'row')-1,c=num(rec,'column')-1;if(!Number.isInteger(r)||!Number.isInteger(c)||r<0||r>=rows||c<0||c>=cols)throw new Error('Existe una fila o columna de ducto fuera de rango.');
+    const k=`${r}:${c}`;if(seen.has(k))throw new Error(`La posición fila ${r+1}, columna ${c+1} está repetida.`);seen.add(k);
+    const x=num(rec,'column_x_mm'),y=num(rec,'row_bottom_mm');if(!Number.isFinite(x)||x<0||x>width||!Number.isFinite(y)||y<0||y>height)throw new Error(`Coordenadas inválidas en fila ${r+1}, columna ${c+1}.`);
+    if(xs[c]===null)xs[c]=x;else if(Math.abs(xs[c]-x)>1e-6)throw new Error(`La posición X de la columna ${c+1} no es consistente.`);
+    if(ys[r]===null)ys[r]=y;else if(Math.abs(ys[r]-y)>1e-6)throw new Error(`La posición vertical de la fila ${r+1} no es consistente.`);
+    const visible=val(rec,'visible')!=='0',nominal=val(rec,'diameter_nominal');tags[r][c]=val(rec,'tag');
+    if(visible){if(!nominal)throw new Error(`Falta diámetro nominal en fila ${r+1}, columna ${c+1}.`);if(!catalogLabels.has(nominal))missingDiameters.add(nominal);pipes[r][c]=nominal}else tags[r][c]='';
+  }
+  if(seen.size!==rows*cols)throw new Error(`El CSV debe contener las ${rows*cols} posiciones de la matriz, incluidas las vacías.`);
+  if(missingDiameters.size)throw new Error('Estos diámetros no existen en diametros_tuberia.js: '+[...missingDiameters].map(x=>x+'"').join(', ')+'. Agréguelos al archivo de diámetros antes de importar.');
+  if(xs.some(v=>v===null)||ys.some(v=>v===null))throw new Error('No fue posible reconstruir todas las posiciones de filas y columnas.');
+  const before=snapshot();s={...s,rows,cols,width,height,gradeToSignal,signalToBank,layer,units,cable,pipes,tags,xs,ys,catalog:s.catalog};selected.clear();activeKey=null;selectedDimIds.clear();remember(before);save();renderCatalog();render();
+}
+function exportCatalogCSV(){
+  const rows=[['diametro_nominal','diametro_exterior_mm'],...s.catalog.map(it=>[it.label,it.mm==null?'':it.mm])];
+  const csv='\uFEFF'+rows.map(row=>row.map(csvEscape).join(',')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='diametros_tuberia.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function importCatalogCSVText(raw){
+  const table=parseCSV(raw);if(table.length<2)throw new Error('El archivo no contiene diámetros.');
+  const headers=table[0].map(x=>String(x).trim().toLowerCase()),iNom=headers.indexOf('diametro_nominal'),iMm=headers.indexOf('diametro_exterior_mm');
+  if(iNom<0||iMm<0)throw new Error('Se requieren las columnas diametro_nominal y diametro_exterior_mm.');
+  const next=[],seen=new Set();
+  for(const row of table.slice(1)){if(!row.some(x=>String(x).trim()))continue;const label=String(row[iNom]??'').trim(),rawMm=String(row[iMm]??'').trim();if(!label)throw new Error('Existe un diámetro nominal vacío.');if(seen.has(label))throw new Error('Diámetro nominal duplicado: '+label);seen.add(label);let od=null;if(rawMm!==''){od=Number(rawMm);if(!valid(od))throw new Error('Diámetro exterior inválido para '+label+' pulgadas.')}next.push({label,mm:od})}
+  if(!next.length)throw new Error('No se encontraron diámetros válidos.');
+  const used=new Set(s.pipes.flat().filter(Boolean));used.add(s.cable);const missing=[...used].filter(x=>!seen.has(x));if(missing.length)throw new Error('La tabla importada no contiene diámetros actualmente en uso: '+missing.map(x=>x+'\"').join(', '));
+  const before=snapshot();s.catalog=next;remember(before);save();renderCatalog();render();
+}
+$('exportCatalogCsv').onclick=exportCatalogCSV;
+$('importCatalogCsv').onclick=()=>$('catalogCsvInput').click();
+$('catalogCsvInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{importCatalogCSVText(await file.text());alert('Tabla de diámetros importada correctamente para esta sesión.')}catch(err){alert('No se pudo importar la tabla de diámetros.\n\n'+(err?.message||err))}});
+$('exportCsv').onclick=exportCSV;
+$('importCsv').onclick=()=>$('csvImportInput').click();
+$('csvImportInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{importCSVText(await file.text());alert('CSV importado correctamente.')}catch(err){alert('No se pudo importar el CSV.\n\n'+(err?.message||err))}});
+
+const doUndo=()=>{if(!history.length)return;s=JSON.parse(history.pop());selected.clear();activeKey=null;selectedDimIds.clear();copyMode='idle';copySource=[];copyDirection=null;mirrorSelectMode=false;moveMode='idle';moveSource=[];moveDirection=null;updateUndo();save();renderCatalog();render()};
+$('undo').onclick=doUndo;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if($('editDialog').open){e.preventDefault();action=null;$('editDialog').close();return}
+    if(copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'){e.preventDefault();cancelInteractive(false);return}
+    if(selectedDimIds.size){e.preventDefault();selectedDimIds.clear();render();return}
+    if(selected.size){e.preventDefault();selected.clear();activeKey=null;render();return}
+  }
+  const t=e.target,tag=t?.tagName?.toLowerCase(),editing=t?.isContentEditable||['input','textarea','select'].includes(tag),anyDialog=!!document.querySelector('dialog[open]');
+  if(!editing&&!anyDialog&&e.key==='Delete'&&selectedItems().length){e.preventDefault();deleteSelection();return}
+  if(!editing&&!anyDialog&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&String(e.key).toLowerCase()==='m'&&selectedItems().length&&copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle'){e.preventDefault();beginMovePlacement();return}
+  if(!(e.ctrlKey||e.metaKey)||e.shiftKey||String(e.key).toLowerCase()!=='z')return;
+  if(anyDialog||editing)return;
+  e.preventDefault();doUndo();
+});
+$('toolUnits').onclick=()=>ask('Unidades',`<label>Unidad activa<select id="unitsPick"><option value="mm" ${s.units==='mm'?'selected':''}>Milímetros (mm)</option><option value="m" ${s.units==='m'?'selected':''}>Metros (m)</option><option value="in" ${s.units==='in'?'selected':''}>Pulgadas (in)</option><option value="ft" ${s.units==='ft'?'selected':''}>Pies (ft)</option></select></label>`,()=>{s.units=$('unitsPick').value});
+$('toolRows').onclick=()=>ask('Filas',`<label>Número de filas<input id="rowsPick" type="number" min="1" max="15" step="1" value="${s.rows}"></label>`,()=>{const n=Number($('rowsPick').value);if(!Number.isInteger(n)||n<1||n>15){alert('Ingrese un número entero entre 1 y 15.');return false}s.rows=n;resize();s.ys=Array.from({length:s.rows},(_,i)=>s.height*(i+1)/(s.rows+1));selected.clear();activeKey=null});
+$('toolCols').onclick=()=>ask('Columnas',`<label>Número de columnas<input id="colsPick" type="number" min="1" max="15" step="1" value="${s.cols}"></label>`,()=>{const n=Number($('colsPick').value);if(!Number.isInteger(n)||n<1||n>15){alert('Ingrese un número entero entre 1 y 15.');return false}s.cols=n;resize();s.xs=Array.from({length:s.cols},(_,i)=>s.width*(i+1)/(s.cols+1));selected.clear();activeKey=null});
+$('toolWidth').onclick=()=>editNumber('Ancho del banco',s.width,n=>{s.width=n;s.xs=s.xs.map((_,i)=>s.width*(i+1)/(s.cols+1))});
+$('toolHeight').onclick=()=>editNumber('Alto del banco',s.height,n=>{s.height=n;s.ys=s.ys.map((_,i)=>s.height*(i+1)/(s.rows+1))});
+$('toolCable').onclick=()=>editCable();
+$('toolLayer').onclick=()=>ask('Capa de dimensiones',`<label>Presentación<select id="layerPick"><option value="2" ${s.layer==='2'?'selected':''}>Encadenada</option><option value="3" ${s.layer==='3'?'selected':''}>Centro</option><option value="1" ${s.layer==='1'?'selected':''}>Inferior</option></select></label>`,()=>{s.layer=$('layerPick').value;selectedDimIds.clear()});
+$('toolMirror').onclick=startMirrorSelect;
+$('mirrorHorizontal').onclick=()=>applySymmetry('horizontal');
+$('mirrorVertical').onclick=()=>applySymmetry('vertical');
+$('moveNumeric').onclick=moveNumericDialog;
+$('copyConfirm').onclick=beginCopyPlacement;
+$('copyCancel').onclick=()=>cancelInteractive(false);
+$('drawing').addEventListener('pointerdown',e=>{
+  if(e.pointerType==='touch')return;
+  if(e.button!==undefined&&e.button!==0)return;if(copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'||!isDrawingBackgroundTarget(e.target))return;
+  startMarquee(e);
+});
+$('drawing').addEventListener('pointermove',e=>{updateCopyDirectionFromPointer(e);if(e.pointerType!=='touch')updateMarquee(e)});
+$('drawing').addEventListener('pointerup',e=>{if(e.pointerType!=='touch')finishMarquee(e,false)});
+$('drawing').addEventListener('pointercancel',e=>{if(e.pointerType!=='touch')finishMarquee(e,true)});
+$('drawing').addEventListener('contextmenu',e=>{if(marqueeState?.pointerType==='touch-native'||touchMarqueePending)e.preventDefault()});
+$('drawing').addEventListener('touchstart',e=>{
+  if(e.touches.length!==1||copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'||!isDrawingBackgroundTarget(e.target))return;
+  const t=e.touches[0];clearTimeout(marqueeTouchTimer);touchMarqueePending={identifier:t.identifier,startClientX:t.clientX,startClientY:t.clientY,target:e.target,lastClientX:t.clientX,lastClientY:t.clientY};
+  marqueeTouchTimer=setTimeout(()=>{
+    if(!touchMarqueePending)return;
+    const ghost={identifier:touchMarqueePending.identifier,clientX:touchMarqueePending.lastClientX,clientY:touchMarqueePending.lastClientY};
+    if(startTouchMarquee(ghost,touchMarqueePending.target))showCopyHint('Selección por ventana · arrastre sin levantar el dedo',900);
+    touchMarqueePending=null;marqueeTouchTimer=null;
+  },700);
+},{passive:true});
+$('drawing').addEventListener('touchmove',e=>{
+  if(touchMarqueePending){const t=touchById(e.touches,touchMarqueePending.identifier);if(!t)return;touchMarqueePending.lastClientX=t.clientX;touchMarqueePending.lastClientY=t.clientY;if(Math.hypot(t.clientX-touchMarqueePending.startClientX,t.clientY-touchMarqueePending.startClientY)>10){clearTimeout(marqueeTouchTimer);marqueeTouchTimer=null;touchMarqueePending=null}return}
+  if(marqueeState?.pointerType==='touch-native'){
+    const id=Number(String(marqueeState.pointerId).replace('touch-','')),t=touchById(e.touches,id);if(!t)return;e.preventDefault();updateTouchMarquee(t);
+  }
+},{passive:false});
+$('drawing').addEventListener('touchend',e=>{
+  if(touchMarqueePending){const ended=touchById(e.changedTouches,touchMarqueePending.identifier);if(ended){clearTimeout(marqueeTouchTimer);marqueeTouchTimer=null;touchMarqueePending=null}return}
+  if(marqueeState?.pointerType==='touch-native'){const id=Number(String(marqueeState.pointerId).replace('touch-','')),ended=touchById(e.changedTouches,id);if(ended){e.preventDefault();finishTouchMarquee(id,false)}}
+},{passive:false});
+$('drawing').addEventListener('touchcancel',e=>{
+  clearTimeout(marqueeTouchTimer);marqueeTouchTimer=null;touchMarqueePending=null;
+  if(marqueeState?.pointerType==='touch-native'){const id=Number(String(marqueeState.pointerId).replace('touch-',''));finishTouchMarquee(id,true)}
+},{passive:false});
+$('applyDimensions').onclick=()=>{
+  const items=[...selectedDimIds].map(id=>dimRegistry.get(id)).filter(Boolean);if(!items.length)return;
+  const raw=Number($('dimValue').value);if(!valid(raw)){alert('Ingrese un valor mayor que cero.');return}
+  const value=fromDisplay(raw),before=snapshot();
+  for(const item of items){const ok=item.setter(value);if(ok===false){restoreSnapshot(before);render();return}}
+  if(rejectIfOverlap(before,'Ese valor de dimensión produciría superposición entre ductos.')){render();return}
+  remember(before);selectedDimIds.clear();save();render();
+};
+$('cancelDimensions').onclick=()=>{selectedDimIds.clear();render()};
+$('dimSelectionPanel').addEventListener('keydown',e=>{if(e.key==='Enter'&&!['button','textarea'].includes(e.target?.tagName?.toLowerCase())){e.preventDefault();$('applyDimensions').click()}});
+$('applyDiameter').onclick=()=>{const items=selectedItems(),label=$('selectionDiameter').value;if(!items.length||!label)return;const before=snapshot();items.forEach(p=>s.pipes[p.r][p.c]=label);if(rejectIfOverlap(before,'Ese diámetro no cabe en la separación actual. Ajuste las dimensiones antes de aplicarlo.')){render();return}remember(before);save();render()};
+$('applyTag').onclick=()=>{const items=selectedItems();if(!items.length)return;const input=$('selectionTag'),tag=input.value.trim();if(input.dataset.mixed==='1'&&!tag&&!confirm('Las etiquetas seleccionadas son diferentes. ¿Desea borrar todas las etiquetas de la selección?'))return;const before=snapshot();items.forEach(p=>s.tags[p.r][p.c]=tag);remember(before);save();render()};
+$('selectionPanel').addEventListener('keydown',e=>{if(e.key!=='Enter'||['button','textarea'].includes(e.target?.tagName?.toLowerCase()))return;e.preventDefault();if(e.target?.id==='selectionTag')$('applyTag').click();else $('applyDiameter').click()});
+$('selectionTag').addEventListener('focus',e=>{try{e.target.select()}catch{}});
+$('selectionTag').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();e.stopPropagation();$('applyTag').click()}});
+$('dimValue').addEventListener('focus',e=>{try{e.target.select()}catch{}});
+$('clearSelection').onclick=()=>{selected.clear();activeKey=null;render()};
+$('drawing').addEventListener('click',e=>{if(suppressBackgroundClick){suppressBackgroundClick=false;return}if(copyMode==='place'){commitCopy();return}if(moveMode==='place'){commitMove();return}if(!isDrawingBackgroundTarget(e.target))return;if(mirrorSelectMode)return;selected.clear();activeKey=null;selectedDimIds.clear();render()});
+window.addEventListener('resize',()=>{if($('section').classList.contains('active'))render()});
+const repairedAtLoad=!geometryClearanceValid()&&repairGeometryClearance();
+renderCatalog();render();updateUndo();
+if(repairedAtLoad)setTimeout(()=>showCopyHint('Se ajustaron automáticamente los ejes para respetar el área de cada ducto.',1600),120);
+})();
+</script>
+
+<script>
+(()=>{
+  const q=id=>document.getElementById(id);
+  const splash=q('introSplash');
+  const info=q('infoDialog'), title=q('infoTitle'), body=q('infoBody');
+  const infoContent={
+    about:{title:'Acerca de Ductos 2D',html:`<p><strong>Ductos 2D</strong> es una herramienta web para diseñar y documentar secciones transversales de bancos de ductos eléctricos e instrumentación mediante una interfaz gráfica, paramétrica e interactiva.</p><div class="info-grid"><span>Diseño</span><strong>Arley Zarate</strong><span>Desarrollo</span><strong>Nova (IA)</strong><span>Versión</span><strong>1.5</strong><span>Fecha</span><strong>14 de octubre de 2026</strong></div>`},
+    help:{title:'Instrucciones de uso',html:`<ul><li>Seleccione uno o varios ductos con clic/toque; en móvil, mantenga presionada un área vacía y arrastre para selección rectangular.</li><li>Use el control radial para editar, copiar, mover, agregar o eliminar ductos. Los botones + agregan directamente la selección actual en la dirección elegida.</li><li>Las herramientas laterales controlan unidades, filas, columnas, dimensiones, puesta a tierra, simetría y exportación.</li><li>Las cotas pueden seleccionarse y editarse individualmente o en conjunto.</li><li>Al mover, un ducto o una selección irregular trabaja sobre la grilla; una fila completa puede tener desplazamiento vertical numérico y una columna completa desplazamiento horizontal numérico.</li><li><strong>Enter</strong> aplica las ventanas activas, <strong>Esc</strong> cancela, <strong>Supr/Delete</strong> elimina la selección, <strong>M</strong> activa Mover y <strong>Ctrl+Z</strong> deshace.</li></ul>`},
+    intent:{title:'Intención',html:`<p>Facilitar el diseño, ajuste y documentación técnica de bancos de ductos 2D, reduciendo tareas repetitivas y manteniendo coherencia geométrica, dimensional y de etiquetado en una herramienta ligera que funcione tanto en escritorio como en móvil.</p>`}
+  };
+  function openInfo(kind){const c=infoContent[kind];if(!c||!info)return;title.textContent=c.title;body.innerHTML=c.html;info.showModal()}
+  q('showAbout')?.addEventListener('click',()=>openInfo('about'));
+  q('showHelp')?.addEventListener('click',()=>openInfo('help'));
+  q('showIntent')?.addEventListener('click',()=>openInfo('intent'));
+  q('infoClose')?.addEventListener('click',()=>info.close());
+  info?.addEventListener('click',e=>{if(e.target===info)info.close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&info?.open){e.preventDefault();e.stopImmediatePropagation();info.close()}},true);
+  setTimeout(()=>{if(splash){splash.hidden=true}},2350);
+})();
+</script>
+
+</body>
+</html>
