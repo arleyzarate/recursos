@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ductos 2D · v1.3</title>
+<title>Ductos 2D · v1.7</title>
 <style>
 :root{font-family:system-ui,Segoe UI,Arial,sans-serif;color:#18302d;background:#edf2f0}
 *{box-sizing:border-box}html,body{height:100%;overflow:hidden}body{margin:0;min-height:100dvh;display:flex;flex-direction:column}header{flex:0 0 auto;background:#153b35;color:white;padding:clamp(7px,1.25vh,14px) max(2vw,14px)}h1{font-size:clamp(1rem,1.45vw,1.35rem);margin:0 0 3px;line-height:1.1}header p{margin:0;color:#c9dfd6;font-size:clamp(.7rem,.9vw,.86rem);line-height:1.1}
@@ -96,6 +96,17 @@ dialog{background:#171020;color:#f7f3ff;border:1px solid #543a69;box-shadow:0 25
 .bg-icon:before{left:2px;top:7px;opacity:.65}
 .bg-icon:after{left:7px;top:2px;background:linear-gradient(135deg,transparent 46%,currentColor 47% 52%,transparent 53%);box-shadow:inset 0 0 0 1px #ffffff10}
 
+
+/* ===== Coordenadas X,Y · v1.7 ===== */
+.top-tools{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;align-items:start}
+#toolCoordinates{grid-column:2;grid-row:2;font-size:12px;letter-spacing:-.2px}
+.coord-dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;z-index:85;width:min(920px,96vw);max-width:calc(100vw - 12px);max-height:calc(100vh - 12px);min-width:min(440px,calc(100vw - 12px));min-height:300px;padding:18px;overflow:hidden;resize:none}
+.coord-dialog[open]{display:flex;flex-direction:column}
+.coord-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;cursor:move;user-select:none}.coord-head h2{margin:0;color:#fff;font-size:1.08rem}.coord-sub{margin:4px 0 0;color:#b9aecb;font-size:.78rem}.coord-head button,.coord-head input,.coord-head select{cursor:pointer}
+.coord-origin-wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0 12px;padding:10px;border:1px solid #443254;border-radius:12px;background:#120d1a}.coord-origin-label{font-size:.76rem;font-weight:800;color:#bfaed5}.coord-origin{display:grid;grid-template-columns:repeat(2,42px);grid-template-rows:repeat(2,34px);gap:5px;padding:5px;border:1px solid #5a416e;border-radius:10px;background:#1b1327}.coord-origin button{border:1px solid #5a416e;border-radius:8px;background:#21172d;color:#cfc3dd;font-weight:900;cursor:pointer}.coord-origin button.active{background:#7c3aed;color:#fff;border-color:#b59cff;box-shadow:0 0 0 2px #8b5cf633}.coord-origin-name{font-size:.8rem;color:#e5dcf2;font-weight:750}
+.coord-actions{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}.coord-table-wrap{overflow:auto;min-height:120px;flex:1 1 auto;border:1px solid #443254;border-radius:12px;background:#120d1a}.coord-table{width:100%;border-collapse:collapse;min-width:760px}.coord-table th{position:sticky;top:0;z-index:2;background:#241732;color:#f5efff;font-size:.76rem;text-align:left;padding:8px;border-bottom:1px solid #5a416e}.coord-table td{padding:7px 8px;border-bottom:1px solid #30233a;color:#e7dff1;font-size:.78rem}.coord-table tr{cursor:pointer}.coord-table tbody tr:hover{background:#21172d}.coord-table tbody tr.selected{background:#38204f;box-shadow:inset 3px 0 #a78bfa}.coord-table input,.coord-table select{margin:0!important;padding:7px!important;min-width:96px;background:#0f0a16!important;color:#fff!important;border:1px solid #5a416e!important;border-radius:7px!important}.coord-table input.coord-tag{min-width:130px}.coord-table select.coord-diameter{min-width:88px}.coord-table input:focus,.coord-table select:focus{outline:2px solid #8b5cf6!important}.coord-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;color:#a99abf;font-size:.72rem}.coord-close{flex:0 0 auto}.coord-pick{fill:none;stroke:#a78bfa;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.coord-resize-handle{position:absolute;z-index:6;background:#D03036;border-radius:99px;box-shadow:0 0 0 1px #fff4,0 2px 8px #0007;opacity:.95}.coord-resize-handle[data-edge="top"],.coord-resize-handle[data-edge="bottom"]{width:72px;height:7px;left:50%;transform:translateX(-50%);cursor:ns-resize}.coord-resize-handle[data-edge="top"]{top:2px}.coord-resize-handle[data-edge="bottom"]{bottom:2px}.coord-resize-handle[data-edge="left"],.coord-resize-handle[data-edge="right"]{width:7px;height:72px;top:50%;transform:translateY(-50%);cursor:ew-resize}.coord-resize-handle[data-edge="left"]{left:2px}.coord-resize-handle[data-edge="right"]{right:2px}.coord-origin-marker circle{fill:#1d74ff;stroke:#fff;stroke-width:2}.coord-origin-marker line{stroke:#1d74ff;stroke-width:2;stroke-linecap:round}.coord-origin-marker text{fill:#1d74ff;font-size:10px;font-weight:900;paint-order:stroke;stroke:#fff;stroke-width:3px}
+@media(max-width:760px){.top-tools{grid-template-columns:42px 42px;grid-template-rows:42px 42px}.coord-dialog{width:calc(100vw - 12px);max-width:calc(100vw - 12px);min-width:calc(100vw - 12px);padding:12px}.coord-actions{width:100%;margin-left:0}.coord-actions .btn{flex:1}.coord-origin-wrap{align-items:flex-start}.coord-foot{align-items:flex-start;flex-direction:column}.coord-table{min-width:720px}.coord-resize-handle[data-edge="left"],.coord-resize-handle[data-edge="right"]{height:56px}.coord-resize-handle[data-edge="top"],.coord-resize-handle[data-edge="bottom"]{width:56px}}
 </style>
 </head>
 <body>
@@ -143,6 +154,7 @@ dialog{background:#171020;color:#f7f3ff;border:1px solid #543a69;box-shadow:0 25
     <div class="top-tools" aria-label="Acciones generales">
       <button class="tool-icon emphasis" id="undo" data-tip="Deshacer" title="Deshacer" disabled>↶</button>
       <button class="tool-icon emphasis" id="reset" data-tip="Restablecer" title="Restablecer">⟳</button>
+      <button class="tool-icon" id="toolCoordinates" data-tip="Coordenadas X,Y" title="Coordenadas X,Y" type="button">X,Y</button>
     </div>
     <div class="right-tools" aria-label="Herramientas laterales derechas">
     </div>
@@ -244,6 +256,40 @@ dialog{background:#171020;color:#f7f3ff;border:1px solid #543a69;box-shadow:0 25
   <h2 id="infoTitle">Ductos 2D</h2>
   <div id="infoBody" class="info-body"></div>
 </dialog>
+
+<dialog id="coordDialog" class="coord-dialog">
+  <div class="coord-head">
+    <div><h2>Coordenadas de ductos</h2><p class="coord-sub">Edite etiqueta, diámetro, X o Y. Enter aplica el campo activo.</p></div>
+    <button class="btn coord-close" id="coordClose" type="button">Cerrar</button>
+  </div>
+  <div class="coord-origin-wrap">
+    <span class="coord-origin-label">Origen</span>
+    <div class="coord-origin" aria-label="Origen de coordenadas">
+      <button type="button" data-coord-origin="tl" title="Superior izquierdo">↖</button>
+      <button type="button" data-coord-origin="tr" title="Superior derecho">↗</button>
+      <button type="button" data-coord-origin="bl" title="Inferior izquierdo">↙</button>
+      <button type="button" data-coord-origin="br" title="Inferior derecho">↘</button>
+    </div>
+    <strong class="coord-origin-name" id="coordOriginName"></strong>
+    <div class="coord-actions">
+      <button class="btn small" id="coordExportCsv" type="button">CSV↓</button>
+      <button class="btn small" id="coordImportCsv" type="button">CSV↑</button>
+      <button class="btn small" id="coordExportPng" type="button">PNG↓</button>
+      <input id="coordCsvInput" type="file" accept=".csv,text/csv" hidden>
+    </div>
+  </div>
+  <div class="coord-table-wrap">
+    <table class="coord-table">
+      <thead><tr><th>Posición</th><th>Etiqueta</th><th>Ø nominal</th><th id="coordXHead">X</th><th id="coordYHead">Y</th></tr></thead>
+      <tbody id="coordBody"></tbody>
+    </table>
+  </div>
+  <div class="coord-foot"><span>Fila × columna se numera desde abajo hacia arriba y de izquierda a derecha.</span><span>Enter aplica · Esc cierra</span></div>
+  <span class="coord-resize-handle" data-edge="top" title="Cambiar alto"></span>
+  <span class="coord-resize-handle" data-edge="right" title="Cambiar ancho"></span>
+  <span class="coord-resize-handle" data-edge="bottom" title="Cambiar alto"></span>
+  <span class="coord-resize-handle" data-edge="left" title="Cambiar ancho"></span>
+</dialog>
 <dialog id="editDialog"><h3 id="dialogTitle"></h3><div id="dialogBody"></div><menu><button class="btn" id="cancel" type="button">Cancelar</button><button class="btn primary" id="apply" type="button">Aplicar</button></menu></dialog>
 <script src="diametros_tuberia.js"></script>
 <script>
@@ -301,6 +347,8 @@ let suppressBackgroundClick=false;
 let lastPipeFocusSignature='';
 let lastDimFocusSignature='';
 let backgroundMode='image'; // Fondo 1 activo por defecto; Fondo 2 = estilo sólido actual.
+let coordOrigin='bl';
+try{const savedOrigin=localStorage.getItem('ductos2d-coord-origin-v31')||localStorage.getItem('ductos2d-coord-origin-v30');if(['bl','br','tl','tr'].includes(savedOrigin))coordOrigin=savedOrigin}catch{}
 const key=(r,c)=>`${r}:${c}`;
 const parseKey=k=>k?{r:Number(k.split(':')[0]),c:Number(k.split(':')[1])}:null;
 const snapshot=()=>JSON.stringify(s);
@@ -368,7 +416,7 @@ function normalizeSelection(){
 function selectedItems(){normalizeSelection();return [...selected].map(k=>({...parseKey(k),k})).filter(p=>s.pipes[p.r]?.[p.c])}
 function updateSelectionPanel(){
   const items=selectedItems(),panel=$('selectionPanel');
-  const panelVisible=items.length>0&&copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle';
+  const panelVisible=items.length>0&&copyMode==='idle'&&!mirrorSelectMode&&moveMode==='idle'&&!$('coordDialog')?.open;
   panel.classList.toggle('visible',panelVisible);
   $('selectionCount').textContent=`Seleccionados: ${items.length}`;
   const sel=$('selectionDiameter');sel.replaceChildren();
@@ -940,7 +988,7 @@ function render(){
   svgEl('polygon',{points:`${layoutCenterX-coneTopW/2},${brownBottom} ${layoutCenterX+coneTopW/2},${brownBottom} ${layoutCenterX+yellowW/2},${yellowBottom} ${layoutCenterX-yellowW/2},${yellowBottom}`,fill:coneFill,stroke:'#9d8268','stroke-width':1.5});
 
   // Franja café de transición tierra/aire, a todo el ancho del navegador.
-  svgEl('rect',{x:0,y:gradeY,width:outerW,height:Math.max(0,topCourseH),fill:orangeFill});
+  if(backgroundMode!=='image')svgEl('rect',{x:0,y:gradeY,width:outerW,height:Math.max(0,topCourseH),fill:orangeFill});
 
   // Material de relleno café medio: se extiende verticalmente con el mismo ancho del banco.
   if(redTop>brownBottom)svgEl('rect',{x:left,y:brownBottom,width:bw,height:redTop-brownBottom,fill:purpleFill});
@@ -950,11 +998,22 @@ function render(){
 
   // Cama inferior café claro: 5 cm de alto y 5 cm de sobreancho a cada lado.
   svgEl('rect',{x:yellowLeft,y:yellowTop,width:yellowW,height:yellowH,fill:yellowFill});
-  line(0,gradeY,outerW,gradeY,'grade-boundary');
+  if(backgroundMode!=='image')line(0,gradeY,outerW,gradeY,'grade-boundary');
 
   // Banco
   svgEl('rect',{x:left,y:top,width:bw,height:bh,fill:'#c7c9bd',stroke:'#5c615b','stroke-width':3});
   svgEl('rect',{x:left+5,y:top+5,width:Math.max(0,bw-10),height:Math.max(0,bh-10),fill:'none',stroke:'#ffffff77','stroke-width':2});
+
+  // Punto de origen visible mientras la tabla X,Y está abierta.
+  if($('coordDialog')?.open){
+    const ox=coordOrigin.endsWith('r')?right:left,oy=coordOrigin.startsWith('t')?top:bottom;
+    const sx=coordOrigin.endsWith('r')?-1:1,sy=coordOrigin.startsWith('t')?1:-1;
+    const og=svgEl('g',{class:'coord-origin-marker svg-action','pointer-events':'none'});
+    svgEl('circle',{cx:ox,cy:oy,r:7},og);
+    line(ox,oy,ox+sx*24,oy,'coord-origin-marker-line',og);
+    line(ox,oy,ox,oy+sy*24,'coord-origin-marker-line',og);
+    const tx=svgEl('text',{x:ox+sx*28,y:oy+(sy<0?-8:14),'text-anchor':sx<0?'end':'start'},og);tx.textContent='0,0';
+  }
 
   // Varillas dobles: horizontales debajo de los ductos, tapas superiores y amarres en X.
   const supportInset=Math.max(12,Math.min(24,bw*.06)),supportLeft=left+supportInset,supportRight=right-supportInset,rodGap=5.75;
@@ -1076,6 +1135,7 @@ function render(){
   const visiblePipes=s.pipes.flat().filter(Boolean).length;
   const st=$('status');st.className='status'+(warnings.length?' bad':'');
   st.textContent=mirrorSelectMode?`Modo simetría · seleccione uno o varios ductos (${selected.size} seleccionado(s)) y elija Horizontal o Vertical.`:moveMode==='place'?`Modo mover · ${moveDirection?'destino '+directionLabel(moveDirection).toLowerCase():'mueva el puntero para elegir dirección'} · clic para colocar · Esc cancela.`:copyMode==='select'?`Modo copia · seleccione uno o varios ductos (${selected.size} seleccionado(s)).`:copyMode==='place'?`Modo copia · ${copyDirection?'destino '+directionLabel(copyDirection).toLowerCase():'mueva el puntero para elegir dirección'} · clic para colocar · Esc cancela.`:(warnings.length?`Revisar geometría: ${[...new Set(warnings)].slice(0,7).join(' | ')}${warnings.length>7?' …':''}`:`Sin interferencias detectadas. ${visiblePipes} ducto(s) visibles · ${selected.size} seleccionado(s) · ${layerName()}. Autoescala: ${Number(scale.toFixed(3))} px/mm.`);
+  if($('coordDialog')?.open)renderCoordTable();
   save();
 }
 function applySymmetry(axis){
@@ -1089,6 +1149,151 @@ function applySymmetry(axis){
   }
   selected=next;activeKey=[...next].at(-1)||activeKey;mirrorSelectMode=false;remember(before);save();showCopyHint(`Simetría ${axis==='horizontal'?'horizontal':'vertical'} · ${created} creado(s)${skipped?' · '+skipped+' ocupado(s) omitido(s)':''}`,1100);render();return true;
 }
+
+function coordOriginLabel(){return ({bl:'Inferior izquierdo',br:'Inferior derecho',tl:'Superior izquierdo',tr:'Superior derecho'})[coordOrigin]||'Inferior izquierdo'}
+function coordData(){
+  const rows=[];
+  for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++){
+    const label=s.pipes[r]?.[c];if(!label)continue;const d=mm(label);if(!d)continue;
+    const absX=s.xs[c],absY=s.ys[r]+d/2;
+    const x=(coordOrigin.endsWith('r'))?s.width-absX:absX;
+    const y=(coordOrigin.startsWith('t'))?s.height-absY:absY;
+    rows.push({r,c,k:key(r,c),pos:(r+1)+'x'+(c+1),tag:String(s.tags?.[r]?.[c]??''),label,d,absX,absY,x,y});
+  }
+  return rows;
+}
+function coordToAbsolute(xDisplay,yDisplay){
+  const xMm=fromDisplay(Number(xDisplay)),yMm=fromDisplay(Number(yDisplay));
+  if(!Number.isFinite(xMm)||!Number.isFinite(yMm))return null;
+  return {x:coordOrigin.endsWith('r')?s.width-xMm:xMm,y:coordOrigin.startsWith('t')?s.height-yMm:yMm};
+}
+function findAxis(values,target,tol=0.01){let best=-1,bestD=Infinity;values.forEach((v,i)=>{const d=Math.abs(v-target);if(d<bestD){bestD=d;best=i}});return bestD<=tol?best:-1}
+function insertCoordColumn(x){
+  if(s.cols>=15)return -1;let idx=s.xs.findIndex(v=>v>x);if(idx<0)idx=s.cols;
+  s.pipes.forEach(row=>row.splice(idx,0,null));s.tags.forEach(row=>row.splice(idx,0,''));s.xs.splice(idx,0,x);s.cols++;return idx;
+}
+function insertCoordRow(bottomY){
+  if(s.rows>=15)return -1;let idx=s.ys.findIndex(v=>v>bottomY);if(idx<0)idx=s.rows;
+  s.pipes.splice(idx,0,Array(s.cols).fill(null));s.tags.splice(idx,0,Array(s.cols).fill(''));s.ys.splice(idx,0,bottomY);s.rows++;return idx;
+}
+function removeEmptySourceAxes(oldX,oldY){
+  let rr=findAxis(s.ys,oldY);if(rr>=0&&s.rows>1&&!(s.pipes[rr]||[]).some(Boolean)){s.pipes.splice(rr,1);s.tags.splice(rr,1);s.ys.splice(rr,1);s.rows--}
+  let cc=findAxis(s.xs,oldX);if(cc>=0&&s.cols>1){let any=false;for(let r=0;r<s.rows;r++)if(s.pipes[r]?.[cc]){any=true;break}if(!any){for(let r=0;r<s.rows;r++){s.pipes[r].splice(cc,1);s.tags[r].splice(cc,1)}s.xs.splice(cc,1);s.cols--}}
+}
+function movePipeToCoordinates(r,c,newCenterX,newCenterY){
+  const label=s.pipes[r]?.[c],d=mm(label);if(!label||!d)return false;
+  const half=d/2,newBottom=newCenterY-half;
+  if(newCenterX-half<0||newCenterX+half>s.width||newBottom<0||newBottom+d>s.height){showCopyHint('La coordenada deja el ducto fuera del banco.',1500);return false}
+  const before=snapshot(),tag=String(s.tags?.[r]?.[c]??''),oldX=s.xs[c],oldY=s.ys[r];
+  s.pipes[r][c]=null;s.tags[r][c]='';
+  let tc=findAxis(s.xs,newCenterX);if(tc<0){tc=insertCoordColumn(newCenterX);if(tc<0){restoreSnapshot(before);showCopyHint('Máximo 15 columnas.',1200);return false}}
+  let tr=findAxis(s.ys,newBottom);if(tr<0){tr=insertCoordRow(newBottom);if(tr<0){restoreSnapshot(before);showCopyHint('Máximo 15 filas.',1200);return false}}
+  if(s.pipes[tr]?.[tc]){restoreSnapshot(before);showCopyHint('La posición de destino ya está ocupada.',1450);return false}
+  s.pipes[tr][tc]=label;s.tags[tr][tc]=tag;
+  if(!geometryClearanceValid()){restoreSnapshot(before);showCopyHint('La coordenada produciría superposición entre ductos.',1600);return false}
+  removeEmptySourceAxes(oldX,oldY);
+  const nc=s.xs.reduce((best,v,i)=>Math.abs(v-newCenterX)<Math.abs(s.xs[best]-newCenterX)?i:best,0);
+  const nb=newCenterY-half,nr=s.ys.reduce((best,v,i)=>Math.abs(v-nb)<Math.abs(s.ys[best]-nb)?i:best,0);
+  selected=new Set([key(nr,nc)]);activeKey=key(nr,nc);selectedDimIds.clear();remember(before);save();render();return true;
+}
+function applyCoordTag(item,newTag){
+  const tag=String(newTag??'').trim(),before=snapshot();
+  if(!s.pipes[item.r]?.[item.c])return false;
+  s.tags[item.r][item.c]=tag;selected=new Set([key(item.r,item.c)]);activeKey=key(item.r,item.c);remember(before);save();render();return true;
+}
+function applyCoordDiameter(item,newLabel){
+  if(!s.catalog.some(x=>x.label===newLabel)){showCopyHint('El diámetro seleccionado no existe en el catálogo.',1400);return false}
+  const before=snapshot();if(!s.pipes[item.r]?.[item.c])return false;
+  s.pipes[item.r][item.c]=newLabel;
+  if(rejectIfOverlap(before,'Ese diámetro no cabe en la separación actual.')){render();return false}
+  selected=new Set([key(item.r,item.c)]);activeKey=key(item.r,item.c);remember(before);save();render();return true;
+}
+function renderCoordTable(){
+  const body=$('coordBody');if(!body)return;body.replaceChildren();
+  $('coordOriginName').textContent=coordOriginLabel();$('coordXHead').textContent='X ('+suffix()+')';$('coordYHead').textContent='Y ('+suffix()+')';
+  document.querySelectorAll('[data-coord-origin]').forEach(b=>b.classList.toggle('active',b.dataset.coordOrigin===coordOrigin));
+  coordData().forEach(item=>{
+    const tr=document.createElement('tr');tr.dataset.key=item.k;if(selected.has(item.k))tr.classList.add('selected');
+    const pTd=document.createElement('td');pTd.textContent=item.pos;tr.append(pTd);
+    const tagTd=document.createElement('td'),tag=document.createElement('input');tag.type='text';tag.className='coord-tag';tag.value=item.tag;tag.maxLength=60;tag.setAttribute('aria-label','Etiqueta');tagTd.append(tag);tr.append(tagTd);
+    const dTd=document.createElement('td'),dia=document.createElement('select');dia.className='coord-diameter';dia.setAttribute('aria-label','Diámetro nominal');s.catalog.forEach(opt=>{const o=document.createElement('option');o.value=opt.label;o.textContent=opt.label+'"';if(opt.label===item.label)o.selected=true;dia.append(o)});dTd.append(dia);tr.append(dTd);
+    const xTd=document.createElement('td'),yTd=document.createElement('td'),x=document.createElement('input'),y=document.createElement('input');
+    x.type=y.type='number';x.step=y.step='any';x.value=fmtInput(item.x);y.value=fmtInput(item.y);x.setAttribute('aria-label','Posición X');y.setAttribute('aria-label','Posición Y');
+    xTd.append(x);yTd.append(y);tr.append(xTd,yTd);body.append(tr);
+    tr.addEventListener('click',e=>{if(e.target instanceof HTMLInputElement||e.target instanceof HTMLSelectElement)return;selected=new Set([item.k]);activeKey=item.k;selectedDimIds.clear();render()});
+    [tag,x,y].forEach(inp=>inp.addEventListener('focus',()=>{try{inp.select()}catch{}}));
+    const applyXY=()=>{const abs=coordToAbsolute(x.value,y.value);if(!abs){showCopyHint('Ingrese coordenadas numéricas válidas.',1200);renderCoordTable();return}movePipeToCoordinates(item.r,item.c,abs.x,abs.y)};
+    tag.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();applyCoordTag(item,tag.value)}});
+    tag.addEventListener('change',()=>applyCoordTag(item,tag.value));
+    dia.addEventListener('change',()=>applyCoordDiameter(item,dia.value));
+    dia.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyCoordDiameter(item,dia.value)}});
+    x.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyXY()}});y.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyXY()}});
+  });
+}
+function resetCoordDialogPlacement(){
+  const d=$('coordDialog');if(!d)return;d.style.left='50%';d.style.top='50%';d.style.transform='translate(-50%,-50%)';d.style.width='';d.style.height='';
+}
+function openCoordDialog(){const d=$('coordDialog');resetCoordDialogPlacement();if(!d.open)d.show();render()}
+function exportCoordCSV(){
+  const data=[['posicion','etiqueta','diametro_nominal_in','x','y','unidad','origen']];
+  coordData().forEach(p=>data.push([p.pos,p.tag,p.label,fmtInput(p.x),fmtInput(p.y),suffix(),coordOriginLabel()]));
+  const csv='\uFEFF'+data.map(row=>row.map(csvEscape).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ductos_2d_coordenadas.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function unitToMm(v,u){const n=Number(v);if(!Number.isFinite(n))return NaN;return u==='m'?n*1000:u==='in'?n*25.4:u==='ft'?n*304.8:n}
+function coordOriginCodeFromLabel(v){const t=String(v||'').trim().toLowerCase();if(t.includes('superior')&&t.includes('derecho'))return'tr';if(t.includes('superior')&&t.includes('izquierdo'))return'tl';if(t.includes('inferior')&&t.includes('derecho'))return'br';if(t.includes('inferior')&&t.includes('izquierdo'))return'bl';return ['tl','tr','bl','br'].includes(t)?t:null}
+function importCoordCSVText(raw){
+  const table=parseCSV(raw);if(table.length<2)throw new Error('El archivo CSV no contiene datos.');
+  const headers=table[0].map(x=>String(x).trim().toLowerCase()),required=['posicion','etiqueta','diametro_nominal_in','x','y','unidad','origen'];
+  const missing=required.filter(h=>!headers.includes(h));if(missing.length)throw new Error('Faltan columnas: '+missing.join(', '));
+  const idx=Object.fromEntries(headers.map((h,i)=>[h,i])),records=table.slice(1).filter(r=>r.some(x=>String(x).trim()!==''));if(!records.length)throw new Error('No hay ductos para importar.');
+  const get=(r,n)=>String(r[idx[n]]??'').trim();const units=get(records[0],'unidad')||suffix();if(!['mm','m','in','ft'].includes(units))throw new Error('Unidad no válida: '+units);
+  const originCode=coordOriginCodeFromLabel(get(records[0],'origen'));if(!originCode)throw new Error('Origen no reconocido.');
+  const catalogLabels=new Set(s.catalog.map(x=>x.label)),items=[];
+  for(const rec of records){
+    const pos=get(rec,'posicion'),m=pos.match(/^(\d+)x(\d+)$/i);if(!m)throw new Error('Posición no válida: '+pos);
+    const label=get(rec,'diametro_nominal_in');if(!catalogLabels.has(label))throw new Error('El diámetro '+label+'" no existe en el catálogo.');
+    const d=mm(label),xIn=unitToMm(get(rec,'x'),units),yIn=unitToMm(get(rec,'y'),units);if(!Number.isFinite(xIn)||!Number.isFinite(yIn))throw new Error('Coordenadas inválidas en '+pos);
+    const absX=originCode.endsWith('r')?s.width-xIn:xIn,absY=originCode.startsWith('t')?s.height-yIn:yIn,bottom=absY-d/2;
+    if(absX-d/2<0||absX+d/2>s.width||bottom<0||bottom+d>s.height)throw new Error('El ducto '+pos+' queda fuera del banco.');
+    items.push({pos,tag:get(rec,'etiqueta'),label,d,x:absX,bottom});
+  }
+  const uniq=(vals,tol=.01)=>{const sorted=[...vals].sort((a,b)=>a-b),out=[];for(const v of sorted)if(!out.length||Math.abs(v-out[out.length-1])>tol)out.push(v);return out};
+  const xs=uniq(items.map(i=>i.x)),ys=uniq(items.map(i=>i.bottom));if(xs.length>15||ys.length>15)throw new Error('La importación supera el máximo de 15 filas o columnas.');
+  const pipes=Array.from({length:ys.length},()=>Array(xs.length).fill(null)),tags=Array.from({length:ys.length},()=>Array(xs.length).fill(''));
+  const axis=(arr,v)=>arr.reduce((best,n,i)=>Math.abs(n-v)<Math.abs(arr[best]-v)?i:best,0);
+  for(const it of items){const c=axis(xs,it.x),r=axis(ys,it.bottom);if(pipes[r][c])throw new Error('Dos ductos terminan en la misma posición de grilla.');pipes[r][c]=it.label;tags[r][c]=it.tag}
+  const before=snapshot(),next={...s,rows:ys.length,cols:xs.length,pipes,tags,xs,ys,units,catalog:s.catalog};
+  if(!geometryClearanceValid(next))throw new Error('Las coordenadas importadas producen superposición entre ductos.');
+  s=next;coordOrigin=originCode;try{localStorage.setItem('ductos2d-coord-origin-v31',coordOrigin)}catch{}selected.clear();activeKey=null;selectedDimIds.clear();remember(before);save();renderCatalog();render();
+}
+function exportCoordPNG(){
+  const rows=coordData(),scale=2,cols=[100,190,120,150,150],W=cols.reduce((a,b)=>a+b,0),rowH=36,headH=92,H=headH+rowH*(rows.length+1)+20;
+  const canvas=document.createElement('canvas');canvas.width=W*scale;canvas.height=H*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#23152f';ctx.font='700 20px system-ui,Arial';ctx.fillText('Ductos 2D — Coordenadas de ductos',16,28);ctx.fillStyle='#62536e';ctx.font='13px system-ui,Arial';ctx.fillText('Origen: '+coordOriginLabel()+'   ·   Unidades: '+suffix(),16,52);
+  const headers=['Posición','Etiqueta','Ø nominal','X ('+suffix()+')','Y ('+suffix()+')'];let y=headH,x0=0;ctx.font='700 13px system-ui,Arial';headers.forEach((h,i)=>{ctx.fillStyle='#6d28d9';ctx.fillRect(x0,y,cols[i],rowH);ctx.fillStyle='#fff';ctx.fillText(h,x0+8,y+23);x0+=cols[i]});
+  ctx.font='13px system-ui,Arial';rows.forEach((p,ri)=>{y=headH+rowH*(ri+1);x0=0;const vals=[p.pos,p.tag||'',p.label+'"',fmtVal(p.x),fmtVal(p.y)];vals.forEach((v,i)=>{ctx.fillStyle=ri%2?'#faf8fc':'#f3eff7';ctx.fillRect(x0,y,cols[i],rowH);ctx.strokeStyle='#ded6e5';ctx.strokeRect(x0,y,cols[i],rowH);ctx.fillStyle='#2d2334';ctx.fillText(String(v),x0+8,y+23);x0+=cols[i]})});
+  canvas.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ductos_2d_coordenadas.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)},'image/png');
+}
+function materializeCoordRect(){const d=$('coordDialog'),r=d.getBoundingClientRect();d.style.transform='none';d.style.left=r.left+'px';d.style.top=r.top+'px';d.style.width=r.width+'px';d.style.height=r.height+'px';return r}
+function clampCoordDialog(){const d=$('coordDialog'),r=d.getBoundingClientRect(),pad=4;let l=r.left,t=r.top;if(r.right>innerWidth-pad)l-=r.right-(innerWidth-pad);if(r.bottom>innerHeight-pad)t-=r.bottom-(innerHeight-pad);l=Math.max(pad,l);t=Math.max(pad,t);d.style.left=l+'px';d.style.top=t+'px'}
+function initCoordWindowInteractions(){
+  const d=$('coordDialog'),head=d.querySelector('.coord-head');let drag=null,resize=null;
+  head.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.closest('button,input,select'))return;const r=materializeCoordRect();drag={id:e.pointerId,x:e.clientX,y:e.clientY,l:r.left,t:r.top};head.setPointerCapture?.(e.pointerId);e.preventDefault()});
+  head.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;d.style.left=(drag.l+e.clientX-drag.x)+'px';d.style.top=(drag.t+e.clientY-drag.y)+'px';clampCoordDialog()});
+  const endDrag=e=>{if(drag&&drag.id===e.pointerId)drag=null};head.addEventListener('pointerup',endDrag);head.addEventListener('pointercancel',endDrag);
+  d.querySelectorAll('.coord-resize-handle').forEach(h=>{
+    h.addEventListener('pointerdown',e=>{if(e.button!==0)return;const r=materializeCoordRect();resize={id:e.pointerId,edge:h.dataset.edge,x:e.clientX,y:e.clientY,l:r.left,t:r.top,w:r.width,h:r.height};h.setPointerCapture?.(e.pointerId);e.preventDefault();e.stopPropagation()});
+    h.addEventListener('pointermove',e=>{if(!resize||resize.id!==e.pointerId)return;const dx=e.clientX-resize.x,dy=e.clientY-resize.y,minW=Math.min(440,innerWidth-12),minH=260;let l=resize.l,t=resize.t,w=resize.w,hh=resize.h;
+      if(resize.edge==='right')w=Math.max(minW,Math.min(innerWidth-l-4,resize.w+dx));
+      if(resize.edge==='left'){const nw=Math.max(minW,resize.w-dx);l=resize.l+(resize.w-nw);w=nw}
+      if(resize.edge==='bottom')hh=Math.max(minH,Math.min(innerHeight-t-4,resize.h+dy));
+      if(resize.edge==='top'){const nh=Math.max(minH,resize.h-dy);t=resize.t+(resize.h-nh);hh=nh}
+      d.style.left=Math.max(4,l)+'px';d.style.top=Math.max(4,t)+'px';d.style.width=w+'px';d.style.height=hh+'px';clampCoordDialog();
+    });
+    const end=e=>{if(resize&&resize.id===e.pointerId)resize=null};h.addEventListener('pointerup',end);h.addEventListener('pointercancel',end);
+  });
+}
+
 function renderCatalog(){
   syncControls();const body=$('catalogBody');body.replaceChildren();
   s.catalog.forEach((item,i)=>{const tr=document.createElement('tr'),a=document.createElement('td'),b=document.createElement('td'),c=document.createElement('td'),name=document.createElement('input'),value=document.createElement('input'),del=document.createElement('button');
@@ -1128,8 +1333,18 @@ const backgroundButton=$('toolBackground');
 if(backgroundButton){backgroundButton.type='button';backgroundButton.onclick=toggleBackground}
 updateBackgroundUI();
 
+$('toolCoordinates').onclick=openCoordDialog;
+$('coordClose').onclick=()=>{$('coordDialog').close();render()};
+$('coordDialog').addEventListener('cancel',e=>{e.preventDefault();$('coordDialog').close();render()});
+document.querySelectorAll('[data-coord-origin]').forEach(b=>b.onclick=()=>{coordOrigin=b.dataset.coordOrigin;try{localStorage.setItem('ductos2d-coord-origin-v31',coordOrigin)}catch{}render()});
+$('coordExportCsv').onclick=exportCoordCSV;
+$('coordImportCsv').onclick=()=>$('coordCsvInput').click();
+$('coordCsvInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{importCoordCSVText(await file.text());showCopyHint('Coordenadas importadas correctamente.',1200)}catch(err){alert('No se pudo importar la tabla de coordenadas.\n\n'+(err?.message||err))}});
+$('coordExportPng').onclick=exportCoordPNG;
+initCoordWindowInteractions();
+
 $('reset').onclick=()=>{if(confirm('¿Restablecer toda la sección usando el catálogo externo actual?')){const before=snapshot(),keepUnits=s.units;s=initial();s.units=keepUnits;selected.clear();activeKey=null;selectedDimIds.clear();copyMode='idle';copySource=[];copyDirection=null;mirrorSelectMode=false;moveMode='idle';moveSource=[];moveDirection=null;remember(before);save();renderCatalog();render()}};
-$('export').onclick=()=>{const original=$('drawing'),copy=original.cloneNode(true);copy.setAttribute('xmlns',NS);copy.setAttribute('width',original.clientWidth);copy.setAttribute('height',original.clientHeight);copy.querySelectorAll('.svg-action,.copy-ghost').forEach(n=>n.remove());copy.querySelectorAll('.selected-dim').forEach(n=>n.classList.remove('selected-dim'));const style=document.createElementNS(NS,'style');style.textContent=`text{font-family:system-ui,Segoe UI,Arial,sans-serif}.dim{stroke:#263f3a;stroke-width:1.4;fill:none}.dim-arrow{stroke:#263f3a;stroke-width:1.5;fill:none;stroke-linecap:round}.dimtext{fill:#12362f;font-size:13px;font-weight:750;paint-order:stroke;stroke:#f5f2e8;stroke-width:4px}.pipe-label{font-size:13px;font-weight:750;fill:#083b26}.pipe-tag{font-size:12px;font-weight:850;fill:#fff;paint-order:stroke;stroke:#173b35;stroke-width:3px;stroke-linejoin:round}.cable-label{font-size:12px;font-weight:850;fill:#6f3314;paint-order:stroke;stroke:#fff4e5;stroke-width:4px}.level-line{stroke:#46655d;stroke-width:1.7}.signal-line-black{stroke:#111;stroke-width:4;fill:none}.signal-line-yellow{stroke:#f2d400;stroke-width:4;fill:none;stroke-dasharray:12 12;stroke-dashoffset:12}.grade-boundary{stroke:#6b4933;stroke-width:5.5;fill:none}.signal-label{font-size:11px;font-weight:800;fill:#684318;paint-order:stroke;stroke:#f6f3e9;stroke-width:3px}.level-label{font-size:13px;font-weight:800;fill:#12362f;paint-order:stroke;stroke:#f6f3e9;stroke-width:4px}.support{stroke:#4a4f52;stroke-width:1.55;fill:none}.support-tie{stroke:#6a7074;stroke-width:1.15;fill:none}`;copy.insertBefore(style,copy.firstChild);const blob=new Blob([new XMLSerializer().serializeToString(copy)],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ductos_2d_v29.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};
+$('export').onclick=()=>{const original=$('drawing'),copy=original.cloneNode(true);copy.setAttribute('xmlns',NS);copy.setAttribute('width',original.clientWidth);copy.setAttribute('height',original.clientHeight);copy.querySelectorAll('.svg-action,.copy-ghost').forEach(n=>n.remove());copy.querySelectorAll('.selected-dim').forEach(n=>n.classList.remove('selected-dim'));const style=document.createElementNS(NS,'style');style.textContent=`text{font-family:system-ui,Segoe UI,Arial,sans-serif}.dim{stroke:#263f3a;stroke-width:1.4;fill:none}.dim-arrow{stroke:#263f3a;stroke-width:1.5;fill:none;stroke-linecap:round}.dimtext{fill:#12362f;font-size:13px;font-weight:750;paint-order:stroke;stroke:#f5f2e8;stroke-width:4px}.pipe-label{font-size:13px;font-weight:750;fill:#083b26}.pipe-tag{font-size:12px;font-weight:850;fill:#fff;paint-order:stroke;stroke:#173b35;stroke-width:3px;stroke-linejoin:round}.cable-label{font-size:12px;font-weight:850;fill:#6f3314;paint-order:stroke;stroke:#fff4e5;stroke-width:4px}.level-line{stroke:#46655d;stroke-width:1.7}.signal-line-black{stroke:#111;stroke-width:4;fill:none}.signal-line-yellow{stroke:#f2d400;stroke-width:4;fill:none;stroke-dasharray:12 12;stroke-dashoffset:12}.grade-boundary{stroke:#6b4933;stroke-width:5.5;fill:none}.signal-label{font-size:11px;font-weight:800;fill:#684318;paint-order:stroke;stroke:#f6f3e9;stroke-width:3px}.level-label{font-size:13px;font-weight:800;fill:#12362f;paint-order:stroke;stroke:#f6f3e9;stroke-width:4px}.support{stroke:#4a4f52;stroke-width:1.55;fill:none}.support-tie{stroke:#6a7074;stroke-width:1.15;fill:none}`;copy.insertBefore(style,copy.firstChild);const blob=new Blob([new XMLSerializer().serializeToString(copy)],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ductos_2d_v31.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)};
 function csvEscape(v){const x=String(v??'');return /[",\r\n]/.test(x)?`"${x.replace(/"/g,'""')}"`:x}
 function parseCSV(raw){
   const src=String(raw||'').replace(/^\uFEFF/,'');const rows=[];let row=[],cell='',quoted=false;
@@ -1205,6 +1420,7 @@ const doUndo=()=>{if(!history.length)return;s=JSON.parse(history.pop());selected
 $('undo').onclick=doUndo;
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
+    if($('coordDialog')?.open){e.preventDefault();$('coordDialog').close();render();return}
     if($('editDialog').open){e.preventDefault();action=null;$('editDialog').close();return}
     if(copyMode!=='idle'||mirrorSelectMode||moveMode!=='idle'){e.preventDefault();cancelInteractive(false);return}
     if(selectedDimIds.size){e.preventDefault();selectedDimIds.clear();render();return}
@@ -1294,8 +1510,8 @@ if(repairedAtLoad)setTimeout(()=>showCopyHint('Se ajustaron automáticamente los
   const splash=q('introSplash');
   const info=q('infoDialog'), title=q('infoTitle'), body=q('infoBody');
   const infoContent={
-    about:{title:'Acerca de Ductos 2D',html:`<p><strong>Ductos 2D</strong> es una herramienta web para diseñar y documentar secciones transversales de bancos de ductos eléctricos e instrumentación mediante una interfaz gráfica, paramétrica e interactiva.</p><div class="info-grid"><span>Diseño</span><strong>Arley Zarate</strong><span>Desarrollo</span><strong>Nova (IA)</strong><span>Versión</span><strong>1.5</strong><span>Fecha</span><strong>14 de octubre de 2026</strong></div>`},
-    help:{title:'Instrucciones de uso',html:`<ul><li>Seleccione uno o varios ductos con clic/toque; en móvil, mantenga presionada un área vacía y arrastre para selección rectangular.</li><li>Use el control radial para editar, copiar, mover, agregar o eliminar ductos. Los botones + agregan directamente la selección actual en la dirección elegida.</li><li>Las herramientas laterales controlan unidades, filas, columnas, dimensiones, puesta a tierra, simetría y exportación.</li><li>Las cotas pueden seleccionarse y editarse individualmente o en conjunto.</li><li>Al mover, un ducto o una selección irregular trabaja sobre la grilla; una fila completa puede tener desplazamiento vertical numérico y una columna completa desplazamiento horizontal numérico.</li><li><strong>Enter</strong> aplica las ventanas activas, <strong>Esc</strong> cancela, <strong>Supr/Delete</strong> elimina la selección, <strong>M</strong> activa Mover y <strong>Ctrl+Z</strong> deshace.</li></ul>`},
+    about:{title:'Acerca de Ductos 2D',html:`<p><strong>Ductos 2D</strong> es una herramienta web para diseñar y documentar secciones transversales de bancos de ductos eléctricos e instrumentación mediante una interfaz gráfica, paramétrica e interactiva.</p><div class="info-grid"><span>Diseño</span><strong>Arley Zarate</strong><span>Desarrollo</span><strong>Nova (IA)</strong><span>Versión</span><strong>1.7</strong><span>Fecha</span><strong>15 de octubre de 2026</strong></div>`},
+    help:{title:'Instrucciones de uso',html:`<ul><li>Seleccione uno o varios ductos con clic/toque; en móvil, mantenga presionada un área vacía y arrastre para selección rectangular.</li><li>Use el control radial para editar, copiar, mover, agregar o eliminar ductos. Los botones + agregan directamente la selección actual en la dirección elegida.</li><li>Las herramientas laterales controlan unidades, filas, columnas, dimensiones, puesta a tierra, simetría y exportación. El botón X,Y abre la tabla de coordenadas editable: etiqueta, diámetro, X e Y; permite importar/exportar CSV y exportar PNG. La ventana puede moverse y redimensionarse.</li><li>Las cotas pueden seleccionarse y editarse individualmente o en conjunto.</li><li>Al mover, un ducto o una selección irregular trabaja sobre la grilla; una fila completa puede tener desplazamiento vertical numérico y una columna completa desplazamiento horizontal numérico.</li><li><strong>Enter</strong> aplica las ventanas activas, <strong>Esc</strong> cancela, <strong>Supr/Delete</strong> elimina la selección, <strong>M</strong> activa Mover y <strong>Ctrl+Z</strong> deshace.</li></ul>`},
     intent:{title:'Intención',html:`<p>Facilitar el diseño, ajuste y documentación técnica de bancos de ductos 2D, reduciendo tareas repetitivas y manteniendo coherencia geométrica, dimensional y de etiquetado en una herramienta ligera que funcione tanto en escritorio como en móvil.</p>`}
   };
   function openInfo(kind){const c=infoContent[kind];if(!c||!info)return;title.textContent=c.title;body.innerHTML=c.html;info.showModal()}
