@@ -1684,7 +1684,7 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.7.3">v2.7.3</div>
+    <div class="version-pill" aria-label="Versión 2.8">v2.8</div>
   </header>
 
   <main class="workspace">
@@ -1735,7 +1735,7 @@
         <div class="editor-title result-title-bar">
           <div class="result-head-group">
             <h2 id="outputTitle">Texto organizado</h2>
-            <div class="editor-meta"><strong id="previewLinesLabel">0</strong> líneas · <span id="previewScaleLabel">100 %</span><span id="spellingCount" class="spelling-status" aria-live="polite" title="Posibles errores ortográficos de vocabulario local"><b>0</b> posibles errores</span></div>
+            <div class="editor-meta"><strong id="previewLinesLabel">0</strong> líneas · <span id="previewScaleLabel">100 %</span><span id="spellingCount" class="spelling-status" aria-live="polite" title="Revisión ortográfica local de español colombiano"><b>0</b> posibles errores</span></div>
           </div>
           <div class="result-tools" aria-label="Formato de la vista organizada">
             <button id="boldToggleBtn" class="result-tool-btn" type="button" aria-pressed="false" aria-label="Activar negrita" title="Negrita: activar o desactivar">
@@ -1920,6 +1920,9 @@
   <div id="infoBody" class="info-body"></div>
 </aside>
 
+<!-- Complementos opcionales locales, disponibles tras ejecutar PREPARAR_DICCIONARIO.bat. -->
+<script src="typo.js"></script>
+<script src="diccionario_es_CO.js"></script>
 <script>
 (() => {
   "use strict";
@@ -1927,7 +1930,7 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.7.3";
+  const APP_VERSION = "2.8";
   const APP_DATE = "19/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
@@ -2233,8 +2236,8 @@
   }
 
 
-  // Vocabulario de base curado para este proyecto. No es la distribución completa Hunspell.
-  // Revisión conservadora: solo marca errores con propuesta de alta confianza.
+  // Vocabulario de respaldo. Cuando se instala el paquete es_CO, se activa Hunspell mediante Typo.js.
+  // El archivo HTML mantiene el modo local preliminar si faltan los complementos.
   const LOCAL_WORDS = new Set("a abajo abandonar abarcar abierto abrazar abrir acceder acceso accidente acento acentos aceptar acero aceros acompañar acordar actual actualizado actualizar actuar acuerdo adaptar adaptarse adecuada adecuado además administrar admitir adonde adoptar adquirir advertir afectar afuera agregar agua ahora ahorrar aire aislar ajustada ajustado ajustar ajuste al alcanzar alejar algo alguien alguna algunas alguno algunos algún allá allí almacenar ambas ambiente ambos ampliar analista ancha ancho anda andar ante anterior anteriores antes análisis aparato aparecer aplicaciones aplicación aplicar apoyo aprender aprobado aprobar aproximada aproximado aproximados aquel aquella aquellas aquello aquellos aquí archivo archivos armar armenia arquitectura arrancar arreglo arriba articulación asegurar asiento asistente asunto así atención atender aumentar aumento automatizada automatizado automática automáticamente automático autónoma autónomo auxiliar avanzar aviso ayuda ayudar bajar bajo bandeja barra barranquilla base bastante batería bien blanca blanco bloque bloques bogotá borde bordes borrar botones botón brida bridada bridadas bridado bridas bucaramanga básica básicamente básico cable cableado cables cada calcular cali cambiar cambio cambios campo capacidad capaz capital capítulo caracteres carga cargar carrera cartagena carácter casi caso casos categoría caudal causa centrado central centro centímetro centímetros cercano cerrado cerrar cierto ciertos circulación circular ciudad clara claro clase clave cliente clima codo codos colocar colombia colombiana colombianas colombiano colombianos columna columnas comando comandos comenzar comercial comienzo como compartir compatibilidad compañía completa completo comprobar computador computadora computadores con concentrar concreto condiciones condición conducir conectar conexiones conexión confirmar conjunto conocer conservación conservar constante construcción construir consultar contacto contar contenido contenidos contexto contra contrato control controlar controles coordenada coordenadas copia copiar correcciones corrección correcta correcto corrector corregida corregido corregidos corregir correo corrugado cortar cosa costo creación crear criterio cuadro cual cuales cualquier cuando cuantas cuanto cuantos cubrir cuenta cuerpo cumplir curso curva curvas cuya cuyas cuyo cuyos cuál cuáles cuándo cálculo código códigos cómo cúcuta dato datos de debajo debe debemos deberá deberían decidir decir defecto definición dejar dejarse del demanda dentro dependencia dependencias depender depósito derecha derecho desarrollar desarrollo descargar descargas desconocida desconocido describir descripción descubrir desde deseado desear desmontaje desmontar destacar destino detallar detalle detalles detectar determinar dibujar dibujo diccionario diccionarios dice dicho diferencias diferente dificultad dimensionar dimensiones dimensión dirección directa directo directorio diseño diseños disponer dispositivo distancia distribuir división diámetro diámetros doble documento documentos donde dos ducto ductos duda dudas duración durante duro día días dónde e edición editable editables editar editor editores efectuar ejecutar ejemplo ejemplos el electricidad elegir elemento elementos eliminar ella ellas ello ellos eléctrica eléctrico en enlace enlaces entorno entrada entradas entrar entre equipo equipos era eran eres error errores es esa esas escala escalado escalando escalar escribir escrito escritos escritura ese esos espaciado espacio espacios especial especiales especificaciones especificación específica específico espera esta establecer estado estados estamos estar estas este esto estos estructura estudiar estudio están etiqueta etiquetas exacta exactitud exacto exceder exceso existe existen existir experiencia explicar explorar extensiones extensión exterior externo facilidad facilitar factor falla falso falta faltar familia familiar fase fecha fechas figura figuras fijo fila filas final finales finalizar finalmente flecha flechas fluido fluidos flujo fondo fondos forma formación formar formato formatos frente fue fueron fui fuimos funcionamiento funciones función fundamental futuro física físico generación general generales generar gestionar giro grado grados gramos grande grandes gráfica gráfico gráficos guardar guía guías género haber hablar hace hacen hacer hacia hasta hay he hemos herramienta herramientas hidráulica hidráulico hijo historia hoja hojas horas horizontal horizontales horizontalmente hoy humano ibagué idea ideas identificación identificar idioma imagen implementada implementado importancia importante impuestos imágenes incluir incluso incorporado incorporar indicadores indicar información informar ingeniería ingresar inicial iniciar inicio inoxidable insertar instalaciones instalación instancia instante instrucciones instrucción instrumento integración integrada integrado integrar integridad intención intensidad interiores interlineado intermedio interna internet interno intervalo introducir izquierda kilogramo kilogramos la lado larga largo las laterales le lectura leer legibilidad legible lengua lenguaje lento les letra letras levantar ley limitar limites limpiar limpieza lista listado listados listo llamada llamar llave llegar llevar lo local locales localidad localizar lograr longitud los luego lugar luz límite línea líneas madre manejar manejo manizales mantener mantenimiento manual marcar margen material materiales mayor me mecánica mecánicas mecánico mecánicos medellín medias medición medida medio medir mejor mejorar mejoras memoria menor mensaje mensajes mercado metros mi mientras milímetros minuto minutos mis misma mismas mismo mismos modelo modelos modificación modificar modo modos moneda montaje montar montería mostrar mover movimiento movimientos muchas mucho muchos muestra muestras mundo muy márgenes más máxima máximo método mínima mínimo música nacional nación nada natural naturaleza navegador necesaria necesario necesidad necesidades neiva ni nivel niveles no nombre nombres nominal nominales norma normal normales normas nos nosotros nota notas nube nuestra nuestras nuestro nuestros nueva nuevas nuevo nuevos nunca número números o objeto objetos observación observar obtener ocasión ocurre oficina oficio ofrecer ojo opciones opción operaciones operación operador operadores operativa operativo orden ordenado ordenar organizada organizado organizar organizarse origen original originales ortografía ortográfica ortográficas ortográfico otra otras otro otros palabra palabras panel paneles pantalla pantallas papel para parte partes particular partida paso pasos pasto patrones patrón pausa pedir pegada pegado pegamos pegar pegará pendiente pendientes pequeña pequeñas pequeño pequeños percepción percibir pereira perforación perforar permiso permitir pero persona personal personas peso pesos pie pieza piezas pintura piso placa placas plan plano planos planta plantas plataforma plazo poco podemos poder podrá popayán por porción porque portapapeles posibilidad posibles posicionar posición positiva positivo precio precisar precisión preciso preparar presentación presentados presente presiones presión primer primera primero primeros principal principales principio prioridad privado probada probado problema problemas proceso procesos producción producir programa programación propia propiedad propiedades propio proporcionar propuesta prueba pruebas práctica prácticas publicar pues pulgada pulgadas pulsación pulsar punteada punteado punto puntos página páginas pública público que quien quienes quitar quién qué rango razón real realidad realizar recuperar recurso recursos red reducciones reducción reducir reemplazar referencia referencias reflejar refrescar regiones registrar registro región regla reglas regresar relaciones relación relativa relativo reparar repetición repetir representar requerir requisito requisitos resaltado resaltar resalte reserva residuo resolución resolver respetar responder respuesta restaurar resultado resultados retornar retorno revisar revisión riesgo riesgos ritmo roja rojo rosca roscada roscado roscas rotación rotar ruta rutas rápida rápido saber salida salidas salto saltos sangría sanitaria sanitario se seguir segundo segundos segura seguridad seguro seleccionar selección semana sentido ser servicio servicios servidor servidores será serán sería señal señala señalar si siempre siendo sin sistema sistemas sitio sitios situar sobre solamente soldada soldador soldadores soldadura soldaduras soldar solicitar solo soluciones solución son soporte su sugerencia sugerencias sugerir superior superiores sus suya suyo suyos sí sólido sólo tabla tablas tal tamaño tamaños también tan tangente tanque tanques tantas tanto tantos tarea tareas te teclado teclados tema temas temperatura temporal tenemos tener tengo texto textos tiempo tiempos tiene tienen tilde tildes titular tocar toda todas todo todos tolerancia total totalizar trabajar trabajo trabajos tramo tramos tras tratar través trazado trazados tres tu tubería tuberías tubo tubos tunja tus técnica técnicas técnico técnicos térmica térmico término términos título títulos un una unas unidad unidades unificar uniones unión uno unos usar uso usted ustedes usuario usuarios utilizar va valor valores vamos van variable variables varias varios veces ver verificar versiones versión vertical vez vibraciones vibración villavicencio visibilidad visible vista vistas visual visualización visualizar visualmente volver voz válvula válvulas web y ya yo zona zonas área áreas único únicos útil útiles".split(' '));
   const ACCENT_AND_TYPO = new Map(Object.entries({"accion": "acción", "administracion": "administración", "analisis": "análisis", "angulo": "ángulo", "angulos": "ángulos", "animacino": "animación", "animacion": "animación", "ano": "año", "anos": "años", "aplicacion": "aplicación", "aprobacion": "aprobación", "asociacion": "asociación", "atencion": "atención", "basica": "básica", "basicas": "básicas", "basico": "básico", "basicos": "básicos", "calculacion": "cálculo", "calculo": "cálculo", "calibracion": "calibración", "camara": "cámara", "cancion": "canción", "caneria": "cañería", "canerias": "cañerías", "caracter": "carácter", "caracterres": "caracteres", "carateres": "caracteres", "catalogo": "catálogo", "categoria": "categoría", "categorias": "categorías", "codigo": "código", "codigos": "códigos", "combinacion": "combinación", "comparacion": "comparación", "composicion": "composición", "comprension": "comprensión", "comprobacion": "comprobación", "comunicacion": "comunicación", "concentracion": "concentración", "conclusion": "conclusión", "conexion": "conexión", "configuracion": "configuración", "confirmacion": "confirmación", "construccion": "construcción", "correccion": "corrección", "creacion": "creación", "decircion": "decisión", "definicion": "definición", "descripccion": "descripción", "descripcion": "descripción", "deteccion": "detección", "dia": "día", "diametro": "diámetro", "diametros": "diámetros", "dias": "días", "dimension": "dimensión", "distribucion": "distribución", "edicion": "edición", "edificacion": "edificación", "educacion": "educación", "ejecucion": "ejecución", "electrica": "eléctrica", "electrico": "eléctrico", "energia": "energía", "erorr": "error", "errror": "error", "estacion": "estación", "evaluacion": "evaluación", "excepcion": "excepción", "expansion": "expansión", "explicacion": "explicación", "facil": "fácil", "faciles": "fáciles", "fisica": "física", "fisico": "físico", "formatear": "formatear", "fotografia": "fotografía", "fotografias": "fotografías", "funcin": "función", "funcion": "función", "geografica": "geográfica", "geografico": "geográfico", "geometria": "geometría", "hidraulica": "hidráulica", "hidraulico": "hidráulico", "identico": "idéntico", "identificacion": "identificación", "imagenes": "imágenes", "indice": "índice", "informacion": "información", "ingenieria": "ingeniería", "ingenierias": "ingenierías", "instalacion": "instalación", "instalasion": "instalación", "intalacion": "instalación", "intalaciones": "instalaciones", "integracion": "integración", "intencion": "intención", "interaccion": "interacción", "letras": "letras", "linea": "línea", "lineas": "líneas", "logica": "lógica", "logico": "lógico", "manana": "mañana", "marmol": "mármol", "matematicas": "matemáticas", "maxima": "máxima", "maximas": "máximas", "maximo": "máximo", "maximos": "máximos", "mecanica": "mecánica", "mecanico": "mecánico", "medicion": "medición", "metodo": "método", "metodos": "métodos", "minima": "mínima", "minimas": "mínimas", "minimo": "mínimo", "minimos": "mínimos", "modificacion": "modificación", "nacion": "nación", "nacionalizacion": "nacionalización", "navegacion": "navegación", "nina": "niña", "nino": "niño", "notificacion": "notificación", "numero": "número", "numeros": "números", "operacion": "operación", "organisacion": "organización", "organisado": "organizado", "organisador": "organizador", "organizacion": "organización", "organizasion": "organización", "ortogafia": "ortografía", "ortografia": "ortografía", "ortografica": "ortográfica", "ortografico": "ortográfico", "ortogrfia": "ortografía", "pagina": "página", "paginas": "páginas", "participacion": "participación", "pequeno": "pequeño", "perfecion": "perfección", "perforacion": "perforación", "periodico": "periódico", "periodo": "período", "planificacion": "planificación", "plomeria": "plomería", "poblacion": "población", "posicion": "posición", "precion": "presión", "precision": "precisión", "presentacion": "presentación", "presion": "presión", "proteccion": "protección", "publica": "pública", "publicacion": "publicación", "publico": "público", "quimica": "química", "quimico": "químico", "rapida": "rápida", "rapido": "rápido", "realizacion": "realización", "redaccion": "redacción", "region": "región", "reparacion": "reparación", "repeticion": "repetición", "resolucion": "resolución", "revicion": "revisión", "revision": "revisión", "rotacion": "rotación", "sangira": "sangría", "sangria": "sangría", "seleccion": "selección", "senal": "señal", "senalado": "señalado", "senalar": "señalar", "senales": "señales", "solucion": "solución", "subraydo": "subrayado", "sujerencia": "sugerencia", "sujerencias": "sugerencias", "tecncio": "técnico", "tecnica": "técnica", "tecnicas": "técnicas", "tecnico": "técnico", "tecnicos": "técnicos", "television": "televisión", "termica": "térmica", "termico": "térmico", "tipografia": "tipografía", "titulo": "título", "titulos": "títulos", "transmision": "transmisión", "tuberia": "tubería", "tuberias": "tuberías", "ubicacion": "ubicación", "ultima": "última", "ultimas": "últimas", "ultimo": "último", "ultimos": "últimos", "unica": "única", "unicas": "únicas", "unico": "único", "unicos": "únicos", "union": "unión", "util": "útil", "utiles": "útiles", "validacion": "validación", "valvula": "válvula", "valvulas": "válvulas", "verificacion": "verificación", "version": "versión", "visualizacion": "visualización"}));
   const USER_WORDS_KEY = 'organizadorDiccionarioPropio';
@@ -2245,7 +2248,7 @@
   } catch (_) { /* El corrector funciona también sin almacenamiento. */ }
 
   // Términos técnicos y variaciones: no generar falsos positivos con identificadores.
-  const SKIP_WORD = /[0-9_@/\\]|[A-ZÁÉÍÓÚÑ]{2,}/u;
+  const SKIP_WORD = /[0-9_@/\\]/u;
   const AMBIGUOUS_WORDS = new Set('mas aun el si tu mi te de que como cuando donde quien cual esta estas este estos solo se fue'.split(' '));
   const SPELL_TOKEN = /[\p{L}]+/gu;
   const suggestionCache = new Map();
@@ -2255,6 +2258,70 @@
   const normalForm = (s) => s.toLocaleLowerCase('es-CO').normalize('NFC');
   const stripDiacritics = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').normalize('NFC');
   const distinctWordList = [...LOCAL_WORDS].filter(w => /^[\p{L}]{3,}$/u.test(w));
+
+  let hunspellCO = null;
+  let estadoDiccionarioCO = 'inicial';
+  const SPELL_EXEMPT = new Set('dwg lsp pdf html css javascript shx dwf dwfx cad xref acis dwgpdf'.split(' '));
+
+  function estaErrorOrtografico(word) {
+    const token=normalForm(word);
+    if (!token || token.length < 2 || token.length > 50 || userWordSet.has(token) || SPELL_EXEMPT.has(token)) return false;
+    if (SKIP_WORD.test(word) || AMBIGUOUS_WORDS.has(token)) return false;
+    if (/^[A-ZÁÉÍÓÚÑ]{2,5}$/.test(word) && !/^[A-ZÁÉÍÓÚÑ]{2}$/.test(word)) return false;
+    if (hunspellCO && hunspellCO.loaded) {
+      try { return !hunspellCO.check(word) && !hunspellCO.check(token); }
+      catch(error) { console.warn('Diccionario es_CO:', error); }
+    }
+    return findSpellSuggestions(word).length > 0;
+  }
+
+  function leerBase64Utf8(base64) {
+    const raw=atob(base64);
+    const bytes=new Uint8Array(raw.length);
+    for(let i=0;i<raw.length;i++) bytes[i]=raw.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  function inicializarDiccionarioColombiano() {
+    const data=window.DICCIONARIO_ES_CO;
+    if(!data || typeof window.Typo !== 'function' || !data.affBase64 || !data.dicBase64) {
+      spellingCount.title='Vocabulario inicial. Para habilitar es_CO, ejecute PREPARAR_DICCIONARIO.bat y conserve typo.js y diccionario_es_CO.js junto al HTML.';
+      return;
+    }
+    estadoDiccionarioCO='cargando';
+    spellingCount.title='Cargando diccionario completo de español colombiano…';
+    // Se inicia tras la primera pintura; Typo.js reparte el análisis entre periodos libres.
+    window.setTimeout(() => {
+      try {
+        const aff=leerBase64Utf8(data.affBase64);
+        const dic=leerBase64Utf8(data.dicBase64);
+        if(!aff.includes('SET UTF-8') || !/^\s*\d+/u.test(dic)) throw new Error('Archivos de Hunspell inválidos.');
+        const t=new window.Typo('es_CO', aff, dic, {
+          asyncLoad:true,
+          loadedCallback(instancia) {
+            hunspellCO=instancia;
+            estadoDiccionarioCO='listo';
+            suggestionCache.clear();
+            spellingCount.title='Diccionario Hunspell es_CO activo, ejecución local, sin conexión.';
+            refreshSpellingDecorations();
+            setStatus('Diccionario completo es_CO cargado.', 2800);
+          }
+        });
+        // Compatibilidad con motores que finalizan inmediatamente.
+        if(t.loaded && !hunspellCO) {
+          hunspellCO=t;
+          estadoDiccionarioCO='listo';
+          suggestionCache.clear();
+          spellingCount.title='Diccionario Hunspell es_CO activo.';
+          refreshSpellingDecorations();
+        }
+      } catch(error) {
+        console.warn('No fue posible cargar el diccionario completo:', error);
+        estadoDiccionarioCO='error';
+        spellingCount.title='No fue posible cargar es_CO. Continúa disponible el vocabulario preliminar.';
+      }
+    }, 50);
+  }
 
   function editDistanceWithin(a,b,max) {
     if (Math.abs(a.length - b.length) > max) return max + 1;
@@ -2275,6 +2342,21 @@
 
   function findSpellSuggestions(original) {
     const token = normalForm(original);
+    if(hunspellCO && hunspellCO.loaded) {
+      if(!estaErrorOrtografico(original)) return [];
+      if(suggestionCache.has(token)) return suggestionCache.get(token);
+      const suggestions=[];
+      const direct=ACCENT_AND_TYPO.get(token);
+      if(direct && hunspellCO.check(direct)) suggestions.push(direct);
+      try {
+        for(const candidate of hunspellCO.suggest(token, 6)) {
+          if(candidate && !suggestions.includes(candidate)) suggestions.push(candidate);
+          if(suggestions.length >= 5) break;
+        }
+      } catch(error) { console.warn('Sugerencias Hunspell:', error); }
+      suggestionCache.set(token,suggestions);
+      return suggestions;
+    }
     if (!token || token.length < 3 || token.length > 34 || AMBIGUOUS_WORDS.has(token) || LOCAL_WORDS.has(token) || userWordSet.has(token) || SKIP_WORD.test(original)) return [];
     if (suggestionCache.has(token)) return suggestionCache.get(token);
     let results = [];
@@ -2317,7 +2399,7 @@
 
   function countSpellingIssues(text) {
     let count=0;
-    for(const match of text.matchAll(SPELL_TOKEN)) if(findSpellSuggestions(match[0]).length) count++;
+    for(const match of text.matchAll(SPELL_TOKEN)) if(estaErrorOrtografico(match[0])) count++;
     return count;
   }
 
@@ -2328,8 +2410,7 @@
       const start=match.index;
       const word=match[0];
       fragments.push(escapeSpellHtml(text.slice(index,start)));
-      const suggestions=findSpellSuggestions(word);
-      if(suggestions.length) {
+      if(estaErrorOrtografico(word)) {
         count++;
         fragments.push(`<span class="spelling-error" tabindex="0" data-spell-start="${start}" data-spell-end="${start+word.length}" data-spell-word="${escapeSpellHtml(word)}" title="Posible error ortográfico. Seleccione para ver sugerencias.">${escapeSpellHtml(word)}</span>`);
       } else fragments.push(escapeSpellHtml(word));
@@ -2373,7 +2454,7 @@
     });
     const dismiss=document.createElement('button'); dismiss.type='button'; dismiss.className='spelling-minor'; dismiss.textContent='Cerrar'; dismiss.addEventListener('click',closeSpellingPopover);
     controls.append(add,dismiss); spellingPopover.appendChild(controls);
-    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent='Seleccione una sugerencia para corregir solo el resultado. Los nombres y códigos técnicos pueden agregarse al diccionario.'; spellingPopover.appendChild(note);
+    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent=hunspellCO ? 'Sugerencias del diccionario es_CO. El texto original no se modifica.' : 'Sugerencias preliminares. Los nombres y códigos técnicos pueden agregarse al diccionario.'; spellingPopover.appendChild(note);
     spellingPopover.classList.add('open'); spellingPopover.setAttribute('aria-hidden','false');
     const rect=span.getBoundingClientRect();
     const width=Math.min(310,window.innerWidth-20);
@@ -2976,14 +3057,14 @@
       title: "Acerca de",
       html: "<p><strong>Organizador de texto técnico</strong></p>" +
         "<p>Versión: " + APP_VERSION + "<br>Fecha: " + APP_DATE + "<br>Diseño: Arley Zarate<br>Desarrollo: NOVA (IA)</p>" +
-        "<p>Corrector local inicial de vocabulario curado para esta herramienta. No contiene aún la distribución completa del diccionario Hunspell de español colombiano.</p>"
+        "<p>Corrector local compatible con Hunspell es_CO cuando los archivos de diccionario están instalados. Si faltan, mantiene revisión preliminar.</p>"
     },
     intent: {
       title: "Intención",
       html: "<p>Organizar listados y textos técnicos para que cada línea respete un ancho máximo de caracteres sin alterar palabras, códigos ni datos técnicos.</p>" +
         "<p>Está pensado para preparar contenido en editores o entornos que no organizan automáticamente el texto por ancho de línea.</p>" +
         "<p>La vista derecha muestra una cota superior adaptable, una guía roja vertical ajustable para la sangría y escala automática cuando la pantalla es más estrecha.</p>" +
-        "<p>La revisión ortográfica local utiliza un vocabulario inicial incorporado. Señala posibles errores con subrayado rojo y permite seleccionar sugerencias; no reemplaza una revisión lingüística completa.</p>"
+        "<p>La revisión ortográfica utiliza el diccionario es_CO si está instalado. Señala posibles errores en rojo y permite correcciones seleccionables sin cambiar el texto original. No detecta todos los errores que dependen del contexto.</p>"
     },
     help: {
       title: "Instrucciones de uso",
@@ -3492,6 +3573,8 @@
   resizeIntroCanvas();
   requestAnimationFrame(() => playIntroSequence());
 
+  inicializarDiccionarioColombiano();
+
   window.organizadorTexto = {
     version: APP_VERSION,
     defaultWidth: DEFAULT_WIDTH,
@@ -3501,7 +3584,10 @@
     closeTools: closeToolPanel,
     newDocument: createNewDocument,
     restoreDefaults,
-    playIntro: playIntroSequence
+    playIntro: playIntroSequence,
+    estadoDiccionario: () => estadoDiccionarioCO,
+    revisarPalabra: (palabra) => !estaErrorOrtografico(palabra),
+    sugerencias: (palabra) => findSpellSuggestions(palabra)
   };
 })();
 </script>
