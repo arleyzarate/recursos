@@ -22,6 +22,8 @@
     --accent-3: #ff7d45;
     --result: #0d6b79;
     --result-soft: rgba(13, 107, 121, 0.12);
+    --standalone-number: #a45512;
+    --parenthetical-text: #8e3766;
     --guide-red: #f04e4e;
     --success: #16764a;
     --warning: #a75d00;
@@ -48,6 +50,8 @@
     --accent-3: #ff9a70;
     --result: #72edf2;
     --result-soft: rgba(114, 237, 242, 0.10);
+    --standalone-number: #ffd080;
+    --parenthetical-text: #f1a8d8;
     --guide-red: #ff6d6d;
     --success: #61d39a;
     --warning: #ffbd66;
@@ -283,7 +287,7 @@
 
   .editor-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 98px minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
     align-items: stretch;
   }
@@ -301,7 +305,7 @@
   }
 
   .result-card {
-    grid-column: 3;
+    grid-column: 2;
     position: relative;
     background: transparent;
     border: 1px solid transparent;
@@ -779,6 +783,57 @@
     -webkit-user-modify: read-write-plaintext-only;
   }
 
+
+  /* Referencias de lista, códigos y selección vinculada. Son solo presentación. */
+  .list-index-token {
+    color: color-mix(in srgb, var(--text) 89%, var(--result) 11%);
+    font-weight: 850;
+  }
+  .code-number-token {
+    color: color-mix(in srgb, var(--accent) 68%, var(--result) 32%);
+    font-weight: 700;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--accent-2) 9%, transparent);
+  }
+  /* Números sueltos y textos entre paréntesis tienen tonos propios.
+     Sin fondo ni modificación de caracteres, ancho o portapapeles. */
+  .standalone-number-token {
+    color: var(--standalone-number);
+    font-weight: 700;
+  }
+  .parenthetical-token {
+    color: var(--parenthetical-text);
+    font-weight: 650;
+  }
+  /* Un paréntesis colorea su contenido completo, incluso códigos o cifras. */
+  .parenthetical-token .code-number-token,
+  .parenthetical-token .standalone-number-token,
+  .parenthetical-token .list-index-token {
+    color: inherit;
+    background: transparent;
+  }
+  .linked-selection {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: 2px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .input-mirror {
+    position: absolute;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    color: transparent;
+    white-space: pre-wrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    box-sizing: border-box;
+  }
+  .input-mirror .linked-selection {
+    color: transparent;
+  }
 
   /* Corrector ortográfico local. El HTML contiene su propio vocabulario. */
   .spelling-error {
@@ -1544,62 +1599,32 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* v2.12: dos paneles, sin barra intermedia. Acciones junto a Negrita. */
+  .editor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .result-card { grid-column: 2; }
+  .result-tool-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
+  #copyBtn { color: #009eab; }
+  #clearBtn { color: #ee744d; }
+  .list-index-token { color: color-mix(in srgb, var(--text) 94%, #182e54 6%); font-weight: 850; }
+  #dimensionBar { cursor: pointer; }
+  #dimensionBar:hover .dimension-label { filter: brightness(.98); }
+
   @media (max-width: 1250px) {
-    .editor-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .action-dock {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 31;
-      grid-column: auto;
-    }
+    .editor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 980px) {
-    .editor-grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
-      align-items: start;
-    }
+    .editor-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
     .editor-card { grid-column: 1; grid-row: 1; }
-    .action-dock {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      z-index: 2;
-      grid-column: 1;
-      grid-row: 2;
-      justify-self: center;
-      align-self: center;
-      width: max-content;
-      max-width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      padding: 8px 12px;
-      border-radius: 20px;
-    }
-    .action-dock .dock-divider { width: 1px; height: 30px; flex: 0 0 1px; }
-    .result-card { grid-column: 1; grid-row: 3; }
+    .result-card { grid-column: 1; grid-row: 2; }
     .info-dock {
-      position: relative;
-      left: auto;
-      right: auto;
-      bottom: auto;
-      margin: 8px auto 18px;
-      width: max-content;
-      max-width: calc(100% - 18px);
-      justify-content: center;
-      overflow-x: auto;
-      scrollbar-width: thin;
+      position: relative; left: auto; right: auto; bottom: auto;
+      margin: 8px auto 18px; width: max-content;
+      max-width: calc(100% - 18px); justify-content: center;
+      overflow-x: auto; scrollbar-width: thin;
     }
     .app { padding-bottom: 14px; }
-    textarea,
-    .result-shell,
-    .output-viewport,
-    .output-sheet { min-height: 360px; }
+    textarea, .result-shell, .output-viewport, .output-sheet { min-height: 360px; }
     .stats { grid-template-columns: 1fr; }
   }
 
@@ -1624,7 +1649,10 @@
     .editor-card,
     .result-card { padding: 13px; }
 
-    .action-dock,
+    .info-dock { border-radius: 16px; }
+    .result-tools { gap: 5px; padding: 4px; flex-wrap: wrap; justify-content: flex-end; }
+    .result-tool-btn { min-width: 39px; width: 39px; height: 40px; padding: 0 5px; }
+
     .info-dock { border-radius: 16px; }
 
     .action-dock {
@@ -1725,7 +1753,7 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.10">v2.10</div>
+    <div class="version-pill" aria-label="Versión 2.13">v2.13</div>
   </header>
 
   <main class="workspace">
@@ -1745,32 +1773,8 @@
         </div>
         <div class="input-overlay-note">Use Ctrl + V o el icono Pegar.</div>
         <textarea id="inputText" spellcheck="false" placeholder="Pegue aquí el listado técnico numerado..."></textarea>
+        <div id="inputMirror" class="input-mirror" aria-hidden="true" hidden><div id="inputMirrorContent"></div></div>
       </section>
-
-      <nav id="actionDock" class="action-dock" aria-label="Acciones del organizador">
-        <button id="organizeBtn" class="dock-btn primary" type="button" data-tooltip="Organizar texto" aria-label="Organizar texto">
-          <span class="energy-core" aria-hidden="true"></span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h12M4 18h16"/><path d="m17 10 3 2-3 2"/></svg>
-        </button>
-        <button id="copyBtn" class="dock-btn copy-action" type="button" data-tooltip="Copiar resultado" aria-label="Copiar resultado">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
-        </button>
-        <button id="clearBtn" class="dock-btn clear-action" type="button" data-tooltip="Limpiar textos" aria-label="Limpiar textos">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/><path d="M10 11v5M14 11v5"/></svg>
-        </button>
-        <div class="dock-divider" aria-hidden="true"></div>
-        <button id="widthToolBtn" class="dock-btn tool-action" type="button" data-tool="width" data-tooltip="Ancho máximo" aria-label="Configurar ancho máximo">
-          <span id="widthBadge" class="tool-badge">104</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><path d="m7 4-3 3 3 3M17 4l3 3-3 3M7 14l-3 3 3 3M17 14l3 3-3 3"/></svg>
-        </button>
-        <button id="indentToolBtn" class="dock-btn tool-action" type="button" data-tool="indent" data-tooltip="Sangría" aria-label="Configurar sangría de continuación">
-          <span id="indentBadge" class="tool-badge">3</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M4 10h7M4 14h10M4 18h7"/><path d="m18 9 3 3-3 3M10 12h11"/></svg>
-        </button>
-        <button id="referenceToolBtn" class="dock-btn tool-action" type="button" data-tool="reference" data-tooltip="Calcular ancho desde ejemplo" aria-label="Calcular ancho desde ejemplo">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M7 4 4 7l3 3M17 4l3 3-3 3"/><path d="M7 17h10M7 13h6"/></svg>
-        </button>
-      </nav>
 
       <section class="result-card" aria-labelledby="outputTitle">
         <div class="editor-title result-title-bar">
@@ -1778,7 +1782,13 @@
             <h2 id="outputTitle">Texto organizado</h2>
             <div class="editor-meta"><strong id="previewLinesLabel">0</strong> líneas · <span id="previewScaleLabel">100 %</span><span id="spellingCount" class="spelling-status" aria-live="polite" title="Revisión ortográfica local de español colombiano"><b>0</b> posibles errores</span></div>
           </div>
-          <div class="result-tools" aria-label="Formato de la vista organizada">
+          <div class="result-tools" aria-label="Acciones y formato del texto organizado">
+            <button id="copyBtn" class="result-tool-btn" type="button" aria-label="Copiar texto organizado" title="Copiar texto organizado">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+            <button id="clearBtn" class="result-tool-btn" type="button" aria-label="Eliminar texto de ambos bloques" title="Limpiar ambos textos">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/><path d="M10 11v5M14 11v5"/></svg>
+            </button>
             <button id="boldToggleBtn" class="result-tool-btn" type="button" aria-pressed="false" aria-label="Activar negrita" title="Negrita: activar o desactivar">
               <span class="result-tool-icon" aria-hidden="true">B</span>
             </button>
@@ -1877,12 +1887,13 @@
         <button class="mini-btn width-adjust" type="button" data-delta="1" aria-label="Sumar 1 carácter">+1</button>
         <button class="mini-btn width-adjust" type="button" data-delta="2" aria-label="Sumar 2 caracteres">+2</button>
       </div>
+      <button id="referenceToolBtn" class="mini-btn" type="button" data-tool="reference" aria-label="Calcular ancho desde una línea de ejemplo">Calcular desde ejemplo</button>
       <label class="toggle-line">
         <input id="basicCorrections" type="checkbox">
         <span>Aplicar correcciones básicas de redacción</span>
       </label>
     </div>
-    <p>La cota superior y la guía roja vertical se actualizan con este valor.</p>
+    <p>La cota superior y el ancho visual del texto se actualizan con este valor.</p>
   </section>
 
   <section id="indentPanel" data-panel="indent" hidden>
@@ -1974,13 +1985,15 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.10";
+  const APP_VERSION = "2.13";
   const APP_DATE = "20/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
 
   const inputText = $("inputText");
+  const inputMirror = $("inputMirror");
+  const inputMirrorContent = $("inputMirrorContent");
   const outputText = $("outputText");
   const outputPreview = $("outputPreview");
   const outputViewport = $("outputViewport");
@@ -2050,6 +2063,11 @@
   let draftTextColor = 'var(--result)';
   let introFallbackTimer = 0;
   let introStopped = false;
+  let linkedSelectionSource = null;
+  let linkedOutputRange = null;
+  let linkedInputRange = null;
+  let selectionMirrorScheduled = false;
+  let suppressLinkedSelection = false;
 
   function safeInteger(value, fallback, min, max = Number.MAX_SAFE_INTEGER) {
     const parsed = Number.parseInt(value, 10);
@@ -2198,8 +2216,8 @@
   function updateBadges() {
     const width = safeInteger(maxWidth.value, DEFAULT_WIDTH, 10);
     const indent = safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30);
-    widthBadge.textContent = String(width);
-    indentBadge.textContent = String(indent);
+    if (widthBadge) widthBadge.textContent = String(width);
+    if (indentBadge) indentBadge.textContent = String(indent);
     indentValueInline.textContent = String(indent);
   }
 
@@ -2441,22 +2459,220 @@
     return count;
   }
 
-  function markSpelling(text) {
-    const fragments=[];
-    let index=0, count=0;
-    for(const match of text.matchAll(SPELL_TOKEN)) {
-      const start=match.index;
-      const word=match[0];
-      fragments.push(escapeSpellHtml(text.slice(index,start)));
-      if(estaErrorOrtografico(word)) {
-        count++;
-        fragments.push(`<span class="spelling-error" tabindex="0" data-spell-start="${start}" data-spell-end="${start+word.length}" data-spell-word="${escapeSpellHtml(word)}" title="Posible error ortográfico. Seleccione para ver sugerencias.">${escapeSpellHtml(word)}</span>`);
-      } else fragments.push(escapeSpellHtml(word));
-      index=start+word.length;
+  // Los tokens mantienen sus posiciones originales, incluso con saltos y sangría.
+  // Los códigos PR-1, CA215-K2 y semejantes se colorean como una sola unidad.
+  const DISPLAY_TOKEN = /[\p{L}\p{N}]+(?:[-_\/][\p{L}\p{N}]+)*/gu;
+
+  function getDisplayTokens(text) {
+    return [...text.matchAll(DISPLAY_TOKEN)].map(match => ({
+      start: match.index,
+      end: match.index + match[0].length,
+      value: match[0],
+      key: match[0].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es-CO')
+    }));
+  }
+
+  function tokenIsListNumber(text, token) {
+    if (!/^\d+$/.test(token.value) || text[token.end] !== '.') return false;
+    const startLine = text.lastIndexOf('\n', token.start - 1) + 1;
+    return /^[ \t]*$/.test(text.slice(startLine, token.start)) &&
+      (token.end + 1 === text.length || /\s/.test(text[token.end + 1]));
+  }
+
+  function formatSelectedFragment(text, start, end, selection) {
+    if (!text) return '';
+    if (!selection || selection.end <= start || selection.start >= end) return escapeSpellHtml(text);
+    const a = Math.max(start, selection.start) - start;
+    const b = Math.min(end, selection.end) - start;
+    return escapeSpellHtml(text.slice(0,a)) +
+      '<span class="linked-selection">' + escapeSpellHtml(text.slice(a,b)) + '</span>' +
+      escapeSpellHtml(text.slice(b));
+  }
+
+  // Agrupa paréntesis completos (también anidados). Los pares incompletos
+  // siguen como texto normal y no se inventan cierres durante la edición.
+  function getParentheticalRanges(text) {
+    const ranges = [];
+    const stack = [];
+    for (let i=0;i<text.length;i++) {
+      if (text[i] === '(') stack.push(i);
+      else if (text[i] === ')' && stack.length) {
+        const open = stack.pop();
+        if (!stack.length) ranges.push({start:open,end:i+1});
+      }
     }
-    fragments.push(escapeSpellHtml(text.slice(index)));
+    return ranges;
+  }
+
+  function markSpelling(text, linkedRange = null) {
+    const fragments=[];
+    const tokens=getDisplayTokens(text);
+    let tokenIndex=0, count=0;
+
+    // Una sola rutina conserva la corrección ortográfica y la selección
+    // vinculada tanto fuera como dentro de grupos entre paréntesis.
+    function renderSegment(start, end) {
+      let index=start;
+      while (tokenIndex<tokens.length && tokens[tokenIndex].start<end) {
+        const token=tokens[tokenIndex++];
+        fragments.push(formatSelectedFragment(text.slice(index,token.start),index,token.start,linkedRange));
+        const word=token.value;
+        const enumerator=tokenIsListNumber(text,token);
+        const alphanumeric=/\p{L}/u.test(word) && /\p{N}/u.test(word);
+        const standaloneNumber=!enumerator && /^\p{N}+(?:[-_\/]\p{N}+)*$/u.test(word);
+        const isError=!enumerator && !alphanumeric && /\p{L}/u.test(word) && estaErrorOrtografico(word);
+        const classes=[];
+        if (enumerator) classes.push('list-index-token');
+        else if (alphanumeric) classes.push('code-number-token');
+        else if (standaloneNumber) classes.push('standalone-number-token');
+        if (isError) { classes.push('spelling-error'); count++; }
+        const data=isError ? ` tabindex="0" data-spell-start="${token.start}" data-spell-end="${token.end}" data-spell-word="${escapeSpellHtml(word)}" title="Posible error ortográfico. Seleccione para ver sugerencias."` : '';
+        const suffix=enumerator ? '.' : '';
+        const fragment=formatSelectedFragment(word+suffix,token.start,token.end+suffix.length,linkedRange);
+        fragments.push(classes.length ? `<span class="${classes.join(' ')}"${data}>${fragment}</span>` : fragment);
+        index=token.end+suffix.length;
+      }
+      fragments.push(formatSelectedFragment(text.slice(index,end),index,end,linkedRange));
+    }
+
+    let cursor=0;
+    for (const range of getParentheticalRanges(text)) {
+      renderSegment(cursor,range.start);
+      fragments.push('<span class="parenthetical-token">');
+      renderSegment(range.start,range.end);
+      fragments.push('</span>');
+      cursor=range.end;
+    }
+    renderSegment(cursor,text.length);
     spellingCount.innerHTML = `<b>${count}</b> posible${count===1?'':'s'} error${count===1?'':'es'}`;
     return fragments.join('');
+  }
+
+  // Selección en paralelo por la secuencia de palabras, no por saltos de línea.
+  // Permite que el organizador inserte sangrías y reacomode párrafos.
+  function mapSelectionByTokens(source, destination, begin, finish) {
+    if (begin === finish) return null;
+    const from=getDisplayTokens(source), to=getDisplayTokens(destination);
+    if (!from.length || !to.length) return null;
+    const indexes=[];
+    for (let i=0;i<from.length;i++) {
+      if (from[i].end>begin && from[i].start<finish) indexes.push(i);
+    }
+    if (!indexes.length) return null;
+    const first=indexes[0], last=indexes[indexes.length-1];
+    if (from.length === to.length) {
+      // Las palabras corregidas o el cambio Aa pueden diferir sin alterar el orden.
+      return {
+        start:to[first].start+Math.min(Math.max(0,begin-from[first].start),to[first].value.length),
+        end:to[last].start+Math.min(Math.max(0,finish-from[last].start),to[last].value.length)
+      };
+    }
+    // Si se editaron palabras, buscamos la coincidencia local más cercana.
+    const locate=(position) => {
+      const target=from[position];
+      const guess=Math.round(position * to.length / from.length);
+      let best=-1, score=Infinity;
+      for(let j=0;j<to.length;j++) {
+        if (to[j].key !== target.key) continue;
+        const distance=Math.abs(j-guess);
+        const context=(position>0 && j>0 && from[position-1].key===to[j-1].key ? -3 : 0)+
+          (position+1<from.length && j+1<to.length && from[position+1].key===to[j+1].key ? -3 : 0);
+        if(distance+context<score) {best=j;score=distance+context;}
+      }
+      return best;
+    };
+    const a=locate(first), b=locate(last);
+    if(a<0 || b<0 || b<a) return null;
+    return {
+      start:to[a].start+Math.min(Math.max(0,begin-from[first].start),to[a].value.length),
+      end:to[b].start+Math.min(Math.max(0,finish-from[last].start),to[b].value.length)
+    };
+  }
+
+  function updateInputMirror(range) {
+    if (!range || range.end<=range.start || !inputText.value) {
+      inputMirror.hidden=true;
+      inputMirrorContent.replaceChildren();
+      return;
+    }
+    const style=getComputedStyle(inputText);
+    inputMirror.hidden=false;
+    inputMirror.style.left=inputText.offsetLeft+'px';
+    inputMirror.style.top=inputText.offsetTop+'px';
+    inputMirror.style.width=inputText.clientWidth+'px';
+    inputMirror.style.height=inputText.clientHeight+'px';
+    inputMirror.style.padding=style.padding;
+    inputMirror.style.font=style.font;
+    inputMirror.style.letterSpacing=style.letterSpacing;
+    inputMirror.style.lineHeight=style.lineHeight;
+    inputMirror.style.tabSize=style.tabSize;
+    inputMirror.style.textAlign=style.textAlign;
+    inputMirror.style.whiteSpace=style.whiteSpace;
+    inputMirror.style.overflowWrap=style.overflowWrap;
+    inputMirror.style.wordBreak=style.wordBreak;
+    inputMirrorContent.innerHTML=formatSelectedFragment(inputText.value,0,inputText.value.length,range);
+    inputMirrorContent.style.transform=`translate(${-inputText.scrollLeft}px,${-inputText.scrollTop}px)`;
+  }
+
+  function clearLinkedSelection() {
+    linkedSelectionSource=null;
+    linkedOutputRange=null;
+    linkedInputRange=null;
+    updateInputMirror(null);
+    if (!outputPreview.classList.contains('is-placeholder') &&
+        outputPreview.querySelector('.linked-selection') && document.activeElement !== outputPreview) {
+      outputPreview.innerHTML=markSpelling(outputText.value);
+    }
+  }
+
+  function mirrorFromInput() {
+    // setSelectionRange desde el resultado genera eventos select asíncronos.
+    // Solo una selección hecha realmente dentro del original debe activar esta ruta.
+    if (suppressLinkedSelection || document.activeElement !== inputText || !inputText.value || !outputText.value) return;
+    const begin=inputText.selectionStart, finish=inputText.selectionEnd;
+    if(begin===finish) {clearLinkedSelection();return;}
+    const target=mapSelectionByTokens(inputText.value,outputText.value,begin,finish);
+    linkedSelectionSource='input';
+    linkedInputRange={start:begin,end:finish};
+    linkedOutputRange=target;
+    updateInputMirror(null);
+    outputPreview.innerHTML=markSpelling(outputText.value,target);
+  }
+
+  function offsetInsidePreview(node,offset) {
+    const range=document.createRange();
+    range.selectNodeContents(outputPreview);
+    range.setEnd(node,offset);
+    return range.toString().length;
+  }
+
+  function mirrorFromOutput() {
+    if (suppressLinkedSelection || !inputText.value || !outputText.value) return;
+    const selection=window.getSelection();
+    if(!selection || selection.isCollapsed || !selection.rangeCount) {clearLinkedSelection();return;}
+    const range=selection.getRangeAt(0);
+    if (!outputPreview.contains(range.startContainer) || !outputPreview.contains(range.endContainer)) return;
+    const begin=offsetInsidePreview(range.startContainer,range.startOffset);
+    const finish=offsetInsidePreview(range.endContainer,range.endOffset);
+    const target=mapSelectionByTokens(outputText.value,inputText.value,begin,finish);
+    linkedSelectionSource='output';
+    linkedOutputRange={start:begin,end:finish};
+    linkedInputRange=target;
+    if(target){
+      suppressLinkedSelection=true;
+      inputText.setSelectionRange(target.start,target.end);
+      suppressLinkedSelection=false;
+    }
+    updateInputMirror(target);
+  }
+
+  function scheduleMirrorFromOutput() {
+    if (selectionMirrorScheduled) return;
+    selectionMirrorScheduled=true;
+    requestAnimationFrame(() => {
+      selectionMirrorScheduled=false;
+      if(document.activeElement===outputPreview) mirrorFromOutput();
+    });
   }
 
   function closeSpellingPopover() {
@@ -2492,7 +2708,7 @@
     });
     const dismiss=document.createElement('button'); dismiss.type='button'; dismiss.className='spelling-minor'; dismiss.textContent='Cerrar'; dismiss.addEventListener('click',closeSpellingPopover);
     controls.append(add,dismiss); spellingPopover.appendChild(controls);
-    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent=hunspellCO ? 'Sugerencias del diccionario es_CO. El texto original no se modifica.' : 'Sugerencias preliminares. Los nombres y códigos técnicos pueden agregarse al diccionario.'; spellingPopover.appendChild(note);
+    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent=hunspellCO ? 'Sugerencias del diccionario es_CO. La corrección aceptada se refleja en ambos textos.' : 'Sugerencias preliminares. Los nombres y códigos técnicos pueden agregarse al diccionario.'; spellingPopover.appendChild(note);
     spellingPopover.classList.add('open'); spellingPopover.setAttribute('aria-hidden','false');
     const rect=span.getBoundingClientRect();
     const width=Math.min(310,window.innerWidth-20);
@@ -2507,6 +2723,10 @@
     const source=outputText.value;
     if(!source||start<0||end>source.length) return;
     const updated=source.slice(0,start)+replacement+source.slice(end);
+    // Una corrección aceptada también actualiza la fuente, como cualquier
+    // edición directa del resultado en la sincronización bidireccional.
+    inputText.value = projectEditToSource(source, updated, inputText.value);
+    updateInputOverlayState();
     // Ajusta líneas de nuevo para conservar el ancho configurado.
     const blocks=parseBlocks(updated,false);
     const width=safeInteger(maxWidth.value,DEFAULT_WIDTH,10);
@@ -2517,7 +2737,7 @@
     outputText.value=reformatted;
     renderOutputPreview(reformatted,width);
     updateStatsAndValidation(reformatted ? reformatted.split('\n') : [],width);
-    setStatus('Sugerencia aplicada al resultado. El texto original permanece intacto.');
+    setStatus('Sugerencia aplicada en ambos textos.');
   }
 
   function refreshSpellingDecorations() {
@@ -2527,7 +2747,7 @@
       return;
     }
     const value=outputText.value;
-    outputPreview.innerHTML=markSpelling(value);
+    outputPreview.innerHTML=markSpelling(value,linkedSelectionSource==='input'?linkedOutputRange:null);
     fitOutputPreview();
   }
 
@@ -2590,6 +2810,7 @@
   }
 
   function renderOutputPreview(result, width) {
+    clearLinkedSelection();
     const hasResult = result.length > 0;
     closeSpellingPopover();
     outputPreview.innerHTML = hasResult ? markSpelling(result) : 'El resultado aparecerá aquí...';
@@ -3143,17 +3364,17 @@
       html: "<p>Organizar listados y textos técnicos para que cada línea respete un ancho máximo de caracteres sin alterar palabras, códigos ni datos técnicos.</p>" +
         "<p>Está pensado para preparar contenido en editores o entornos que no organizan automáticamente el texto por ancho de línea.</p>" +
         "<p>La zona más clara a la izquierda marca visualmente la sangría. Su límite se ajusta arrastrando el marcador superior; la vista escala en pantallas pequeñas.</p>" +
-        "<p>La revisión ortográfica utiliza el diccionario es_CO si está instalado. Señala posibles errores en rojo y permite correcciones seleccionables sin cambiar el texto original. No detecta todos los errores que dependen del contexto.</p>"
+        "<p>La revisión ortográfica utiliza el diccionario es_CO si está instalado. Señala posibles errores en rojo y permite aceptar correcciones que se reflejan en ambos textos. No detecta todos los errores que dependen del contexto.</p>"
     },
     help: {
       title: "Instrucciones de uso",
       html: "<ol>" +
         "<li>Pegue el contenido en <strong>Texto original</strong> con Ctrl + V o el icono Pegar.</li>" +
-        "<li>Use el botón central de energía para <strong>Organizar texto</strong>.</li>" +
-        "<li>Si necesita cambiar el ancho, la sangría o tomar un ancho desde ejemplo, use los iconos de la columna central.</li>" +
+        "<li>La organización se actualiza <strong>automáticamente mientras escribe</strong>.</li>" +
+        "<li>Si necesita cambiar el ancho, la sangría o tomar un ancho desde ejemplo, use la cota superior y el marcador de sangría.</li>" +
         "<li>En Texto organizado, B activa la negrita; Aa alterna entre texto original, minúsculas, texto mixto tipo oración y mayúsculas; W ajusta el ancho.</li>" +
         "<li>Arrastre el marcador sobre el límite del fondo claro para ajustar la sangría de uno en uno; con doble clic abre el panel.</li>" +
-        "<li>Seleccione las palabras subrayadas en rojo para ver posibles correcciones o incorporarlas a su diccionario personal.</li>" +
+        "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
         "<li>Use <strong>Nuevo</strong> para empezar otra sesión y <strong>Restaurar</strong> para volver a la configuración inicial.</li>" +
         "</ol>"
     }
@@ -3188,38 +3409,38 @@
     if (!button) return;
     const rect = button.getBoundingClientRect();
     const panelRect = toolPanel.getBoundingClientRect();
-    const isCompact = window.matchMedia("(max-width: 1250px)").matches;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const margin = 9;
+    let left, top;
 
-    let left;
-    let top;
-
-    // Los paneles W y color se abren debajo de los iconos para no tapar la barra.
-    if (button === widthFactorBtn || button === textColorBtn) {
-      left = Math.max(9, Math.min(rect.right - panelRect.width, window.innerWidth - panelRect.width - 9));
-      top = rect.bottom + 12;
-      if (top + panelRect.height > window.innerHeight - 9) {
-        top = Math.max(9, rect.top - panelRect.height - 12);
+    if (activeTool === 'width') {
+      // La configuración del ancho nace de la cota del resultado, no de una barra intermedia.
+      if (window.matchMedia('(max-width: 680px)').matches) {
+        // En teléfonos aparece centrada dentro de la mitad superior visible.
+        left = Math.max(margin, (viewportWidth - panelRect.width) / 2);
+        top = Math.max(margin, Math.min(viewportHeight * .48 - panelRect.height,
+            rect.top - panelRect.height - 12));
+      } else {
+        left = rect.left + (rect.width - panelRect.width) / 2;
+        top = rect.top - panelRect.height - 12;
+        if (top < margin) top = rect.bottom + 10;
       }
-      toolPanel.style.left = left + "px";
-      toolPanel.style.top = top + "px";
-      return;
-    }
-
-    if (isCompact) {
-      left = Math.max(9, window.innerWidth - panelRect.width - 9);
-      top = rect.top - panelRect.height - 10;
-      if (top < 9) top = rect.bottom + 10;
+    } else if (activeTool === 'indent') {
+      left = rect.left + rect.width / 2 - panelRect.width / 2;
+      top = rect.bottom + 10;
+      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
+    } else if (activeTool === 'textwidth' || activeTool === 'textcolor') {
+      left = rect.right - panelRect.width;
+      top = rect.bottom + 10;
+      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
     } else {
-      left = rect.right + 12;
-      if (left + panelRect.width > window.innerWidth - 9) {
-        left = rect.left - panelRect.width - 12;
-      }
-      top = rect.top + (rect.height / 2) - (panelRect.height / 2);
-      top = Math.max(9, Math.min(top, window.innerHeight - panelRect.height - 9));
+      left = rect.left + rect.width / 2 - panelRect.width / 2;
+      top = rect.bottom + 10;
+      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
     }
-
-    toolPanel.style.left = Math.max(9, left) + "px";
-    toolPanel.style.top = Math.max(9, top) + "px";
+    toolPanel.style.left = Math.max(margin, Math.min(left, viewportWidth - panelRect.width - margin)) + 'px';
+    toolPanel.style.top = Math.max(margin, Math.min(top, viewportHeight - panelRect.height - margin)) + 'px';
   }
 
   function openToolPanel(name, button) {
@@ -3380,13 +3601,9 @@
   }
 
   async function runAutoOrganizeFlow(sourceEl) {
-    const organizeButton = $("organizeBtn");
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      await animateBetweenElements(sourceEl || inputText, organizeButton, 'var(--accent)', 420);
-    }
-    pulseButton(organizeButton);
+    // La organización ya sucede durante input; al pegar queda solo la señal visual.
     organizeText();
-    await animateActionToOutput(organizeButton, 'var(--accent-2)');
+    await animateActionToOutput(sourceEl || inputText, 'var(--accent-2)');
     triggerResultImpact('organize');
   }
 
@@ -3426,7 +3643,7 @@
   let guideDrag = null;
 
   function openIndentPanelFromGuide() {
-    openToolPanel('indent', $("indentToolBtn"));
+    openToolPanel('indent', indentGuideHandle || indentGuide);
   }
 
   function onGuidePointerDown(event) {
@@ -3461,12 +3678,6 @@
     indentGuide.classList.remove('is-dragging');
   }
 
-  $("organizeBtn").addEventListener("click", (event) => {
-    organizeText();
-    animateActionToOutput(event.currentTarget, "var(--accent-2)");
-    triggerResultImpact('organize');
-  });
-
   $("copyBtn").addEventListener("click", async (event) => {
     await copyResult();
     animateActionToOutput(event.currentTarget, "var(--accent-2)");
@@ -3481,7 +3692,7 @@
 
   $("useReferenceBtn").addEventListener("click", () => {
     useReferenceWidth();
-    animateActionToOutput($("referenceToolBtn"), "var(--accent)");
+    animateActionToOutput(dimensionBar, "var(--accent)");
   });
 
   $("clearReferenceBtn").addEventListener("click", clearReference);
@@ -3532,13 +3743,34 @@
     else if (event.key === 'ArrowRight') { event.preventDefault(); adjustIndent(1); }
     else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openIndentPanelFromGuide(); }
   });
-  inputText.addEventListener('input', updateInputOverlayState);
+  let sourceComposing = false;
+  inputText.addEventListener('compositionstart', () => { sourceComposing = true; });
+  inputText.addEventListener('compositionend', () => { sourceComposing = false; organizeText(); });
+  inputText.addEventListener('input', () => {
+    updateInputOverlayState();
+    clearLinkedSelection();
+    if (!sourceComposing) organizeText();
+  });
+  inputText.addEventListener('select', mirrorFromInput);
+  inputText.addEventListener('keyup', () => { if(document.activeElement===inputText) mirrorFromInput(); });
+  inputText.addEventListener('pointerup', () => { if(document.activeElement===inputText) mirrorFromInput(); });
+  inputText.addEventListener('scroll', () => {
+    if(linkedSelectionSource==='output') updateInputMirror(linkedInputRange);
+  }, {passive:true});
+  outputPreview.addEventListener('pointerdown', () => {
+    if(linkedSelectionSource==='input') clearLinkedSelection();
+  });
+  outputPreview.addEventListener('keyup', scheduleMirrorFromOutput);
+  outputPreview.addEventListener('pointerup', scheduleMirrorFromOutput);
+  document.addEventListener('selectionchange', () => {
+    if(document.activeElement===outputPreview) scheduleMirrorFromOutput();
+  });
   referenceLine.addEventListener("input", updateReferenceCount);
   maxWidth.addEventListener("change", organizeText);
   indentSize.addEventListener("change", organizeText);
   basicCorrections.addEventListener("change", organizeText);
-  dimensionBar.addEventListener('click', () => openToolPanel('width', $("widthToolBtn")));
-  dimensionBar.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openToolPanel('width', $("widthToolBtn")); } });
+  dimensionBar.addEventListener('click', () => openToolPanel('width', dimensionBar));
+  dimensionBar.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openToolPanel('width', dimensionBar); } });
 
   maxWidth.addEventListener("input", () => {
     updateBadges();
@@ -3575,9 +3807,72 @@
     }
   });
 
+  // Proyecta una edición puntual del resultado hacia el original conservando
+  // los saltos originales. Ignora los espacios que agregó automáticamente el ajuste.
+  function projectEditToSource(previousOutput, currentOutput, original) {
+    if (previousOutput === currentOutput) return original;
+    if (!currentOutput) return '';
+    let begin = 0;
+    const maxPrefix = Math.min(previousOutput.length, currentOutput.length);
+    while (begin < maxPrefix && previousOutput[begin] === currentOutput[begin]) begin++;
+    let tail = 0;
+    while (tail < previousOutput.length - begin && tail < currentOutput.length - begin &&
+           previousOutput[previousOutput.length - 1 - tail] === currentOutput[currentOutput.length - 1 - tail]) tail++;
+    const oldEnd = previousOutput.length - tail;
+    const newEnd = currentOutput.length - tail;
+    const replacement = currentOutput.slice(begin, newEnd);
+    // Los separadores no cuentan: se pueden reacomodar al partir líneas.
+    const originalLetters = [];
+    const resultLetters = [];
+    for (let i = 0; i < original.length; i++) if (!/\s/u.test(original[i])) originalLetters.push(i);
+    for (let i = 0; i < previousOutput.length; i++) if (!/\s/u.test(previousOutput[i])) resultLetters.push(i);
+    if (Math.abs(originalLetters.length - resultLetters.length) > 0) {
+      // En textos transformados por correcciones básicas no se dispone de
+      // correspondencia exacta carácter a carácter: se reconstruye la lista.
+      return parseBlocks(currentOutput, false)
+        .map(block => (block.prefix ? block.prefix + ' ' : '') + block.text)
+        .join('\n');
+    }
+    const countBefore = (offset) => {
+      let left=0, right=resultLetters.length;
+      while (left<right) {
+        const mid=(left+right)>>1;
+        if (resultLetters[mid]<offset) left=mid+1; else right=mid;
+      }
+      return left;
+    };
+    const leftIndex = countBefore(begin);
+    const rightIndex = countBefore(oldEnd);
+    // En una inserción justo después de una letra conservamos el cursor
+    // antes de los espacios originales (no saltamos a la palabra siguiente).
+    const insertAfterLetter = begin === oldEnd && begin > 0 && !/\s/u.test(previousOutput[begin - 1]);
+    const leftPos = insertAfterLetter && leftIndex > 0
+      ? originalLetters[leftIndex - 1] + 1
+      : leftIndex < originalLetters.length ? originalLetters[leftIndex] : original.length;
+    const rightPos = rightIndex === leftIndex ? leftPos : originalLetters[rightIndex - 1] + 1;
+    return original.slice(0,leftPos) + replacement + original.slice(rightPos);
+  }
+
   outputPreview.addEventListener('input', () => {
-    syncPreviewToOutput();
+    const previous = outputText.value;
+    const edited = outputPreview.textContent.replace(/\u00a0/g, '');
+    const sourceUpdated = projectEditToSource(previous, edited, inputText.value);
+    linkedSelectionSource=null;
+    linkedOutputRange=null;
+    linkedInputRange=null;
+    updateInputMirror(null);
+    if (sourceUpdated !== inputText.value) {
+      inputText.value = sourceUpdated;
+      updateInputOverlayState();
+    }
+    outputText.value = edited;
+    previewLinesLabel.textContent = String(edited ? edited.split('\n').length : 0);
+    caseBaseText = parseBlocks(sourceUpdated, basicCorrections.checked)
+      .flatMap(block => wrapBlock(block, safeInteger(maxWidth.value, DEFAULT_WIDTH, 10),
+        safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30))).join('\n');
+    updateStatsAndValidation(edited ? edited.split('\n') : [], safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
     closeSpellingPopover();
+    // No se vuelve a crear el contenido editable mientras se escribe: mantiene el cursor.
     requestAnimationFrame(() => fitOutputPreview());
     queueSpellingRefresh();
   });
@@ -3614,9 +3909,8 @@
   outputPreview.addEventListener('focusout',()=>setTimeout(() => { if(!spellingPopover.classList.contains('open')) refreshSpellingDecorations(); },120));
 
   outputPreview.addEventListener('blur', () => {
-    if (!outputPreview.textContent.trim()) {
-      renderOutputPreview('', safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
-    }
+    if (spellingPopover.classList.contains('open')) return;
+    organizeText();
   });
 
   inputText.addEventListener('paste', () => {
