@@ -290,7 +290,59 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
     align-items: stretch;
+    transition: grid-template-columns .42s cubic-bezier(.22,.78,.22,1), gap .42s ease;
   }
+
+  .editor-grid.is-original-hidden {
+    grid-template-columns: minmax(0, 0fr) minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  .editor-grid .editor-card {
+    min-width: 0;
+    overflow: hidden;
+    transition: opacity .25s ease, transform .42s ease, padding .42s ease, border-width .42s ease, visibility .42s;
+  }
+
+  .editor-grid.is-original-hidden .editor-card {
+    opacity: 0;
+    transform: translateX(-18px) scale(.985);
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .result-heading-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .original-visibility-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-soft);
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .18s ease, background .18s ease;
+  }
+
+  .original-visibility-btn:hover, .original-visibility-btn:focus-visible,
+  .original-visibility-btn[aria-pressed="true"] {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 9%, var(--surface-strong));
+  }
+
+  .original-visibility-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .original-visibility-btn .icon-show { display: none; }
+  .original-visibility-btn[aria-pressed="true"] .icon-show { display: initial; }
+  .original-visibility-btn[aria-pressed="true"] .icon-hide { display: none; }
 
   .editor-card,
   .result-card {
@@ -1601,6 +1653,7 @@
 
   /* v2.12: dos paneles, sin barra intermedia. Acciones junto a Negrita. */
   .editor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .editor-grid.is-original-hidden { grid-template-columns: minmax(0, 0fr) minmax(0, 1fr); gap: 0; }
   .result-card { grid-column: 2; }
   .result-tool-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
   #copyBtn { color: #009eab; }
@@ -1614,7 +1667,9 @@
   }
 
   @media (max-width: 980px) {
-    .editor-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; align-items: start; }
+    .editor-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 18px; align-items: start; transition: grid-template-rows .42s cubic-bezier(.22,.78,.22,1), gap .42s ease; }
+    .editor-grid.is-original-hidden { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 0fr) auto; gap: 0; }
+    .editor-grid.is-original-hidden .editor-card { min-height: 0; max-height: 0; height: 0; padding-top: 0; padding-bottom: 0; }
     .editor-card { grid-column: 1; grid-row: 1; }
     .result-card { grid-column: 1; grid-row: 2; }
     .info-dock {
@@ -1705,6 +1760,247 @@
     }
   }
 
+
+  /* v2.15: el original se pliega como pestaña lateral; el resultado se centra. */
+  .editor-grid { position: relative; }
+  .editor-grid .editor-card {
+    transform-origin: 0 50%;
+    backface-visibility: hidden;
+  }
+  .editor-grid.is-original-hidden .editor-card {
+    transform: perspective(800px) rotateY(-88deg) scaleX(.04);
+    opacity: 0;
+  }
+  .editor-grid.is-original-hidden {
+    padding-left: 32px;
+    padding-right: 48px;
+  }
+  .editor-grid.is-original-hidden .result-card {
+    width: 100%;
+    max-width: 1020px;
+    justify-self: center;
+    margin-inline: auto;
+  }
+  .original-tab {
+    position: absolute;
+    z-index: 14;
+    left: 0;
+    top: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 30px;
+    height: 160px;
+    padding: 11px 5px;
+    border: 1px solid color-mix(in srgb, var(--accent-2) 24%, var(--border));
+    border-radius: 11px 3px 3px 11px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface-strong) 85%, var(--accent-2) 15%), var(--surface-strong));
+    box-shadow: -4px 8px 17px rgba(34,48,74,.08), inset -2px 0 4px rgba(0,0,0,.035);
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .055em;
+    cursor: pointer;
+    writing-mode: vertical-rl;
+    transform: perspective(450px) rotateY(-78deg) scaleX(.6);
+    transform-origin: left center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .4s cubic-bezier(.22,.78,.22,1), opacity .3s ease, visibility .4s;
+  }
+  .original-tab svg { width: 17px; height: 17px; stroke:currentColor; stroke-width:1.8; fill:none; stroke-linejoin:round; stroke-linecap:round; flex:none; }
+  .editor-grid.is-original-hidden .original-tab {
+    transform: perspective(450px) rotateY(0) scaleX(1);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .original-tab:hover, .original-tab:focus-visible {
+    color: var(--accent-2);
+    background: var(--surface-strong);
+    box-shadow: 0 0 0 3px var(--focus), -3px 10px 20px rgba(34,48,74,.09);
+  }
+  .editor-grid.is-original-hidden #toggleOriginalBtn { pointer-events: none; }
+
+  /* Lienzo medido: evita recortes falsos cuando el usuario amplía el resultado. */
+  .zoom-canvas {
+    position: relative;
+    display: block;
+    overflow: visible;
+    min-width: 1px;
+    min-height: 1px;
+  }
+  .zoom-canvas .output-scaler {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .output-viewport { overflow: auto; scrollbar-width: thin; overscroll-behavior-x: contain; }
+  .zoom-dock {
+    position: fixed;
+    z-index: 16;
+    right: max(6px, env(safe-area-inset-right));
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: color-mix(in srgb, var(--surface-strong) 93%, transparent);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    transition: opacity .2s ease, visibility .2s;
+  }
+  .zoom-dock.is-outside { opacity: 0; visibility: hidden; pointer-events: none; }
+  .zoom-dock button {
+    display: grid;
+    place-items: center;
+    width: 39px;
+    height: 39px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .zoom-dock button:hover, .zoom-dock button:focus-visible {
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface-soft));
+    border-color: var(--border);
+    color: var(--accent);
+  }
+  .zoom-dock button.is-active {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 11%, transparent);
+  }
+  .zoom-dock button svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+  .zoom-dock .zoom-divider { height:1px; width:25px; margin:2px auto; background:var(--border); }
+  @media (max-width: 980px) {
+    .editor-grid.is-original-hidden {
+      grid-template-rows: auto;
+      padding-left: 28px;
+      padding-right: 30px;
+    }
+    .editor-grid.is-original-hidden .editor-card { grid-row:1; }
+    .editor-grid.is-original-hidden .result-card { grid-row:2; }
+    .original-tab { top: 72px; width: 28px; height: 135px; }
+    .zoom-dock { padding: 4px; gap: 3px; border-radius: 14px; }
+    .zoom-dock button { width:35px; height:35px; }
+    .zoom-dock button svg { width:19px; height:19px; }
+  }
+  @media (max-width: 380px) {
+    .editor-grid.is-original-hidden { padding-left:24px; padding-right:22px; }
+    .original-tab { width: 24px; font-size:.64rem; }
+    .zoom-dock button { width:32px; height:33px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .original-tab, .editor-grid .editor-card { transition-duration: .01ms !important; }
+  }
+
+
+  /* v2.16: plegado junto a su título; pestaña adosada al resultado. */
+  .original-heading-line {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .original-heading-line .original-visibility-btn {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 6%, var(--surface-strong));
+  }
+  .original-heading-line .original-visibility-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  .editor-grid .result-card .original-tab {
+    position: absolute;
+    top: 94px;
+    left: -42px;
+    width: 39px;
+    height: 194px;
+    padding: 8px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    border-radius: 15px 4px 4px 15px;
+    border: 1px solid color-mix(in srgb, var(--accent-2) 42%, var(--border));
+    border-right: 3px solid color-mix(in srgb, var(--accent) 32%, var(--accent-2));
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--surface-strong) 90%, var(--accent-2) 10%),
+      color-mix(in srgb, var(--surface-soft) 82%, var(--accent) 18%));
+    box-shadow: -6px 9px 18px rgba(28,47,90,.12), inset 1px 1px rgba(255,255,255,.30);
+    writing-mode: horizontal-tb;
+    transform: perspective(470px) rotateY(-85deg) scaleX(.8);
+    transform-origin: right center;
+    transition: transform .42s cubic-bezier(.22,.8,.25,1), opacity .28s ease, visibility .42s, box-shadow .18s ease;
+  }
+  .original-tab-icon {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface-strong));
+    color: var(--accent);
+  }
+  .original-tab-text {
+    display: block;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.1;
+    white-space: nowrap;
+    letter-spacing: .055em;
+    color: var(--text);
+  }
+  .editor-grid.is-original-hidden .result-card .original-tab {
+    transform: perspective(470px) rotateY(0deg);
+  }
+  .editor-grid.is-original-hidden .original-tab:hover,
+  .editor-grid.is-original-hidden .original-tab:focus-visible {
+    border-color: var(--accent);
+    box-shadow: -7px 12px 21px rgba(28,47,90,.15), 0 0 0 3px var(--focus);
+    background: color-mix(in srgb, var(--accent-2) 12%, var(--surface-strong));
+  }
+  @media (max-width: 980px) {
+    .editor-grid .result-card .original-tab {
+      top: 80px;
+      left: -32px;
+      width: 31px;
+      height: 170px;
+      gap: 8px;
+      padding: 6px 3px;
+      border-radius: 11px 3px 3px 11px;
+    }
+    .original-tab-icon { width: 24px; height: 24px; flex-basis: 24px; }
+    .original-tab-text { font-size: 10px; }
+  }
+  @media (max-width: 380px) {
+    .editor-grid .result-card .original-tab {
+      top: 76px;
+      left: -26px;
+      width: 26px;
+      height: 158px;
+      padding-inline: 2px;
+    }
+    .original-tab-icon { width: 20px; height: 20px; flex-basis: 20px; }
+    .original-tab-icon svg { width: 15px; height: 15px; }
+    .original-tab-text { font-size: 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .original-tab { transition-duration: .01ms !important; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       scroll-behavior: auto !important;
@@ -1753,14 +2049,17 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.13">v2.13</div>
+    <div class="version-pill" aria-label="Versión 2.16">v2.16</div>
   </header>
 
   <main class="workspace">
     <div class="editor-grid">
       <section id="inputCard" class="panel editor-card" aria-labelledby="inputTitle">
-        <div class="editor-title">
+        <div class="editor-title original-heading-line">
           <h2 id="inputTitle">Texto original</h2>
+          <button id="toggleOriginalBtn" class="original-visibility-btn" type="button" aria-pressed="false" aria-label="Ocultar Texto original" title="Plegar Texto original">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M11 5l-7 7 7 7"/></svg>
+          </button>
         </div>
         <div class="input-overlay-actions">
           <button id="pasteBtn" class="overlay-action primary" type="button" aria-label="Pegar desde el portapapeles">
@@ -1777,9 +2076,15 @@
       </section>
 
       <section class="result-card" aria-labelledby="outputTitle">
+        <button id="originalTab" class="original-tab" type="button" aria-label="Mostrar Texto original" tabindex="-1" aria-hidden="true" title="Mostrar Texto original">
+          <span class="original-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 12H5m7-6-6 6 6 6"/></svg></span>
+          <span class="original-tab-text">Texto original</span>
+        </button>
         <div class="editor-title result-title-bar">
           <div class="result-head-group">
-            <h2 id="outputTitle">Texto organizado</h2>
+            <div class="result-heading-line">
+              <h2 id="outputTitle">Texto organizado</h2>
+            </div>
             <div class="editor-meta"><strong id="previewLinesLabel">0</strong> líneas · <span id="previewScaleLabel">100 %</span><span id="spellingCount" class="spelling-status" aria-live="polite" title="Revisión ortográfica local de español colombiano"><b>0</b> posibles errores</span></div>
           </div>
           <div class="result-tools" aria-label="Acciones y formato del texto organizado">
@@ -1795,6 +2100,9 @@
             <button id="caseToggleBtn" class="result-tool-btn" type="button" aria-label="Cambiar a minúsculas" title="Cambiar a minúsculas; luego texto mixto, mayúsculas y original">
               <span id="caseToggleIcon" class="result-tool-icon" aria-hidden="true">Aa</span>
             </button>
+            <button id="blankLineToggleBtn" class="result-tool-btn" type="button" aria-pressed="false" aria-label="Activar línea vacía entre elementos numerados" title="Agregar una línea vacía entre numerales">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 19h16M10 12h4"/><path d="M5 12h2M17 12h2" stroke-dasharray="2 3"/></svg>
+            </button>
             <button id="widthFactorBtn" class="result-tool-btn width-tool-btn" type="button" data-tool="textwidth" aria-label="Editar factor de ancho W" aria-expanded="false" title="Editar factor de ancho W">
               <span class="result-tool-icon" aria-hidden="true">W</span>
             </button>
@@ -1805,7 +2113,8 @@
         </div>
         <div class="result-shell">
           <div id="outputViewport" class="output-viewport" aria-label="Vista exacta del texto organizado">
-            <div id="outputScaler" class="output-scaler">
+            <div id="zoomCanvas" class="zoom-canvas">
+              <div id="outputScaler" class="output-scaler">
               <div id="dimensionBar" class="dimension-bar" role="button" tabindex="0" aria-label="Editar ancho máximo">
                 <div class="dimension-label"><span><strong id="dimensionText">104 caracteres</strong><small id="dimensionScaleText">escala 100 %</small></span></div>
               </div>
@@ -1816,6 +2125,7 @@
                 </div>
                 <div id="outputPreview" class="is-placeholder" contenteditable="false" spellcheck="false" lang="es-CO">El resultado aparecerá aquí...</div>
               </div>
+              </div>
             </div>
             <div class="output-target" aria-hidden="true"></div>
           </div>
@@ -1825,6 +2135,14 @@
       </section>
     </div>
   </main>
+
+  <nav id="zoomDock" class="zoom-dock" aria-label="Zoom del texto organizado">
+    <button id="zoomInBtn" type="button" aria-label="Acercar" title="Acercar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6M10.5 7.5v6"/></svg></button>
+    <button id="zoomOutBtn" type="button" aria-label="Alejar" title="Alejar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M7.5 10.5h6"/></svg></button>
+    <span class="zoom-divider" aria-hidden="true"></span>
+    <button id="zoomFitWidthBtn" type="button" aria-label="Ajustar al ancho" title="Ajustar al ancho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4v16M21 4v16M7 12h10M10 9l-3 3 3 3M14 9l3 3-3 3"/></svg></button>
+    <button id="zoomFitHeightBtn" type="button" aria-label="Ajustar al alto" title="Ajustar al alto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16M4 21h16M12 7v10M9 10l3-3 3 3M9 14l3 3 3-3"/></svg></button>
+  </nav>
 
   <div id="statusToast" class="status-toast" aria-live="polite"></div>
 
@@ -1985,7 +2303,7 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.13";
+  const APP_VERSION = "2.16";
   const APP_DATE = "20/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
@@ -1998,6 +2316,13 @@
   const outputPreview = $("outputPreview");
   const outputViewport = $("outputViewport");
   const outputScaler = $("outputScaler");
+  const zoomCanvas = $("zoomCanvas");
+  const zoomDock = $("zoomDock");
+  const originalTab = $("originalTab");
+  const zoomInBtn = $("zoomInBtn");
+  const zoomOutBtn = $("zoomOutBtn");
+  const zoomFitWidthBtn = $("zoomFitWidthBtn");
+  const zoomFitHeightBtn = $("zoomFitHeightBtn");
   const outputSheet = $("outputSheet");
   const outputMeasure = $("outputMeasure");
   const previewLinesLabel = $("previewLinesLabel");
@@ -2015,6 +2340,9 @@
   const copyStatus = $("copyStatus");
   const statusToast = $("statusToast");
   const inputCard = $("inputCard");
+  const editorGrid = document.querySelector('.editor-grid');
+  const toggleOriginalBtn = $("toggleOriginalBtn");
+  const blankLineToggleBtn = $("blankLineToggleBtn");
   const pasteBtn = $("pasteBtn");
   const focusInputBtn = $("focusInputBtn");
   const themeBtn = $("themeBtn");
@@ -2057,6 +2385,13 @@
   let previewBold = false;
   let caseMode = 'original';
   let caseBaseText = '';
+  let blankLineBetweenItems = false;
+  let originalIsHidden = false;
+  let layoutResizeTimer = 0;
+  let previewZoomRatio = 1;
+  let previewZoomMode = 'width';
+  let lastZoomScale = 1;
+  let zoomLayoutFrame = 0;
   let previewWidthFactorValue = DEFAULT_TEXT_WIDTH_FACTOR;
   let previewTextColor = 'var(--result)';
   let draftWidthFactorValue = DEFAULT_TEXT_WIDTH_FACTOR;
@@ -2211,6 +2546,49 @@
     }
     if (current) lines.push(current);
     return lines;
+  }
+
+  // Cada línea vacía es un separador de elementos numerados, no una continuación.
+  // No se incorpora al texto original; sí al resultado y a su copia.
+  function wrapBlocksWithSeparators(blocks, width, indent) {
+    const lines = [];
+    for (let i = 0; i < blocks.length; i++) {
+      const block = blocks[i];
+      if (blankLineBetweenItems && block.prefix && lines.length && lines[lines.length - 1] !== '') {
+        lines.push('');
+      }
+      lines.push(...wrapBlock(block, width, indent));
+    }
+    return lines;
+  }
+
+  function updateBlankLineButton() {
+    if (!blankLineToggleBtn) return;
+    blankLineToggleBtn.setAttribute('aria-pressed', String(blankLineBetweenItems));
+    blankLineToggleBtn.setAttribute('aria-label', blankLineBetweenItems
+      ? 'Quitar líneas vacías entre elementos numerados'
+      : 'Agregar una línea vacía entre elementos numerados');
+    blankLineToggleBtn.title = blankLineBetweenItems
+      ? 'Quitar separación entre numerales'
+      : 'Agregar una línea vacía entre numerales';
+  }
+
+  function setOriginalVisible(visible) {
+    const hidden = !visible;
+    if (originalIsHidden === hidden) return;
+    originalIsHidden = hidden;
+    editorGrid.classList.toggle('is-original-hidden', hidden);
+    toggleOriginalBtn.setAttribute('aria-pressed', String(hidden));
+    toggleOriginalBtn.setAttribute('aria-label', hidden ? 'Mostrar Texto original' : 'Ocultar Texto original');
+    toggleOriginalBtn.title = hidden ? 'Mostrar Texto original' : 'Ocultar Texto original';
+    inputCard.setAttribute('aria-hidden', String(hidden));
+    originalTab.setAttribute('aria-hidden', String(!hidden));
+    originalTab.tabIndex = hidden ? 0 : -1;
+    // El editor puede seguir sincronizando los datos aunque quede oculto.
+    if ('inert' in inputCard) inputCard.inert = hidden;
+    requestAnimationFrame(() => fitOutputPreview());
+    clearTimeout(layoutResizeTimer);
+    layoutResizeTimer = window.setTimeout(() => fitOutputPreview(), 490);
   }
 
   function updateBadges() {
@@ -2731,7 +3109,7 @@
     const blocks=parseBlocks(updated,false);
     const width=safeInteger(maxWidth.value,DEFAULT_WIDTH,10);
     const indent=safeInteger(indentSize.value,DEFAULT_INDENT,0,30);
-    const reformatted=blocks.flatMap(block=>wrapBlock(block,width,indent)).join('\n');
+    const reformatted=wrapBlocksWithSeparators(blocks,width,indent).join('\n');
     closeSpellingPopover();
     caseBaseText = reformatted;
     outputText.value=reformatted;
@@ -2772,40 +3150,89 @@
     previewLinesLabel.textContent = String(lineCount);
   }
 
+  function updateZoomButtons() {
+    zoomFitWidthBtn.classList.toggle('is-active', previewZoomMode === 'width');
+    zoomFitHeightBtn.classList.toggle('is-active', previewZoomMode === 'height');
+    zoomFitWidthBtn.setAttribute('aria-pressed', String(previewZoomMode === 'width'));
+    zoomFitHeightBtn.setAttribute('aria-pressed', String(previewZoomMode === 'height'));
+    // Acercar nunca puede superar el ancho útil del documento.
+    const isAtFitWidth = previewZoomMode === 'width' ||
+      (previewZoomMode === 'manual' && previewZoomRatio >= .999);
+    zoomInBtn.disabled = isAtFitWidth;
+    zoomInBtn.title = isAtFitWidth ? 'Ancho máximo alcanzado' : 'Acercar';
+  }
+
+  function adjustPreviewZoom(delta) {
+    const naturalWidth = Math.max(1, outputScaler.offsetWidth || outputSheet.offsetWidth);
+    const availableWidth = Math.max(1, outputViewport.clientWidth - 12);
+    const fitWidth = availableWidth / naturalWidth;
+    // Si estaba en Ajustar alto, calcular primero la escala actual relativa al ancho.
+    const ratio = Math.min(1, lastZoomScale / Math.max(.0001, fitWidth));
+    previewZoomRatio = Math.max(.05, Math.min(1, Math.round((ratio + delta) * 100) / 100));
+    previewZoomMode = 'manual';
+    fitOutputPreview();
+  }
+
+  function fitPreviewBy(mode) {
+    previewZoomMode = mode;
+    previewZoomRatio = 1;
+    fitOutputPreview();
+  }
+
   function fitOutputPreview(width = safeInteger(maxWidth.value, DEFAULT_WIDTH, 10)) {
     const normalizedWidth = safeInteger(width, DEFAULT_WIDTH, 10);
     const indent = safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30);
     const widthFactor = safeFloat(textWidthFactor?.value ?? previewWidthFactorValue, previewWidthFactorValue, 0.4, 1);
-    dimensionText.textContent = normalizedWidth + " caracteres";
+    dimensionText.textContent = normalizedWidth + ' caracteres';
 
+    // El ancho natural incluye tanto la cota como la línea real más larga.
+    // Se mide sin zoom externo para no confundir la escala W con el zoom de lectura.
     outputMeasure.style.transform = 'scaleX(' + widthFactor.toFixed(2) + ')';
-    // Se mide el avance de ESPACIOS, no el ancho de los dígitos.
-    // La misma fuente monoespaciada rige todo el texto organizado.
     outputMeasure.textContent = '\u00a0'.repeat(normalizedWidth);
     const textWidth = outputMeasure.getBoundingClientRect().width;
-    const charWidth = normalizedWidth > 0 ? (textWidth / normalizedWidth) : 0;
-    previewCharWidth = Math.max(.1, charWidth || previewCharWidth || 7);
-    const horizontalPadding = 42;
-    const naturalWidth = Math.max(1, Math.ceil(textWidth + horizontalPadding));
-    // El indicador debe coincidir con la primera letra de cada continuación.
+    previewCharWidth = Math.max(.1, textWidth / normalizedWidth || previewCharWidth || 7);
     const guideLeft = 24 + indent * previewCharWidth;
+    const dimensionWidth = Math.max(1, Math.ceil(textWidth + 42));
 
-    outputSheet.style.width = naturalWidth + "px";
+    outputScaler.style.transform = 'scale(1)';
+    outputSheet.style.width = dimensionWidth + 'px';
     outputSheet.style.setProperty('--indent-guide-left', guideLeft + 'px');
     if (indentGuide) indentGuide.style.left = guideLeft + 'px';
-    outputScaler.style.width = naturalWidth + "px";
-    outputScaler.style.transform = "scale(1)";
 
-    requestAnimationFrame(() => {
-      const availableWidth = Math.max(1, outputViewport.clientWidth);
-      const scale = Math.min(1, availableWidth / naturalWidth);
-      outputScaler.style.transform = "scale(" + scale + ")";
-      previewScaleLabel.textContent = Math.round(scale * 100) + " %";
-      dimensionScaleText.textContent = "escala " + Math.round(scale * 100) + " %";
+    // scrollWidth y offsetWidth miden el texto sin el zoom de su contenedor.
+    // Multiplicar por W da el ancho visual real, incluso para palabras largas.
+    // Las medidas por rectángulo podían variar durante la animación de plegado.
+    const unscaledContentWidth = Math.max(outputPreview.scrollWidth, outputPreview.offsetWidth);
+    const actualWidth = Math.max(dimensionWidth,
+      Math.ceil(unscaledContentWidth * widthFactor + 48));
+    if (actualWidth > dimensionWidth) outputSheet.style.width = actualWidth + 'px';
+    outputScaler.style.width = actualWidth + 'px';
 
-      const naturalHeight = outputScaler.scrollHeight || outputSheet.offsetHeight + 52;
-      const minimum = window.matchMedia("(max-width: 980px)").matches ? 360 : 540;
-      outputViewport.style.height = Math.max(minimum, Math.ceil(naturalHeight * scale) + 8) + "px";
+    cancelAnimationFrame(zoomLayoutFrame);
+    zoomLayoutFrame = requestAnimationFrame(() => {
+      const availableWidth = Math.max(1, outputViewport.clientWidth - 12);
+      const naturalHeight = Math.max(1, outputScaler.scrollHeight || outputSheet.offsetHeight + 52);
+      const minimum = window.matchMedia('(max-width: 980px)').matches ? 360 : 540;
+      // Sin tope de 100 %: en un monitor ancho puede ampliar más, siempre sin recortar.
+      const fitWidth = availableWidth / actualWidth;
+      const availableHeight = Math.max(280, window.innerHeight - (window.matchMedia('(max-width: 980px)').matches ? 215 : 225));
+      const fitHeight = Math.min(fitWidth, availableHeight / naturalHeight);
+      const ratio = Math.max(.05, Math.min(1, previewZoomRatio));
+      const scale = previewZoomMode === 'height' ? fitHeight : fitWidth * (previewZoomMode === 'width' ? 1 : ratio);
+      // No exceder el ancho: también protege cuando un código técnico es más largo que 104.
+      lastZoomScale = Math.min(fitWidth, Math.max(.0001, scale));
+      const renderWidth = Math.max(1, Math.ceil(actualWidth * lastZoomScale));
+      const renderHeight = Math.max(1, Math.ceil(naturalHeight * lastZoomScale));
+      zoomCanvas.style.width = renderWidth + 'px';
+      zoomCanvas.style.height = renderHeight + 'px';
+      zoomCanvas.style.marginInline = originalIsHidden && renderWidth <= outputViewport.clientWidth ? 'auto' : '0';
+      outputScaler.style.transform = 'scale(' + lastZoomScale + ')';
+      outputViewport.style.height = previewZoomMode === 'height'
+        ? Math.max(280, Math.min(availableHeight, Math.max(renderHeight + 8, 280))) + 'px'
+        : Math.max(minimum, renderHeight + 8) + 'px';
+      previewScaleLabel.textContent = Math.round(lastZoomScale * 100) + ' %';
+      dimensionScaleText.textContent = 'escala ' + Math.round(lastZoomScale * 100) + ' %';
+      updateZoomButtons();
     });
   }
 
@@ -2905,11 +3332,7 @@
     updateBadges();
 
     const blocks = parseBlocks(inputText.value, basicCorrections.checked);
-    const resultLines = [];
-
-    for (const block of blocks) {
-      resultLines.push(...wrapBlock(block, width, indent));
-    }
+    const resultLines = wrapBlocksWithSeparators(blocks, width, indent);
 
     caseBaseText = resultLines.join("\n");
     const result = convertirTipoLetra(caseBaseText, caseMode);
@@ -3011,6 +3434,8 @@
   function createNewDocument() {
     closeInfo();
     closeToolPanel();
+    setOriginalVisible(true);
+    fitPreviewBy('width');
     clearAll();
     setStatus("Área lista para un nuevo texto.");
     playIntroSequence();
@@ -3019,6 +3444,11 @@
   function restoreDefaults() {
     closeInfo();
     closeToolPanel();
+    setOriginalVisible(true);
+    previewZoomMode = 'width';
+    previewZoomRatio = 1;
+    blankLineBetweenItems = false;
+    updateBlankLineButton();
     maxWidth.value = DEFAULT_WIDTH;
     indentSize.value = DEFAULT_INDENT;
     basicCorrections.checked = false;
@@ -3375,6 +3805,8 @@
         "<li>En Texto organizado, B activa la negrita; Aa alterna entre texto original, minúsculas, texto mixto tipo oración y mayúsculas; W ajusta el ancho.</li>" +
         "<li>Arrastre el marcador sobre el límite del fondo claro para ajustar la sangría de uno en uno; con doble clic abre el panel.</li>" +
         "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
+        "<li>Use el icono de líneas separadas para insertar o quitar un renglón vacío entre elementos numerados.</li>" +
+        "<li>Use el icono de ojo junto a Texto organizado para ocultar o mostrar el bloque original. Al editar directamente el resultado, el original se oculta automáticamente.</li>" +
         "<li>Use <strong>Nuevo</strong> para empezar otra sesión y <strong>Restaurar</strong> para volver a la configuración inicial.</li>" +
         "</ol>"
     }
@@ -3719,6 +4151,34 @@
     fitOutputPreview();
   });
   caseToggleBtn?.addEventListener('click', cambiarTipoLetra);
+  blankLineToggleBtn?.addEventListener('click', () => {
+    blankLineBetweenItems = !blankLineBetweenItems;
+    updateBlankLineButton();
+    organizeText();
+  });
+  toggleOriginalBtn?.addEventListener('click', () => setOriginalVisible(originalIsHidden));
+  originalTab?.addEventListener('click', () => {
+    setOriginalVisible(true);
+    toggleOriginalBtn?.focus({preventScroll: true});
+  });
+  zoomInBtn.addEventListener('click', () => adjustPreviewZoom(.1));
+  zoomOutBtn.addEventListener('click', () => adjustPreviewZoom(-.1));
+  zoomFitWidthBtn.addEventListener('click', () => fitPreviewBy('width'));
+  zoomFitHeightBtn.addEventListener('click', () => fitPreviewBy('height'));
+  // En móvil, los controles no flotan sobre Texto original mientras se lee.
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (window.matchMedia('(max-width: 980px)').matches) {
+        zoomDock.classList.toggle('is-outside', !entries[0].isIntersecting);
+      } else {
+        zoomDock.classList.remove('is-outside');
+      }
+    }, {threshold: .015});
+    observer.observe(document.querySelector('.result-card'));
+  }
+  editorGrid?.addEventListener('transitionend', (event) => {
+    if (event.target === editorGrid && (event.propertyName === 'grid-template-columns' || event.propertyName === 'grid-template-rows')) fitOutputPreview();
+  });
   textWidthFactor?.addEventListener('input', () => setTextWidthFactor(textWidthFactor.value));
   textWidthFactor?.addEventListener('change', () => setTextWidthFactor(textWidthFactor.value));
   confirmTextWidthBtn?.addEventListener('click', confirmWidthPanel);
@@ -3854,6 +4314,7 @@
   }
 
   outputPreview.addEventListener('input', () => {
+    setOriginalVisible(false);
     const previous = outputText.value;
     const edited = outputPreview.textContent.replace(/\u00a0/g, '');
     const sourceUpdated = projectEditToSource(previous, edited, inputText.value);
@@ -3867,9 +4328,9 @@
     }
     outputText.value = edited;
     previewLinesLabel.textContent = String(edited ? edited.split('\n').length : 0);
-    caseBaseText = parseBlocks(sourceUpdated, basicCorrections.checked)
-      .flatMap(block => wrapBlock(block, safeInteger(maxWidth.value, DEFAULT_WIDTH, 10),
-        safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30))).join('\n');
+    caseBaseText = wrapBlocksWithSeparators(parseBlocks(sourceUpdated, basicCorrections.checked),
+      safeInteger(maxWidth.value, DEFAULT_WIDTH, 10),
+      safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30)).join('\n');
     updateStatsAndValidation(edited ? edited.split('\n') : [], safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
     closeSpellingPopover();
     // No se vuelve a crear el contenido editable mientras se escribe: mantiene el cursor.
@@ -3939,6 +4400,7 @@
 
   initializeTheme();
   actualizarControlTipoLetra();
+  updateBlankLineButton();
   updateBadges();
   updateInputOverlayState();
   applyPreviewTypography();
@@ -3956,6 +4418,7 @@
     home: HOME_URL,
     organize: organizeText,
     fitPreview: fitOutputPreview,
+    zoom: (mode) => { if (mode === 'width' || mode === 'height') fitPreviewBy(mode); },
     closeTools: closeToolPanel,
     newDocument: createNewDocument,
     restoreDefaults,
