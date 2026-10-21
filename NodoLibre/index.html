@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 3.6 | Diagramador de nodos sin conexión</title>
+<title>NodoLibre 4.8 | Diagramador de nodos sin conexión</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:dark;--ink:#eef5fb;--sub:#b6c8da;--base:#111925;--bar:#17212df2;--panel:#253345;--panel-border:#60708a;--accent:#6ae2cf;--grid:#61768c73;--node:#222e3e;--row:#303d50;--stroke:#a7b9d4;--shadow:0 15px 34px #0007}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--base);color:var(--ink);font-size:14px}button,input,textarea,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.icon{width:19px;height:19px;display:block;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}.icon.large{width:23px;height:23px}.icon.tiny{width:16px;height:16px}.toolbar{position:absolute;left:0;right:0;top:0;z-index:15;min-height:56px;display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--bar);border-bottom:1px solid #ffffff20;backdrop-filter:blur(12px)}.brand{margin-right:auto;line-height:1.05;white-space:nowrap}.brand strong{font-size:17px;letter-spacing:-.35px}.brand small{display:block;font-size:10px;color:var(--sub);margin-top:5px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;background:var(--panel);color:var(--ink);border:1px solid #9aa9c343;border-radius:10px;min-width:38px;height:38px;padding:7px;flex:none}.btn:active{transform:scale(.97)}.btn.primary{background:#236e66;border-color:#61d8bf}.btn:disabled{opacity:.45}.work{position:absolute;inset:56px 0 57px;overflow:hidden;touch-action:none;cursor:grab;background:radial-gradient(ellipse at 50% 30%,#23404c85,transparent 66%),var(--base)}.work::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--grid) 1px,transparent 1.25px);background-size:var(--step,25px) var(--step,25px);background-position:var(--gx,0px) var(--gy,0px);opacity:.8;pointer-events:none}.world{position:absolute;top:0;left:0;width:1px;height:1px;transform-origin:0 0;will-change:transform}.wirelayer{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none}.wire-visible{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px #0006)}.wire-hit{stroke:transparent;fill:none;stroke-width:23;pointer-events:stroke;cursor:pointer}.wire-hit:active{stroke:#ffffff23}.node{position:absolute;width:254px;background:var(--node);border:1px solid #8a9bb36e;box-shadow:var(--shadow);border-radius:13px;padding:6px;touch-action:none;user-select:none}.node.active{outline:1px solid #a1f0d8}.block-caps{position:absolute;left:0;right:0;top:-37px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.block-caps button{pointer-events:auto}.cap-btn{border:1px solid #8093b4;background:#29394f;color:#e6f5ff;border-radius:8px;padding:4px 9px;display:flex;align-items:center;gap:3px;height:27px;font-size:11px}.cap-btn.off{opacity:.5}.cap-btn .icon{width:15px;height:15px}.row{position:relative;border-radius:8px;min-height:44px;background:var(--row);color:#fff;margin:3px 3px 5px;display:flex;flex-direction:column;justify-content:center;touch-action:none}.row.kind-title{font-weight:750;box-shadow:inset 0 0 0 1px #ffffff15}.row.chosen{outline:2px solid var(--accent)}.row-text{display:block;padding:12px 12px;min-height:43px;width:100%;max-width:100%;overflow-wrap:anywhere;line-height:1.35;touch-action:none;cursor:text}.row-input{border:1px solid var(--accent);background:#0b111a7a;color:inherit;border-radius:5px;width:calc(100% - 20px);margin:6px 10px;resize:vertical;min-height:44px;max-height:200px;padding:8px 5px;font-weight:inherit;touch-action:auto}.rowtools{display:flex;justify-content:space-between;gap:2px;padding:5px 5px 7px;border-top:1px solid #ffffff21;margin:0 3px;touch-action:manipulation}.rowtools button{display:grid;place-items:center;min-width:31px;height:29px;border:1px solid #ffffff3c;border-radius:7px;background:#11192799;color:inherit;touch-action:manipulation}.rowtools button.danger{color:#ff9f9f}.rowtools .icon{width:16px;height:16px}.socket{width:19px;height:19px;position:absolute;border:2.5px solid #b9cce2;background:#54687a;border-radius:50%;z-index:4;touch-action:none;box-shadow:0 0 0 3px #16212a;cursor:crosshair}.socket[data-side=left]{left:-20px;top:50%;transform:translateY(-50%)}.socket[data-side=right]{right:-20px;top:50%;transform:translateY(-50%)}.socket[data-side=top]{top:-15px;left:50%;transform:translateX(-50%)}.socket[data-side=bottom]{bottom:-15px;left:50%;transform:translateX(-50%)}.socket.linked{background:#5ecfb6;border-color:white}.socket.pending{background:#d3ffda;outline:5px solid #76eabf50}.socket:active{scale:1.15}.watermark{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:min(65vw,290px);z-index:1;pointer-events:none;opacity:.17;text-align:center}.watermark svg{width:100%;height:auto;display:block;overflow:visible}.watermark .by{margin-top:-3px;font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--ink)}.empty{position:absolute;inset:0;display:grid;place-items:center;z-index:2;pointer-events:none}.empty div{text-align:center;max-width:275px;padding:14px}.empty button{pointer-events:auto;border:1px solid #9afde9;background:#246f67;color:white;border-radius:23px;width:74px;height:74px;font-size:38px;box-shadow:0 12px 25px #0008}.empty h2{font-size:18px;font-weight:650}.empty p{color:var(--sub);font-size:12px;line-height:1.5}.fab{position:absolute;right:13px;bottom:72px;z-index:9;width:49px;height:49px;border-radius:15px;background:#237970;border:1px solid #7ae7ce;color:#fff;display:grid;place-items:center;box-shadow:var(--shadow)}.fab .icon{width:25px;height:25px}.bottom{position:absolute;left:0;right:0;bottom:0;z-index:15;min-height:57px;padding:6px 9px max(6px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:7px;background:var(--bar);border-top:1px solid #ffffff1b}.hint{flex:1;color:var(--sub);font-size:11px;min-width:50px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.floattools{position:absolute;z-index:11;display:none;gap:5px;padding:5px;background:var(--bar);border:1px solid var(--panel-border);border-radius:12px;box-shadow:var(--shadow);touch-action:manipulation}.floattools.open{display:flex}.floattools button{height:35px;width:36px;display:grid;place-items:center;border:1px solid #ffffff32;background:#26384e;color:var(--ink);border-radius:8px;padding:6px}.floattools button.danger{color:#ffb3b3}.color-dot{width:18px;height:18px;border-radius:5px;border:2px solid #eee}.color-pop{position:absolute;z-index:18;display:none;max-width:calc(100vw - 16px);width:250px;background:var(--panel);border:1px solid var(--panel-border);border-radius:14px;padding:12px;box-shadow:var(--shadow)}.color-pop.open{display:block}.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:10px 0}.swatches button{height:29px;border:1px solid #ffffff77;border-radius:7px}.color-editor{display:flex;gap:5px}.color-editor input[type=color]{height:39px;width:44px;border:1px solid var(--panel-border);padding:3px;background:var(--base)}.color-editor input[type=text]{width:100%;min-width:0;border:1px solid var(--panel-border);background:var(--base);color:var(--ink);border-radius:6px;padding:6px}.scrim{display:none;position:fixed;inset:0;z-index:22;background:#02070ac9;align-items:flex-end;justify-content:center;padding:9px}.scrim.open{display:flex}.dialog{border:1px solid var(--panel-border);background:var(--panel);color:var(--ink);border-radius:16px;width:min(490px,100%);max-height:90dvh;overflow-y:auto;padding:16px;box-shadow:0 20px 45px #000b}.dialog h2{font-size:17px;margin:1px 0 12px}.dialog p{line-height:1.55;color:var(--sub);font-size:13px}.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--sub)}.field input,.field select{min-height:38px;min-width:0;border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink);padding:6px 8px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dlg-actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:16px}.dlg-actions button{min-width:72px;border:1px solid var(--panel-border);background:#364a60;color:var(--ink);border-radius:8px;padding:9px 12px}.dlg-actions button.ok{background:#277a6c;border-color:#61d2ba}.dlg-actions button.danger{background:#74333c}.toast{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);background:#e8fff7;color:#20323b;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .2s;z-index:25;white-space:nowrap;max-width:96vw;text-overflow:ellipsis;overflow:hidden;pointer-events:none}.toast.on{opacity:1}.hidden{display:none!important}.file{display:none}.segments{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.segments button{border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink);min-height:52px;font-size:12px;display:grid;place-items:center;padding:4px}.segments button.current{border-color:var(--accent);background:#57a99a30}.segments svg{width:55px;height:21px;fill:none;stroke:currentColor;stroke-width:2.5}.switches{display:flex;gap:10px;align-items:center}.switches label{display:flex;gap:6px;align-items:center;padding:8px 10px;background:var(--base);border:1px solid var(--panel-border);border-radius:9px}.switches input{accent-color:#48b9a4}
@@ -348,6 +348,11 @@ body.text-mode .fab#add,body.text-mode .btn.primary{background:#242424;color:#ff
 body.text-mode .nodebar button,body.text-mode .edit-row,body.text-mode .layers-menu button{color:#111;background:#fff;border-color:#888}
 body.text-mode .nodebar button.chosen{background:#252525;color:#fff}
 
+/* NodoLibre 3.8: filtro visual de un solo botón, sin barra secundaria. */
+.toolbar #filterToggle.chosen{background:#267c6d;border-color:#71e6c7;color:#fff}
+.socket.filter-origin{outline:3px solid #ffc65e;outline-offset:4px;z-index:9!important}
+body.filter-active .wire-visible{filter:none}
+
 /* NodoLibre 3.5: dos variantes compactas que heredan la geometría de Texto. */
 body.text-mode.text-white{color-scheme:dark;--ink:#f7f7f7;--sub:#d2d2d2;--base:#050505;--bar:#101010f2;--panel:#171717;--panel-border:#666;--accent:#ffffff;--grid:transparent;--node:#050505;--row:#050505;--stroke:#ffffff;--shadow:none}
 body.text-mode.text-white .work{background:#050505}
@@ -421,6 +426,47 @@ body.text-mode .node:not(.image-node) .row-text{padding-left:var(--block-pad,12p
 /* La muestra necesita ocupar el ancho disponible para representar izquierda, centro o derecha. */
 .visual-preview>.sample-line{width:100%;max-width:100%;min-height:48px;display:block;box-sizing:border-box}
 .visual-preview>.sample-line:empty::before{content:'Texto de ejemplo'}
+
+/* 3.9: colores independientes para superficie e icono contextual. */
+:root{--context-surface:#273a50;--context-symbol:#f5faff;--context-outline:#8298b4;--context-danger:#ffb8be}
+body.text-mode,body.sketch{--context-surface:#ffffff;--context-symbol:#20242a;--context-outline:#858b98;--context-danger:#a82740}
+body.text-mode.text-white{--context-surface:#232323;--context-symbol:#ffffff;--context-outline:#999999;--context-danger:#ff9d9d}
+body.red{--context-surface:#58283b;--context-symbol:#fff5f7;--context-outline:#db8ca4;--context-danger:#ffb4c3}
+.floattools button,body.sketch .floattools button{background:var(--context-surface)!important;color:var(--context-symbol)!important;border-color:var(--context-outline)!important}
+.floattools button.danger,body.sketch .floattools button.danger{color:var(--context-danger)!important}
+.floattools button .icon{stroke:currentColor}
+.port-menu{width:min(240px,calc(100vw - 22px))}
+.socket.color-socket{--socket-fill:#389bc5;--socket-outline:2px solid #389bc5;z-index:7}
+.socket.color-socket::before{box-shadow:0 0 0 1.2px var(--panel);}
+/* Avisos 4.1: posición contextual sin cubrir barras, ventanas ni teclado. */
+.toast{position:fixed;left:50%;top:auto;bottom:auto;transform:translateX(-50%);width:max-content;max-width:min(90vw,690px);padding:12px 18px;white-space:normal;overflow:visible;text-overflow:clip;text-align:center;line-height:1.38;font-size:clamp(24px,7vw,28px);font-weight:500;box-shadow:0 7px 24px #0004;overflow-wrap:break-word;pointer-events:none;z-index:29}
+.toast.on{opacity:1}
+.toast.in-panel{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:auto;max-width:calc(100% - 18px);margin:8px 9px;flex:0 0 auto;z-index:1;font-size:clamp(17px,3.8vw,24px);box-shadow:0 2px 9px #0003;box-sizing:border-box}
+/* El mensaje ocupa su propio renglón: no cubre encabezados ni campos editables. */
+#textImportPanel>.toast.in-panel,#layersMenu>.toast.in-panel{margin:8px auto;width:calc(100% - 18px)}
+@media(max-width:420px){.toast{padding:12px 14px;max-width:calc(100vw - 32px)}}
+
+/* NodoLibre 4.2: dos grupos independientes, con modos de color opcionales. */
+.port-menu{width:min(310px,calc(100vw - 22px));max-height:min(72dvh,520px);overflow-y:auto;gap:10px!important;padding:12px!important}
+.port-group{border:1px solid var(--panel-border);border-radius:12px;margin:0;min-width:0;padding:8px;display:grid;gap:5px}
+.port-group legend{padding:0 6px;font-size:12px;font-weight:750;color:var(--ink)}
+.port-choice{min-height:44px;display:flex;align-items:center;gap:11px;padding:8px 10px;border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink);cursor:pointer;font-size:13px;line-height:1.25}
+.port-choice:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--base) 76%,var(--accent));font-weight:650}
+.port-choice input{width:19px;height:19px;min-width:19px;margin:0;accent-color:#218877;cursor:pointer}
+.port-choice:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+/* La simetría conserva los textos y cambia solamente los conectores. */
+.nodebar.for-image #nodeMirror{display:none}
+.nodebar #nodeMirror{color:var(--ink)}
+#editorRows .mirror-on,.visual-tools button.mirror-on{border-color:#56c9b9;background:color-mix(in srgb,var(--accent) 22%,var(--panel));}
+@media(max-width:430px){.nodebar button{width:37px;min-width:37px}}
+
+/* NodoLibre 4.8: espesor ajustable y trazado ligero sin procesamiento de cruces. */
+.wire-visible{stroke-width:3.2}
+/* El ancho se aplica mediante SVG; evita que un tema reemplace el control. */
+#wireThickness{width:min(205px,52vw);min-width:110px;accent-color:var(--accent);touch-action:pan-x}
+#wireThicknessValue{min-width:42px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink)}
+#wireAppearance .thickness-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:40px}
+#wireAppearance .thickness-controls .icon{width:22px;height:22px}
 </style>
 </head>
 <body class="intro-active">
@@ -429,7 +475,7 @@ body.text-mode .node:not(.image-node) .row-text{padding-left:var(--block-pad,12p
  <button class="btn" id="newProject" title="Nuevo diagrama" aria-label="Crear diagrama nuevo" data-ico="filePlus"></button>
  
  <button class="btn" id="theme" title="Capas y apariencia" aria-label="Capas de estilo, ancho, bordes y fondos" data-ico="layers"></button>
- <button class="btn" id="ports" title="Visibilidad de conectores" aria-label="Capas de conectores" data-ico="circles"></button>
+ <button class="btn" id="ports" title="Visibilidad de conectores" aria-label="Capas de conectores" data-ico="circles"></button><button class="btn" id="filterToggle" title="Activar o desactivar el filtro de enlaces" aria-label="Activar o desactivar filtro de conexiones" aria-pressed="false" data-ico="filter"></button>
  <button class="btn" id="save" title="Guardar proyecto .nodolibre" aria-label="Guardar proyecto nativo" data-ico="save"></button>
  <button class="btn" id="export" title="Exportar diagrama" aria-label="Exportar imagen" data-ico="export"></button>
  <button class="btn" id="open" title="Abrir proyecto NodoLibre" aria-label="Abrir diagrama" data-ico="folder"></button>
@@ -473,6 +519,13 @@ body.text-mode .node:not(.image-node) .row-text{padding-left:var(--block-pad,12p
  </div>
  <div class="layer-section socket-panel" id="wireAppearance" aria-label="Apariencia de enlaces">
   <div class="appearance-heading"><span>Enlaces</span></div>
+  <div class="setting-row"><label class="setting-name" for="wireThickness">Espesor</label>
+   <div class="thickness-controls">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M2 7H22" stroke-width="2"/><path d="M2 16H22" stroke-width="6"/></svg>
+    <input type="range" id="wireThickness" min="1" max="18" step="0.1" value="3.2" aria-label="Espesor de enlaces en píxeles">
+    <output id="wireThicknessValue" for="wireThickness">3 px</output>
+   </div>
+  </div>
   <div class="setting-row">
    <span class="setting-name">Trazo</span>
    <div class="layer-symbols" role="group" aria-label="Visibilidad y color de las conexiones">
@@ -489,7 +542,18 @@ body.text-mode .node:not(.image-node) .row-text{padding-left:var(--block-pad,12p
  <div class="layer-section"><span>Los cambios individuales se ajustan desde el lápiz de cada bloque.</span></div></div>
 <div id="saveMenu" class="insert-menu" role="menu" aria-label="Exportar"><button id="savePng" data-ico="image">Imagen PNG</button></div>
 
-<div id="portmenu" class="port-menu" aria-label="Visibilidad de conectores"><strong>Conectores visibles</strong><button data-port="all">◉ Todos (para conectar)</button><button data-port="used">◉ Solo utilizados</button><button data-port="none">◯ Ninguno</button></div>
+<div id="portmenu" class="port-menu" aria-label="Conectores visibles y ubicación">
+ <fieldset class="port-group"><legend>Visibilidad</legend>
+  <label class="port-choice"><input type="radio" name="portVisibility" value="all"><span>Todos (para conectar)</span></label>
+  <label class="port-choice"><input type="radio" name="portVisibility" value="used"><span>Solo utilizados</span></label>
+  <label class="port-choice"><input type="radio" name="portVisibility" value="none"><span>Ninguno</span></label>
+ </fieldset>
+ <fieldset class="port-group"><legend>Distribución de conectores</legend>
+  <label class="port-choice"><input type="checkbox" name="colorPosition" value="edge"><span>Al borde de la fila</span></label>
+  <label class="port-choice"><input type="checkbox" name="colorPosition" value="text"><span>Cerca del texto</span></label>
+  <label class="port-choice"><input type="checkbox" name="colorPosition" value="distribute"><span>Distribuir entre ambas caras</span></label>
+ </fieldset>
+</div>
 <div id="insertMenu" class="insert-menu" role="menu" aria-label="Insertar bloque"><button id="addText" title="Bloque de texto" data-ico="type"> Texto</button><button id="addImage" title="Bloque de imagen" data-ico="image"> Imagen</button></div>
 <div id="imgMenu" class="insert-menu" role="menu" aria-label="Importar imagen"><button id="imgPaste" data-ico="clipboard"> Pegar</button><button id="imgChoose" data-ico="folder"> Archivo</button></div>
 <div id="scaleSliderBar" class="scale-slider-bar" aria-label="Escala desde el centro"><input id="scaleSlider" type="range" min="20" max="400" value="100" step="1" aria-label="Escala porcentual desde el centro"><span id="scaleValue" class="scale-value">100 %</span><button id="scaleSliderClose" title="Terminar escala" aria-label="Cerrar escala" data-ico="close"></button></div>
@@ -520,7 +584,7 @@ body.text-mode .node:not(.image-node) .row-text{padding-left:var(--block-pad,12p
  </div></aside>
   <div id="world" class="world"><div id="bgWorld" class="bg-world"><div class="bg-crop-viewport"><img id="bgImg" alt="" draggable="false"></div><div id="bgCropSelection" class="bg-crop-selection" aria-label="Recorte del fondo"></div><button id="bgResize" title="Escalar fondo proporcionalmente" aria-label="Arrastre para escalar el fondo" data-bg-resize="1"></button></div><svg id="wires" class="wirelayer" xmlns="http://www.w3.org/2000/svg"></svg><div id="nodes"></div><div id="imagePorts" class="image-port-layer"></div><div id="bgScaleHandles" class="bg-scale-layer" aria-label="Escalar fondo"><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="tl" title="Escalar desde tl" aria-label="Escalar fondo desde tl"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="tr" title="Escalar desde tr" aria-label="Escalar fondo desde tr"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="bl" title="Escalar desde bl" aria-label="Escalar fondo desde bl"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="br" title="Escalar desde br" aria-label="Escalar fondo desde br"></button><button type="button" class="scale-center" data-scale-kind="background" data-scale-center="1" title="Escalar fondo desde el centro" aria-label="Escalar fondo desde el centro">⊕</button></div></div>
  <div id="empty" class="empty"><div><button id="first" title="Agregar primer bloque" aria-label="Crear primer bloque" data-ico="plus"></button></div></div>
- <div id="nodebar" class="nodebar" aria-label="Acciones del bloque"><button id="nodeMove" title="Mover bloque" aria-label="Mover bloque" data-ico="move"></button><button id="nodeEdit" title="Editar filas, tipos y colores" aria-label="Editar bloque" data-ico="edit"></button><button id="nodeCopy" title="Copiar bloque completo" aria-label="Duplicar bloque" data-ico="copy"></button><button id="nodeJoin" title="Unir los bloques de lista seleccionados" aria-label="Unir los bloques seleccionados" data-ico="mergeBlocks"></button><button id="nodeSplit" title="Separar bloque por una guía" aria-label="Dividir bloque de listas" data-ico="split"></button><button id="nodeDelete" title="Eliminar bloque (puede deshacer)" aria-label="Eliminar bloque" data-ico="trash"></button><button id="nodePorts" title="Conectores de imagen" aria-label="Gestionar conectores" data-ico="circles"></button><button id="nodeScale" title="Escalar imagen" aria-label="Escalar imagen" data-ico="scale"></button><button id="nodeCrop" title="Recortar imagen" aria-label="Recortar imagen desde los bordes" data-ico="crop"></button><button id="nodeCancel" title="Cancelar selección" aria-label="Cancelar selección de bloques" data-ico="close"></button></div>
+ <div id="nodebar" class="nodebar" aria-label="Acciones del bloque"><button id="nodeMove" title="Mover bloque" aria-label="Mover bloque" data-ico="move"></button><button id="nodeMirror" title="Simetría horizontal de conectores del bloque" aria-label="Invertir conectores izquierdos y derechos del bloque" data-ico="mirrorH"></button><button id="nodeEdit" title="Editar filas, tipos y colores" aria-label="Editar bloque" data-ico="edit"></button><button id="nodeCopy" title="Copiar bloque completo" aria-label="Duplicar bloque" data-ico="copy"></button><button id="nodeJoin" title="Unir los bloques de lista seleccionados" aria-label="Unir los bloques seleccionados" data-ico="mergeBlocks"></button><button id="nodeSplit" title="Separar bloque por una guía" aria-label="Dividir bloque de listas" data-ico="split"></button><button id="nodeDelete" title="Eliminar bloque (puede deshacer)" aria-label="Eliminar bloque" data-ico="trash"></button><button id="nodePorts" title="Conectores de imagen" aria-label="Gestionar conectores" data-ico="circles"></button><button id="nodeScale" title="Escalar imagen" aria-label="Escalar imagen" data-ico="scale"></button><button id="nodeCrop" title="Recortar imagen" aria-label="Recortar imagen desde los bordes" data-ico="crop"></button><button id="nodeCancel" title="Cancelar selección" aria-label="Cancelar selección de bloques" data-ico="close"></button></div>
   <div id="cropBar" class="crop-bar" aria-label="Confirmar o cancelar recorte"><button id="cropCancel" title="Cancelar recorte" aria-label="Cancelar recorte" data-ico="close"></button><button id="cropConfirm" class="ok" title="Confirmar recorte" aria-label="Confirmar recorte" data-ico="check"></button></div>
   <div id="bgCropBar" class="crop-bar" aria-label="Confirmar o cancelar recorte del fondo"><button id="bgCropCancel" title="Cancelar recorte de fondo" aria-label="Cancelar recorte de fondo" data-ico="close"></button><button id="bgCropConfirm" class="ok" title="Confirmar recorte de fondo" aria-label="Confirmar recorte de fondo" data-ico="check"></button></div>
  <div id="linktools" class="floattools"><button id="wireColor" title="Color" aria-label="Color del enlace"><span id="linkchip" class="color-dot"></span></button><button id="wireCancel" title="Cancelar selección" aria-label="Cancelar selección de conexiones" data-ico="close"></button><button id="wireEdit" title="Editar línea" aria-label="Editar línea" data-ico="edit"></button><button id="wireDelete" class="danger" title="Eliminar sin confirmar" aria-label="Eliminar línea" data-ico="trash"></button></div>
@@ -609,6 +673,7 @@ glyph.caseLower='<text x="2" y="17" font-size="16" font-weight="700" stroke="non
 glyph.autoStyle='<path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z"/><path d="M19 18v4m-2-2h4"/>';glyph.shapeCircle='<circle cx="12" cy="12" r="7"/>';glyph.shapeDiamond='<path d="M12 3 21 12 12 21 3 12Z"/>';glyph.shapeVLine='<path d="M12 2v20"/>';glyph.shapeHLine='<path d="M2 12h20"/>';
 glyph.filePlus='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"/><path d="M13 2v7h7M12 12v7m-3.5-3.5h7"/>';glyph.selectMultiple='<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><path d="M13 6h8M17 3v6M3 17h7m-4-3v6"/>';glyph.image='<rect x=3 y=4 width=18 height=16 rx="2"/><circle cx=8 y=9 r="2"/><path d="m4 18 6-6 4 4 3-3 4 5"/>';glyph.copy='<rect x=7 y=7 width=14 height=14 rx="2"/><path d="M17 7V3H3v14h4"/>';glyph.clipboard='<rect x=5 y=5 width=14 height=17 rx="2"/><path d="M9 5V3h6v2M8 11h8m-8 4h8"/>';glyph.scale='<path d="M4 9V4h5M20 15v5h-5M5 5l6 6M19 19l-6-6"/>';glyph.box='<rect x=4 y=4 width=16 height=16 rx="2"/>';glyph.paint='<path d="m3 13 9-9 9 9-9 9-9-9Z"/><path d="M9 9h.01"/>';glyph.textcolor='<path d="M4 19 10 5h4l6 14M7 14h10M20 19h2"/>';
 glyph.export='<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v4h16v-4"/>';glyph.crop='<path d="M7 2v15a3 3 0 0 0 3 3h12M2 7h15a3 3 0 0 1 3 3v12"/><path d="M4 4l16 16"/>';glyph.check='<path d="m4 12 5 5L20 6"/>';glyph.split='<path d="M3 6h18M3 18h18M3 12h7m4 0h7"/><path d="m9 9 6 6m0-6-6 6"/>';glyph.join='<rect x=2 y=3 width=8 height=7 rx=1/><rect x=14 y=14 width=8 height=7 rx=1/><path d="M10 6h4v11m-4 0h4M11 12h9"/>';
+glyph.mirrorH='<path d="M12 2v20" stroke-dasharray="2 3"/><path d="m10 8-4-4-4 4m4-4v7M14 16l4 4 4-4m-4 4v-7"/>';
 glyph.mergeBlocks='<rect x="2" y="3" width="8" height="6" rx="1.2"/><rect x="14" y="3" width="8" height="6" rx="1.2"/><path d="M6 9v4m12-4v4M6 13l6 3 6-3M12 16v2"/><rect x="5" y="18" width="14" height="4" rx="1"/>';
 glyph.list='<path d="M9 6h12M9 12h12M9 18h12"/><path d="M3 6h1m-1 6h1m-1 6h1"/>';glyph.refresh='<path d="M20 7V3l-4 1M4 17v4l4-1M20 7a8 8 0 0 0-14-3M4 17a8 8 0 0 0 14 3"/>';
 glyph.visualEdit='<path d="M3 6h18M3 12h18M3 18h18"/><circle cx="8" cy="6" r="2.5" fill="var(--panel, #fff)"/><circle cx="16" cy="12" r="2.5" fill="var(--panel, #fff)"/><circle cx="10" cy="18" r="2.5" fill="var(--panel, #fff)"/>';
@@ -624,23 +689,140 @@ glyph.borderRows='<rect x="4" y="3" width="16" height="7" rx="1"/><rect x="4" y=
 glyph.borderBlock='<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 9h8m-8 6h8"/>';
 glyph.borderBoth='<rect x="2" y="2" width="20" height="20" rx="2"/><rect x="5" y="5" width="14" height="6"/><rect x="5" y="13" width="14" height="6"/>';
 glyph.borderNone='<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 21 21 3"/>';
+glyph.filter='<path d="M3 4h18L14 12v6l-4 3v-9L3 4Z"/>';
+glyph.filterDirect='<circle cx="5" cy="12" r="3"/><circle cx="19" cy="12" r="3"/><path d="M8 12h8"/>';
+glyph.filterNetwork='<circle cx="4" cy="12" r="2.5"/><circle cx="12" cy="5" r="2.5"/><circle cx="20" cy="12" r="2.5"/><circle cx="12" cy="20" r="2.5"/><path d="M6 10 10 7m4 0 4 3m0 4-4 4m-4 0-4-4"/>';
+glyph.roundWire='<path d="M2 18C7 5 16 19 22 5" stroke-width="3" stroke-linecap="round"/>';
+glyph.flatWire='<path d="M2 18C7 5 16 19 22 5" stroke-width="7" stroke-linecap="butt"/>';
 glyph.home='<path d="m3 11 9-8 9 8v10h-7v-7h-4v7H3z"/>';glyph.wire='<path d="M2 17C10 17 9 7 22 7"/><circle cx=2 cy=17 r=1.5/><circle cx=22 cy=7 r=1.5/>';
  const icon=(k,c='')=>`<svg class="icon ${c}" viewBox="0 0 24 24" aria-hidden="true">${glyph[k]||glyph.info}</svg>`;
 $$('[data-ico]').forEach(b=>b.innerHTML=icon(b.dataset.ico));
 const palette=['#60e1d2','#ffac67','#d5e879','#b6a0ff','#fa84c5','#70bfff','#f2d26b','#ef8792','#8bea9b','#d5a0ff','#ff8560','#9dd9ff'];
-let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],theme='color',portLayer='all',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,textBorder:false,textFill:false,nodeBg:null,blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
+let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,colorHistory=[],selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],theme='color',portLayer='all',portColorMode='off',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,wireThickness:3.2,textBorder:false,textFill:false,nodeBg:null,blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
+let filterMode=null,filterFocus=null; // Sesión visual: no entra en .nodolibre ni en Deshacer.
 let wireShape='bezier',background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480},bgEditing=false,pendingBg=false;
 let imageScaleNode=null,centerScaleSession=null;let splitNodeId=null,splitBusy=false;let multiMode=false,multiFilter='blocks',multiSelection=new Set(),multiLinks=new Set(),cropSession=null,bgCropSession=null,bgToolMode=null;let activePointer=null, touches=new Map(),pinch=null,ignoreClick=false,inlineEdit=null,editingColor=null, imageToolMode=null,imageToolNode=null,portClipboard=null, lastTap=null, pendingImageReplace=null;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const copy=o=>JSON.parse(JSON.stringify(o));
 const key=s=>`${s.node}:${s.row}:${box(s.node)?.kind==='image'?'image-port':s.side}`;
 const esc=s=>String(s).replace(/[&<>"']/g,v=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[v]));
 function hex(v){v=String(v||'').trim();if(/^#[a-f\d]{6}$/i.test(v))return v.toLowerCase();if(/^#[a-f\d]{3}$/i.test(v))return '#'+[...v.slice(1)].map(x=>x+x).join('').toLowerCase();const m=v.match(/^rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i);if(m&&m.slice(1).every(x=>+x<=255))return '#'+m.slice(1).map(x=>(+x).toString(16).padStart(2,'0')).join('');return null}
-function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('on');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').classList.remove('on'),2200)}
-function state(){return copy({nodes,links,nextNode,nextRow,nextLink,nextHue,layers,theme,portLayer,wireShape,background})}function snap(){undo.push(state());if(undo.length>65)undo.shift();$('#undo').disabled=false}
-let dbHandle=null,dbWriting=false,dbPending=null;try{const req=indexedDB.open('NodoLibreOffline',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('data'))req.result.createObjectStore('data')};req.onsuccess=()=>{dbHandle=req.result;const tx=dbHandle.transaction('data','readonly'),q=tx.objectStore('data').get('v1.5');q.onsuccess=()=>{if(q.result?.nodes?.length&&!localStorage.getItem('nodolibre-v1.6')){({nodes,links,nextNode,nextRow,nextLink,nextHue}=q.result);layers=styleLayers({...layers,...(q.result.layers||{}),exportDate:q.result.layers?.exportDate!==false,exportProject:String(q.result.layers?.exportProject||'').slice(0,800)});wireShape=q.result.wireShape||wireShape;background=q.result.background||background;theme=q.result.theme||theme;portLayer=q.result.portLayer||portLayer;applyThemeClasses();render();requestAnimationFrame(fit)}}};}catch{}
+// Mensajes contextuales. Las acciones superiores se anuncian bajo la barra y
+// las inferiores, por encima de sus controles. En los editores ocupan espacio
+// propio y no se colocan sobre los campos ni sobre el teclado de Android.
+const toastBase=$('#toast').parentElement;
+let toastSource='bottom',toastSourceAt=0;
+function toastRegion(target){
+ if(!target?.closest)return null;
+ if(target.closest('.toolbar,.bg-controller,#layersMenu,#portmenu,#saveMenu,#filterToggle'))return 'top';
+ if(target.closest('.bottom,.fab,.nodebar,.image-tools,.crop-bar,.floattools,.empty'))return 'bottom';
+ return null;
+}
+function visibleBox(selector){
+ const el=document.querySelector(selector);
+ if(!el||!el.getClientRects().length)return null;
+ const st=getComputedStyle(el);
+ if(st.display==='none'||st.visibility==='hidden'||Number(st.opacity)===0)return null;
+ const r=el.getBoundingClientRect();
+ return r.width>0&&r.height>0?r:null;
+}
+function toastPanel(){
+ // Diálogos exclusivos: primero el panel anidado que contiene el teclado.
+ const active=[
+  ['#textImportPanel.open','.import-panel-heading'],
+  ['#visualOverlay.open .visual-dialog','.visual-head'],
+  ['#editOverlay.open #blockEditor','#editHandle'],
+  ['#imgEditOverlay.open .block-editor','.edit-handle'],
+  ['#scrim.open .dialog','#dialogTitle'],
+  ['#layersMenu.open','.layers-title'],
+  ['#colorpop.open','#colorTitle']
+ ];
+ for(const [selector,head] of active){
+  const panel=document.querySelector(selector);
+  if(panel&&panel.getClientRects().length)return {panel,head:panel.querySelector(head)};
+ }
+ return null;
+}
+function positionToast(){
+ const t=$('#toast');if(!t.classList.contains('on'))return;
+ const inPanel=toastPanel();
+ if(inPanel){
+  if(t.parentElement!==inPanel.panel||!t.classList.contains('in-panel')){
+   t.classList.add('in-panel');
+   const ref=inPanel.head;
+   if(ref?.parentElement===inPanel.panel)ref.after(t);
+   else inPanel.panel.prepend(t);
+  }
+  t.style.top='';t.style.bottom='';
+  return;
+ }
+ if(t.parentElement!==toastBase)toastBase.append(t);
+ t.classList.remove('in-panel');
+ const vv=window.visualViewport;
+ const topLimit=vv?vv.offsetTop:0;
+ const bottomLimit=vv?vv.offsetTop+vv.height:window.innerHeight;
+ const gap=10;
+ const height=t.offsetHeight||60;
+ // Para el filtro se conserva el anclaje superior aunque el origen sea una fila.
+ const location=filterMode && Date.now()-toastSourceAt>800?'top':toastSource;
+ if(location==='top'){
+  const rects=['.toolbar','#bgController','#bgActions.open','#portmenu.open','#saveMenu.open','#insertMenu.open','#imgMenu.open']
+   .map(visibleBox).filter(Boolean);
+  let y=Math.max(topLimit+10,...rects.map(r=>r.bottom+gap));
+  if(y+height>bottomLimit-12)y=Math.max(topLimit+10,bottomLimit-height-12);
+  t.style.top=Math.round(y)+'px';t.style.bottom='auto';
+ }else{
+  const rects=['.bottom','.fab','#nodebar.open','#imageTools.open','#cropBar.open','#bgCropBar.open','#linktools.open']
+   .map(visibleBox).filter(Boolean);
+  let y=Math.min(bottomLimit-10,...rects.map(r=>r.top-gap))-height;
+  if(y<topLimit+10)y=topLimit+10;
+  t.style.top=Math.round(y)+'px';t.style.bottom='auto';
+ }
+}
+function hideToast(){
+ clearTimeout(toast.timer);
+ const t=$('#toast');t.classList.remove('on','in-panel');
+ if(t.parentElement!==toastBase)toastBase.append(t);
+ t.style.top='';t.style.bottom='';
+}
+function toast(msg){
+ const content=String(msg||'').trim();if(!content)return;
+ const t=$('#toast');t.textContent=content;
+ // La pulsación del comando fija temporalmente el lado de aparición.
+ if(filterMode)toastSource='top';
+ t.classList.add('on');
+ positionToast();
+ clearTimeout(toast.timer);
+ // Se conserva la duración probada en versiones anteriores.
+ const duration=clamp(1200+content.length*52,2200,6200);
+ toast.timer=setTimeout(hideToast,duration);
+}
+// Un nuevo botón reemplaza el aviso anterior y determina el lado de aparición.
+document.addEventListener('pointerdown',e=>{
+ const region=toastRegion(e.target);
+ if(region){toastSource=region;toastSourceAt=Date.now();}
+ if(e.target.closest('button,a'))hideToast();
+},true);
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter'||e.key===' '){
+  const region=toastRegion(document.activeElement);
+  if(region){toastSource=region;toastSourceAt=Date.now();}
+ }
+},true);
+window.addEventListener('resize',()=>requestAnimationFrame(positionToast));
+window.visualViewport?.addEventListener('resize',()=>requestAnimationFrame(positionToast));
+window.visualViewport?.addEventListener('scroll',()=>requestAnimationFrame(positionToast));
+
+function normalizedPortLayer(value){return ['all','used','none'].includes(value)?value:value==='color'?'used':'all'}
+function normalizedPortColorMode(value,oldLayer){return ['edge','text','distribute'].includes(value)?value:oldLayer==='color'?'edge':'off'}
+function colorPortsActive(){return portColorMode!=='off'}
+function state(){return copy({nodes,links,nextNode,nextRow,nextLink,nextHue,colorHistory,layers,theme,portLayer,portColorMode,wireShape,background})}function snap(){undo.push(state());if(undo.length>65)undo.shift();$('#undo').disabled=false}
+let dbHandle=null,dbWriting=false,dbPending=null;try{const req=indexedDB.open('NodoLibreOffline',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('data'))req.result.createObjectStore('data')};req.onsuccess=()=>{dbHandle=req.result;const tx=dbHandle.transaction('data','readonly'),q=tx.objectStore('data').get('v1.5');q.onsuccess=()=>{if(q.result?.nodes?.length&&!localStorage.getItem('nodolibre-v1.6')){({nodes,links,nextNode,nextRow,nextLink,nextHue}=q.result);layers=styleLayers({...layers,...(q.result.layers||{}),exportDate:q.result.layers?.exportDate!==false,exportProject:String(q.result.layers?.exportProject||'').slice(0,800)});wireShape=q.result.wireShape||wireShape;background=q.result.background||background;theme=q.result.theme||theme;portLayer=normalizedPortLayer(q.result.portLayer);portColorMode=normalizedPortColorMode(q.result.portColorMode,q.result.portLayer);restoreUniqueCableColors(q.result.colorHistory);applyThemeClasses();render();requestAnimationFrame(fit)}}};}catch{}
 function store(){const v=state();try{const json=JSON.stringify(v);if(json.length<1700000)localStorage.setItem('nodolibre-v1.5',json);else localStorage.removeItem('nodolibre-v1.5')}catch{};if(dbHandle){try{dbHandle.transaction('data','readwrite').objectStore('data').put(v,'v1.5')}catch{}}}
 function styleLayers(source){
  const v={...source};
+ // Convertir perfiles antiguos y descartar la opción Organizar al abrirlos.
+ const legacyProfile=v.wireProfile;
+ delete v.wireWeave;delete v.wireProfile;
  // Los proyectos anteriores a 2.6 tenían círculo como predeterminado fijo.
  // Migramos únicamente ese valor inicial: las formas elegidas (rombo/barras) se respetan.
  if(v.socketStyleVersion!==1&&(!v.socketShape||v.socketShape==='circle'))v.socketShape='auto';
@@ -648,7 +830,7 @@ function styleLayers(source){
  socketShape:['auto','circle','diamond','vline','hline'].includes(v.socketShape)?v.socketShape:'auto',
  socketFillOn:v.socketFillOn!==false,socketBorderOn:v.socketBorderOn!==false,
  socketFillColor:hex(v.socketFillColor)||null,socketBorderColor:hex(v.socketBorderColor)||null,
- wireVisible:v.wireVisible!==false,wireColor:hex(v.wireColor)||null};
+ wireVisible:v.wireVisible!==false,wireColor:hex(v.wireColor)||null,wireThickness:Number.isFinite(Number(v.wireThickness))?Math.max(1,Math.min(18,Number(v.wireThickness))):(legacyProfile==='flat'?9:3.2)};
 }
 function isTextTheme(which=theme){return which==='text'||which==='text-color'||which==='text-color2'||which==='text-white'}
 function isWhiteTextTheme(which=theme){return which==='text-white'}
@@ -664,14 +846,27 @@ function socketPreset(which=theme){
 }
 // Texto color2: cada posición de fila utiliza un tono contrastante y estable.
 // Los dos conectores laterales de una fila comparten exactamente el color.
+// En los estilos clasificados, las combinaciones RGB son inyectivas
+// para los identificadores admitidos. Evita ciclos de 6 o 12 colores.
+function distinctRowColor(rowId){
+ const n=((Math.abs(Number(rowId)||0)*97987)%262144)>>>0;
+ const channel=shift=>(12+2*((n>>>shift)&63)).toString(16).padStart(2,'0');
+ return '#'+channel(0)+channel(6)+channel(12);
+}
+function distinctRedLinkColor(linkId){
+ const n=(Math.abs(Number(linkId)||0)*9991)%17550;
+ return '#'+[220,28+n%130,25+Math.floor(n/130)].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
 const rowColors36=['#007c91','#b91c1c','#6842b8','#137547','#ab5400','#a31568','#2662ba','#657300','#8b3d7d','#9b5021','#137c70','#7a4ca9'];
 function rowThemeColor(s){
  if(theme!=='text-color2'||!s||s.row<0)return null;
  const n=box(s.node);if(!n||n.kind==='image')return null;
  const i=n.rows.findIndex(r=>r.id===s.row);
- return i<0?null:rowColors36[i%rowColors36.length];
+ return i<0?null:distinctRowColor(n.rows[i].id);
 }
 function themedWireColors(l){
+ // La capa Color identifica cada enlace por su color propio, sin depender del tema de pantalla.
+ if(colorPortsActive()) {const c=layers.wireColor||hex(l.color)||'#39b8ac';return [c,c];}
  const base=visibleColor(l);
  if(theme!=='text-color2'||layers.wireColor||l.colorCustom)return [base,base];
  // En una unión de filas distintas se interpola entre los colores de ambas.
@@ -689,10 +884,68 @@ function socketStyle(s){
  border:layers.socketBorderOn===false?'none':'2px solid '+border};
 }
 function socketVars(s){const v=socketStyle(s);return `--socket-fill:${v.fill};--socket-outline:${v.border};`}
+// Solo presentación: un marcador cromático por enlace en cada extremo.
+// La identidad del puerto permanece intacta en los archivos .nodolibre.
+function socketLinks(s){return links.filter(l=>key(l.a)===key(s)||key(l.b)===key(s)).sort((a,b)=>a.id-b.id)}
+function socketWireColor(s,l){const colors=themedWireColors(l);return key(l.a)===key(s)?colors[0]:colors[1]}
+// Un marcador por COLOR en cada conector lógico, no uno por cable.
+// El filtro reduce la lista sin cambiar las conexiones guardadas.
+// En modo Distribuir se cuentan los colores únicos de ambos extremos de la
+// misma fila; la mitad (redondeo superior) queda a la izquierda y el resto a
+// la derecha. Nunca se duplica un grupo cromático ni se cambian los enlaces.
+function distributedRowGroups(s){
+ const n=box(s.node);if(!n||n.kind==='image'||s.row<0||!['left','right'].includes(s.side))return null;
+ const r=n.rows.find(x=>x.id===s.row);if(!r)return null;
+ const network=filterMode&&filterFocus?filteredNetwork():null,groups=new Map();
+ for(const l of links){
+  const endpoint=[l.a,l.b].find(e=>e.node===s.node&&e.row===s.row&&['left','right'].includes(e.side));
+  if(!endpoint||(network&&!network.included.has(l.id)))continue;
+  const color=(socketWireColor(endpoint,l)||'#39b8ac').toLowerCase();
+  if(!groups.has(color))groups.set(color,{color,links:[]});
+  groups.get(color).links.push(l);
+ }
+ const all=[...groups.values()].sort((a,b)=>a.links[0].id-b.links[0].id),cut=Math.ceil(all.length/2);
+ const left=all.slice(0,cut),right=all.slice(cut);
+ const side=r.mirrored?(s.side==='left'?right:left):(s.side==='left'?left:right);
+ return side;
+}
+function colorSocketGroups(s){
+ const distributed=portColorMode==='distribute'?distributedRowGroups(s):null;
+ if(distributed)return distributed;
+ const network=filterMode&&filterFocus?filteredNetwork():null;
+ const groups=new Map();
+ for(const l of socketLinks(s)){
+  if(network&&!network.included.has(l.id))continue;
+  const color=(socketWireColor(s,l)||'#39b8ac').toLowerCase();
+  if(!groups.has(color))groups.set(color,{color,links:[]});
+  groups.get(color).links.push(l);
+ }
+ return [...groups.values()];
+}
+function socketGroupShift(s,l){
+ if(!colorPortsActive()||!l)return 0;
+ const groups=colorSocketGroups(s),ep=[l.a,l.b].find(x=>x.node===s.node&&x.row===s.row)||s,color=socketWireColor(ep,l).toLowerCase();
+ const index=groups.findIndex(g=>g.color===color);
+ if(index<0)return 0;
+ // Izquierda/derecha: columnas hacia el exterior, sin exceder la altura de fila.
+ // Arriba/abajo: misma fila horizontal, centrada sobre el conector.
+ const textMode=isTextTheme(),step=textMode?12:22;
+ if(s.side==='left'||s.side==='right')return index*step;
+ return (index-(groups.length-1)/2)*step;
+}
+function coloredSocketParts(s,make){
+ if(!colorPortsActive())return make(null,null,0,[]);
+ const groups=colorSocketGroups(s);
+ if(!groups.length){
+  const network=filterMode&&filterFocus?filteredNetwork():null;
+  return network?'':make(null,null,0,[]);
+ }
+ return groups.map(g=>make(g.links[0],g.color,socketGroupShift(s,g.links[0]),g.links)).join('');
+}
 function rowAlign(r){return ['left','center','right'].includes(r?.align)?r.align:'left'}
 function rowCase(r){return ['mixed','upper','lower'].includes(r?.letterCase)?r.letterCase:'mixed'}
 function showRowText(r){const t=String(r?.text||'');return rowCase(r)==='upper'?t.toLocaleUpperCase('es-CO'):rowCase(r)==='lower'?t.toLocaleLowerCase('es-CO'):t}
-function row(label,type='list',bg,fg){return{id:nextRow++,text:label,type,align:'left',letterCase:'mixed',bg:bg|| (type==='title'?'#286a77':'#303c4e'),fg:fg||'#ffffff',fgCustom:false,bgCustom:false,bgCustom:false,borderMode:'inherit',fillMode:'inherit',borderColor:'#a7b9d4'}}
+function row(label,type='list',bg,fg){return{id:nextRow++,text:label,type,align:'left',letterCase:'mixed',mirrored:false,bg:bg|| (type==='title'?'#286a77':'#303c4e'),fg:fg||'#ffffff',fgCustom:false,bgCustom:false,bgCustom:false,borderMode:'inherit',fillMode:'inherit',borderColor:'#a7b9d4'}}
 function modeBool(base,mode){return mode==='on'?true:mode==='off'?false:base}
 function effective(n,r,what){const base=isTextTheme()&&(what==='border'||what==='fill')?layers[what==='border'?'textBorder':'textFill']:layers[what];const group=modeBool(base,n.visual?.[what]||'inherit');return r?modeBool(group,r[what+'Mode']||'inherit'):group}
 const blockLayoutDefaults={gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'};
@@ -801,7 +1054,7 @@ function startBgCrop(){
  if(cropSession)closeCrop(false);bgToolMode='crop';bgEditing=true;
  bgCropSession={base:normalizedCrop(background.crop),relative:{left:0,right:0,top:0,bottom:0}};
  $('#bgActions').classList.remove('open');$('#bgToggle').classList.remove('active');hideScaleSlider();$('#bgCropBar').classList.add('open');updateBgToolButtons();updateBackground();
- toast('Arrastre los bordes del fondo y confirme con ✓');
+ toast('Recortar: arrastre los bordes y confirme con ✓.');
 }
 function chooseBgTool(mode){
  if(background.kind!=='image')return toast('Primero inserte una imagen de fondo');
@@ -823,20 +1076,155 @@ function zoomAt(v,x,y){const r=board.getBoundingClientRect(),w=toWorld(x,y);zoom
 function fit(){const r=board.getBoundingClientRect();if(!nodes.length){pan={x:0,y:0};zoom=1;viewport();return}let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;for(const n of nodes){const el=nodesEl.querySelector(`.node[data-node="${n.id}"]`);x0=Math.min(x0,n.x-50);y0=Math.min(y0,n.y-60);x1=Math.max(x1,n.x+nodeWidth(n)+50);y1=Math.max(y1,n.y+(n.kind==='image'?(n.h||170):(el?.offsetHeight||180))+60)}zoom=clamp(Math.min(r.width/(x1-x0),r.height/(y1-y0),1.2),.32,2.2);pan={x:(r.width-(x1-x0)*zoom)/2-x0*zoom,y:(r.height-(y1-y0)*zoom)/2-y0*zoom};viewport()}
 function isLinked(s){return links.some(l=>key(l.a)===key(s)||key(l.b)===key(s))}
 function liveColor(s){return links.find(l=>key(l.a)===key(s)||key(l.b)===key(s))?.color}
+// Directo: enlaces que tocan el conector seleccionado. Si se elige un cable,
+// también los que comparten cualquiera de sus conectores extremos.
+// Red completa: componente conexa del grafo de BLOQUES (puente entre filas del mismo bloque).
+// En ambos modos, solo se filtran cables y conectores: nunca se ocultan los bloques.
+function filteredNetwork(){
+ if(!filterMode || !filterFocus)return null;
+ const included=new Set(), endpoints=new Set();
+ const start=filterFocus.kind==='line'?links.find(l=>l.id===filterFocus.id):null;
+ if(filterFocus.kind==='line'&&!start)return{included:new Set(),endpoints:new Set()};
+ const root=filterFocus.kind==='socket'?filterFocus.socket:null;
+ const rowFocus=filterFocus.kind==='row'?filterFocus:null;
+ if(filterMode==='direct'){
+  const tips=start?[key(start.a),key(start.b)]:rowFocus?[]:[key(root)];
+  const match=new Set(tips);
+  for(const l of links)if(match.has(key(l.a))||match.has(key(l.b))||(root&&portColorMode==='distribute'&&filterFocus.color&&[l.a,l.b].some(ep=>ep.node===root.node&&ep.row===root.row&&socketWireColor(ep,l).toLowerCase()===filterFocus.color))||(rowFocus&&((l.a.node===rowFocus.node&&l.a.row===rowFocus.row)||(l.b.node===rowFocus.node&&l.b.row===rowFocus.row))))included.add(l.id);
+ }else{
+  const visited=new Set(start?[start.a.node,start.b.node]:[rowFocus?rowFocus.node:root.node]),queue=[...visited];
+  for(let i=0;i<queue.length;i++){
+   const id=queue[i];
+   for(const l of links){if(l.a.node!==id&&l.b.node!==id)continue;
+    included.add(l.id);const other=l.a.node===id?l.b.node:l.a.node;
+    if(!visited.has(other)){visited.add(other);queue.push(other)}
+   }
+  }
+ }
+ for(const l of links)if(included.has(l.id)){endpoints.add(key(l.a));endpoints.add(key(l.b))}
+ if(root)endpoints.add(key(root));
+ if(start){endpoints.add(key(start.a));endpoints.add(key(start.b))}
+ return{included,endpoints};
+}
+function filterAllowsSocket(s){
+ if(!filterMode)return null;
+ const network=filteredNetwork();
+ return network?network.endpoints.has(key(s)):isLinked(s);
+}
+function updateFilterMenu(){
+ const enabled=!!filterMode;
+ document.body.classList.toggle('filter-active',enabled);
+ $('#filterToggle').classList.toggle('chosen',enabled);
+ $('#filterToggle').setAttribute('aria-pressed',String(enabled));
+ $('#filterToggle').title=enabled?'Restablecer todos los enlaces y conectores':'Aislar conexiones';
+}
+function clearConnectionFilter(withRender=true){
+ filterMode=null;filterFocus=null;updateFilterMenu();
+ // Al terminar la vista filtrada, también se cierra la edición contextual de lazos.
+ if(multiMode&&multiFilter==='links'){
+  multiMode=false;multiLinks.clear();selectedLink=null;linkAnchor=null;
+  document.body.classList.remove('multi-line-mode');
+  $('#linktools').classList.remove('open');$('#colorpop').classList.remove('open');
+ }
+ if(withRender)render();
+}
+function setConnectionFilterFocus(target){
+ if(!filterMode||filterFocus)return false;
+ filterFocus=target;pending=null;selectedNode=null;selectedLink=null;selectedRow=null;
+ const n=filteredNetwork();render();
+ toast(!n?.included.size?'Sin conexiones en este origen':`${n.included.size} ${n.included.size===1?'enlace visible':'enlaces visibles'}. Toque uno para editarlo`);
+ return true;
+}
+$('#filterToggle').onclick=()=>{
+ if(filterMode){clearConnectionFilter();return}
+ resetSelection();closeInsertMenus();$('#layersMenu').classList.remove('open');
+ filterMode='direct';filterFocus=null;updateFilterMenu();render();
+ toast('Filtro: toque una fila, un conector o un cable para ver solo sus enlaces.');
+};
+
 function socketPositionStyle(n,side){if(n.kind==='image')return '';const g=blockLayout(n),at=g.portPosition==='top'?'21%':g.portPosition==='bottom'?'79%':'50%',scale=g.portScale/100,off=g.portOffset+10;
  if(side==='left')return `left:-${off}px;top:${at};transform:translateY(-50%) scale(${scale});`;
  if(side==='right')return `right:-${off}px;top:${at};transform:translateY(-50%) scale(${scale});`;
  if(side==='top')return `top:-${off}px;transform:translateX(-50%) scale(${scale});`;
  return `bottom:-${off}px;transform:translateX(-50%) scale(${scale});`;
 }
-function socketMarkup(n,rowId,side){const s={node:n.id,row:rowId,side};const mute=portLayer==='none'||(portLayer==='used'&&!isLinked(s));return `<button type="button" class="socket socket-${socketStyle(s).shape} ${mute?'socket-muted':''} ${isLinked(s)?'linked':''} ${pending&&key(pending)===key(s)?'pending':''}" data-node="${n.id}" data-row="${rowId}" data-side="${side}" style="${socketVars(s)}${socketPositionStyle(n,side)}" title="Conector ${side}" aria-label="Conector ${side}"></button>`}
-function imagePortsMarkup(n){return (n.ports||[]).map(p=>{const s={node:n.id,row:p.id,side:p.side};const mute=!(imageToolMode&&imageToolNode===n.id)&&(portLayer==='none'||(portLayer==='used'&&!isLinked(s)));return `<button class="socket image-socket socket-${socketStyle(s).shape} ${mute?'socket-muted':''} ${isLinked(s)?'linked':''} ${pending&&key(pending)===key(s)?'pending':''}" data-node="${n.id}" data-row="${p.id}" data-side="${p.side}" style="${socketVars(s)}left:${n.x+n.w*p.u}px;top:${n.y+n.h*p.v}px;right:auto;bottom:auto;transform:translate(-50%,-50%)" aria-label="Conector de imagen ${p.id}" title="Conector de imagen"></button>`}).join('')}
+function socketMarkup(n,rowId,side){
+ const s={node:n.id,row:rowId,side};const allowed=filterAllowsSocket(s);
+ const groups=colorPortsActive()?colorSocketGroups(s):[];
+ const redistributed=portColorMode==='distribute'&&rowId>=0;
+ const shown=redistributed?groups.some(g=>g.links.length):isLinked(s);
+ const mute=allowed===null?(portLayer==='none'||(portLayer==='used'&&!shown)):(redistributed?!shown:!allowed);
+ return coloredSocketParts(s,(l,color,shift,related)=>{
+  const portStyle=socketPositionStyle(n,side),g=blockLayout(n),scale=g.portScale/100;
+  const near=portColorMode==='text'&&rowId>=0&&(side==='left'||side==='right');
+  const offset=g.portOffset+10;
+  // Un solo eje horizontal: hacia fuera por cada color único.
+  const place=l?(side==='left'?`left:-${offset+shift}px;transform:translateY(-50%) scale(${scale});`:
+    side==='right'?`right:-${offset+shift}px;transform:translateY(-50%) scale(${scale});`:
+    `left:calc(50% + ${shift}px);transform:translateX(-50%) scale(${scale});`):'';
+  const ids=related.map(x=>x.id).join(',');
+  const count=related.length;
+  // La cara mostrada puede diferir de la cara lógica guardada en el enlace.
+  const actualEnd=l?[l.a,l.b].find(e=>e.node===n.id&&e.row===rowId):null;
+  const logicalSide=redistributed&&actualEnd?actualEnd.side:side;
+  return `<button type="button" class="socket socket-${socketStyle(s).shape} ${l?'color-socket':''} ${mute?'socket-muted':''} ${isLinked(s)?'linked':''} ${filterFocus?.kind==='socket'&&key(filterFocus.socket)===key(s)?'filter-origin':''} ${pending&&key(pending)===key(s)?'pending':''}" data-node="${n.id}" data-row="${rowId}" data-side="${logicalSide}" data-face="${side}" ${near?'data-near-text="1"':''} ${l?`data-port-links="${ids}" data-port-color="${color}"`:''} style="${socketVars(s)}${color?`--socket-fill:${color};--socket-outline:2px solid ${color};`:''}${portStyle}${place}" title="${l?`${count} ${count===1?'enlace':'enlaces'} de color ${color}`:'Conector '+side}" aria-label="${l?`Conector ${color}, ${count} ${count===1?'enlace':'enlaces'}`:'Conector '+side}"></button>`;
+ });
+}
+function imagePortsMarkup(n){return (n.ports||[]).map(p=>{
+ const s={node:n.id,row:p.id,side:p.side};const allowed=filterAllowsSocket(s);
+ const mute=allowed===null?(!(imageToolMode&&imageToolNode===n.id)&&(portLayer==='none'||(portLayer==='used'&&!isLinked(s)))):!allowed;
+ return coloredSocketParts(s,(l,color,shift,related)=>{
+  const ids=related.map(x=>x.id).join(',');
+  const isHorizontal=p.side==='left'||p.side==='right';
+  const px=n.x+n.w*p.u+(l&&isHorizontal?(p.side==='left'?-shift:shift):l?shift:0);
+  const py=n.y+n.h*p.v;
+  return `<button class="socket image-socket socket-${socketStyle(s).shape} ${l?'color-socket':''} ${mute?'socket-muted':''} ${isLinked(s)?'linked':''} ${filterFocus?.kind==='socket'&&key(filterFocus.socket)===key(s)?'filter-origin':''} ${pending&&key(pending)===key(s)?'pending':''}" data-node="${n.id}" data-row="${p.id}" data-side="${p.side}" ${l?`data-port-links="${ids}" data-port-color="${color}"`:''} style="${socketVars(s)}${color?`--socket-fill:${color};--socket-outline:2px solid ${color};`:''}left:${px}px;top:${py}px;right:auto;bottom:auto;transform:translate(-50%,-50%)" aria-label="${l?`Conector de imagen ${color}, ${related.length} enlaces`:'Conector de imagen '+p.id}" title="Conector de imagen"></button>`;
+ });
+}).join('')}
 function cropValues(n){const q=n.crop||{};const a=k=>clamp(Number(q[k])||0,0,.8);let left=a('left'),right=a('right'),top=a('top'),bottom=a('bottom');if(left+right>.9)right=.9-left;if(top+bottom>.9)bottom=.9-top;return{left,right,top,bottom}}
 function imageRatio(n){const q=cropValues(n);return (Math.max(1,n.naturalH||170)*(1-q.top-q.bottom))/(Math.max(1,n.naturalW||254)*(1-q.left-q.right))}
 function imageContent(n){const q=cropValues(n),cw=1-q.left-q.right,ch=1-q.top-q.bottom;return `<div class="image-crop-viewport"><img class="image-body" src="${n.src||''}" draggable="false" alt="Imagen del diagrama" style="opacity:${clamp(Number(n.opacity??1),.05,1)};left:${(-100*q.left/cw).toFixed(4)}%;top:${(-100*q.top/ch).toFixed(4)}%;width:${(100/cw).toFixed(4)}%;height:${(100/ch).toFixed(4)}%"></div>`}
 function cropOverlay(n){if(cropSession?.node!==n.id)return '';const q=cropSession.relative;return `<div class="crop-selection" style="left:${q.left*100}%;top:${q.top*100}%;width:${(1-q.left-q.right)*100}%;height:${(1-q.top-q.bottom)*100}%"><span class="crop-outline"></span>${['left','right','top','bottom'].map(side=>`<button class="crop-handle crop-${side}" data-crop-handle="${side}" title="Recortar desde ${side}" aria-label="Recortar ${side}"></button>`).join('')}</div>`}
 function scaleHandles(kind,id){return ['tl','tr','bl','br'].map(c=>`<button type="button" class="scale-corner" data-scale-kind="${kind}" data-scale-node="${id}" data-scale-corner="${c}" title="Escalar desde esta esquina" aria-label="Escalar desde esquina ${c}"></button>`).join('')+`<button type="button" class="scale-center" data-scale-kind="${kind}" data-scale-node="${id}" data-scale-center="1" title="Escalar desde el centro" aria-label="Escalar desde el centro">⊕</button>`}
 function renderImageNode(n){return `<article class="node image-node ${selectedNode===n.id?'active':''} ${multiSelection.has(n.id)?'multi-selected':''} ${imageScaleNode===n.id?'scaling':''}" data-node="${n.id}" style="left:${n.x}px;top:${n.y}px;width:${Math.max(24,n.w||254)}px;height:${Math.max(24,n.h||170)}px">${imageContent(n)}${cropOverlay(n)}${n.caption?`<div class="image-caption ${n.captionPosition==='top'?'top':'bottom'}">${esc(n.caption)}</div>`:''}<button class="image-resizer" data-img-resize="${n.id}" title="Arrastrar para escalar" aria-label="Escalar imagen">${icon('scale')}</button>${scaleHandles('image',n.id)}</article>`}
+
+// Acercar cada nodo de color al texto REAL de su fila, sin tocar la geometría de los bloques.
+// El cálculo se repite al editar, al cambiar alineación, al unir/separar y al renderizar.
+function positionNearTextSockets(){
+ if(portColorMode!=='text')return;
+ const c=positionNearTextSockets.ctx||(positionNearTextSockets.ctx=document.createElement('canvas').getContext('2d'));
+ if(!c)return;
+ for(const n of nodes){if(n.kind==='image')continue;
+  const nodeEl=nodesEl.querySelector(`.node[data-node="${n.id}"]`);if(!nodeEl)continue;
+  for(const r of n.rows){
+   const rowEl=nodeEl.querySelector(`.row[data-row="${r.id}"]`);const txEl=rowEl?.querySelector('.row-text');if(!txEl)continue;
+   const cs=getComputedStyle(txEl),rr=rowEl.getBoundingClientRect(),tr=txEl.getBoundingClientRect();
+   const scale=zoom||1,padL=parseFloat(cs.paddingLeft)||0,padR=parseFloat(cs.paddingRight)||0;
+   c.font=cs.font;const lines=showRowText(r).split('\n');
+   const txtW=Math.max(2,...lines.map(line=>c.measureText(line||' ').width));
+   const start=(tr.left-rr.left)/scale+padL;
+   const area=Math.max(0,txEl.offsetWidth-padL-padR);
+   const align=rowAlign(r),begin=start+(align==='right'?area-txtW:align==='center'?(area-txtW)/2:0);
+   const end=begin+txtW;
+   // Distancia constante desde el texto a la parte visible del símbolo (≈ 5 px).
+   const margin=11,diameter=19,step=isTextTheme()?12:22;
+   for(const side of ['left','right']){
+    const buttons=[...rowEl.querySelectorAll(`.socket[data-near-text="1"][data-side="${side}"]`)];
+    if(!buttons.length)continue;
+    const s={node:n.id,row:r.id,side},groups=colorSocketGroups(s);
+    for(const btn of buttons){
+     const firstId=btn.dataset.portLinks?.split(',')[0],linked=firstId?links.find(l=>l.id===Number(firstId)):null;
+     const color=linked?socketWireColor(s,linked).toLowerCase():'';
+     const index=linked?groups.findIndex(g=>g.color===color):0;
+     const shift=Math.max(0,index)*step;
+     const center=side==='left'?begin-margin-shift:end+margin+shift;
+     btn.style.left=`${center-diameter/2}px`;
+     btn.style.right='auto';
+    }
+   }
+  }
+ }
+}
 function render(){
  if(imageScaleNode!==null&&selectedNode!==imageScaleNode){cancelScaleCommand('image')}
  const orderedNodes=[...nodes.filter(n=>n.kind==='image').sort((a,b)=>(a.imageOrder||0)-(b.imageOrder||0)),...nodes.filter(n=>n.kind!=='image')];
@@ -857,14 +1245,26 @@ function render(){
   el.classList.toggle('active',selectedNode===n.id);el.classList.toggle('multi-selected',multiSelection.has(n.id));el.classList.toggle('scaling',imageScaleNode===n.id);slot.replaceWith(el);
  }
  nodesEl.replaceChildren(tpl.content);
+ positionNearTextSockets();
  if(splitNodeId!==null){const el=nodesEl.querySelector(`.node[data-node="${splitNodeId}"]`);if(el){const rowEls=[...el.querySelectorAll('.row')];el.querySelectorAll('[data-split-at]').forEach(guide=>{const i=+guide.dataset.splitAt;const prev=rowEls[i-1],next=rowEls[i];if(prev&&next)guide.style.top=((prev.offsetTop+prev.offsetHeight+next.offsetTop)/2)+'px'})}}
  $('#imagePorts').innerHTML=nodes.filter(n=>n.kind==='image').map(n=>imagePortsMarkup(n)).join('');updateBackground();
- document.body.classList.toggle('has-diagram',nodes.length>0);empty.classList.toggle('hidden',nodes.length>0);$('#undo').disabled=undo.length===0;$('#hint').textContent=multiMode?(multiFilter==='blocks'?`Bloques seleccionados: ${multiSelection.size}`:`Líneas seleccionadas: ${multiLinks.size}`):pending?'Toque otro conector para unirlos.':selectedNode!==null?'Arrastre el bloque o utilice sus herramientas.':'Toque y arrastre un bloque para moverlo.';updateNodebar();
- viewport();requestAnimationFrame(()=>drawLinks());
+ document.body.classList.toggle('has-diagram',nodes.length>0);empty.classList.toggle('hidden',nodes.length>0);$('#undo').disabled=undo.length===0;$('#hint').textContent=filterMode?(filterFocus?'Filtro activo: toque un cable para editar; vuelva a tocar Filtro para salir':'Filtro: toque una fila, un conector o un cable'):multiMode?(multiFilter==='blocks'?`Bloques seleccionados: ${multiSelection.size}`:`Líneas seleccionadas: ${multiLinks.size}`):pending?'Toque otro conector para unirlos.':selectedNode!==null?'Arrastre el bloque o utilice sus herramientas.':'Toque y arrastre un bloque para moverlo.';updateNodebar();
+ viewport();drawLinks();
 }
 
 function getSocket(s){const selector=box(s.node)?.kind==='image'?`.socket[data-node="${s.node}"][data-row="${s.row}"]`:`.socket[data-node="${s.node}"][data-row="${s.row}"][data-side="${s.side}"]`;return world.querySelector(selector)}
-function pos(s){const el=getSocket(s);if(!el)return null;const a=el.getBoundingClientRect(),b=board.getBoundingClientRect();return{x:(a.left+a.width/2-b.left-pan.x)/zoom,y:(a.top+a.height/2-b.top-pan.y)/zoom}}
+function pos(s,linkId=null){
+ let el=null;
+ if(colorPortsActive()&&linkId!==null){
+  const css=box(s.node)?.kind==='image'?'image-socket':'socket';
+  const sideFilter=portColorMode==='distribute'&&box(s.node)?.kind!=='image'&&s.row>=0?'':`[data-side="${s.side}"]`;
+  const candidates=world.querySelectorAll(`.${css}[data-node="${s.node}"][data-row="${s.row}"]${sideFilter}[data-port-links]`);
+  el=[...candidates].find(x=>x.dataset.portLinks.split(',').includes(String(linkId)))||null;
+ }
+ el=el||getSocket(s);if(!el&&portColorMode==='distribute'&&s.row>=0)el=world.querySelector(`.socket[data-node="${s.node}"][data-row="${s.row}"]`);if(!el)return null;
+ const a=el.getBoundingClientRect(),b=board.getBoundingClientRect();
+ return{x:(a.left+a.width/2-b.left-pan.x)/zoom,y:(a.top+a.height/2-b.top-pan.y)/zoom};
+}
 // Ruta ortogonal mínima mediante A* en canales entre rectángulos inflados.
 // Cada bloque reserva un espacio exterior de 14 px para el paso de conexiones.
 function corridor(a,b,sa,sb){
@@ -922,16 +1322,34 @@ function bezierPath(a,b,sa,sb){const g=bezierGeometry(a,b,sa,sb);return `M ${a.x
 function bezierSamples(a,b,sa,sb){const g=bezierGeometry(a,b,sa,sb),length=Math.hypot(g.c1.x-a.x,g.c1.y-a.y)+Math.hypot(g.c2.x-g.c1.x,g.c2.y-g.c1.y)+Math.hypot(b.x-g.c2.x,b.y-g.c2.y),steps=Math.min(300,Math.max(20,Math.ceil(length/4)));
  const points=[];for(let i=0;i<=steps;i++){const t=i/steps,u=1-t;points.push({x:u*u*u*a.x+3*u*u*t*g.c1.x+3*u*t*t*g.c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*g.c1.y+3*u*t*t*g.c2.y+t*t*t*b.y})}return points;
 }
+// Para trazos continuos basta muestrear los extremos para orientar las flechas.
+// Lazos y zigzag mantienen la muestra completa, necesaria para su geometría.
+function bezierEndSamples(a,b,sa,sb){
+ const g=bezierGeometry(a,b,sa,sb);
+ return [0,.01,.02,.04,.96,.98,.99,1].map(t=>{
+  const u=1-t;
+  return {x:u*u*u*a.x+3*u*u*t*g.c1.x+3*u*t*t*g.c2.x+t*t*t*b.x,
+          y:u*u*u*a.y+3*u*u*t*g.c1.y+3*u*t*t*g.c2.y+t*t*t*b.y};
+ });
+}
 function curveWave(points,kind){if(points.length<2)return'';const distances=[0];for(let i=1;i<points.length;i++)distances.push(distances[i-1]+Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y));let result='';for(let i=0;i<points.length;i++){
  const pr=points[Math.max(0,i-1)],nx=points[Math.min(points.length-1,i+1)],v={x:nx.x-pr.x,y:nx.y-pr.y},m=Math.hypot(v.x,v.y)||1;
  const travel=distances[i],offset=i===0||i===points.length-1?0:kind==='loop'?5.5*Math.sin(travel*Math.PI/12):5.5*(4*Math.abs(((travel/18)%1)-.5)-1);
  const x=points[i].x-v.y/m*offset,y=points[i].y+v.x/m*offset;result+=(i?' L ':'M ')+x.toFixed(1)+' '+y.toFixed(1)
  }return result;
 }
-function pathFor(l){const a=pos(l.a),b=pos(l.b);if(!a||!b)return null;
- const aPort=box(l.a.node)?.ports?.find(x=>x.id===l.a.row),bPort=box(l.b.node)?.ports?.find(x=>x.id===l.b.row);const A=aPort?{...l.a,side:aPort.side}:l.a,B=bPort?{...l.b,side:bPort}:l.b;const sa=escapeImage(a,A,b),sb=escapeImage(b,B,a);
+function visualEndpointSide(s,linkId){
+ if(portColorMode!=='distribute'||s.row<0||box(s.node)?.kind==='image')return s.side;
+ const el=[...world.querySelectorAll(`.node[data-node="${s.node}"] .socket[data-row="${s.row}"][data-port-links]`)]
+   .find(x=>x.dataset.portLinks.split(',').includes(String(linkId)));
+ return el?.dataset.face||s.side;
+}
+function wireThicknessValue(){return Math.max(1,Math.min(18,Number(layers.wireThickness)||3.2))}
+function pathFor(l){const a=pos(l.a,l.id),b=pos(l.b,l.id);if(!a||!b)return null;
+ const aPort=box(l.a.node)?.ports?.find(x=>x.id===l.a.row),bPort=box(l.b.node)?.ports?.find(x=>x.id===l.b.row);const A=aPort?{...l.a,side:aPort.side}:{...l.a,side:visualEndpointSide(l.a,l.id)},B=bPort?{...l.b,side:bPort.side}:{...l.b,side:visualEndpointSide(l.b,l.id)};const sa=escapeImage(a,A,b),sb=escapeImage(b,B,a);
+ // Bézier u ortogonal sin cálculo adicional de cruces.
  const isCurve=wireShape==='bezier';let guide,d;
- if(isCurve){guide=bezierSamples(a,b,A,B);d=l.style==='loop'||l.style==='zigzag'?curveWave(guide,l.style):bezierPath(a,b,A,B)}
+ if(isCurve){const wave=l.style==='loop'||l.style==='zigzag';guide=wave?bezierSamples(a,b,A,B):bezierEndSamples(a,b,A,B);d=wave?curveWave(guide,l.style):bezierPath(a,b,A,B)}
  else{guide=corridor(sa.point,sb.point,{side:sa.side},{side:sb.side});if(A.side==='inside')guide.unshift(a);if(B.side==='inside')guide.push(b);d=(l.style==='loop'||l.style==='zigzag')?wavePath(guide,l.style):smoothPath(guide)}
  return {d,a,b,guide};
 }
@@ -940,19 +1358,115 @@ function arrowPoints(path,atStart){const pts=path.guide;if(!pts||pts.length<2)re
  let dx=neighbour.x-anchor.x,dy=neighbour.y-anchor.y,mag=Math.hypot(dx,dy);if(mag<.1){dx=(atStart?path.b.x:path.a.x)-anchor.x;dy=(atStart?path.b.y:path.a.y)-anchor.y;mag=Math.hypot(dx,dy)}if(mag<.1)return null;
  dx/=mag;dy/=mag;const tip={x:anchor.x+dx*12,y:anchor.y+dy*12},base={x:tip.x+dx*16,y:tip.y+dy*16};return [tip,{x:base.x-dy*7,y:base.y+dx*7},{x:base.x+dy*7,y:base.y-dx*7}];
 }
-function visibleColor(l){if(layers.wireColor)return layers.wireColor;if(theme==='text')return '#111111';if(isWhiteTextTheme())return '#ffffff';if(theme==='color'||theme==='sketch-color'||theme==='text-color'||theme==='text-color2')return l.color;if(theme==='red')return ['#ff8ca7','#ec526e','#ffd1d9','#e78b9d','#ffb36e','#c64c72'][Math.abs(l.id)%6];return ['#343434','#5a5a5a','#757575','#929292'][Math.abs(l.id)%4]}
+function visibleColor(l){if(layers.wireColor)return layers.wireColor;if(theme==='text')return '#111111';if(isWhiteTextTheme())return '#ffffff';if(theme==='color'||theme==='sketch-color'||theme==='text-color'||theme==='text-color2')return l.color;if(theme==='red')return distinctRedLinkColor(l.id);return ['#343434','#5a5a5a','#757575','#929292'][Math.abs(l.id)%4]}
+// Regiones de lectura: recortar únicamente los cables bajo los GLIFOS.
+// No se pintan rectángulos sólidos, así una foto de fondo permanece intacta.
+function textReadingMasks(){
+ const result=[],origin=world.getBoundingClientRect(),z=zoom||1;
+ for(const el of nodesEl.querySelectorAll('.node:not(.image-node) .row-text, .image-caption')){
+  if(!el.textContent?.trim()||!el.getClientRects().length)continue;
+  const range=document.createRange();range.selectNodeContents(el);
+  const rects=[...range.getClientRects()];
+  for(const r of rects){
+   if(r.width<.1||r.height<.1)continue;
+   const padX=4,padY=2.5;
+   result.push({x:(r.left-origin.left)/z-padX,y:(r.top-origin.top)/z-padY,
+    w:r.width/z+padX*2,h:r.height/z+padY*2});
+  }
+ }
+ return result;
+}
 // Unificar los eventos táctiles en un solo dibujo por cuadro.
 let frameWire=0,framePointer=null;
 function drawLinks(pointer){framePointer=pointer;if(frameWire)return;frameWire=requestAnimationFrame(()=>{frameWire=0;drawLinksNow(framePointer)})}
-function drawLinksNow(pointer){const lines=[],defs=[];for(const l of links){const p=pathFor(l);if(!p)continue;
- const [first,last]=themedWireColors(l),different=first!==last;
- const stroke=different?`url(#row-wire-${l.id})`:first;
- if(different&&layers.wireVisible!==false)defs.push(`<linearGradient id="row-wire-${l.id}" gradientUnits="userSpaceOnUse" x1="${p.a.x}" y1="${p.a.y}" x2="${p.b.x}" y2="${p.b.y}"><stop offset="0%" stop-color="${first}"/><stop offset="100%" stop-color="${last}"/></linearGradient>`);
- if(layers.wireVisible!==false)lines.push(`<path class="wire-visible ${multiLinks.has(l.id)?'wire-selected':''}" d="${p.d}" stroke="${stroke}" ${l.style==='dashed'?'stroke-dasharray="8 7"':''}/>`);
- lines.push(`<path class="wire-hit" data-link="${l.id}" d="${p.d}"/>`);
- for(const [active,atStart] of (layers.wireVisible!==false?[[l.start,true],[l.end,false]]:[])){if(!active)continue;const q=arrowPoints(p,atStart);if(q){const arrowColor=atStart?first:last;lines.push(`<path d="M${q[0].x.toFixed(2)} ${q[0].y.toFixed(2)} L${q[1].x.toFixed(2)} ${q[1].y.toFixed(2)} L${q[2].x.toFixed(2)} ${q[2].y.toFixed(2)} Z" fill="${arrowColor}" stroke="${(theme==='text'||theme==='sketch'?'#222':isWhiteTextTheme()?'#ffffff':theme==='red'?'#fff2f5':'#ecffff')}" stroke-width=".85" stroke-linejoin="round" pointer-events="none"/>`)}}
- }if(pointer&&pending){const a=pos(pending);if(a){lines.push(`<path d="M${a.x} ${a.y} Q${(a.x+pointer.x)/2} ${a.y-25} ${pointer.x} ${pointer.y}" stroke="${rowThemeColor(pending)||visibleColor({color:liveColor(pending)||'#70dbc9',id:0})}" stroke-width="3" stroke-dasharray="6 5" fill="none"/>`)}}svg.innerHTML=(defs.length?'<defs>'+defs.join('')+'</defs>':'')+lines.join('');positionLinkTools()}
-function connect(a,b){if(a.node===b.node){toast('Conecte bloques diferentes.');return}if(!pos(a)||!pos(b)){toast('No se encontró el conector.');return}if(links.some(l=>(key(l.a)===key(a)&&key(l.b)===key(b))||(key(l.a)===key(b)&&key(l.b)===key(a)))){toast('Ya existe esa conexión.');return}snap();const color=liveColor(a)||liveColor(b)||palette[nextHue++%palette.length];links.push({id:nextLink++,a,b,color,style:'solid',start:false,end:false});selectedLink=null;pending=null;render();store()}
+function drawLinksNow(pointer){
+ const defs=[],paths=[],hits=[],arrows=[],network=filteredNetwork();
+ const rendered=[];
+ for(const l of links){if(network&&!network.included.has(l.id))continue;const p=pathFor(l);if(p)rendered.push({link:l,path:p})}
+ const width=wireThicknessValue();
+ const masks=textReadingMasks();
+ const frame=board.getBoundingClientRect(),origin=world.getBoundingClientRect(),z=zoom||1;
+ const mx=(frame.left-origin.left)/z-300,my=(frame.top-origin.top)/z-300;
+ const mw=frame.width/z+600,mh=frame.height/z+600;
+ if(masks.length)defs.push(`<mask id="wire-reading-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="${mx.toFixed(2)}" y="${my.toFixed(2)}" width="${mw.toFixed(2)}" height="${mh.toFixed(2)}"><rect x="${mx.toFixed(2)}" y="${my.toFixed(2)}" width="${mw.toFixed(2)}" height="${mh.toFixed(2)}" fill="white"/>${masks.map(r=>`<rect x="${r.x.toFixed(2)}" y="${r.y.toFixed(2)}" width="${r.w.toFixed(2)}" height="${r.h.toFixed(2)}" fill="black"/>`).join('')}</mask>`);
+ for(const {link:l,path:p} of rendered){
+  const [first,last]=themedWireColors(l),different=first!==last;
+  const stroke=different?`url(#row-wire-${l.id})`:first;
+  if(different&&layers.wireVisible!==false)defs.push(`<linearGradient id="row-wire-${l.id}" gradientUnits="userSpaceOnUse" x1="${p.a.x}" y1="${p.a.y}" x2="${p.b.x}" y2="${p.b.y}"><stop offset="0%" stop-color="${first}"/><stop offset="100%" stop-color="${last}"/></linearGradient>`);
+  if(layers.wireVisible!==false){
+   // CSS .wire-visible prevalece sobre el atributo SVG stroke-width.
+   // El estilo directo garantiza que la barra modifique el grosor real en pantalla.
+   const liveWidth=multiLinks.has(l.id)?Math.min(18,width+2.2):width;
+   paths.push(`<path class="wire-visible ${multiLinks.has(l.id)?'wire-selected':''}" d="${p.d}" stroke="${stroke}" style="stroke-width:${liveWidth}px" stroke-linecap="round" ${l.style==='dashed'?'stroke-dasharray="8 7"':''}/>`);
+  }
+  hits.push(`<path class="wire-hit" data-link="${l.id}" d="${p.d}"/>`);
+  for(const [active,atStart] of (layers.wireVisible!==false?[[l.start,true],[l.end,false]]:[])){
+   if(!active)continue;const q=arrowPoints(p,atStart);if(q){const arrowColor=atStart?first:last;arrows.push(`<path d="M${q[0].x.toFixed(2)} ${q[0].y.toFixed(2)} L${q[1].x.toFixed(2)} ${q[1].y.toFixed(2)} L${q[2].x.toFixed(2)} ${q[2].y.toFixed(2)} Z" fill="${arrowColor}" stroke="${(theme==='text'||theme==='sketch'?'#222':isWhiteTextTheme()?'#ffffff':theme==='red'?'#fff2f5':'#ecffff')}" stroke-width=".85" stroke-linejoin="round" pointer-events="none"/>`)}}
+ }
+ if(pointer&&pending){const a=pos(pending);if(a)paths.push(`<path d="M${a.x} ${a.y} Q${(a.x+pointer.x)/2} ${a.y-25} ${pointer.x} ${pointer.y}" stroke="${rowThemeColor(pending)||visibleColor({color:liveColor(pending)||'#70dbc9',id:0})}" stroke-width="${wireThicknessValue()}" stroke-dasharray="6 5" fill="none"/>`)}
+ svg.innerHTML=(defs.length?'<defs>'+defs.join('')+'</defs>':'')+(masks.length?'<g mask="url(#wire-reading-mask)">':'')+paths.join('')+arrows.join('')+(masks.length?'</g>':'')+hits.join('');
+ positionLinkTools();
+}
+// Cada enlace automático recibe un HEX no utilizado, sin importar su origen.
+// Ángulo áureo alterna tonos opuestos; saturación y luminosidad varían para ampliar
+// la paleta sin repetir. Se registra el historial aun si se elimina un cable.
+function hslHex(h,s,l){
+ const f=n=>{const k=(n+h/30)%12,a=s*Math.min(l,1-l);return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,9-k,1)))).toString(16).padStart(2,'0')};
+ return ('#'+f(0)+f(8)+f(4)).toLowerCase();
+}
+function rgbLightness(color){
+ const m=hex(color);if(!m)return 0.5;
+ const a=[1,3,5].map(i=>parseInt(m.slice(i,i+2),16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
+ return a[0]*.2126+a[1]*.7152+a[2]*.0722;
+}
+function uniqueCableColor(){
+ const existing=new Set([...colorHistory,...links.map(l=>l.color)].map(c=>hex(c)).filter(Boolean));
+ const previous=colorHistory.length?colorHistory.at(-1):links.at(-1)?.color;
+ const bg=rgbLightness(canvasBaseColor());
+ // Aun con cientos de líneas, se busca un tono distinto del último y legible
+ // en la presentación actual. Se evita blanco sobre blanco/negro sobre negro.
+ for(let i=0;i<65536;i++){
+  const n=nextHue++,h=(n*137.50776405003785+179.7)%360;
+  const saturation=.67+((n*7)%17)/100;
+  const lightness=(bg>.42?.38:.62)+((n*11)%15)/100-(bg>.42?0:.04);
+  let candidate=hslHex(h,saturation,lightness);
+  // Contraste cromático mínimo 3:1 respecto al fondo sólido del tema.
+  let amount=lightness;
+  for(let adjust=0;adjust<18;adjust++){
+   const lum=rgbLightness(candidate),contrast=(Math.max(bg,lum)+.05)/(Math.min(bg,lum)+.05);
+   if(contrast>=3)break;
+   amount=clamp(amount+(bg>.42?-.025:.025),.18,.86);
+   candidate=hslHex(h,saturation,amount);
+  }
+  if(existing.has(candidate))continue;
+  // Distancia RGB visible respecto al último enlace (como mínimo 90/255).
+  if(previous){const a=hex(previous),b=candidate;if(a){const d=Math.hypot(...[1,3,5].map(j=>parseInt(a.slice(j,j+2),16)-parseInt(b.slice(j,j+2),16)));if(d<90&&i<20)continue}}
+  colorHistory.push(candidate);return candidate;
+ }
+ // El espacio RGB es finito: no reutilizar automáticamente un HEX activo.
+ for(let n=1;n<0x1000000;n++){
+  const color='#'+((nextHue*2654435761+n*1153) & 0xffffff).toString(16).padStart(6,'0');
+  if(!existing.has(color)){nextHue++;colorHistory.push(color);return color}
+ }
+ throw Error('Se agotaron los colores RGB disponibles');
+}
+// Migración conservadora: solo corrige duplicaciones de color creadas
+// automáticamente en versiones anteriores. Nunca altera un color manual.
+function restoreUniqueCableColors(savedHistory){
+ const fixed=new Set(links.filter(l=>l.colorCustom).map(l=>hex(l.color)).filter(Boolean));
+ const automatic=new Set();
+ const already=Array.isArray(savedHistory)?savedHistory.map(hex).filter(Boolean):[];
+ colorHistory=Array.from(new Set([...already,...fixed]));
+ for(const l of links){
+  const col=hex(l.color);
+  if(l.colorCustom)continue;
+  if(!col||automatic.has(col)||fixed.has(col)){l.color=uniqueCableColor()}
+  automatic.add(hex(l.color));
+  if(!colorHistory.includes(hex(l.color)))colorHistory.push(hex(l.color));
+ }
+ nextHue=Math.max(nextHue,links.length,colorHistory.length);
+}
+function connect(a,b){if(a.node===b.node){toast('Conecte bloques diferentes.');return}if(!pos(a)||!pos(b)){toast('No se encontró el conector.');return}if(links.some(l=>(key(l.a)===key(a)&&key(l.b)===key(b))||(key(l.a)===key(b)&&key(l.b)===key(a)))){toast('Ya existe esa conexión.');return}snap();const color=uniqueCableColor();links.push({id:nextLink++,a,b,color,colorCustom:false,style:'solid',start:false,end:false});selectedLink=null;pending=null;render();store()}
 function selectSocket(s){if(multiMode)return;if(pending){if(key(pending)===key(s)){pending=null;render();return}const a=pending;pending=null;connect(a,s)}else{pending=s;selectedRow=null;selectedLink=null;render()}}
 function selectRow(id,node){if(inlineEdit)commitInline();selectedRow=+id;selectedNode=+node;selectedLink=null;$('#linktools').classList.remove('open');$('#colorpop').classList.remove('open');render()}
 function removeRow(n,r){snap();n.rows=n.rows.filter(x=>x.id!==r.id);links=links.filter(l=>!(l.a.node===n.id&&l.a.row===r.id)&&!(l.b.node===n.id&&l.b.row===r.id));if(!n.rows.length){nodes=nodes.filter(x=>x.id!==n.id);links=links.filter(l=>l.a.node!==n.id&&l.b.node!==n.id)}selectedRow=null;selectedNode=null;pending=null;render();store()}
@@ -1013,24 +1527,55 @@ function joinSelectedBlocks(){
  render();store();toast('Bloques unidos; las filas y enlaces se conservaron. Puede deshacer.');
 }
 $('#nodeJoin').onclick=joinSelectedBlocks;
-$('#nodeSplit').onclick=()=>{const n=box(selectedNode);if(!n||n.kind==='image'||n.rows.length<2)return toast('Se requieren dos o más filas.');splitNodeId=splitNodeId===n.id?null:n.id;render();if(splitNodeId!==null)toast('Toque una guía punteada para separar filas')};
+$('#nodeSplit').onclick=()=>{const n=box(selectedNode);if(!n||n.kind==='image'||n.rows.length<2)return toast('Se requieren dos o más filas.');splitNodeId=splitNodeId===n.id?null:n.id;render();if(splitNodeId!==null)toast('Separar: toque la guía entre las filas que desea dividir.')};
 function deleteBlock(){if(multiMode&&multiSelection.size>1){const ids=new Set(multiSelection);snap();nodes=nodes.filter(n=>!ids.has(n.id));links=links.filter(l=>!ids.has(l.a.node)&&!ids.has(l.b.node));multiSelection.clear();selectedNode=null;selectedRow=null;render();store();toast('Bloques eliminados. Puede deshacer.');return}if(selectedNode===null)return;const id=selectedNode;snap();nodes=nodes.filter(n=>n.id!==id);links=links.filter(l=>l.a.node!==id&&l.b.node!==id);selectedNode=null;selectedRow=null;moveMode=false;closeImageTools();render();store();toast('Bloque eliminado. Puede deshacer.')}
-$('#nodeMove').onclick=()=>{if(selectedNode===null)return;toast('Arrastre cualquier parte del bloque para moverlo')};
+$('#nodeMove').onclick=()=>{if(selectedNode===null)return;toast('Mover: arrastre el bloque a su nueva posición.')};
+function mirrorBlockRows(n,rowIds){
+ if(!n||n.kind==='image')return;
+ const set=new Set(rowIds);
+ for(const r of n.rows)if(set.has(r.id))r.mirrored=!r.mirrored;
+ for(const l of links)for(const e of [l.a,l.b])if(e.node===n.id&&set.has(e.row)){
+  if(e.side==='left')e.side='right';else if(e.side==='right')e.side='left';
+ }
+}
+$('#nodeMirror').onclick=()=>{
+ const selected=multiMode&&multiFilter==='blocks'&&multiSelection.size>1
+  ?[...multiSelection].map(box).filter(n=>n?.kind!=='image'):[box(selectedNode)].filter(n=>n?.kind!=='image');
+ if(!selected.length)return;
+ snap();for(const n of selected)mirrorBlockRows(n,n.rows.map(r=>r.id));
+ pending=null;render();store();toast('Simetría horizontal de conectores aplicada. Puede deshacer.');
+};
 function duplicateSelected(){if(multiMode&&multiSelection.size>1)return duplicateGroup();const original=box(selectedNode);if(!original)return;const n=copy(original),oldId=n.id;const ww=n.kind==='image'?n.w:nodeWidth(n),hh=n.kind==='image'?n.h:Math.max(70,60+n.rows.length*49),candidates=[{x:original.x+ww+38,y:original.y},{x:original.x,y:original.y+hh+38},{x:original.x-ww-38,y:original.y},{x:original.x+32,y:original.y+32}],clear=pos=>nodes.every(k=>{const kw=nodeWidth(k),kh=k.kind==='image'?k.h:(nodesEl.querySelector(`.node[data-node="${k.id}"]`)?.offsetHeight||150);return pos.x+ww+15<k.x||pos.x>k.x+kw+15||pos.y+hh+15<k.y||pos.y>k.y+kh+15});const at=candidates.find(clear)||{x:original.x+32,y:original.y+32};snap();n.id=nextNode++;n.x=at.x;n.y=at.y;const remap=new Map();if(n.kind==='image'){n.ports=n.ports.map(p=>{const old=p.id;p.id=nextRow++;remap.set(old,p.id);return p})}else{n.rows=n.rows.map(r=>{const old=r.id;r.id=nextRow++;remap.set(old,r.id);return r})}nodes.push(n);
  // Duplicar únicamente enlaces internos al bloque, si los hubiera.
- const internals=links.filter(l=>l.a.node===oldId&&l.b.node===oldId);for(const l of internals){const clone=copy(l);clone.id=nextLink++;for(const end of [clone.a,clone.b]){end.node=n.id;end.row=remap.get(end.row)??end.row}links.push(clone)}
+ const internals=links.filter(l=>l.a.node===oldId&&l.b.node===oldId);for(const l of internals){const clone=copy(l);clone.id=nextLink++;if(!clone.colorCustom)clone.color=uniqueCableColor();for(const end of [clone.a,clone.b]){end.node=n.id;end.row=remap.get(end.row)??end.row}links.push(clone)}
  selectedNode=n.id;selectedRow=null;selectedLink=null;pending=null;closeImageTools();render();store();toast('Copia completa insertada')}
-function duplicateGroup(){const originals=nodes.filter(n=>multiSelection.has(n.id));if(originals.length<2)return;const remap=new Map(),rowMaps=new Map(),clones=[];snap();for(const old of originals){const n=copy(old);n.id=nextNode++;n.x+=48;n.y+=48;remap.set(old.id,n.id);const rm=new Map();const arr=n.kind==='image'?n.ports:n.rows;for(const x of arr){const oldRow=x.id;x.id=nextRow++;rm.set(oldRow,x.id)}rowMaps.set(old.id,rm);if(n.kind==='image')n.imageOrder=Math.max(0,...nodes.filter(x=>x.kind==='image').map(x=>x.imageOrder||0))+1;clones.push(n)}for(const l of links.filter(l=>remap.has(l.a.node)&&remap.has(l.b.node))){const k=copy(l);k.id=nextLink++;for(const end of [k.a,k.b]){const oldId=end.node;end.node=remap.get(oldId);end.row=rowMaps.get(oldId).get(end.row)??end.row}links.push(k)}nodes.push(...clones);multiSelection=new Set(clones.map(n=>n.id));selectedNode=clones.at(-1).id;render();store();toast('Selección duplicada')}
+function duplicateGroup(){const originals=nodes.filter(n=>multiSelection.has(n.id));if(originals.length<2)return;const remap=new Map(),rowMaps=new Map(),clones=[];snap();for(const old of originals){const n=copy(old);n.id=nextNode++;n.x+=48;n.y+=48;remap.set(old.id,n.id);const rm=new Map();const arr=n.kind==='image'?n.ports:n.rows;for(const x of arr){const oldRow=x.id;x.id=nextRow++;rm.set(oldRow,x.id)}rowMaps.set(old.id,rm);if(n.kind==='image')n.imageOrder=Math.max(0,...nodes.filter(x=>x.kind==='image').map(x=>x.imageOrder||0))+1;clones.push(n)}for(const l of links.filter(l=>remap.has(l.a.node)&&remap.has(l.b.node))){const k=copy(l);k.id=nextLink++;if(!k.colorCustom)k.color=uniqueCableColor();for(const end of [k.a,k.b]){const oldId=end.node;end.node=remap.get(oldId);end.row=rowMaps.get(oldId).get(end.row)??end.row}links.push(k)}nodes.push(...clones);multiSelection=new Set(clones.map(n=>n.id));selectedNode=clones.at(-1).id;render();store();toast('Selección duplicada')}
 $('#nodeCopy').onclick=duplicateSelected;
 $('#nodeDelete').onclick=deleteBlock;
 $('#nodeEdit').onclick=()=>{const n=box(selectedNode);if(n?.kind==='image')openImageEditor(n.id);else openBlockEditor(selectedNode)};
 $('#ports').onclick=e=>{e.stopPropagation();const menu=$('#portmenu');menu.classList.toggle('open');refreshPortMenu()};
-function refreshPortMenu(){$$('[data-port]').forEach(b=>b.classList.toggle('current',b.dataset.port===portLayer))}
-$$('[data-port]').forEach(b=>b.onclick=()=>{portLayer=b.dataset.port;$('#portmenu').classList.remove('open');render();store();toast(portLayer==='all'?'Todos los conectores visibles':portLayer==='used'?'Solo los conectores en uso':'Conectores ocultos')});
+function refreshPortMenu(){
+ $$('#portmenu input[name="portVisibility"]').forEach(el=>el.checked=el.value===portLayer);
+ $$('#portmenu input[name="colorPosition"]').forEach(el=>el.checked=el.value===portColorMode);
+}
+$('#portmenu').addEventListener('change',e=>{
+ const item=e.target;if(!(item instanceof HTMLInputElement))return;
+ if(item.name==='portVisibility'){
+  if(!item.checked)return;
+  snap();portLayer=item.value;render();store();
+  toast(portLayer==='all'?'Se muestran todos los conectores':portLayer==='used'?'Solo conectores utilizados':'Conectores ocultos');
+ }else if(item.name==='colorPosition'){
+  snap();portColorMode=item.checked?item.value:'off';
+  render();store();
+  toast(portColorMode==='edge'?'Colores agrupados al borde':portColorMode==='text'?'Conectores junto al texto':portColorMode==='distribute'?'Colores repartidos entre ambas caras':'Distribución de colores desactivada');
+ }
+ refreshPortMenu();
+});
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('#ports,#portmenu'))$('#portmenu').classList.remove('open')});
 function layerMenuRefresh(){
  $$('[data-theme-choice]').forEach(b=>b.classList.toggle('current',b.dataset.themeChoice===theme));$$('[data-width]').forEach(b=>b.classList.toggle('current',b.dataset.width===layers.width));
- $$('[data-wire-shape]').forEach(b=>b.classList.toggle('current',b.dataset.wireShape===wireShape));$('#bgOpacity').value=Math.round((background.opacity??.32)*100);$('#bgColor').value=background.color||'#14212e';$('#layerBorder').checked=isTextTheme()?layers.textBorder:layers.border;$('#layerBorderColor').value=layers.borderColor||'#a7b9d4';$('#layerFill').checked=isTextTheme()?layers.textFill:layers.fill;$('#layerExportDate').checked=layers.exportDate!==false;if(document.activeElement!==$('#exportProject'))$('#exportProject').value=layers.exportProject||'';$('#layerTextOn').checked=!!layers.text;$('#layerTextColor').value=layers.text||'#ffffff';
+ $$('[data-wire-shape]').forEach(b=>b.classList.toggle('current',b.dataset.wireShape===wireShape));
+ $('#wireThickness').value=wireThicknessValue();$('#wireThicknessValue').textContent=wireThicknessValue().toLocaleString('es-CO')+' px';$('#bgOpacity').value=Math.round((background.opacity??.32)*100);$('#bgColor').value=background.color||'#14212e';$('#layerBorder').checked=isTextTheme()?layers.textBorder:layers.border;$('#layerBorderColor').value=layers.borderColor||'#a7b9d4';$('#layerFill').checked=isTextTheme()?layers.textFill:layers.fill;$('#layerExportDate').checked=layers.exportDate!==false;if(document.activeElement!==$('#exportProject'))$('#exportProject').value=layers.exportProject||'';$('#layerTextOn').checked=!!layers.text;$('#layerTextColor').value=layers.text||'#ffffff';
  $$('[data-socket-shape]').forEach(b=>{b.classList.toggle('current',b.dataset.socketShape===layers.socketShape);b.setAttribute('aria-pressed',String(b.dataset.socketShape===layers.socketShape))});
  for(const [id,on] of [['socketFillToggle',layers.socketFillOn!==false],['socketBorderToggle',layers.socketBorderOn!==false],['wireVisibleToggle',layers.wireVisible!==false]]){const b=$('#'+id);b.classList.toggle('inactive',!on);b.innerHTML=icon(on?'eye':'eyeOff');b.setAttribute('aria-pressed',String(on));}
  const preset=socketPreset();
@@ -1057,6 +1602,18 @@ for(const [id,key] of [['socketFillColor','socketFillColor'],['socketBorderColor
 }
 $('#socketColorReset').onclick=()=>{snap();layers.socketShape='auto';layers.socketFillOn=true;layers.socketBorderOn=true;layers.socketFillColor=null;layers.socketBorderColor=null;updateLayers();toast('Conectores ajustados al tema')};
 $('#wireColorReset').onclick=()=>{snap();layers.wireColor=null;updateLayers()};
+let widthStart=null;
+$('#wireThickness').addEventListener('pointerdown',()=>{if(widthStart===null)widthStart=wireThicknessValue()});
+$('#wireThickness').addEventListener('input',e=>{
+ const w=Number(e.target.value);if(widthStart===null)widthStart=wireThicknessValue();
+ layers.wireThickness=w;$('#wireThicknessValue').textContent=w.toLocaleString('es-CO')+' px';drawLinks();
+});
+$('#wireThickness').addEventListener('change',()=>{
+ const w=wireThicknessValue(),before=widthStart;widthStart=null;
+ if(before!==null&&before!==w){layers.wireThickness=before;snap();layers.wireThickness=w;store()}
+ else store();
+});
+$('#wireThickness').addEventListener('pointercancel',()=>{widthStart=null});
 $('#exportProject').oninput=e=>{layers.exportProject=e.target.value.slice(0,800)};
 $('#exportProject').onchange=()=>store();
 $('#exportProject').onblur=()=>store();
@@ -1095,7 +1652,19 @@ function updateCropOverlay(){
 $('#nodePorts').onclick=()=>{cancelScaleCommand('image');editImageTool('add')};$('#nodeScale').onclick=()=>{const n=box(selectedNode);if(!n||n.kind!=='image')return;closeImageTools();imageScaleNode=imageScaleNode===n.id?null:n.id;hideScaleSlider();render();if(imageScaleNode!==null)toast('Escala: arrastre una esquina o toque el centro. Esc para salir')};
 $('#imgToolClose').onclick=()=>{cancelScaleCommand('image');closeImageTools();render()};
 $$('[data-imgtool]').forEach(b=>b.onclick=()=>editImageTool(b.dataset.imgtool));
-function refreshImagePortLocations(n){for(const p of n.ports||[]){const el=world.querySelector(`.image-socket[data-node="${n.id}"][data-row="${p.id}"]`);if(el){el.style.left=(n.x+n.w*p.u)+'px';el.style.top=(n.y+n.h*p.v)+'px'}}}
+function refreshImagePortLocations(n){
+ for(const p of n.ports||[]){
+  const els=world.querySelectorAll(`.image-socket[data-node="${n.id}"][data-row="${p.id}"]`);
+  for(const el of els){
+   const first=Number((el.dataset.portLinks||'').split(',')[0]);
+   const linked=links.find(l=>l.id===first);
+   const shift=linked?socketGroupShift({node:n.id,row:p.id,side:p.side},linked):0;
+   const isHorizontal=p.side==='left'||p.side==='right';
+   const x=n.x+n.w*p.u+(linked&&isHorizontal?(p.side==='left'?-shift:shift):linked?shift:0);
+   el.dataset.side=p.side;el.style.left=x+'px';el.style.top=(n.y+n.h*p.v)+'px';
+  }
+ }
+}
 function imagePosition(n,screenX,screenY){const el=nodesEl.querySelector(`.image-node[data-node="${n.id}"]`);if(!el)return{u:.5,v:.5,side:'inside'};const r=el.getBoundingClientRect();let u=clamp((screenX-r.left)/r.width,0,1),v=clamp((screenY-r.top)/r.height,0,1);const edge=.065;
  const near=[{d:u,side:'left'},{d:1-u,side:'right'},{d:v,side:'top'},{d:1-v,side:'bottom'}].sort((a,b)=>a.d-b.d)[0];let side='inside';if(near.d<edge){side=near.side;if(side==='left')u=0;else if(side==='right')u=1;else if(side==='top')v=0;else v=1;}return{u:Math.round(u*1000)/1000,v:Math.round(v*1000)/1000,side}}
 function addImagePort(n,screenX,screenY){snap();const place=imagePosition(n,screenX,screenY),p={id:nextRow++,...place};n.ports??=[];n.ports.push(p);render();store();return p}
@@ -1148,7 +1717,7 @@ function renderVisualEditor(){const v=visualSession;if(!v)return;
   const r=v.copyRow;
   $('#visualPreview').innerHTML=visualSample(null,r);
   const al={left:'alignLeft',center:'alignCenter',right:'alignRight'},cs={mixed:'caseMixed',upper:'caseUpper',lower:'caseLower'};
-  $('#visualRowButtons').innerHTML=[vbutton('bg','paint','Cambiar fondo',false,hex(r.bg)||'#fff'),vbutton('fg','textcolor','Cambiar texto',false,hex(r.fg)||'#fff'),vbutton('borderColor','box','Cambiar borde',false,hex(r.borderColor)||'#ccc'),vbutton('borderMode',r.borderMode==='off'?'eyeOff':'eye','Borde visible',r.borderMode==='on'),vbutton('fillMode',r.fillMode==='off'?'eyeOff':'layers','Fondo visible',r.fillMode==='on'),vbutton('align',al[rowAlign(r)],'Alineación',false),vbutton('case',cs[rowCase(r)],'Tipo de escritura',false)].join('');
+  $('#visualRowButtons').innerHTML=[vbutton('bg','paint','Cambiar fondo',false,hex(r.bg)||'#fff'),vbutton('fg','textcolor','Cambiar texto',false,hex(r.fg)||'#fff'),vbutton('borderColor','box','Cambiar borde',false,hex(r.borderColor)||'#ccc'),vbutton('borderMode',r.borderMode==='off'?'eyeOff':'eye','Borde visible',r.borderMode==='on'),vbutton('fillMode',r.fillMode==='off'?'eyeOff':'layers','Fondo visible',r.fillMode==='on'),vbutton('align',al[rowAlign(r)],'Alineación',false),vbutton('case',cs[rowCase(r)],'Tipo de escritura',false),vbutton('mirror','mirrorH','Simetría horizontal de esta fila',!!r.mirrored)].join('');
   $('#visualColors').innerHTML='<input id="vFgColor" type="color" title="Texto" aria-label="Color de letra" value="'+(hex(r.fg)||'#ffffff')+'"><input id="vBgColor" type="color" title="Fondo" aria-label="Color de fondo" value="'+(hex(r.bg)||'#303c4e')+'"><input id="vBorderColor" type="color" title="Borde" aria-label="Color de borde" value="'+(hex(r.borderColor)||'#a7b9d4')+'">';
  }else{
   const g=v.layout,n=box(editorDraft.node);const r1=editorDraft.rows[0]||{text:'Ejemplo',type:'title',bg:'#286a77',fg:'#ffffff'},r2=editorDraft.rows[1]||{text:'Segunda fila',type:'list',bg:'#303c4e',fg:'#ffffff'};
@@ -1165,6 +1734,7 @@ function renderVisualEditor(){const v=visualSession;if(!v)return;
 $('#visualOverlay').addEventListener('click',e=>{if(e.target.id==='visualOverlay')closeVisualEditor()});
 $('#visualCancel').onclick=$('#visualClose').onclick=closeVisualEditor;
 $('#visualRowButtons').onclick=e=>{const b=e.target.closest('[data-vact]'),v=visualSession;if(!b||!v||v.kind!=='row')return;const r=v.copyRow,act=b.dataset.vact;
+ if(act==='mirror'){r.mirrored=!r.mirrored;renderVisualEditor();return;}
  if(['bg','fg','borderColor'].includes(act)){const names={bg:'vBgColor',fg:'vFgColor',borderColor:'vBorderColor'};$('#'+names[act]).click();return}
  if(act==='borderMode'||act==='fillMode')cycleMode(r,act);
  if(act==='align'){const arr=['left','center','right'];r.align=arr[(arr.indexOf(rowAlign(r))+1)%3]}
@@ -1184,7 +1754,11 @@ $('#visualWidth').onclick=()=>{if(!visualSession)return;visualSession.visual.wid
 function applyEditorDraft(recordSnapshot=true){if(!editorDraft)return false;const n=box(editorDraft.node);if(!n)return false;
  for(const r of editorDraft.rows){const bg=hex(r.bg),fg=hex(r.fg);if(!bg||!fg){toast('Revise los colores');return false;}r.bg=bg;r.fg=fg;r.text=String(r.text).trim()||'Texto'}
  const changed=JSON.stringify(n.rows)!==JSON.stringify(editorDraft.rows)||JSON.stringify(n.visual||{})!==JSON.stringify(editorDraft.visual);
- if(changed){if(recordSnapshot)snap();n.rows=copy(editorDraft.rows);n.visual=copy(editorDraft.visual);nextRow=editorNextRow;const remaining=new Set(n.rows.map(r=>r.id));links=links.filter(l=>(l.a.node!==n.id||l.a.row<0||remaining.has(l.a.row))&&(l.b.node!==n.id||l.b.row<0||remaining.has(l.b.row)));}return true;
+ if(changed){if(recordSnapshot)snap();
+  for(const draft of editorDraft.rows){const old=n.rows.find(r=>r.id===draft.id);if(old&&!!old.mirrored!==!!draft.mirrored){
+   for(const l of links)for(const e of [l.a,l.b])if(e.node===n.id&&e.row===draft.id){if(e.side==='left')e.side='right';else if(e.side==='right')e.side='left'}
+  }}
+  n.rows=copy(editorDraft.rows);n.visual=copy(editorDraft.visual);nextRow=editorNextRow;const remaining=new Set(n.rows.map(r=>r.id));links=links.filter(l=>(l.a.node!==n.id||l.a.row<0||remaining.has(l.a.row))&&(l.b.node!==n.id||l.b.row<0||remaining.has(l.b.row)));}return true;
 }
 $('#visualApply').onclick=()=>{const v=visualSession;if(!v||!editorDraft)return;
  if(v.kind==='row'){const i=editorDraft.rows.findIndex(r=>r.id===v.rowId);if(i>=0)editorDraft.rows[i]=copy(v.copyRow)}
@@ -1307,12 +1881,14 @@ function renderEditorRows(){if(!editorDraft)return;$('#editorRows').innerHTML=ed
  return `<div class="edit-row" data-erow="${r.id}"><div class="edit-row-top"><span class="number">${i+1}</span>
  <button type="button" data-eract="type" data-id="${r.id}" class="kind-button" title="Cambiar título/lista" aria-label="Cambiar tipo de fila">${r.type==='title'?'T':'☷'}</button>
  <button class="visual-row-btn" type="button" data-eract="visual" data-id="${r.id}" title="Editar apariencia de esta fila" aria-label="Editar apariencia de fila">${icon('visualEdit')}</button>
+ <button type="button" class="mirror-row-btn ${r.mirrored?'mirror-on':''}" data-eract="mirror" data-id="${r.id}" title="Simetría horizontal de conectores de esta fila" aria-label="Invertir conectores de esta fila" aria-pressed="${!!r.mirrored}">${icon('mirrorH')}</button>
  <input class="edit-text" data-edit-text="${r.id}" value="${esc(r.text)}" style="text-align:${alignment};text-transform:${casing==='upper'?'uppercase':casing==='lower'?'lowercase':'none'}" maxlength="400" aria-label="Texto de fila ${i+1}" placeholder="Texto">
  ${mk('up','Subir fila','above')}${mk('down','Bajar fila','below')}${mk('delete','Eliminar fila','trash','danger')}</div>
 </div></div>`}).join('')}
 $('#editorRows').addEventListener('input',e=>{if(!editorDraft)return;const t=e.target;if(!t.matches('[data-edit-text]'))return;const r=draftRow(t.dataset.editText);if(r)r.text=t.value});
 $('#editorRows').addEventListener('click',e=>{const btn=e.target.closest('[data-eract]');if(!btn||!editorDraft)return;const id=+btn.dataset.id,r=draftRow(id),act=btn.dataset.eract;if(!r)return;
  if(act==='visual'){openVisualEditor('row',id);return}
+ if(act==='mirror')r.mirrored=!r.mirrored;
  if(act==='align'){const values=['left','center','right'];r.align=values[(values.indexOf(rowAlign(r))+1)%3]}
  if(act==='case'){const values=['mixed','upper','lower'];r.letterCase=values[(values.indexOf(rowCase(r))+1)%3]}
  if(act==='type'){r.type=r.type==='title'?'list':'title';if(!r.bgCustom)r.bg=r.type==='title'?'#286a77':'#303c4e';r.fg=r.fg||'#ffffff'}
@@ -1369,6 +1945,8 @@ function chooseLink(id,x,y){
   document.body.classList.remove('multi-block-mode');document.body.classList.add('multi-line-mode');
  }
  id=+id;
+ // Bajo el filtro, cada cable visible se edita individualmente.
+ if(filterMode&&filterFocus)multiLinks.clear();
  if(multiLinks.has(id))multiLinks.delete(id);else multiLinks.add(id);
  selectedLink=multiLinks.size?[...multiLinks].at(-1):null;
  linkAnchor=(Number.isFinite(x)&&x>0&&Number.isFinite(y)&&y>0)?toWorld(x,y):null;
@@ -1388,7 +1966,8 @@ nodesEl.addEventListener('click',e=>{const guide=e.target.closest('[data-split-a
 svg.addEventListener('click',e=>{
  if(ignoreClick||(multiMode&&multiFilter==='blocks'))return;
  const p=e.target.closest('[data-link]');if(!p)return;
- chooseLink(+p.dataset.link,e.clientX,e.clientY);
+ if(filterMode&&!filterFocus)setConnectionFilterFocus({kind:'line',id:+p.dataset.link});
+ else chooseLink(+p.dataset.link,e.clientX,e.clientY);
 });
 function hideScaleSlider(){centerScaleSession=null;$('#scaleSliderBar').classList.remove('open')}
 function cancelScaleCommand(kind='all'){
@@ -1446,7 +2025,7 @@ $('#scaleSlider').oninput=e=>{
 $('#scaleSlider').onchange=()=>{if(centerScaleSession?.saved)store()};
 $('#scaleSliderClose').onclick=()=>{cancelScaleCommand(centerScaleSession?.kind||'all');render()};
 board.addEventListener('click',e=>{const center=e.target.closest('[data-scale-center]');if(!center)return;e.preventDefault();e.stopPropagation();showCenterScale(center.dataset.scaleKind,+center.dataset.scaleNode)});
-function beginTap(e){const target=e.target;const corner=target.closest('[data-scale-corner]');if(corner)return beginCornerScale(corner.dataset.scaleKind,corner.dataset.scaleCorner,+corner.dataset.scaleNode);if(target.closest('[data-scale-center]'))return null;const bgCropHandle=target.closest('[data-bg-crop-handle]');if(bgCropHandle&&bgCropSession)return{mode:'background-crop',side:bgCropHandle.dataset.bgCropHandle,start:{...bgCropSession.relative}};if(bgCropSession)return null;const cropHandle=target.closest('[data-crop-handle]');if(cropHandle&&cropSession)return{mode:'crop',node:cropSession.node,side:cropHandle.dataset.cropHandle,start:{...cropSession.relative}};if(cropSession)return null;if(target.closest('button[data-action],button[data-cap],button[data-split-at],.row-input'))return null;const sock=target.closest('.socket');if(sock&&multiMode&&multiFilter==='blocks')return{mode:'node',node:+sock.dataset.node};if(sock&&multiMode)return null;if(sock){const n=box(+sock.dataset.node);if(n?.kind==='image'&&imageToolNode===n.id&&imageToolMode)return{mode:'image-port',node:n.id,port:+sock.dataset.row};return{mode:'socket',socket:{node:+sock.dataset.node,row:+sock.dataset.row,side:sock.dataset.side}};}if(bgEditing&&bgToolMode==='move'&&target.closest('#bgWorld'))return{mode:'background'};if(multiMode&&multiFilter==='links'&&target.closest('.node'))return null;if(imageToolMode&&target.closest('.image-node')&&+target.closest('.image-node').dataset.node===imageToolNode)return{mode:'image-place',node:imageToolNode};const tx=target.closest('.row-text');if(tx)return{mode:'node',node:+tx.dataset.node};const node=target.closest('.node');if(node)return{mode:'node',node:+node.dataset.node};if(target.closest('.wire-hit')||target.closest('#linktools')||target.closest('#colorpop')||target.closest('.empty-add'))return null;return{mode:'pan'}}
+function beginTap(e){const target=e.target;if(filterMode){const socket=target.closest('.socket');if(!filterFocus&&socket&&!socket.classList.contains('socket-muted'))return{mode:'filter-socket',socket:{node:+socket.dataset.node,row:+socket.dataset.row,side:socket.dataset.side},color:socket.dataset.portColor||null};const row=target.closest('.node:not(.image-node) .row[data-row]');if(!filterFocus&&row)return{mode:'filter-row',node:+row.closest('.node').dataset.node,row:+row.dataset.row};if(target.closest('.node,.socket'))return{mode:'pan'};}const corner=target.closest('[data-scale-corner]');if(corner)return beginCornerScale(corner.dataset.scaleKind,corner.dataset.scaleCorner,+corner.dataset.scaleNode);if(target.closest('[data-scale-center]'))return null;const bgCropHandle=target.closest('[data-bg-crop-handle]');if(bgCropHandle&&bgCropSession)return{mode:'background-crop',side:bgCropHandle.dataset.bgCropHandle,start:{...bgCropSession.relative}};if(bgCropSession)return null;const cropHandle=target.closest('[data-crop-handle]');if(cropHandle&&cropSession)return{mode:'crop',node:cropSession.node,side:cropHandle.dataset.cropHandle,start:{...cropSession.relative}};if(cropSession)return null;if(target.closest('button[data-action],button[data-cap],button[data-split-at],.row-input'))return null;const sock=target.closest('.socket');if(sock&&multiMode&&multiFilter==='blocks')return{mode:'node',node:+sock.dataset.node};if(sock&&multiMode)return null;if(sock){const n=box(+sock.dataset.node);if(n?.kind==='image'&&imageToolNode===n.id&&imageToolMode)return{mode:'image-port',node:n.id,port:+sock.dataset.row};return{mode:'socket',socket:{node:+sock.dataset.node,row:+sock.dataset.row,side:sock.dataset.side}};}if(bgEditing&&bgToolMode==='move'&&target.closest('#bgWorld'))return{mode:'background'};if(multiMode&&multiFilter==='links'&&target.closest('.node'))return null;if(imageToolMode&&target.closest('.image-node')&&+target.closest('.image-node').dataset.node===imageToolNode)return{mode:'image-place',node:imageToolNode};const tx=target.closest('.row-text');if(tx)return{mode:'node',node:+tx.dataset.node};const node=target.closest('.node');if(node)return{mode:'node',node:+node.dataset.node};if(target.closest('.wire-hit')||target.closest('#linktools')||target.closest('#colorpop')||target.closest('.empty-add'))return null;return{mode:'pan'}}
 board.addEventListener('pointerdown',e=>{if(e.button===2&&e.pointerType==='mouse')return;if(!e.target.closest('.socket,[data-scale-corner],[data-crop-handle],[data-bg-crop-handle]')&&e.target.closest('button,input,textarea,select,#colorpop,#linktools'))return;if($('#scrim').classList.contains('open'))return;touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size>=2){activePointer=null;const p=[...touches.values()].slice(0,2),dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;pinch={dist:Math.max(1,dist),zoom,world:toWorld(cx,cy)};return}
  const action=beginTap(e);if(!action)return;
  if(action.mode==='node'&&(!multiMode||multiFilter!=='blocks')){
@@ -1481,7 +2060,7 @@ board.addEventListener('pointermove',e=>{if(touches.has(e.pointerId))touches.set
  if(g.mode==='node'&&g.moved&&!g.groupStart?.length||g.mode==='node'&&g.moved&&g.groupStart?.length===1){const n=box(g.node);if(!n)return;if(!g.saved){snap();g.saved=true}n.x=Math.round(g.nx+dx/zoom);n.y=Math.round(g.ny+dy/zoom);const el=nodesEl.querySelector(`.node[data-node="${n.id}"]`);if(el){el.style.left=n.x+'px';el.style.top=n.y+'px'}if(n.kind==='image')refreshImagePortLocations(n);drawLinks()}
  if(g.mode==='socket'&&g.moved){drawLinks(toWorld(e.clientX,e.clientY))}
  
- if(g.mode==='image-port'&&g.moved&&imageToolMode==='move'){const n=box(g.node),p=n?.ports?.find(k=>k.id===g.port);if(!p)return;if(!g.saved){snap();g.saved=true}Object.assign(p,imagePosition(n,e.clientX,e.clientY));const el=world.querySelector(`.image-socket[data-node="${n.id}"][data-row="${p.id}"]`);if(el){el.dataset.side=p.side;el.style.left=(n.x+n.w*p.u)+'px';el.style.top=(n.y+n.h*p.v)+'px'}drawLinks()}
+ if(g.mode==='image-port'&&g.moved&&imageToolMode==='move'){const n=box(g.node),p=n?.ports?.find(k=>k.id===g.port);if(!p)return;if(!g.saved){snap();g.saved=true}Object.assign(p,imagePosition(n,e.clientX,e.clientY));refreshImagePortLocations(n);drawLinks()}
 });
 board.addEventListener('pointerup',e=>{touches.delete(e.pointerId);if(pinch){if(touches.size<2){pinch=null;activePointer=null;store()}return}const g=activePointer;if(!g||g.id!==e.pointerId)return;activePointer=null;
  if(g.mode==='crop'||g.mode==='background-crop')return;
@@ -1489,7 +2068,9 @@ board.addEventListener('pointerup',e=>{touches.delete(e.pointerId);if(pinch){if(
  if(g.mode==='background'){if(g.moved)store();return}
  if(g.mode==='image-place'){const n=box(g.node);if(n&&!g.moved){if(imageToolMode==='add')addImagePort(n,e.clientX,e.clientY);if(imageToolMode==='copy')copyImagePort(n,e.clientX,e.clientY)}return}
  if(g.mode==='image-port'){const n=box(g.node),p=n?.ports?.find(x=>x.id===g.port);if(!p)return;if(imageToolMode==='move'){if(g.moved){render();store()}else toast('Arrastre este conector dentro de la imagen o hacia un borde')}else if(!g.moved)selectImagePortForEdit(n,p);return}
- if(g.mode==='socket'){if(g.moved){const hit=document.elementFromPoint(e.clientX,e.clientY)?.closest('.socket');if(hit){const t={node:+hit.dataset.node,row:+hit.dataset.row,side:hit.dataset.side};if(key(t)!==key(g.socket)){pending=null;connect(g.socket,t);return}}pending=g.socket;render();toast('Toque el conector de destino')}else selectSocket(g.socket)}
+ if(g.mode==='filter-socket'){if(!g.moved)setConnectionFilterFocus({kind:'socket',socket:g.socket,color:g.color});return}
+ if(g.mode==='filter-row'){if(!g.moved)setConnectionFilterFocus({kind:'row',node:g.node,row:g.row});return}
+ if(g.mode==='socket'){if(g.moved){const hit=document.elementFromPoint(e.clientX,e.clientY)?.closest('.socket');if(hit){const t={node:+hit.dataset.node,row:+hit.dataset.row,side:hit.dataset.side};if(key(t)!==key(g.socket)){pending=null;connect(g.socket,t);return}}pending=g.socket;render();toast('Conexión: toque el conector de destino.')}else selectSocket(g.socket)}
  if(g.mode==='choose'&&!g.moved){selectedNode=g.node;selectedRow=null;selectedLink=null;moveMode=false;render()}
  if(g.mode==='node'){if(!g.moved&&multiMode&&multiFilter==='blocks'){
  const now=Date.now(),doubleTap=!!(lastTap&&lastTap.node===g.node&&now-lastTap.at<425&&Math.hypot(g.sx-lastTap.x,g.sy-lastTap.y)<32);
@@ -1519,14 +2100,14 @@ function resetSelection(){
 }
 $('#nodeCancel').onclick=()=>{cancelAllCommands();resetSelection();render()};
 $('#wireCancel').onclick=()=>{cancelAllCommands();resetSelection();render()};
-$('#newProject').onclick=()=>openDialog('Nuevo diagrama','<p>Se borrarán todos los bloques, imágenes, enlaces y fondo. Esta acción <strong>no se puede deshacer</strong>. ¿Desea crear un espacio vacío?</p>',[['Cancelar',closeDialog],['Nuevo',()=>{closeDialog();resetSelection();nodes=[];links=[];undo=[];nextNode=1;nextRow=1;nextLink=1;nextHue=0;layers.exportProject='';background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480};bgEditing=false;bgToolMode=null;$('#bgActions').classList.remove('open');$('#bgToggle').classList.remove('active');zoom=1;pan={x:0,y:0};render();store();playMeteorIntro()},'danger']]);
+$('#newProject').onclick=()=>openDialog('Nuevo diagrama','<p>Se borrarán todos los bloques, imágenes, enlaces y fondo. Esta acción <strong>no se puede deshacer</strong>. ¿Desea crear un espacio vacío?</p>',[['Cancelar',closeDialog],['Nuevo',()=>{closeDialog();clearConnectionFilter(false);resetSelection();nodes=[];links=[];undo=[];nextNode=1;nextRow=1;nextLink=1;nextHue=0;colorHistory=[];layers.exportProject='';background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480};bgEditing=false;bgToolMode=null;$('#bgActions').classList.remove('open');$('#bgToggle').classList.remove('active');zoom=1;pan={x:0,y:0};render();store();playMeteorIntro()},'danger']]);
 $('#add').onclick=$('#first').onclick=showInsertMenu;
 $('#zoomIn').onclick=()=>{const r=board.getBoundingClientRect();zoomAt(zoom*1.2,r.left+r.width/2,r.top+r.height/2)};
 $('#zoomOut').onclick=()=>{const r=board.getBoundingClientRect();zoomAt(zoom/1.2,r.left+r.width/2,r.top+r.height/2)};
 $('#fit').onclick=fit;
-$('#undo').onclick=()=>{if(inlineEdit)commitInline();if(!undo.length)return toast('No hay cambios para deshacer');const s=undo.pop();({nodes,links,nextNode,nextRow,nextLink,nextHue}=s);if(s.layers)layers=styleLayers({...layers,...s.layers,exportDate:s.layers.exportDate!==false,exportProject:String(s.layers.exportProject||'').slice(0,800)});if(s.theme)theme=s.theme;if(s.portLayer)portLayer=s.portLayer;if(s.wireShape)wireShape=s.wireShape;if(s.background){background=s.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}applyThemeClasses();selectedRow=null;selectedNode=null;selectedLink=null;pending=null;multiLinks.clear();multiSelection.clear();render();store()};
+$('#undo').onclick=()=>{if(inlineEdit)commitInline();if(!undo.length)return toast('No hay cambios para deshacer');const s=undo.pop();({nodes,links,nextNode,nextRow,nextLink,nextHue}=s);colorHistory=Array.isArray(s.colorHistory)?s.colorHistory.slice():links.map(l=>l.color);if(s.layers)layers=styleLayers({...layers,...s.layers,exportDate:s.layers.exportDate!==false,exportProject:String(s.layers.exportProject||'').slice(0,800)});if(s.theme)theme=s.theme;portLayer=normalizedPortLayer(s.portLayer);portColorMode=normalizedPortColorMode(s.portColorMode,s.portLayer);if(s.wireShape)wireShape=s.wireShape;if(s.background){background=s.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}applyThemeClasses();selectedRow=null;selectedNode=null;selectedLink=null;pending=null;multiLinks.clear();multiSelection.clear();render();store()};
 
-function projectFile(){return{app:'NodoLibre',version:'3.6.0',updated:'20 de octubre de 2026',nodes,links,theme,portLayer,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'4.8.0',updated:'21 de octubre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 $('#save').onclick=()=>{if(bgCropSession)closeBgCrop(false);downloadBlob(new Blob([JSON.stringify(projectFile())],{type:'application/octet-stream'}),'NodoLibre_proyecto.nodolibre');toast('Proyecto .nodolibre guardado')};
 $('#export').onclick=()=>{$('#saveMenu').classList.toggle('open');$('#insertMenu').classList.remove('open')};
@@ -1574,7 +2155,27 @@ async function exportPng(){if(!nodes.length&&background.kind!=='image')return to
  const area={x:minX-extra,y:minY-extra,w:fullW,h:fullH};c.fillStyle=canvasBaseColor();c.fillRect(area.x,area.y,area.w,area.h);
  if(background.kind==='image'&&background.src){try{const im=await loadCanvasImage(background.src),q=normalizedCrop(background.crop);c.globalAlpha=background.opacity??.32;c.drawImage(im,q.left*im.width,q.top*im.height,(1-q.left-q.right)*im.width,(1-q.top-q.bottom)*im.height,background.x,background.y,background.w,background.h)}catch{}finally{c.globalAlpha=1}}
  for(const n of nodes.filter(n=>n.kind==='image').sort((a,b)=>(a.imageOrder||0)-(b.imageOrder||0))){try{const im=await loadCanvasImage(n.src),q=cropValues(n);c.save();c.globalAlpha=clamp(Number(n.opacity??1),.05,1);c.drawImage(im,q.left*im.width,q.top*im.height,(1-q.left-q.right)*im.width,(1-q.top-q.bottom)*im.height,n.x,n.y,n.w,n.h);c.restore()}catch{}if(n.caption){c.font='600 14px system-ui';c.fillStyle=isWhiteTextTheme()?'#ffffff':isTextTheme()?'#111111':theme==='sketch'||theme==='sketch-color'?'#242424':theme==='red'?'#ffe4eb':'#eef5fb';c.textAlign='center';c.fillText(n.caption,n.x+n.w/2,n.captionPosition==='top'?n.y-9:n.y+n.h+19,n.w+250);c.textAlign='left'}}
- for(const l of links){if(layers.wireVisible===false)continue;const p=pathFor(l);if(!p)continue;try{c.save();const [first,last]=themedWireColors(l);const stroke=first===last?first:(()=>{const g=c.createLinearGradient(p.a.x,p.a.y,p.b.x,p.b.y);g.addColorStop(0,first);g.addColorStop(1,last);return g})();c.strokeStyle=stroke;c.lineWidth=3.1;c.lineCap='round';c.lineJoin='round';c.setLineDash(l.style==='dashed'?[8,7]:[]);c.stroke(new Path2D(p.d));c.restore();const arrow=(atStart)=>{const q=arrowPoints(p,atStart);if(!q)return;c.save();c.fillStyle=atStart?first:last;c.strokeStyle=(theme==='text'||theme==='sketch'?'#222':isWhiteTextTheme()?'#ffffff':theme==='red'?'#fff2f5':'#ecffff');c.lineWidth=.85;c.beginPath();c.moveTo(q[0].x,q[0].y);c.lineTo(q[1].x,q[1].y);c.lineTo(q[2].x,q[2].y);c.closePath();c.fill();c.stroke();c.restore()};if(l.start)arrow(true);if(l.end)arrow(false)}catch{}}
+ // Ventana de lectura sobre el cableado: recorte por unión de rectángulos
+ // (evenodd). No borra las imágenes ni el fondo porque solo recorta las líneas.
+ c.save();
+ const readingMasks=textReadingMasks();
+ if(readingMasks.length){
+  const clipPath=new Path2D();
+  clipPath.rect(area.x-4,area.y-4,area.w+8,area.h+8);
+  for(const m of readingMasks)clipPath.rect(m.x,m.y,m.w,m.h);
+  c.clip(clipPath,'evenodd');
+ }
+ const exportNetwork=filteredNetwork();
+ const rendered=links.filter(l=>!exportNetwork||exportNetwork.included.has(l.id)).map(l=>({link:l,path:pathFor(l)})).filter(o=>o.path);
+ const strokeWidth=wireThicknessValue();
+ for(const {link:l,path:p} of rendered){if(layers.wireVisible===false)continue;
+  try{
+   c.save();const [first,last]=themedWireColors(l),stroke=first===last?first:(()=>{const g=c.createLinearGradient(p.a.x,p.a.y,p.b.x,p.b.y);g.addColorStop(0,first);g.addColorStop(1,last);return g})();
+   c.strokeStyle=stroke;c.lineWidth=strokeWidth;c.lineCap='round';c.lineJoin='round';c.setLineDash(l.style==='dashed'?[8,7]:[]);c.stroke(new Path2D(p.d));c.restore();
+   const arrow=atStart=>{const q=arrowPoints(p,atStart);if(!q)return;c.save();c.fillStyle=atStart?first:last;c.strokeStyle=(theme==='text'||theme==='sketch'?'#222':isWhiteTextTheme()?'#ffffff':theme==='red'?'#fff2f5':'#ecffff');c.lineWidth=.85;c.beginPath();c.moveTo(q[0].x,q[0].y);c.lineTo(q[1].x,q[1].y);c.lineTo(q[2].x,q[2].y);c.closePath();c.fill();c.stroke();c.restore()};if(l.start)arrow(true);if(l.end)arrow(false);
+  }catch{c.restore()}
+ }
+ c.restore(); // Restaurar antes de pintar los bloques.
  for(const n of nodes.filter(n=>n.kind!=='image')){
   const el=nodesEl.querySelector(`.node[data-node="${n.id}"]`),w=nodeWidth(n),h=el?.offsetHeight||60+n.rows.length*50,g=blockLayout(n);
   const exterior=['both','block'].includes(g.borderLayout);
@@ -1603,14 +2204,20 @@ async function exportPng(){if(!nodes.length&&background.kind!=='image')return to
  }
  // Pintar conectores encima de los bloques y líneas.
  const endpoints=[];for(const n of nodes){if(n.kind==='image'){for(const p of n.ports||[])endpoints.push({node:n.id,row:p.id,side:p.side})}else{for(const r of n.rows){endpoints.push({node:n.id,row:r.id,side:'left'},{node:n.id,row:r.id,side:'right'})}if(n.top)endpoints.push({node:n.id,row:-1,side:'top'});if(n.bottom)endpoints.push({node:n.id,row:-2,side:'bottom'})}}
- for(const end of endpoints){if(portLayer==='none'||(portLayer==='used'&&!isLinked(end)))continue;const p=pos(end);if(!p)continue;const v=socketStyle(end),shape=v.shape,sz=isTextTheme()?.5:1;c.save();c.beginPath();
+ for(const end of endpoints){const allow=filterAllowsSocket(end);if(allow===null?(portLayer==='none'||(portLayer==='used'&&!isLinked(end))):!allow)continue;
+ const groups=colorPortsActive()?colorSocketGroups(end):[];
+ for(const linked of groups.length?groups.map(g=>g.links[0]):(colorPortsActive()&&exportNetwork&&isLinked(end)?[]:[null])){
+ const p=pos(end,linked?.id??null);if(!p)continue;const v=socketStyle(end),shape=v.shape,sz=isTextTheme()?.5:1;c.save();c.beginPath();
  if(shape==='diamond'){c.moveTo(p.x,p.y-9*sz);c.lineTo(p.x+9*sz,p.y);c.lineTo(p.x,p.y+9*sz);c.lineTo(p.x-9*sz,p.y);c.closePath()}
  else if(shape==='vline')c.rect(p.x-2.5*sz,p.y-9*sz,5*sz,18*sz);
  else if(shape==='hline')c.rect(p.x-9*sz,p.y-2.5*sz,18*sz,5*sz);
  else c.arc(p.x,p.y,8*sz,0,Math.PI*2);
- if(layers.socketFillOn!==false){c.fillStyle=v.fill;c.fill()}
- if(layers.socketBorderOn!==false){c.strokeStyle=v.border.replace(/^2px solid /,'');c.lineWidth=2*sz;c.stroke()}
+ const logicalEnd=linked?[linked.a,linked.b].find(ep=>ep.node===end.node&&ep.row===end.row)||end:end;
+ const portColor=linked?socketWireColor(logicalEnd,linked):null;
+ if(linked||layers.socketFillOn!==false){c.fillStyle=portColor||v.fill;c.fill()}
+ if(linked||layers.socketBorderOn!==false){c.strokeStyle=portColor||v.border.replace(/^2px solid /,'');c.lineWidth=2*sz;c.stroke()}
  c.restore()}
+ }
 
   // El PNG utiliza el MISMO SVG del logo en pantalla, sin bibliotecas ni fuentes externas.
   // Fondo de la versión lápiz: modificar solamente las tonalidades de la firma y el título.
@@ -1657,11 +2264,11 @@ $('#savePng').onclick=async()=>{$('#saveMenu').classList.remove('open');try{awai
 $('#open').onclick=()=>$('#file').click();document.addEventListener('pointerdown',e=>{if(!e.target.closest('#export,#saveMenu'))$('#saveMenu').classList.remove('open')});
 // Compatibilidad con archivos exportados por la versión anterior.
 function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nodes.length>600||d.links.length>6000)throw Error('Estructura no compatible');let ids=new Set(),rids=new Set(),nexR=1;
- const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const src=typeof old.src==='string'&&/^data:image\/(png|jpeg);base64,/i.test(old.src)&&old.src.length<30e6?old.src:null;if(!src)throw Error('Imagen no válida');return{id,kind:'image',src,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.top!==false,bottom:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
+ const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const src=typeof old.src==='string'&&/^data:image\/(png|jpeg);base64,/i.test(old.src)&&old.src.length<30e6?old.src:null;if(!src)throw Error('Imagen no válida');return{id,kind:'image',src,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.top!==false,bottom:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
  const keys=new Set(incoming.flatMap(n=>n.kind==='image'?n.ports.map(p=>`${n.id}:${p.id}`):n.rows.map(r=>`${n.id}:${r.id}`)));for(const n of incoming){if(n.kind==='image')continue;if(n.top)keys.add(`${n.id}:-1`);if(n.bottom)keys.add(`${n.id}:-2`)}
  const outgoing=d.links.filter(l=>l.a&&l.b&&keys.has(`${l.a.node}:${l.a.row}`)&&keys.has(`${l.b.node}:${l.b.row}`)&&['left','right','top','bottom','inside'].includes(l.a.side)&&['left','right','top','bottom','inside'].includes(l.b.side)).map(l=>({id:Number(l.id),a:{node:+l.a.node,row:+l.a.row,side:l.a.side},b:{node:+l.b.node,row:+l.b.row,side:l.b.side},color:hex(l.color)||palette[0],colorCustom:!!l.colorCustom,style:['solid','dashed','loop','zigzag'].includes(l.style)?l.style:'solid',start:!!l.start,end:!!l.end}));return{incoming,outgoing}}
-$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text()),v=normalize(d);snap();nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=['all','used','none'].includes(d.portLayer)?d.portLayer:'all';wireShape=d.wireShape==='orthogonal'?'orthogonal':'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,nodeBg:d.layers?.nodeBg,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();store();toast('Diagrama recuperado')}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value=''}};
-$('#about').onclick=()=>openDialog('Acerca de NodoLibre',`<p><strong>NodoLibre</strong> permite crear mapas conceptuales y diagramas, conectar ideas y organizar información.</p><p><strong>Diseño realizado por:</strong> Arley Zárate<br><strong>Desarrollado por:</strong> Noa<br><strong>Fecha:</strong> 20 de octubre de 2026<br><strong>Versión:</strong> 3.6.0</p><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan automáticamente al tema. Use los íconos de Capas para elegir círculo, rombo o barras, cambiar relleno y contorno, u ocultarlos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para crear un bloque; Supr o Delete elimina los elementos seleccionados. El ícono de casa regresa a Inicio.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color, flechas o trazo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde en .nodolibre, abra archivos .nodolibre, .arley o JSON y exporte una imagen PNG. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p>`,[['Cerrar',closeDialog,'ok']]);
+$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text()),v=normalize(d);snap();clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=d.wireShape==='orthogonal'?'orthogonal':'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();store();toast('Diagrama recuperado')}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value=''}};
+$('#about').onclick=()=>openDialog('Acerca de NodoLibre',`<p><strong>NodoLibre</strong> permite crear mapas conceptuales y diagramas, conectar ideas y organizar información.</p><p><strong>Diseño realizado por:</strong> Arley Zárate<br><strong>Desarrollado por:</strong> Noa<br><strong>Fecha:</strong> 21 de octubre de 2026<br><strong>Versión:</strong> 4.8.0</p><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan al tema. En Conectores visibles, elija mostrar todos, solo utilizados o ninguno. Independientemente, active si lo desea marcadores por color al borde, cerca del texto o distribuidos entre ambas caras de cada fila. También puede reflejar horizontalmente los conectores desde Mover o desde las propiedades de cada fila. En Capas, seleccione círculo, rombo o barras y ajuste colores y contornos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para crear un bloque; Supr o Delete elimina los elementos seleccionados. El ícono de casa regresa a Inicio.</p><p><strong>Filtro:</strong> toque el embudo y seleccione un cable, un conector o una fila para mostrar únicamente sus enlaces directos. Los bloques permanecen visibles. Puede editar cada cable aislado. Vuelva a tocar el embudo para restaurar todo.</p><p><strong>Legibilidad:</strong> los cables se recortan detrás de las palabras, incluso sobre fotografías, sin interrumpir sus conexiones. Los colores automáticos de los enlaces nuevos no se repiten y varían por ángulo y luminosidad; los colores manuales se conservan.</p><p><strong>Enlaces:</strong> desde Capas y apariencia ajuste el espesor de 1 a 18 píxeles. Conserve los recorridos Bézier u ortogonal y sus patrones, flechas y colores individuales. Se retiró el entrelazado para mejorar la fluidez en diagramas grandes.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color, flechas o trazo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde en .nodolibre, abra archivos .nodolibre, .arley o JSON y exporte una imagen PNG. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p>`,[['Cerrar',closeDialog,'ok']]);
 $('#scrim').addEventListener('pointerdown',e=>{if(e.target.id==='scrim')closeDialog()});document.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&visualSession){e.preventDefault();e.stopImmediatePropagation();closeVisualEditor();return}
  if((e.key==='Delete'||e.key==='Backspace')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
@@ -1674,10 +2281,10 @@ $('#scrim').addEventListener('pointerdown',e=>{if(e.target.id==='scrim')closeDia
   }
  }
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();if($('#textImportPanel')?.classList.contains('open')){closeTextImport();return}if(inlineEdit)commitInline(true);if(editorDraft)closeBlockEditor();if($('#imgEditOverlay')?.classList.contains('open'))$('#imgEditOverlay').classList.remove('open');closeDialog();cancelAllCommands();resetSelection();render();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!e.target.matches('input,textarea,select')){$('#undo').click();e.preventDefault()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();if($('#textImportPanel')?.classList.contains('open')){closeTextImport();return}if($('#scrim').classList.contains('open')){closeDialog();return}if(filterMode){clearConnectionFilter();return}if(inlineEdit)commitInline(true);if(editorDraft)closeBlockEditor();if($('#imgEditOverlay')?.classList.contains('open'))$('#imgEditOverlay').classList.remove('open');closeDialog();cancelAllCommands();resetSelection();render();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!e.target.matches('input,textarea,select')){$('#undo').click();e.preventDefault()}});
 nodesEl.addEventListener('keydown',e=>{if(e.target.matches('.row-input')&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();commitInline()}if(e.target.matches('.row-input')&&e.key==='Escape'){e.stopPropagation();commitInline(true)}});nodesEl.addEventListener('focusout',e=>{if(e.target.matches('.row-input')&&inlineEdit){setTimeout(()=>{if(inlineEdit)commitInline()},0)}});
 window.addEventListener('resize',()=>{viewport();requestAnimationFrame(drawLinks)});
-try{const saved=JSON.parse(localStorage.getItem('nodolibre-v1.6')||localStorage.getItem('nodolibre-v1.5')||localStorage.getItem('nodolibre-v1.4')||localStorage.getItem('nodolibre-v1.3')||localStorage.getItem('nodolibre-v1.2')||localStorage.getItem('nodolibre-v1.1')||'null');if(saved?.nodes&&saved?.links){({nodes,links,nextNode,nextRow,nextLink,nextHue}=saved);theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(saved.theme)?saved.theme:'color';portLayer=['all','used','none'].includes(saved.portLayer)?saved.portLayer:'all';if(saved.wireShape)wireShape=saved.wireShape;if(saved.background){background=saved.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}if(saved.layers)layers=styleLayers({width:saved.layers.width==='auto'?'auto':'fixed',border:saved.layers.border!==false,fill:saved.layers.fill!==false,text:hex(saved.layers.text),borderColor:hex(saved.layers.borderColor)||'#a7b9d4',borderColorCustom:!!saved.layers.borderColorCustom||!!(saved.layers.borderColor&&saved.layers.borderColor!=='#a7b9d4'),exportDate:saved.layers.exportDate!==false,exportProject:String(saved.layers.exportProject||'').slice(0,800),textBorder:saved.layers.textBorder,textFill:saved.layers.textFill,socketStyleVersion:saved.layers.socketStyleVersion,socketShape:saved.layers.socketShape,socketFillOn:saved.layers.socketFillOn,socketBorderOn:saved.layers.socketBorderOn,socketFillColor:saved.layers.socketFillColor,socketBorderColor:saved.layers.socketBorderColor,wireVisible:saved.layers.wireVisible,wireColor:saved.layers.wireColor,nodeBg:saved.layers.nodeBg,blockLayout:saved.layers.blockLayout}) }else{const prev=JSON.parse(localStorage.getItem('local-nodos-v1')||'null');if(prev?.nodes&&prev?.links){const old=normalize(prev);nodes=old.incoming;links=old.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));store()}}}catch{}
+try{const saved=JSON.parse(localStorage.getItem('nodolibre-v1.6')||localStorage.getItem('nodolibre-v1.5')||localStorage.getItem('nodolibre-v1.4')||localStorage.getItem('nodolibre-v1.3')||localStorage.getItem('nodolibre-v1.2')||localStorage.getItem('nodolibre-v1.1')||'null');if(saved?.nodes&&saved?.links){({nodes,links,nextNode,nextRow,nextLink,nextHue}=saved);theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(saved.theme)?saved.theme:'color';portLayer=normalizedPortLayer(saved.portLayer);portColorMode=normalizedPortColorMode(saved.portColorMode,saved.portLayer);if(saved.wireShape)wireShape=saved.wireShape;if(saved.background){background=saved.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}restoreUniqueCableColors(saved.colorHistory);if(saved.layers)layers=styleLayers({width:saved.layers.width==='auto'?'auto':'fixed',border:saved.layers.border!==false,fill:saved.layers.fill!==false,text:hex(saved.layers.text),borderColor:hex(saved.layers.borderColor)||'#a7b9d4',borderColorCustom:!!saved.layers.borderColorCustom||!!(saved.layers.borderColor&&saved.layers.borderColor!=='#a7b9d4'),exportDate:saved.layers.exportDate!==false,exportProject:String(saved.layers.exportProject||'').slice(0,800),textBorder:saved.layers.textBorder,textFill:saved.layers.textFill,socketStyleVersion:saved.layers.socketStyleVersion,socketShape:saved.layers.socketShape,socketFillOn:saved.layers.socketFillOn,socketBorderOn:saved.layers.socketBorderOn,socketFillColor:saved.layers.socketFillColor,socketBorderColor:saved.layers.socketBorderColor,wireVisible:saved.layers.wireVisible,wireColor:saved.layers.wireColor,wireProfile:saved.layers.wireProfile,wireThickness:saved.layers.wireThickness,nodeBg:saved.layers.nodeBg,blockLayout:saved.layers.blockLayout}) }else{const prev=JSON.parse(localStorage.getItem('local-nodos-v1')||'null');if(prev?.nodes&&prev?.links){const old=normalize(prev);nodes=old.incoming;links=old.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));store()}}}catch{}
 // Si antes se trabajó con la versión original, se conserva una copia recuperable mediante JSON.
 applyThemeClasses();render();if(nodes.length)requestAnimationFrame(fit);
 // NodoLibre v2.8: apertura cinematográfica sin recursos externos.
