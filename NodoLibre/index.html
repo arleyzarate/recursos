@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.4 | Diagramador de nodos sin conexión</title>
+<title>NodoLibre 5.6 | Diagramador de nodos sin conexión</title>
 <style>
 :root{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:dark;--ink:#eef5fb;--sub:#b6c8da;--base:#111925;--bar:#17212df2;--panel:#253345;--panel-border:#60708a;--accent:#6ae2cf;--grid:#61768c73;--node:#222e3e;--row:#303d50;--stroke:#a7b9d4;--shadow:0 15px 34px #0007}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--base);color:var(--ink);font-size:14px}button,input,textarea,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.icon{width:19px;height:19px;display:block;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}.icon.large{width:23px;height:23px}.icon.tiny{width:16px;height:16px}.toolbar{position:absolute;left:0;right:0;top:0;z-index:15;min-height:56px;display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--bar);border-bottom:1px solid #ffffff20;backdrop-filter:blur(12px)}.brand{margin-right:auto;line-height:1.05;white-space:nowrap}.brand strong{font-size:17px;letter-spacing:-.35px}.brand small{display:block;font-size:10px;color:var(--sub);margin-top:5px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;background:var(--panel);color:var(--ink);border:1px solid #9aa9c343;border-radius:10px;min-width:38px;height:38px;padding:7px;flex:none}.btn:active{transform:scale(.97)}.btn.primary{background:#236e66;border-color:#61d8bf}.btn:disabled{opacity:.45}.work{position:absolute;inset:56px 0 57px;overflow:hidden;touch-action:none;cursor:grab;background:radial-gradient(ellipse at 50% 30%,#23404c85,transparent 66%),var(--base)}.work::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--grid) 1px,transparent 1.25px);background-size:var(--step,25px) var(--step,25px);background-position:var(--gx,0px) var(--gy,0px);opacity:.8;pointer-events:none}.world{position:absolute;top:0;left:0;width:1px;height:1px;transform-origin:0 0;will-change:transform}.wirelayer{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none}.wire-visible{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px #0006)}.wire-hit{stroke:transparent;fill:none;stroke-width:23;pointer-events:stroke;cursor:pointer}.wire-hit:active{stroke:#ffffff23}.node{position:absolute;width:254px;background:var(--node);border:1px solid #8a9bb36e;box-shadow:var(--shadow);border-radius:13px;padding:6px;touch-action:none;user-select:none}.node.active{outline:1px solid #a1f0d8}.block-caps{position:absolute;left:0;right:0;top:-37px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}.block-caps button{pointer-events:auto}.cap-btn{border:1px solid #8093b4;background:#29394f;color:#e6f5ff;border-radius:8px;padding:4px 9px;display:flex;align-items:center;gap:3px;height:27px;font-size:11px}.cap-btn.off{opacity:.5}.cap-btn .icon{width:15px;height:15px}.row{position:relative;border-radius:8px;min-height:44px;background:var(--row);color:#fff;margin:3px 3px 5px;display:flex;flex-direction:column;justify-content:center;touch-action:none}.row.kind-title{font-weight:750;box-shadow:inset 0 0 0 1px #ffffff15}.row.chosen{outline:2px solid var(--accent)}.row-text{display:block;padding:12px 12px;min-height:43px;width:100%;max-width:100%;overflow-wrap:anywhere;line-height:1.35;touch-action:none;cursor:text}.row-input{border:1px solid var(--accent);background:#0b111a7a;color:inherit;border-radius:5px;width:calc(100% - 20px);margin:6px 10px;resize:vertical;min-height:44px;max-height:200px;padding:8px 5px;font-weight:inherit;touch-action:auto}.rowtools{display:flex;justify-content:space-between;gap:2px;padding:5px 5px 7px;border-top:1px solid #ffffff21;margin:0 3px;touch-action:manipulation}.rowtools button{display:grid;place-items:center;min-width:31px;height:29px;border:1px solid #ffffff3c;border-radius:7px;background:#11192799;color:inherit;touch-action:manipulation}.rowtools button.danger{color:#ff9f9f}.rowtools .icon{width:16px;height:16px}.socket{width:19px;height:19px;position:absolute;border:2.5px solid #b9cce2;background:#54687a;border-radius:50%;z-index:4;touch-action:none;box-shadow:0 0 0 3px #16212a;cursor:crosshair}.socket[data-side=left]{left:-20px;top:50%;transform:translateY(-50%)}.socket[data-side=right]{right:-20px;top:50%;transform:translateY(-50%)}.socket[data-side=top]{top:-15px;left:50%;transform:translateX(-50%)}.socket[data-side=bottom]{bottom:-15px;left:50%;transform:translateX(-50%)}.socket.linked{background:#5ecfb6;border-color:white}.socket.pending{background:#d3ffda;outline:5px solid #76eabf50}.socket:active{scale:1.15}.watermark{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:min(65vw,290px);z-index:1;pointer-events:none;opacity:.17;text-align:center}.watermark svg{width:100%;height:auto;display:block;overflow:visible}.watermark .by{margin-top:-3px;font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--ink)}.empty{position:absolute;inset:0;display:grid;place-items:center;z-index:2;pointer-events:none}.empty div{text-align:center;max-width:275px;padding:14px}.empty button{pointer-events:auto;border:1px solid #9afde9;background:#246f67;color:white;border-radius:23px;width:74px;height:74px;font-size:38px;box-shadow:0 12px 25px #0008}.empty h2{font-size:18px;font-weight:650}.empty p{color:var(--sub);font-size:12px;line-height:1.5}.fab{position:absolute;right:13px;bottom:72px;z-index:9;width:49px;height:49px;border-radius:15px;background:#237970;border:1px solid #7ae7ce;color:#fff;display:grid;place-items:center;box-shadow:var(--shadow)}.fab .icon{width:25px;height:25px}.bottom{position:absolute;left:0;right:0;bottom:0;z-index:15;min-height:57px;padding:6px 9px max(6px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:7px;background:var(--bar);border-top:1px solid #ffffff1b}.hint{flex:1;color:var(--sub);font-size:11px;min-width:50px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.floattools{position:absolute;z-index:11;display:none;gap:5px;padding:5px;background:var(--bar);border:1px solid var(--panel-border);border-radius:12px;box-shadow:var(--shadow);touch-action:manipulation}.floattools.open{display:flex}.floattools button{height:35px;width:36px;display:grid;place-items:center;border:1px solid #ffffff32;background:#26384e;color:var(--ink);border-radius:8px;padding:6px}.floattools button.danger{color:#ffb3b3}.color-dot{width:18px;height:18px;border-radius:5px;border:2px solid #eee}.color-pop{position:absolute;z-index:18;display:none;max-width:calc(100vw - 16px);width:250px;background:var(--panel);border:1px solid var(--panel-border);border-radius:14px;padding:12px;box-shadow:var(--shadow)}.color-pop.open{display:block}.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:10px 0}.swatches button{height:29px;border:1px solid #ffffff77;border-radius:7px}.color-editor{display:flex;gap:5px}.color-editor input[type=color]{height:39px;width:44px;border:1px solid var(--panel-border);padding:3px;background:var(--base)}.color-editor input[type=text]{width:100%;min-width:0;border:1px solid var(--panel-border);background:var(--base);color:var(--ink);border-radius:6px;padding:6px}.scrim{display:none;position:fixed;inset:0;z-index:22;background:#02070ac9;align-items:flex-end;justify-content:center;padding:9px}.scrim.open{display:flex}.dialog{border:1px solid var(--panel-border);background:var(--panel);color:var(--ink);border-radius:16px;width:min(490px,100%);max-height:90dvh;overflow-y:auto;padding:16px;box-shadow:0 20px 45px #000b}.dialog h2{font-size:17px;margin:1px 0 12px}.dialog p{line-height:1.55;color:var(--sub);font-size:13px}.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--sub)}.field input,.field select{min-height:38px;min-width:0;border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink);padding:6px 8px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dlg-actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:16px}.dlg-actions button{min-width:72px;border:1px solid var(--panel-border);background:#364a60;color:var(--ink);border-radius:8px;padding:9px 12px}.dlg-actions button.ok{background:#277a6c;border-color:#61d2ba}.dlg-actions button.danger{background:#74333c}.toast{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);background:#e8fff7;color:#20323b;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .2s;z-index:25;white-space:nowrap;max-width:96vw;text-overflow:ellipsis;overflow:hidden;pointer-events:none}.toast.on{opacity:1}.hidden{display:none!important}.file{display:none}.segments{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.segments button{border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink);min-height:52px;font-size:12px;display:grid;place-items:center;padding:4px}.segments button.current{border-color:var(--accent);background:#57a99a30}.segments svg{width:55px;height:21px;fill:none;stroke:currentColor;stroke-width:2.5}.switches{display:flex;gap:10px;align-items:center}.switches label{display:flex;gap:6px;align-items:center;padding:8px 10px;background:var(--base);border:1px solid var(--panel-border);border-radius:9px}.switches input{accent-color:#48b9a4}
@@ -26,6 +26,15 @@ body.sketch{color-scheme:light;--ink:#202020;--sub:#515151;--base:#f8f8f6;--bar:
 .dup-option label{display:flex;gap:8px;align-items:center;min-height:36px;cursor:pointer}.dup-option input{accent-color:#40b99f}
 .dup-palette-button{display:inline-grid;place-items:center;width:42px;height:41px;border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink)}
 .dup-palette-button .icon{height:20px;width:20px}
+.duplicate-route-button{width:43px;height:41px;flex:none;display:grid;place-items:center;border:1px solid var(--panel-border);border-radius:9px;background:var(--base);color:var(--ink)}
+.duplicate-route-button .icon{height:21px;width:21px}
+.duplicate-route-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.duplicate-route-button.manual{box-shadow:inset 0 0 0 1px var(--accent)}
+.dup-connect-label{flex:1!important;justify-content:space-between}
+.extract-options{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.extract-options button{background:var(--base);border:1px solid var(--panel-border);border-radius:8px;color:var(--ink);min-width:0;min-height:42px;padding:7px 3px;font-size:12px;line-height:1.2}
+.extract-options button.current{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--base));font-weight:700}
+@media(max-width:390px){.extract-options button{font-size:11px;padding:6px 2px}}
 .dup-palette{display:none;border:1px solid var(--panel-border);padding:10px;border-radius:10px;background:var(--base)}
 .dup-palette.open{display:block}.dup-palette-grid{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.dup-palette-grid button{height:33px;width:33px;border-radius:8px;border:2px solid #ffffff66;padding:0;flex:none}
 .dup-palette-grid button.current{outline:2px solid var(--accent);outline-offset:2px}
@@ -564,6 +573,31 @@ body.red .node.active,body.red .node.multi-selected{--selection-beam:#ffd080}
 .selection-dust .dust-grain{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);border-radius:35%;background:var(--selection-beam);box-shadow:0 0 6px var(--selection-beam);animation:selection-dust-burst .62s cubic-bezier(.09,.62,.3,1) both;pointer-events:none}
 @keyframes selection-dust-burst{0%{transform:translate(0,0) scale(.4);opacity:0}18%{opacity:.95}100%{transform:translate(var(--dx),var(--dy)) scale(.15);opacity:0}}
 @media(prefers-reduced-motion:reduce){.selection-marks .sel-triangle{animation:none!important;opacity:1;transform:translate(var(--near-x),var(--near-y)) rotate(var(--angle))}.selection-dust{display:none!important}}
+/* NodoLibre 5.6: caracteres literales y selección rectangular inmersiva. */
+.special-shortcuts[hidden],.special-value-help[hidden]{display:none!important}
+.special-value-help{grid-column:1/-1;display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-height:31px;margin-top:-2px}
+.special-value-help .special-mark{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;border:1px solid var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--panel));box-shadow:0 0 15px color-mix(in srgb,var(--accent) 42%,transparent),inset 0 0 7px color-mix(in srgb,var(--accent) 14%,transparent);color:var(--ink);font-size:12px;font-weight:700}
+.special-value-help .special-mark::before{content:'✦';color:var(--accent)}
+#funSearch.special-active{border-color:var(--accent)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 30%,transparent),0 0 19px color-mix(in srgb,var(--accent) 52%,transparent);background:color-mix(in srgb,var(--accent) 11%,var(--base))!important}
+.special-shortcuts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:-3px}
+.special-shortcuts button{border:1px solid var(--panel-border);border-radius:8px;background:var(--base);color:var(--ink);padding:6px 11px;min-height:35px;min-width:46px;box-shadow:inset 0 0 0 1px #ffffff0b}
+.special-shortcuts button:active,.special-shortcuts button:focus-visible{border-color:var(--accent);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 35%,transparent)}
+.special-shortcuts .special-key{font-weight:800;color:var(--accent)}
+.marquee-ui{position:absolute;inset:0;z-index:10;display:none;pointer-events:none;overflow:hidden;isolation:isolate}
+.marquee-ui.active{display:block}
+.marquee-pane{position:absolute;pointer-events:none;backdrop-filter:invert(1) hue-rotate(180deg);-webkit-backdrop-filter:invert(1) hue-rotate(180deg)}
+.marquee-frame{position:absolute;display:none;box-shadow:0 0 0 1px #0cdec8,inset 0 0 18px #72fde22d,0 0 24px #4df4cf94;border:2px dashed #d3fff3;pointer-events:none;border-radius:3px}
+.marquee-frame::after{content:'';position:absolute;inset:5px;border:1px solid #53eac58e;pointer-events:none}
+.marquee-corner{position:absolute;width:9px;height:9px;border:2px solid #fff;background:#21a18f;box-shadow:0 0 11px #4cffe1}
+.marquee-corner.tl{top:-6px;left:-6px}.marquee-corner.tr{top:-6px;right:-6px}.marquee-corner.bl{bottom:-6px;left:-6px}.marquee-corner.br{bottom:-6px;right:-6px}
+.marquee-prompt{position:absolute;left:50%;top:15px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;max-width:calc(100% - 20px);padding:9px 10px 9px 14px;border-radius:12px;border:1px solid var(--accent);background:var(--panel);color:var(--ink);font-size:13px;font-weight:700;box-shadow:0 9px 28px #0009,0 0 18px color-mix(in srgb,var(--accent) 28%,transparent);pointer-events:auto;white-space:nowrap;z-index:3}
+.marquee-prompt .marquee-symbol{color:var(--accent);font-size:19px}
+.marquee-prompt button{display:grid;place-items:center;flex:none;width:31px;height:31px;color:var(--ink);border:1px solid var(--panel-border);background:var(--base);border-radius:7px;font-size:19px}
+body.rectangle-mode #board{cursor:crosshair!important}
+body.rectangle-mode #board .node,body.rectangle-mode #board .socket,body.rectangle-mode #board .row-text{cursor:crosshair!important}
+@media(max-width:550px){.marquee-prompt{top:58px}}
+@media(max-width:390px){.marquee-prompt{font-size:11px;padding:7px;gap:5px}.special-shortcuts button{min-height:37px}}
+@media(prefers-reduced-motion:reduce){.marquee-frame,.marquee-prompt{animation:none!important}}
 </style>
 </head>
 <body class="intro-active">
@@ -637,7 +671,7 @@ body.red .node.active,body.red .node.multi-selected{--selection-beam:#ffd080}
   <div class="dup-options">
    <div class="dup-option"><label><input type="checkbox" id="duplicateColorOn" checked> Color de duplicados</label><button type="button" id="duplicatePaletteButton" class="dup-palette-button" data-ico="color" title="Paleta global de duplicados" aria-label="Abrir paleta de duplicados" aria-expanded="false"></button></div>
    <div id="duplicatePalette" class="dup-palette" aria-label="Paleta de duplicados"><div class="dup-palette-grid" id="duplicatePaletteGrid"><input type="color" id="duplicateBaseColor" value="#8d69f0" aria-label="Color inicial de los grupos"></div><div class="dup-help">Cada grupo recibe un color distinto. Cambiar la paleta actualiza todos los grupos.</div></div>
-   <label class="dup-option"><span>Conectar duplicados</span><input type="checkbox" id="duplicateConnect"></label>
+   <div class="dup-option"><label class="dup-connect-label"><span>Conectar duplicados</span><input type="checkbox" id="duplicateConnect"></label><button type="button" id="duplicateRoute" class="duplicate-route-button" title="Cambiar recorrido de duplicados" aria-label="Cambiar recorrido de duplicados: Bézier u ortogonal" aria-pressed="false" data-ico="mergeBlocks"></button></div>
    <div><span class="setting-name">Excluir (opcional)</span><label class="dup-option"><span>Texto Título</span><input type="checkbox" id="duplicateExcludeTitle"></label><label class="dup-option"><span>Texto Lista</span><input type="checkbox" id="duplicateExcludeList"></label></div>
    <button type="button" class="dup-reset" id="duplicateResetHidden" title="Volver a mostrar las conexiones de duplicados ocultas">Restablecer líneas ocultas (0)</button>
   </div>
@@ -692,6 +726,11 @@ body.red .node.active,body.red .node.multi-selected{--selection-beam:#ffd080}
  </div><label title="Transparencia del fondo">Opacidad <input type="range" id="bgOpacity" min="4" max="100" value="32" aria-label="Opacidad de imagen de fondo"></label><input type="color" id="bgColor" value="#14212e" style="display:none" aria-label="Color de fondo">
  </div></aside>
   <div id="world" class="world"><div id="bgWorld" class="bg-world"><div class="bg-crop-viewport"><img id="bgImg" alt="" draggable="false"></div><div id="bgCropSelection" class="bg-crop-selection" aria-label="Recorte del fondo"></div><button id="bgResize" title="Escalar fondo proporcionalmente" aria-label="Arrastre para escalar el fondo" data-bg-resize="1"></button></div><svg id="wires" class="wirelayer" xmlns="http://www.w3.org/2000/svg"></svg><svg id="duplicateWires" class="wirelayer" xmlns="http://www.w3.org/2000/svg" aria-label="Enlaces de filas duplicadas"></svg><div id="nodes"></div><div id="imagePorts" class="image-port-layer"></div><div id="bgScaleHandles" class="bg-scale-layer" aria-label="Escalar fondo"><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="tl" title="Escalar desde tl" aria-label="Escalar fondo desde tl"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="tr" title="Escalar desde tr" aria-label="Escalar fondo desde tr"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="bl" title="Escalar desde bl" aria-label="Escalar fondo desde bl"></button><button type="button" class="scale-corner" data-scale-kind="background" data-scale-corner="br" title="Escalar desde br" aria-label="Escalar fondo desde br"></button><button type="button" class="scale-center" data-scale-kind="background" data-scale-center="1" title="Escalar fondo desde el centro" aria-label="Escalar fondo desde el centro">⊕</button></div></div>
+ <div id="marqueeUi" class="marquee-ui" aria-hidden="true">
+  <div class="marquee-pane" data-marquee-pane="top"></div><div class="marquee-pane" data-marquee-pane="bottom"></div><div class="marquee-pane" data-marquee-pane="left"></div><div class="marquee-pane" data-marquee-pane="right"></div>
+  <div id="marqueeFrame" class="marquee-frame"><i class="marquee-corner tl"></i><i class="marquee-corner tr"></i><i class="marquee-corner bl"></i><i class="marquee-corner br"></i></div>
+  <div class="marquee-prompt" role="status"><span class="marquee-symbol">▣</span><span id="marqueeMessage">Dibuje un rectángulo para seleccionar</span><button id="marqueeCancel" type="button" title="Cancelar selección rectangular" aria-label="Cancelar selección rectangular">×</button></div>
+ </div>
  <div id="empty" class="empty"><div><button id="first" title="Agregar primer bloque" aria-label="Crear primer bloque" data-ico="plus"></button></div></div>
  <div id="nodebar" class="nodebar" aria-label="Acciones del bloque"><button id="nodeMove" title="Mover bloque" aria-label="Mover bloque" data-ico="move"></button><button id="nodeMirror" title="Simetría horizontal de conectores del bloque" aria-label="Invertir conectores izquierdos y derechos del bloque" data-ico="mirrorH"></button><button id="nodeEdit" title="Editar filas, tipos y colores" aria-label="Editar bloque" data-ico="edit"></button><button id="nodeCopy" title="Copiar bloque completo" aria-label="Duplicar bloque" data-ico="copy"></button><button id="nodeJoin" title="Unir los bloques de lista seleccionados" aria-label="Unir los bloques seleccionados" data-ico="mergeBlocks"></button><button id="nodeSplit" title="Separar bloque por una guía" aria-label="Dividir bloque de listas" data-ico="split"></button><button id="nodeDelete" title="Eliminar bloque (puede deshacer)" aria-label="Eliminar bloque" data-ico="trash"></button><button id="nodePorts" title="Conectores de imagen" aria-label="Gestionar conectores" data-ico="circles"></button><button id="nodeScale" title="Escalar imagen" aria-label="Escalar imagen" data-ico="scale"></button><button id="nodeCrop" title="Recortar imagen" aria-label="Recortar imagen desde los bordes" data-ico="crop"></button><button id="nodeCancel" title="Cancelar selección" aria-label="Cancelar selección de bloques" data-ico="close"></button></div>
   <div id="cropBar" class="crop-bar" aria-label="Confirmar o cancelar recorte"><button id="cropCancel" title="Cancelar recorte" aria-label="Cancelar recorte" data-ico="close"></button><button id="cropConfirm" class="ok" title="Confirmar recorte" aria-label="Confirmar recorte" data-ico="check"></button></div>
@@ -784,6 +823,8 @@ glyph.filePlus='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2
 glyph.export='<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v4h16v-4"/>';glyph.crop='<path d="M7 2v15a3 3 0 0 0 3 3h12M2 7h15a3 3 0 0 1 3 3v12"/><path d="M4 4l16 16"/>';glyph.check='<path d="m4 12 5 5L20 6"/>';glyph.split='<path d="M3 6h18M3 18h18M3 12h7m4 0h7"/><path d="m9 9 6 6m0-6-6 6"/>';glyph.join='<rect x=2 y=3 width=8 height=7 rx=1/><rect x=14 y=14 width=8 height=7 rx=1/><path d="M10 6h4v11m-4 0h4M11 12h9"/>';
 glyph.mirrorH='<path d="M12 2v20" stroke-dasharray="2 3"/><path d="m10 8-4-4-4 4m4-4v7M14 16l4 4 4-4m-4 4v-7"/>';
 glyph.mergeBlocks='<rect x="2" y="3" width="8" height="6" rx="1.2"/><rect x="14" y="3" width="8" height="6" rx="1.2"/><path d="M6 9v4m12-4v4M6 13l6 3 6-3M12 16v2"/><rect x="5" y="18" width="14" height="4" rx="1"/>';
+glyph.duplicateBezier='<path d="M2 19C8 19 4 5 12 5s4 14 10 0"/><circle cx="2" cy="19" r="1"/><circle cx="22" cy="5" r="1"/>';
+glyph.duplicateOrthogonal='<path d="M2 19h9V5h11"/><circle cx="2" cy="19" r="1"/><circle cx="22" cy="5" r="1"/>';
 glyph.function='<path d="M7 3c-3 0-3 3-3 5s-1 4-3 4c2 0 3 2 3 4s0 5 3 5M17 3c3 0 3 3 3 5s1 4 3 4c-2 0-3 2-3 4s0 5-3 5"/><path d="m9 9 6 6m0-6-6 6"/>';
 glyph.list='<path d="M9 6h12M9 12h12M9 18h12"/><path d="M3 6h1m-1 6h1m-1 6h1"/>';glyph.refresh='<path d="M20 7V3l-4 1M4 17v4l4-1M20 7a8 8 0 0 0-14-3M4 17a8 8 0 0 0 14 3"/>';
 glyph.visualEdit='<path d="M3 6h18M3 12h18M3 18h18"/><circle cx="8" cy="6" r="2.5" fill="var(--panel, #fff)"/><circle cx="16" cy="12" r="2.5" fill="var(--panel, #fff)"/><circle cx="10" cy="18" r="2.5" fill="var(--panel, #fff)"/>';
@@ -808,7 +849,7 @@ glyph.home='<path d="m3 11 9-8 9 8v10h-7v-7h-4v7H3z"/>';glyph.wire='<path d="M2 
  const icon=(k,c='')=>`<svg class="icon ${c}" viewBox="0 0 24 24" aria-hidden="true">${glyph[k]||glyph.info}</svg>`;
 $$('[data-ico]').forEach(b=>b.innerHTML=icon(b.dataset.ico));
 const palette=['#60e1d2','#ffac67','#d5e879','#b6a0ff','#fa84c5','#70bfff','#f2d26b','#ef8792','#8bea9b','#d5a0ff','#ff8560','#9dd9ff'];
-let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,colorHistory=[],selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],theme='color',portLayer='all',portColorMode='off',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,wireThickness:3.2,textBorder:false,textFill:false,nodeBg:null,duplicates:{colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[]},blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
+let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,colorHistory=[],selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],theme='color',portLayer='all',portColorMode='off',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,wireThickness:3.2,textBorder:false,textFill:false,nodeBg:null,duplicates:{colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[],route:'auto'},blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
 let filterMode=null,filterFocus=null; // Sesión visual: no entra en .nodolibre ni en Deshacer.
 let wireShape='bezier',background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480},bgEditing=false,pendingBg=false;
 let imageScaleNode=null,centerScaleSession=null;let splitNodeId=null,splitBusy=false;let multiMode=false,multiFilter='blocks',multiSelection=new Set(),multiLinks=new Set(),cropSession=null,bgCropSession=null,bgToolMode=null;let activePointer=null, touches=new Map(),pinch=null,ignoreClick=false,inlineEdit=null,editingColor=null, imageToolMode=null,imageToolNode=null,portClipboard=null, lastTap=null, pendingImageReplace=null;
@@ -938,7 +979,7 @@ function styleLayers(source){
  if(v.socketStyleVersion!==1&&(!v.socketShape||v.socketShape==='circle'))v.socketShape='auto';
  const dup=v.duplicates&&typeof v.duplicates==='object'?v.duplicates:{};
  const safePairs=Array.isArray(dup.hiddenLinks)?dup.hiddenLinks.filter(x=>typeof x==='string'&&/^[0-9]+:[0-9]+\|[0-9]+:[0-9]+$/.test(x)).slice(0,3000):[];
- return {...v,duplicates:{colorOn:dup.colorOn!==false,connect:dup.connect===true,excludeTitle:dup.excludeTitle===true,excludeList:dup.excludeList===true,baseColor:hex(dup.baseColor)||'#8d69f0',hiddenLinks:[...new Set(safePairs)]},nodeBg:hex(v.nodeBg)||null,blockLayout:validBlockLayout(v.blockLayout),textBorder:v.textBorder===true,textFill:v.textFill===true,socketStyleVersion:1,
+ return {...v,duplicates:{colorOn:dup.colorOn!==false,connect:dup.connect===true,excludeTitle:dup.excludeTitle===true,excludeList:dup.excludeList===true,baseColor:hex(dup.baseColor)||'#8d69f0',hiddenLinks:[...new Set(safePairs)],route:['auto','bezier','orthogonal'].includes(dup.route)?dup.route:'auto'},nodeBg:hex(v.nodeBg)||null,blockLayout:validBlockLayout(v.blockLayout),textBorder:v.textBorder===true,textFill:v.textFill===true,socketStyleVersion:1,
  socketShape:['auto','circle','diamond','vline','hline'].includes(v.socketShape)?v.socketShape:'auto',
  socketFillOn:v.socketFillOn!==false,socketBorderOn:v.socketBorderOn!==false,
  socketFillColor:hex(v.socketFillColor)||null,socketBorderColor:hex(v.socketBorderColor)||null,
@@ -1099,7 +1140,24 @@ function layerStyles(n,r){const b=effective(n,r,'border'),f=effective(n,r,'fill'
 // mientras que los resultados son derivados y se actualizan al renderizar.
 const functionKinds=['join','extract','split'];
 function functionLabel(op){return {join:'Unir',extract:'Extraer',split:'Separar'}[op]||'Unir'}
-function normalizeFunctionConfig(f){const q=f||{};return {op:functionKinds.includes(q.op)?q.op:'join',separator:String(q.separator??' ').slice(0,40),delimiter:String(q.delimiter??'.').slice(0,40),start:clamp(Math.round(Number(q.start)||1),1,400),length:clamp(Math.round(Number(q.length)||10),1,400)}}
+function normalizeFunctionConfig(f){const q=f||{};return {op:functionKinds.includes(q.op)?q.op:'join',separator:String(q.separator??' ').slice(0,40),delimiter:String(q.delimiter??'.').slice(0,40),start:clamp(Math.round(Number(q.start)||1),1,400),length:clamp(Math.round(Number(q.length)||10),1,400),extractMode:['position','edge','search'].includes(q.extractMode)?q.extractMode:'position',origin:q.origin==='right'?'right':'left',search:String(q.search??'').slice(0,40),occurrence:clamp(Math.round(Number(q.occurrence)||1),1,400)}}
+// La búsqueda es literal e ignora mayúsculas/minúsculas; las posiciones
+// corresponden al texto original y las coincidencias no se solapan.
+function extractValue(text,config){
+ const q=normalizeFunctionConfig(config),src=String(text),len=q.length;
+ if(q.extractMode==='edge')return q.origin==='right'?src.slice(-len):src.slice(0,len);
+ if(q.extractMode==='position')return src.slice(q.start-1,q.start-1+len);
+ const term=q.search;if(!term)return '';
+ const literal=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+ const matches=[...src.matchAll(new RegExp(literal,'giu'))];
+ const match=q.origin==='right'?matches[matches.length-q.occurrence]:matches[q.occurrence-1];
+ if(!match)return '';
+ const start=match.index;
+ if(q.origin==='left')return src.slice(start,start+len);
+ // Desde la derecha incluye el último carácter de la aparición encontrada.
+ const until=start+match[0].length;
+ return src.slice(Math.max(0,until-len),until);
+}
 function createFunctionNode(kind){
  if(!['field','result',...functionKinds].includes(kind))return;
  const at=contextInsertPoint?{x:contextInsertPoint.x-120,y:contextInsertPoint.y-65}:emptySpot(240,130);
@@ -1136,7 +1194,7 @@ function evaluateFunction(n,visiting=new Set()){
  });
  if(!data.length)return [];
  if(config.op==='join')return [data.join(config.separator).slice(0,400)];
- if(config.op==='extract')return [data[0].slice(config.start-1,config.start-1+config.length).slice(0,400)];
+ if(config.op==='extract')return [extractValue(data[0],config).slice(0,400)];
  const delimiter=config.delimiter||'.';
  return data[0].split(delimiter).slice(0,100).map(v=>v.trim().slice(0,400));
 }
@@ -1169,18 +1227,43 @@ function openFunctionEditor(id){
  <button type="button" data-join-separator="custom" aria-pressed="false">Personalizado</button>
  </div>
  <label data-fparam="join" class="full" id="funSepCustomLabel" hidden>Separador personalizado<input id="funSeparator" value="${esc(q.separator===' '? '':q.separator)}" maxlength="40" placeholder="Escriba el separador"></label>
- <label data-fparam="extract">Inicio (desde 1)<input type="number" id="funStart" min="1" max="400" value="${q.start}"></label>
- <label data-fparam="extract">Cantidad de caracteres<input type="number" id="funLength" min="1" max="400" value="${q.length}"></label>
+ <div data-fparam="extract" class="extract-options" role="group" aria-label="Modalidad de extracción">
+ <button type="button" data-extract-mode="position" aria-pressed="false">Por posición</button>
+ <button type="button" data-extract-mode="edge" aria-pressed="false">Desde extremo</button>
+ <button type="button" data-extract-mode="search" aria-pressed="false">Buscar valor</button>
+ </div>
+ <label data-fparam="extract" data-extract-field="position">Inicio (desde 1)<input type="number" id="funStart" min="1" max="400" value="${q.start}"></label>
+ <label data-fparam="extract" data-extract-field="length">Cantidad de caracteres<input type="number" id="funLength" min="1" max="400" value="${q.length}"></label>
+ <label data-fparam="extract" data-extract-field="origin">Origen<select id="funOrigin"><option value="left" ${q.origin==='left'?'selected':''}>Izquierda</option><option value="right" ${q.origin==='right'?'selected':''}>Derecha</option></select></label>
+ <label data-fparam="extract" data-extract-field="search">Valor buscado<input id="funSearch" maxlength="40" title="Busca sin distinguir mayúsculas y minúsculas" value="${esc(q.search)}" placeholder="Texto que desea buscar"></label>
+  <div id="funSpecialShortcuts" data-fparam="extract" data-extract-field="search-keys" class="special-shortcuts" role="group" aria-label="Buscar carácter especial">
+   <button type="button" data-special-search=" " title="Buscar un espacio"><span class="special-key">␣</span> Espacio</button>
+   <button type="button" data-special-search="," title="Buscar una coma"><span class="special-key">,</span> Coma</button>
+   <button type="button" data-special-search="." title="Buscar un punto"><span class="special-key">.</span> Punto</button>
+   <button type="button" data-special-search=";" title="Buscar punto y coma"><span class="special-key">;</span></button>
+  </div>
+  <div id="funSearchSpecial" data-fparam="extract" data-extract-field="search-mark" class="special-value-help" aria-live="polite" hidden><span id="funSpecialMark" class="special-mark"></span></div>
+ <label data-fparam="extract" data-extract-field="occurrence">Contar aparición (desde 1)<input type="number" id="funOccurrence" min="1" max="400" value="${q.occurrence}"></label>
  <label data-fparam="split" class="full">Delimitador<input id="funDelimiter" value="${esc(q.delimiter)}" maxlength="40" placeholder=".  ;  / "></label>
  </div><p class="function-explain">Entrada: conectores izquierdos. Salida: conector derecho. El resultado se actualiza al cambiar el texto o las conexiones.</p>`;
- let separatorMode=q.separator===''?'none':q.separator===' '?'space':'custom';
- const change=()=>{const v=$('#funOp')?.value;$$('[data-fparam]').forEach(e=>e.hidden=e.dataset.fparam!==v);$('#funSepCustomLabel').hidden=v!=='join'||separatorMode!=='custom';$$('[data-join-separator]').forEach(b=>{const on=b.dataset.joinSeparator===separatorMode;b.classList.toggle('current',on);b.setAttribute('aria-pressed',String(on));});};
- openDialog('Función · bloque '+id,form,[['Cancelar',closeDialog],['Aplicar',()=>{
-  const fresh=normalizeFunctionConfig({op:$('#funOp').value,separator:separatorMode==='none'?'':separatorMode==='space'?' ':$('#funSeparator').value,delimiter:$('#funDelimiter').value,start:$('#funStart').value,length:$('#funLength').value});
+ let separatorMode=q.separator===''?'none':q.separator===' '?'space':'custom',extractMode=q.extractMode;
+  const specialName=c=>({' ':'ESPACIO ␣','\t':'TABULACIÓN ⇥','\n':'SALTO DE LÍNEA ↵',',':'COMA ,','.':'PUNTO .',';':'PUNTO Y COMA ;',':':'DOS PUNTOS :','/':'BARRA /','-':'GUION -','_':'GUION BAJO _'}[c]||`SÍMBOLO ${c}`);
+  const updateSearchMark=()=>{const text=$('#funSearch').value;const marked=[...text].filter(c=>!/[\p{L}\p{N}]/u.test(c));const visible=!!marked.length&&extractMode==='search'&&$('#funOp').value==='extract';const box=$('#funSearchSpecial');box.hidden=!visible;$('#funSearch').classList.toggle('special-active',visible);if(visible){const labels=[...new Set(marked.map(specialName))];$('#funSpecialMark').textContent=labels.length===1&&text.length===1?labels[0]:`Caracteres especiales: ${labels.join(' · ')}`;}};
+
+ const change=()=>{const v=$('#funOp')?.value;$$('[data-fparam]').forEach(e=>e.hidden=e.dataset.fparam!==v);$('#funSepCustomLabel').hidden=v!=='join'||separatorMode!=='custom';$$('[data-join-separator]').forEach(b=>{const on=b.dataset.joinSeparator===separatorMode;b.classList.toggle('current',on);b.setAttribute('aria-pressed',String(on));});
+  $$('[data-extract-mode]').forEach(b=>{const on=b.dataset.extractMode===extractMode;b.classList.toggle('current',on);b.setAttribute('aria-pressed',String(on))});
+  $$('[data-extract-field]').forEach(e=>{const field=e.dataset.extractField;e.hidden=v!=='extract'||(field==='position'&&extractMode!=='position')||(field==='origin'&&extractMode==='position')||(['search','search-keys','search-mark','occurrence'].includes(field)&&extractMode!=='search')});
+   updateSearchMark();
+  };
+  openDialog('Función · bloque '+id,form,[['Cancelar',closeDialog],['Aplicar',()=>{
+  const fresh=normalizeFunctionConfig({op:$('#funOp').value,separator:separatorMode==='none'?'':separatorMode==='space'?' ':$('#funSeparator').value,delimiter:$('#funDelimiter').value,start:$('#funStart').value,length:$('#funLength').value,extractMode,origin:$('#funOrigin').value,search:$('#funSearch').value,occurrence:$('#funOccurrence').value});
   if(fresh.op==='split'&&!fresh.delimiter)return toast('Ingrese un delimitador');
+  if(fresh.op==='extract'&&fresh.extractMode==='search'&&!fresh.search)return toast('Ingrese un valor para buscar');
   snap();n.func=fresh;n.rows[1].text=functionLabel(fresh.op);closeDialog();render();store();toast('Función actualizada');
  },'ok']]);
- $$('[data-join-separator]').forEach(b=>b.addEventListener('click',()=>{separatorMode=b.dataset.joinSeparator;change();if(separatorMode==='custom')$('#funSeparator').focus()}));$('#funOp').addEventListener('change',change);change();
+ $$('[data-join-separator]').forEach(b=>b.addEventListener('click',()=>{separatorMode=b.dataset.joinSeparator;change();if(separatorMode==='custom')$('#funSeparator').focus()}));$$('[data-extract-mode]').forEach(b=>b.addEventListener('click',()=>{extractMode=b.dataset.extractMode;change();if(extractMode==='search')$('#funSearch').focus()}));$('#funOp').addEventListener('change',change);
+  $('#funSearch').addEventListener('input',updateSearchMark);
+  $$('[data-special-search]').forEach(b=>b.addEventListener('click',()=>{$('#funSearch').value=b.dataset.specialSearch;updateSearchMark();$('#funSearch').focus()}));change();
 }
 
 function addNode(pos){snap();const id=nextNode++;nodes.push({id,x:Math.round(pos.x),y:Math.round(pos.y),top:true,bottom:true,visual:{width:'inherit',border:'inherit',fill:'inherit',text:null},rows:[row('Título '+id,'title'),row('Nueva propiedad')]});selectedNode=id;selectedRow=null;selectedLink=null;pending=null;render();store();return id}
@@ -1432,7 +1515,7 @@ function positionNearTextSockets(){
 // Los espacios interiores, las tildes y las letras adicionales siguen siendo significativos.
 let duplicateGroups=[],duplicateByRow=new Map();
 const duplicateKey=(n,r)=>`${n.id}:${r.id}`;
-function duplicateSettings(){return layers.duplicates||(layers.duplicates={colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[]})}
+function duplicateSettings(){return layers.duplicates||(layers.duplicates={colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[],route:'auto'})}
 function duplicateBaseHue(){const h=duplicateSettings().baseColor;const rgb=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255),hi=Math.max(...rgb),lo=Math.min(...rgb),d=hi-lo;
  if(!d)return 0;const ix=rgb.indexOf(hi);return ((ix===0?((rgb[1]-rgb[2])/d)%6:ix===1?(rgb[2]-rgb[0])/d+2:(rgb[0]-rgb[1])/d+4)*60+360)%360;
 }
@@ -1473,6 +1556,7 @@ function computeDuplicates(){
  return{groups:result,byRow};
 }
 function duplicateTextMode(n){return isTextTheme()||['text','none'].includes(blockLayout(n).borderLayout)}
+function duplicateRoute(){const mode=duplicateSettings().route;return mode==='bezier'||mode==='orthogonal'?mode:wireShape==='bezier'?'orthogonal':'bezier'}
 function duplicateSegments(){
  const settings=duplicateSettings();if(!settings.connect)return [];
  const hidden=new Set(settings.hiddenLinks||[]),segments=[];
@@ -1490,7 +1574,11 @@ function duplicateSegments(){
    const dx=bx-ax;
    const bend=sameNode?38:Math.max(26,Math.min(82,Math.abs(dx)*.45));
    const c1x=ax+(toRight?bend:-bend),c2x=bx+(sameNode?bend:-(toRight?bend:-bend));
-   const d=`M${ax.toFixed(2)} ${ay.toFixed(2)} C${c1x.toFixed(2)} ${ay.toFixed(2)} ${c2x.toFixed(2)} ${by.toFixed(2)} ${bx.toFixed(2)} ${by.toFixed(2)}`;
+   const d=duplicateRoute()==='orthogonal'?( ()=>{
+    // Entre dos filas del mismo bloque, siempre pasamos por el exterior.
+    const mid=sameNode?Math.max(ax,bx)+Math.max(26,bend):(ax+bx)/2;
+    return `M${ax.toFixed(2)} ${ay.toFixed(2)} L${mid.toFixed(2)} ${ay.toFixed(2)} L${mid.toFixed(2)} ${by.toFixed(2)} L${bx.toFixed(2)} ${by.toFixed(2)}`;
+   })():`M${ax.toFixed(2)} ${ay.toFixed(2)} C${c1x.toFixed(2)} ${ay.toFixed(2)} ${c2x.toFixed(2)} ${by.toFixed(2)} ${bx.toFixed(2)} ${by.toFixed(2)}`;
    segments.push({pair,color:group.color,d,word:group.items[0].text});
   }
  }
@@ -1660,9 +1748,26 @@ function pathFor(l){const a=pos(l.a,l.id),b=pos(l.b,l.id);if(!a||!b)return null;
  return {d,a,b,guide};
 }
 // Punta sólida, separada del círculo del socket para que permanezca visible.
-function arrowPoints(path,atStart){const pts=path.guide;if(!pts||pts.length<2)return null;const anchor=atStart?path.a:path.b,neighbour=atStart?pts[Math.min(3,pts.length-1)]:pts[Math.max(0,pts.length-4)];
- let dx=neighbour.x-anchor.x,dy=neighbour.y-anchor.y,mag=Math.hypot(dx,dy);if(mag<.1){dx=(atStart?path.b.x:path.a.x)-anchor.x;dy=(atStart?path.b.y:path.a.y)-anchor.y;mag=Math.hypot(dx,dy)}if(mag<.1)return null;
- dx/=mag;dy/=mag;const tip={x:anchor.x+dx*12,y:anchor.y+dy*12},base={x:tip.x+dx*16,y:tip.y+dy*16};return [tip,{x:base.x-dy*7,y:base.y+dx*7},{x:base.x+dy*7,y:base.y-dx*7}];
+function arrowPoints(path,atStart){
+ // El vértice de cada flecha cae sobre la geometría dibujada, no sobre la
+ // cuerda aproximada entre muestras (que se apartaba en curvas y giros).
+ try{
+  const shape=document.createElementNS('http://www.w3.org/2000/svg','path');
+  shape.setAttribute('d',path.d);
+  const total=shape.getTotalLength();if(!Number.isFinite(total)||total<2)return null;
+  const inset=Math.min(12,total*.24),tipS=atStart?inset:total-inset;
+  const tip=shape.getPointAtLength(tipS);
+  const step=Math.min(2,Math.max(.15,total*.015));
+  const a=shape.getPointAtLength(Math.max(0,tipS-step));
+  const b=shape.getPointAtLength(Math.min(total,tipS+step));
+  let dx=b.x-a.x,dy=b.y-a.y,mag=Math.hypot(dx,dy);
+  if(mag<.001)return null;
+  dx/=mag;dy/=mag;
+  // Inicio: punta hacia el conector inicial; final: hacia el conector final.
+  const sign=atStart?1:-1,depth=Math.min(16,Math.max(7,total*.21));
+  const base={x:tip.x+sign*dx*depth,y:tip.y+sign*dy*depth},half=Math.min(7,Math.max(4,depth*.44));
+  return [{x:tip.x,y:tip.y},{x:base.x-dy*half,y:base.y+dx*half},{x:base.x+dy*half,y:base.y-dx*half}];
+ }catch{return null}
 }
 function visibleColor(l){if(layers.wireColor)return layers.wireColor;if(theme==='text')return '#111111';if(isWhiteTextTheme())return '#ffffff';if(theme==='color'||theme==='sketch-color'||theme==='text-color'||theme==='text-color2')return l.color;if(theme==='red')return distinctRedLinkColor(l.id);return ['#343434','#5a5a5a','#757575','#929292'][Math.abs(l.id)%4]}
 // Regiones de lectura: recortar únicamente los cables bajo los GLIFOS.
@@ -1790,6 +1895,39 @@ function rowAction(action,nodeId,rowId){const n=box(nodeId),r=rr(n,rowId);if(!r|
 function startInline(n,r){if(['function','result'].includes(n.kind))return;selectedNode=n.id;selectedRow=r.id;inlineEdit={row:r.id,node:n.id,original:r.text,value:r.text};render();requestAnimationFrame(()=>{const inp=$('[data-inline]');if(inp){inp.focus();inp.select()}})}
 function commitInline(cancel=false){if(!inlineEdit)return;const e=inlineEdit,r=rr(box(e.node),e.row),field=$('[data-inline]');if(!cancel&&r&&field&&r.text!==field.value.trim()){snap();r.text=field.value.trim()||'Texto';store()}inlineEdit=null;render()}
 function cap(nodeId,which){const n=box(nodeId);if(!n)return;snap();n[which]=!n[which];if(!n[which])links=links.filter(l=>!(l.a.node===n.id&&l.a.side===which)&&!(l.b.node===n.id&&l.b.side===which));pending=null;render();store()}
+// Herramienta temporal de selección por rectángulo. No entra en el archivo nativo.
+let rectangleMode=false;
+const rectangleUi=$('#marqueeUi'),rectangleFrame=$('#marqueeFrame');
+function rectangleOverlay(rect){
+ const r=board.getBoundingClientRect(),w=r.width,h=r.height;
+ const x=rect?clamp(Math.min(rect.x1,rect.x2),0,w):0,y=rect?clamp(Math.min(rect.y1,rect.y2),0,h):0;
+ const x2=rect?clamp(Math.max(rect.x1,rect.x2),0,w):0,y2=rect?clamp(Math.max(rect.y1,rect.y2),0,h):0;
+ const panes={top:[0,0,w,y],bottom:[0,y2,w,h-y2],left:[0,y,x,y2-y],right:[x2,y,w-x2,y2-y]};
+ for(const [name,coords] of Object.entries(panes)){const e=rectangleUi.querySelector(`[data-marquee-pane="${name}"]`);const [px,py,pw,ph]=coords;e.style.cssText=`left:${px}px;top:${py}px;width:${Math.max(0,pw)}px;height:${Math.max(0,ph)}px`}
+ rectangleFrame.style.display=rect?'block':'none';if(rect){rectangleFrame.style.left=x+'px';rectangleFrame.style.top=y+'px';rectangleFrame.style.width=(x2-x)+'px';rectangleFrame.style.height=(y2-y)+'px';}
+}
+function rectangleStart(){
+ if(rectangleMode){rectangleStop();return}
+ if(filterMode)clearConnectionFilter();
+ pending=null;splitNodeId=null;cancelScaleCommand();closeImageTools();
+ rectangleMode=true;rectangleUi.classList.add('active');rectangleUi.setAttribute('aria-hidden','false');document.body.classList.add('rectangle-mode');rectangleOverlay(null);
+ $('#marqueeMessage').textContent='Dibuje un rectángulo para seleccionar';
+ $('#nodeMove').setAttribute('aria-pressed','true');
+}
+function rectangleStop(){
+ rectangleMode=false;rectangleUi.classList.remove('active');rectangleUi.setAttribute('aria-hidden','true');document.body.classList.remove('rectangle-mode');rectangleFrame.style.display='none';$('#nodeMove').setAttribute('aria-pressed','false');
+}
+function rectanglePosition(e){const r=board.getBoundingClientRect();return{x:clamp(e.clientX-r.left,0,r.width),y:clamp(e.clientY-r.top,0,r.height)}}
+function rectangleApply(g,e){
+ const end=rectanglePosition(e),a=rectanglePosition({clientX:g.sx,clientY:g.sy});
+ if(Math.abs(a.x-end.x)<7||Math.abs(a.y-end.y)<7){rectangleOverlay(null);$('#marqueeMessage').textContent='Arrastre para dibujar el área de selección';return}
+ const r=board.getBoundingClientRect(),left=r.left+Math.min(a.x,end.x),right=r.left+Math.max(a.x,end.x),top=r.top+Math.min(a.y,end.y),bottom=r.top+Math.max(a.y,end.y);
+ const ids=[...nodesEl.querySelectorAll('.node')].filter(el=>{const b=el.getBoundingClientRect();return b.right>=left&&b.left<=right&&b.bottom>=top&&b.top<=bottom}).map(el=>+el.dataset.node);
+ rectangleStop();multiSelection=new Set(ids);multiMode=ids.length>0;multiFilter='blocks';multiLinks.clear();selectedLink=null;selectedRow=null;selectedNode=ids.length?ids.at(-1):null;pending=null;lastTap=null;
+ document.body.classList.toggle('multi-block-mode',ids.length>0);document.body.classList.remove('multi-line-mode');
+ render();toast(ids.length?`${ids.length} bloque${ids.length===1?'':'s'} seleccionado${ids.length===1?'':'s'}.`:'No hay bloques dentro del rectángulo.');
+}
+$('#marqueeCancel').onclick=()=>{rectangleStop();activePointer=null;touches.clear();render()};
 function updateNodebar(){
  const bar=$('#nodebar'),group=multiMode&&multiFilter==='blocks'&&multiSelection.size>1;
  bar.classList.toggle('grouped',group);
@@ -1801,8 +1939,9 @@ function updateNodebar(){
  $('#nodeJoin').disabled=!(group&&members.length>=2&&members.every(n=>!n.kind));
  $('#nodeSplit').disabled=group||!!box(selectedNode)?.kind||(box(selectedNode)?.rows?.length||0)<2;
  $('#nodeSplit').classList.toggle('chosen',splitNodeId===selectedNode);
- $('#nodeMove').classList.add('chosen');
- $('#nodeMove').title='Mover: arrastre directamente cualquier bloque seleccionado';
+ $('#nodeMove').classList.toggle('chosen',rectangleMode);
+ $('#nodeMove').title=rectangleMode?'Cancelar selección rectangular':'Seleccionar por rectángulo';
+ $('#nodeMove').setAttribute('aria-pressed',String(rectangleMode));
 }
 function splitSelectedNode(at){
  const n=box(splitNodeId);if(splitBusy||!n||n.kind==='image'||at<=0||at>=n.rows.length)return;
@@ -1839,7 +1978,7 @@ function joinSelectedBlocks(){
 $('#nodeJoin').onclick=joinSelectedBlocks;
 $('#nodeSplit').onclick=()=>{const n=box(selectedNode);if(!n||n.kind==='image'||n.rows.length<2)return toast('Se requieren dos o más filas.');splitNodeId=splitNodeId===n.id?null:n.id;render();if(splitNodeId!==null)toast('Separar: toque la guía entre las filas que desea dividir.')};
 function deleteBlock(){if(multiMode&&multiSelection.size>1){const ids=new Set(multiSelection);snap();nodes=nodes.filter(n=>!ids.has(n.id));links=links.filter(l=>!ids.has(l.a.node)&&!ids.has(l.b.node));multiSelection.clear();selectedNode=null;selectedRow=null;render();store();toast('Bloques eliminados. Puede deshacer.');return}if(selectedNode===null)return;const id=selectedNode;snap();nodes=nodes.filter(n=>n.id!==id);links=links.filter(l=>l.a.node!==id&&l.b.node!==id);selectedNode=null;selectedRow=null;moveMode=false;closeImageTools();render();store();toast('Bloque eliminado. Puede deshacer.')}
-$('#nodeMove').onclick=()=>{if(selectedNode===null)return;toast('Mover: arrastre el bloque a su nueva posición.')};
+$('#nodeMove').onclick=()=>rectangleStart();
 function mirrorBlockRows(n,rowIds){
  if(!n||n.kind==='image')return;
  const set=new Set(rowIds);
@@ -1899,6 +2038,11 @@ function refreshDuplicateControls(){
  const v=duplicateSettings();
  for(const [id,key] of [['duplicateColorOn','colorOn'],['duplicateConnect','connect'],['duplicateExcludeTitle','excludeTitle'],['duplicateExcludeList','excludeList']])$('#'+id).checked=!!v[key];
  $('#duplicateBaseColor').value=v.baseColor;
+ const route=duplicateRoute(),button=$('#duplicateRoute');button.classList.toggle('manual',v.route!=='auto');
+ button.innerHTML=icon(route==='bezier'?'duplicateBezier':'duplicateOrthogonal');
+ button.title=`Duplicados: recorrido ${route==='bezier'?'Bézier':'ortogonal'}${v.route==='auto'?' (opuesto automático)':' (elección manual)'}. Pulsar para alternar.`;
+ button.setAttribute('aria-label',button.title);button.setAttribute('aria-pressed',String(v.route!=='auto'));
+
  $('#duplicateCount').textContent=duplicateGroups.length===1?'1 grupo':`${duplicateGroups.length} grupos`;
  $('#duplicateResetHidden').textContent=`Restablecer líneas ocultas (${v.hiddenLinks.length})`;
  $('#duplicateResetHidden').disabled=v.hiddenLinks.length===0;
@@ -1914,6 +2058,7 @@ $('#duplicatePaletteGrid').insertAdjacentHTML('afterbegin',duplicatePaletteChoic
 $('#duplicatePaletteButton').onclick=()=>{const p=$('#duplicatePalette');p.classList.toggle('open');$('#duplicatePaletteButton').setAttribute('aria-expanded',String(p.classList.contains('open')))};
 $$('[data-duplicate-color]').forEach(b=>b.onclick=()=>{if(duplicateSettings().baseColor!==b.dataset.duplicateColor){snap();duplicateSettings().baseColor=b.dataset.duplicateColor;updateLayers()}});
 $('#duplicateBaseColor').onchange=e=>{if(duplicateSettings().baseColor!==e.target.value){snap();duplicateSettings().baseColor=e.target.value;updateLayers()}};
+$('#duplicateRoute').onclick=()=>{snap();const current=duplicateRoute();duplicateSettings().route=current==='bezier'?'orthogonal':'bezier';updateLayers();toast('Duplicados: recorrido '+(duplicateRoute()==='bezier'?'Bézier':'ortogonal'))};
 $('#duplicateResetHidden').onclick=()=>{if(!duplicateSettings().hiddenLinks.length)return;snap();duplicateSettings().hiddenLinks=[];closeDuplicateLineMenu();updateLayers()};
 let selectedDuplicatePair=null;
 function closeDuplicateLineMenu(){selectedDuplicatePair=null;$('#duplicateLineMenu').classList.remove('open')}
@@ -2364,6 +2509,7 @@ function cancelScaleCommand(kind='all'){
  if(kind!=='background')$('#nodeScale').classList.remove('chosen');
 }
 function cancelAllCommands(){
+ rectangleStop();
  if(bgCropSession)closeBgCrop(false);
  if(cropSession)closeCrop(false);
  cancelScaleCommand();closeImageTools();
@@ -2477,7 +2623,9 @@ function socketAtRelease(x,y,from){
  return socketFromNodeArea(+node.dataset.node,row?+row.dataset.row:null,from,x,y);
 }
 function beginTap(e){const target=e.target;if(filterMode){const socket=target.closest('.socket');if(!filterFocus&&socket&&!socket.classList.contains('socket-muted'))return{mode:'filter-socket',socket:{node:+socket.dataset.node,row:+socket.dataset.row,side:socket.dataset.side},color:socket.dataset.portColor||null};const row=target.closest('.node:not(.image-node) .row[data-row]');if(!filterFocus&&row)return{mode:'filter-row',node:+row.closest('.node').dataset.node,row:+row.dataset.row};if(target.closest('.node,.socket'))return{mode:'pan'};}const corner=target.closest('[data-scale-corner]');if(corner)return beginCornerScale(corner.dataset.scaleKind,corner.dataset.scaleCorner,+corner.dataset.scaleNode);if(target.closest('[data-scale-center]'))return null;const bgCropHandle=target.closest('[data-bg-crop-handle]');if(bgCropHandle&&bgCropSession)return{mode:'background-crop',side:bgCropHandle.dataset.bgCropHandle,start:{...bgCropSession.relative}};if(bgCropSession)return null;const cropHandle=target.closest('[data-crop-handle]');if(cropHandle&&cropSession)return{mode:'crop',node:cropSession.node,side:cropHandle.dataset.cropHandle,start:{...cropSession.relative}};if(cropSession)return null;if(target.closest('button[data-action],button[data-cap],button[data-split-at],.row-input'))return null;const exactSocket=preciseSocketAt(e.clientX,e.clientY);const centerText=exactSocket?null:centeredTextAt(e.clientX,e.clientY);if(centerText){const id=+centerText.dataset.node;return{mode:'node',node:id,row:+centerText.closest('.row').dataset.row,connectFrom:pending&&pending.node!==id?{...pending}:null};}const sock=exactSocket||target.closest('.socket')||nearbySocketAt(e.clientX,e.clientY);if(sock&&multiMode&&multiFilter==='links')return null;if(sock){const n=box(+sock.dataset.node);if(n?.kind==='image'&&imageToolNode===n.id&&imageToolMode)return{mode:'image-port',node:n.id,port:+sock.dataset.row};return{mode:'socket',socket:{node:+sock.dataset.node,row:+sock.dataset.row,side:sock.dataset.side}};}if(bgEditing&&bgToolMode==='move'&&target.closest('#bgWorld'))return{mode:'background'};if(multiMode&&multiFilter==='links'&&target.closest('.node'))return null;if(imageToolMode&&target.closest('.image-node')&&+target.closest('.image-node').dataset.node===imageToolNode)return{mode:'image-place',node:imageToolNode};const tx=target.closest('.row-text');if(tx)return{mode:'node',node:+tx.dataset.node,row:+tx.closest('.row').dataset.row,connectFrom:pending&&pending.node!==+tx.dataset.node?{...pending}:null};const node=target.closest('.node');if(node)return{mode:'node',node:+node.dataset.node,row:target.closest('.row[data-row]')?+target.closest('.row[data-row]').dataset.row:null,connectFrom:pending&&pending.node!==+node.dataset.node?{...pending}:null};if(target.closest('.wire-hit')||target.closest('#linktools')||target.closest('#colorpop')||target.closest('.empty-add'))return null;return{mode:'pan'}}
-board.addEventListener('pointerdown',e=>{if(e.button===2&&e.pointerType==='mouse')return;dragWireSource=null;if(!e.target.closest('.socket,[data-scale-corner],[data-crop-handle],[data-bg-crop-handle]')&&e.target.closest('button,input,textarea,select,#colorpop,#linktools'))return;if($('#scrim').classList.contains('open'))return;touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size>=2){activePointer=null;dragWireSource=null;drawLinks();const p=[...touches.values()].slice(0,2),dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;pinch={dist:Math.max(1,dist),zoom,world:toWorld(cx,cy)};return}
+board.addEventListener('pointerdown',e=>{if(e.button===2&&e.pointerType==='mouse')return;
+ if(rectangleMode&&e.target.closest('#marqueeCancel'))return;dragWireSource=null;if(!e.target.closest('.socket,[data-scale-corner],[data-crop-handle],[data-bg-crop-handle]')&&e.target.closest('button,input,textarea,select,#colorpop,#linktools'))return;if($('#scrim').classList.contains('open'))return;touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size>=2){activePointer=null;if(rectangleMode)rectangleOverlay(null);dragWireSource=null;drawLinks();const p=[...touches.values()].slice(0,2),dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;pinch={dist:Math.max(1,dist),zoom,world:toWorld(cx,cy)};return}
+ if(rectangleMode){const p=rectanglePosition(e);activePointer={id:e.pointerId,mode:'rectangle',sx:e.clientX,sy:e.clientY,start:p,moved:false};try{board.setPointerCapture(e.pointerId)}catch{}e.preventDefault();return}
  const action=beginTap(e);if(!action)return;
  if(action.mode==='socket'&&multiMode&&multiFilter==='blocks'){multiMode=false;multiSelection.clear();document.body.classList.remove('multi-block-mode');selectedNode=null;selectedRow=null;splitNodeId=null;}
  if(action.mode==='node'&&!action.connectFrom&&(!multiMode||multiFilter!=='blocks')){
@@ -2492,7 +2640,8 @@ board.addEventListener('pointerdown',e=>{if(e.button===2&&e.pointerType==='mouse
  }activePointer={...action,id:e.pointerId,sx:e.clientX,sy:e.clientY,px:pan.x,py:pan.y,moved:false,saved:false,nx:box(action.node)?.x,ny:box(action.node)?.y,nw:box(action.node)?.w,nh:box(action.node)?.h,bx:background.x,by:background.y,bw:background.w,bh:background.h,groupStart:multiMode&&multiFilter==='blocks'&&action.mode==='node'?[...multiSelection].map(id=>({id,x:box(id)?.x,y:box(id)?.y})):null};try{board.setPointerCapture(e.pointerId)}catch{};if(action.mode!=='row'&&action.mode!=='socket')e.preventDefault();
 });
 board.addEventListener('pointermove',e=>{if(touches.has(e.pointerId))touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pinch&&touches.size>=2){const p=[...touches.values()].slice(0,2),dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2,r=board.getBoundingClientRect();zoom=clamp(pinch.zoom*dist/pinch.dist,.32,3);pan={x:cx-r.left-pinch.world.x*zoom,y:cy-r.top-pinch.world.y*zoom};viewport();return}
- const g=activePointer;if(!g||g.id!==e.pointerId){if(pending&&e.pointerType==='mouse'&&!activePointer)drawLinks(toWorld(e.clientX,e.clientY));return;}const dx=e.clientX-g.sx,dy=e.clientY-g.sy;if(Math.hypot(dx,dy)>6)g.moved=true;
+ const g=activePointer;if(g?.mode==='rectangle'&&g.id===e.pointerId){const p=rectanglePosition(e);rectangleOverlay({x1:g.start.x,y1:g.start.y,x2:p.x,y2:p.y});const count=[...nodesEl.querySelectorAll('.node')].filter(el=>{const b=el.getBoundingClientRect(),r=board.getBoundingClientRect(),l=r.left+Math.min(g.start.x,p.x),rt=r.left+Math.max(g.start.x,p.x),t=r.top+Math.min(g.start.y,p.y),bt=r.top+Math.max(g.start.y,p.y);return b.right>=l&&b.left<=rt&&b.bottom>=t&&b.top<=bt}).length;$('#marqueeMessage').textContent=count?`Seleccionando ${count} bloque${count===1?'':'s'}`:'Dibuje un rectángulo para seleccionar';e.preventDefault();return}
+ if(!g||g.id!==e.pointerId){if(pending&&e.pointerType==='mouse'&&!activePointer)drawLinks(toWorld(e.clientX,e.clientY));return;}const dx=e.clientX-g.sx,dy=e.clientY-g.sy;if(Math.hypot(dx,dy)>6)g.moved=true;
   if(g.mode==='background-crop'&&bgCropSession){const q=bgCropSession.relative,base=g.start,side=g.side,sign=(side==='left'||side==='top')?1:-1,delta=(side==='left'||side==='right'?dx/(background.w*zoom):dy/(background.h*zoom))*sign;const opp=side==='left'?'right':side==='right'?'left':side==='top'?'bottom':'top';q[side]=clamp(base[side]+delta,0,.9-base[opp]);updateBgCropUI();return;}
   if(g.mode==='crop'&&cropSession){const n=box(g.node);if(n){const a=cropSession.relative,q=g.start,sign=(g.side==='left'||g.side==='top')?1:-1,delta=(g.side==='left'||g.side==='right'?dx/(n.w*zoom):dy/(n.h*zoom))*sign;const opp=g.side==='left'?'right':g.side==='right'?'left':g.side==='top'?'bottom':'top';a[g.side]=clamp(q[g.side]+delta,0,.9-q[opp]);updateCropOverlay()}return;}
   if(g.mode==='background'&&g.moved){if(!g.saved){snap();g.saved=true}background.x=Math.round(g.bx+dx/zoom);background.y=Math.round(g.by+dy/zoom);updateBackground()}
@@ -2515,6 +2664,7 @@ board.addEventListener('pointermove',e=>{if(touches.has(e.pointerId))touches.set
  if(g.mode==='image-port'&&g.moved&&imageToolMode==='move'){const n=box(g.node),p=n?.ports?.find(k=>k.id===g.port);if(!p)return;if(!g.saved){snap();g.saved=true}Object.assign(p,imagePosition(n,e.clientX,e.clientY));refreshImagePortLocations(n);drawLinks()}
 });
 board.addEventListener('pointerup',e=>{touches.delete(e.pointerId);if(pinch){if(touches.size<2){pinch=null;activePointer=null;store()}return}const g=activePointer;if(!g||g.id!==e.pointerId)return;activePointer=null;
+ if(g.mode==='rectangle'){rectangleApply(g,e);return}
  if(g.mode==='crop'||g.mode==='background-crop')return;
  if(g.mode==='corner-scale'){if(g.moved){render();store()}return}
  if(g.mode==='background'){if(g.moved)store();return}
@@ -2532,7 +2682,7 @@ board.addEventListener('pointerup',e=>{touches.delete(e.pointerId);if(pinch){if(
  render();if(selectedNode===g.node)burstSelectionDust(g.node,e.clientX,e.clientY);return}if(!g.moved){const t=Date.now();const dbl=lastTap&&lastTap.node===g.node&&t-lastTap.at<390&&Math.hypot(g.sx-lastTap.x,g.sy-lastTap.y)<30;lastTap={node:g.node,at:t,x:g.sx,y:g.sy};selectedNode=g.node;selectedRow=null;selectedLink=null;render();burstSelectionDust(g.node,e.clientX,e.clientY);if(dbl){lastTap=null;const n=box(g.node);n?.kind==='image'?openImageEditor(n.id):openBlockEditor(n.id)}}else{lastTap=null;selectedNode=g.node;ignoreClick=true;setTimeout(()=>ignoreClick=false,180);render();store()}}
  if(g.mode==='pan'&&!g.moved){resetSelection();$('#colorpop').classList.remove('open');render()}
 });
-board.addEventListener('pointercancel',e=>{touches.delete(e.pointerId);activePointer=null;dragWireSource=null;pinch=null;drawLinks()});
+board.addEventListener('pointercancel',e=>{touches.delete(e.pointerId);if(activePointer?.mode==='rectangle')rectangleOverlay(null);activePointer=null;dragWireSource=null;pinch=null;drawLinks()});
 // PC: rueda arriba acerca, rueda abajo aleja. Android: gesto de pinza con dos dedos.
 board.addEventListener('wheel',e=>{e.preventDefault();zoomAt(zoom*(e.deltaY<0?1.12:1/1.12),e.clientX,e.clientY)},{passive:false});
 board.addEventListener('contextmenu',e=>{
@@ -2543,6 +2693,7 @@ board.addEventListener('contextmenu',e=>{
 function insertTextNode(){if(contextInsertPoint){const p=contextInsertPoint;contextInsertPoint=null;addNode({x:p.x-127,y:p.y-45});return;}const c=midWorld(),positions=[[0,0],[0,215],[0,-215],[300,0],[-300,0],[300,240],[-300,-240],[0,450]];let p;for(const [dx,dy] of positions){const x=c.x-127+dx,y=c.y-70+dy;if(nodes.every(n=>Math.abs(n.x-x)>270||Math.abs(n.y-y)>210)){p={x,y};break}}if(!p){const n=nodes.at(-1);p={x:n.x+100,y:n.y+240}}addNode(p)}
 // Selección implícita: tocar un bloque o enlace inicia su conjunto; tocarlo de nuevo lo deselecciona.
 function resetSelection(){
+  rectangleStop();
   cancelAllCommands();splitNodeId=null;splitBusy=false;
  if(bgCropSession)closeBgCrop(false);if(cropSession)closeCrop(false);
  multiMode=false;multiFilter='blocks';multiSelection.clear();multiLinks.clear();
@@ -2559,7 +2710,7 @@ $('#zoomOut').onclick=()=>{const r=board.getBoundingClientRect();zoomAt(zoom/1.2
 $('#fit').onclick=fit;
 $('#undo').onclick=()=>{if(inlineEdit)commitInline();if(!undo.length)return toast('No hay cambios para deshacer');const s=undo.pop();({nodes,links,nextNode,nextRow,nextLink,nextHue}=s);colorHistory=Array.isArray(s.colorHistory)?s.colorHistory.slice():links.map(l=>l.color);if(s.layers)layers=styleLayers({...layers,...s.layers,exportDate:s.layers.exportDate!==false,exportProject:String(s.layers.exportProject||'').slice(0,800)});if(s.theme)theme=s.theme;portLayer=normalizedPortLayer(s.portLayer);portColorMode=normalizedPortColorMode(s.portColorMode,s.portLayer);if(s.wireShape)wireShape=s.wireShape;if(s.background){background=s.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}applyThemeClasses();selectedRow=null;selectedNode=null;selectedLink=null;pending=null;multiLinks.clear();multiSelection.clear();render();store()};
 
-function projectFile(){return{app:'NodoLibre',version:'5.4.0',updated:'22 de octubre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'5.6',updated:'22 de octubre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 $('#save').onclick=()=>{if(bgCropSession)closeBgCrop(false);downloadBlob(new Blob([JSON.stringify(projectFile())],{type:'application/octet-stream'}),'NodoLibre_proyecto.nodolibre');toast('Proyecto .nodolibre guardado')};
 $('#export').onclick=()=>{$('#saveMenu').classList.toggle('open');$('#insertMenu').classList.remove('open')};
@@ -2726,7 +2877,7 @@ function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nod
  const keys=new Set(incoming.flatMap(n=>n.kind==='image'?n.ports.map(p=>`${n.id}:${p.id}`):n.rows.map(r=>`${n.id}:${r.id}`)));for(const n of incoming){if(n.kind==='image')continue;if(n.top)keys.add(`${n.id}:-1`);if(n.bottom)keys.add(`${n.id}:-2`)}
  const outgoing=d.links.filter(l=>l.a&&l.b&&keys.has(`${l.a.node}:${l.a.row}`)&&keys.has(`${l.b.node}:${l.b.row}`)&&['left','right','top','bottom','inside'].includes(l.a.side)&&['left','right','top','bottom','inside'].includes(l.b.side)).map(l=>({id:Number(l.id),a:{node:+l.a.node,row:+l.a.row,side:l.a.side},b:{node:+l.b.node,row:+l.b.row,side:l.b.side},color:hex(l.color)||palette[0],colorCustom:!!l.colorCustom,style:['solid','dashed','loop','zigzag'].includes(l.style)?l.style:'solid',start:!!l.start,end:!!l.end}));return{incoming,outgoing}}
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text()),v=normalize(d);snap();clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=d.wireShape==='orthogonal'?'orthogonal':'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,duplicates:d.layers?.duplicates,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();store();toast('Diagrama recuperado')}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value=''}};
-$('#about').onclick=()=>openDialog('Acerca de NodoLibre',`<p><strong>NodoLibre</strong> permite crear mapas conceptuales y diagramas, conectar ideas y organizar información.</p><p><strong>Diseño realizado por:</strong> Arley Zárate<br><strong>Desarrollado por:</strong> Noa<br><strong>Fecha:</strong> 22 de octubre de 2026<br><strong>Versión:</strong> 5.4.0</p><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Selección:</strong> cuatro indicadores triangulares animados señalan las esquinas de los bloques activos. Al tocarlos aparece un destello breve de polvo; con movimiento reducido los indicadores permanecen inmóviles.</p><p><strong>Duplicados:</strong> el grupo de capas Duplicados detecta coincidencias completas sin diferenciar mayúsculas y minúsculas. Cada grupo tiene una sombra de color; el icono de paleta cambia los colores de todos los grupos. Puede conectar coincidencias con líneas punteadas, ocultar cada línea individual y excluir títulos o listas.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan al tema. En Conectores visibles, elija mostrar todos, solo utilizados o ninguno. Independientemente, active si lo desea marcadores por color al borde, cerca del texto o distribuidos entre ambas caras de cada fila. También puede reflejar horizontalmente los conectores desde Mover o desde las propiedades de cada fila. En Capas, seleccione círculo, rombo o barras y ajuste colores y contornos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para abrir las mismas opciones de inserción de Texto, Imagen y Funciones del botón +. Arrastre con clic sostenido desde un conector para ver un lazo provisional punteado y suéltelo sobre otro conector o bloque de destino. También puede unir con dos clics. Supr o Delete elimina los elementos seleccionados. El ícono de casa regresa a Inicio.</p><p><strong>Filtro:</strong> toque el embudo y seleccione un cable, un conector o una fila para mostrar únicamente sus enlaces directos. Los bloques permanecen visibles. Puede editar cada cable aislado. Vuelva a tocar el embudo para restaurar todo.</p><p><strong>Legibilidad:</strong> los cables se recortan detrás de las palabras, incluso sobre fotografías, sin interrumpir sus conexiones. Los colores automáticos de los enlaces nuevos no se repiten y varían por ángulo y luminosidad; los colores manuales se conservan.</p><p><strong>Enlaces:</strong> desde Capas y apariencia ajuste el espesor de 1 a 18 píxeles. Conserve los recorridos Bézier u ortogonal y sus patrones, flechas y colores individuales. Se retiró el entrelazado para mejorar la fluidez en diagramas grandes.</p><p><strong>Funciones:</strong> en Agregar → Funciones inserte Campo de texto, Unir, Extraer, Separar o Resultado. Conecte campos al lado izquierdo de la función y su salida derecha a un bloque Resultado. Doble clic en el operador permite editarlo. En Unir puede elegir Sin separador, Espacio o Personalizado. Los bloques Resultado muestran valores calculados y permiten cambiar la apariencia y el título, sin agregar ni importar filas.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color, flechas o trazo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde en .nodolibre, abra archivos .nodolibre, .arley o JSON y exporte una imagen PNG. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p>`,[['Cerrar',closeDialog,'ok']]);
+$('#about').onclick=()=>openDialog('Acerca de NodoLibre',`<p><strong>NodoLibre</strong> permite crear mapas conceptuales y diagramas, conectar ideas y organizar información.</p><p><strong>Diseño realizado por:</strong> Arley Zarate<br><strong>Desarrollado por:</strong> Noa<br><strong>Fecha:</strong> 22 de octubre de 2026<br><strong>Versión:</strong> 5.6</p><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Selección:</strong> cuatro indicadores triangulares animados señalan las esquinas de los bloques activos. Al tocarlos aparece un destello breve de polvo; con movimiento reducido los indicadores permanecen inmóviles.</p><p><strong>Duplicados:</strong> el grupo de capas Duplicados detecta coincidencias completas sin diferenciar mayúsculas y minúsculas. Cada grupo tiene una sombra de color; el icono de paleta cambia los colores de todos los grupos. Puede conectar coincidencias con líneas punteadas, elegir Bézier u ortogonal de forma independiente de los enlaces normales, ocultar cada línea individual y excluir títulos o listas.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan al tema. En Conectores visibles, elija mostrar todos, solo utilizados o ninguno. Independientemente, active si lo desea marcadores por color al borde, cerca del texto o distribuidos entre ambas caras de cada fila. También puede reflejar horizontalmente los conectores desde Mover o desde las propiedades de cada fila. En Capas, seleccione círculo, rombo o barras y ajuste colores y contornos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para abrir las mismas opciones de inserción de Texto, Imagen y Funciones del botón +. Arrastre con clic sostenido desde un conector para ver un lazo provisional punteado y suéltelo sobre otro conector o bloque de destino. También puede unir con dos clics. Supr o Delete elimina los elementos seleccionados. El ícono de casa regresa a Inicio.</p><p><strong>Filtro:</strong> toque el embudo y seleccione un cable, un conector o una fila para mostrar únicamente sus enlaces directos. Los bloques permanecen visibles. Puede editar cada cable aislado. Vuelva a tocar el embudo para restaurar todo.</p><p><strong>Legibilidad:</strong> los cables se recortan detrás de las palabras, incluso sobre fotografías, sin interrumpir sus conexiones. Los colores automáticos de los enlaces nuevos no se repiten y varían por ángulo y luminosidad; los colores manuales se conservan.</p><p><strong>Enlaces:</strong> desde Capas y apariencia ajuste el espesor de 1 a 18 píxeles. Conserve los recorridos Bézier u ortogonal y sus patrones, flechas y colores individuales. Se retiró el entrelazado para mejorar la fluidez en diagramas grandes.</p><p><strong>Funciones:</strong> en Agregar → Funciones inserte Campo de texto, Unir, Extraer, Separar o Resultado. Conecte campos al lado izquierdo de la función y su salida derecha a un bloque Resultado. Doble clic en el operador permite editarlo. En Unir puede elegir Sin separador, Espacio o Personalizado. En Extraer puede escoger posición, extremo o búsqueda literal por aparición contada desde izquierda o derecha, sin distinguir mayúsculas de minúsculas. Los símbolos como espacio, coma y punto tienen indicador visible y accesos directos. Desde Mover puede dibujar un rectángulo de selección; el lienzo muestra el negativo fuera del área y conserva los colores dentro. Los bloques Resultado muestran valores calculados y permiten cambiar la apariencia y el título, sin agregar ni importar filas.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color, flechas o trazo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde en .nodolibre, abra archivos .nodolibre, .arley o JSON y exporte una imagen PNG. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p>`,[['Cerrar',closeDialog,'ok']]);
 $('#scrim').addEventListener('pointerdown',e=>{if(e.target.id==='scrim')closeDialog()});document.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&visualSession){e.preventDefault();e.stopImmediatePropagation();closeVisualEditor();return}
  if((e.key==='Delete'||e.key==='Backspace')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
