@@ -2049,7 +2049,7 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.16">v2.16</div>
+    <div class="version-pill" aria-label="Versión 2.17">v2.17</div>
   </header>
 
   <main class="workspace">
@@ -2303,8 +2303,8 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.16";
-  const APP_DATE = "20/oct/2026";
+  const APP_VERSION = "2.17";
+  const APP_DATE = "22/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -2741,11 +2741,11 @@
   function inicializarDiccionarioColombiano() {
     const data=window.DICCIONARIO_ES_CO;
     if(!data || typeof window.Typo !== 'function' || !data.affBase64 || !data.dicBase64) {
-      spellingCount.title='Vocabulario inicial. Para habilitar es_CO, ejecute PREPARAR_DICCIONARIO.bat y conserve typo.js y diccionario_es_CO.js junto al HTML.';
+      spellingCount.title='Posibles errores ortográficos del texto organizado.';
       return;
     }
     estadoDiccionarioCO='cargando';
-    spellingCount.title='Cargando diccionario completo de español colombiano…';
+    spellingCount.title='Revisión ortográfica en español.';
     // Se inicia tras la primera pintura; Typo.js reparte el análisis entre periodos libres.
     window.setTimeout(() => {
       try {
@@ -2758,9 +2758,9 @@
             hunspellCO=instancia;
             estadoDiccionarioCO='listo';
             suggestionCache.clear();
-            spellingCount.title='Diccionario Hunspell es_CO activo, ejecución local, sin conexión.';
+            spellingCount.title='Revisión ortográfica en español.';
             refreshSpellingDecorations();
-            setStatus('Diccionario completo es_CO cargado.', 2800);
+            
           }
         });
         // Compatibilidad con motores que finalizan inmediatamente.
@@ -2768,13 +2768,13 @@
           hunspellCO=t;
           estadoDiccionarioCO='listo';
           suggestionCache.clear();
-          spellingCount.title='Diccionario Hunspell es_CO activo.';
+          spellingCount.title='Revisión ortográfica en español.';
           refreshSpellingDecorations();
         }
       } catch(error) {
         console.warn('No fue posible cargar el diccionario completo:', error);
         estadoDiccionarioCO='error';
-        spellingCount.title='No fue posible cargar es_CO. Continúa disponible el vocabulario preliminar.';
+        spellingCount.title='Revisión ortográfica en español.';
       }
     }, 50);
   }
@@ -3086,7 +3086,7 @@
     });
     const dismiss=document.createElement('button'); dismiss.type='button'; dismiss.className='spelling-minor'; dismiss.textContent='Cerrar'; dismiss.addEventListener('click',closeSpellingPopover);
     controls.append(add,dismiss); spellingPopover.appendChild(controls);
-    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent=hunspellCO ? 'Sugerencias del diccionario es_CO. La corrección aceptada se refleja en ambos textos.' : 'Sugerencias preliminares. Los nombres y códigos técnicos pueden agregarse al diccionario.'; spellingPopover.appendChild(note);
+    const note=document.createElement('p'); note.className='spelling-hint'; note.textContent='Revise las sugerencias antes de aplicarlas. Puede agregar términos técnicos al diccionario.'; spellingPopover.appendChild(note);
     spellingPopover.classList.add('open'); spellingPopover.setAttribute('aria-hidden','false');
     const rect=span.getBoundingClientRect();
     const width=Math.min(310,window.innerWidth-20);
@@ -3324,6 +3324,7 @@
   }
 
   function organizeText() {
+    pendingNumberedLine=false;
     const width = safeInteger(maxWidth.value, DEFAULT_WIDTH, 10);
     const indent = safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30);
 
@@ -3786,27 +3787,27 @@
     about: {
       title: "Acerca de",
       html: "<p><strong>Organizador de texto técnico</strong></p>" +
-        "<p>Versión: " + APP_VERSION + "<br>Fecha: " + APP_DATE + "<br>Diseño: Arley Zarate<br>Desarrollo: NOVA (IA)</p>" +
-        "<p>Corrector local compatible con Hunspell es_CO cuando los archivos de diccionario están instalados. Si faltan, mantiene revisión preliminar.</p>"
+        "<p>Versión: " + APP_VERSION + "<br>Fecha: " + APP_DATE + "<br>Diseño: Arley Zarate<br>Desarrollo: NOVA</p>" +
+        "<p>Revisión ortográfica en español con sugerencias para corregir el texto.</p>"
     },
     intent: {
       title: "Intención",
       html: "<p>Organizar listados y textos técnicos para que cada línea respete un ancho máximo de caracteres sin alterar palabras, códigos ni datos técnicos.</p>" +
         "<p>Está pensado para preparar contenido en editores o entornos que no organizan automáticamente el texto por ancho de línea.</p>" +
         "<p>La zona más clara a la izquierda marca visualmente la sangría. Su límite se ajusta arrastrando el marcador superior; la vista escala en pantallas pequeñas.</p>" +
-        "<p>La revisión ortográfica utiliza el diccionario es_CO si está instalado. Señala posibles errores en rojo y permite aceptar correcciones que se reflejan en ambos textos. No detecta todos los errores que dependen del contexto.</p>"
+        "<p>La revisión ortográfica señala posibles errores y permite corregirlos desde las sugerencias, sin perder la sincronización entre ambos textos.</p>"
     },
     help: {
       title: "Instrucciones de uso",
       html: "<ol>" +
         "<li>Pegue el contenido en <strong>Texto original</strong> con Ctrl + V o el icono Pegar.</li>" +
-        "<li>La organización se actualiza <strong>automáticamente mientras escribe</strong>.</li>" +
+        "<li>El resultado se reorganiza <strong>automáticamente al escribir o editar cualquiera de los dos textos</strong>, respetando el ancho y la sangría.</li>" +
         "<li>Si necesita cambiar el ancho, la sangría o tomar un ancho desde ejemplo, use la cota superior y el marcador de sangría.</li>" +
         "<li>En Texto organizado, B activa la negrita; Aa alterna entre texto original, minúsculas, texto mixto tipo oración y mayúsculas; W ajusta el ancho.</li>" +
         "<li>Arrastre el marcador sobre el límite del fondo claro para ajustar la sangría de uno en uno; con doble clic abre el panel.</li>" +
         "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
         "<li>Use el icono de líneas separadas para insertar o quitar un renglón vacío entre elementos numerados.</li>" +
-        "<li>Use el icono de ojo junto a Texto organizado para ocultar o mostrar el bloque original. Al editar directamente el resultado, el original se oculta automáticamente.</li>" +
+        "<li>Use el icono junto a Texto original para plegarlo; la pestaña vertical permite recuperarlo. Al editar el resultado, el original se pliega automáticamente.</li><li>Los cuatro iconos laterales permiten acercar, alejar y ajustar la vista al ancho o al alto.</li>" +
         "<li>Use <strong>Nuevo</strong> para empezar otra sesión y <strong>Restaurar</strong> para volver a la configuración inicial.</li>" +
         "</ol>"
     }
@@ -4313,30 +4314,118 @@
     return original.slice(0,leftPos) + replacement + original.slice(rightPos);
   }
 
-  outputPreview.addEventListener('input', () => {
+  // Reorganización inmediata del resultado editable sin perder el punto de escritura.
+  // Las posiciones se relacionan por caracteres no blancos: los saltos y las
+  // sangrías que añade el formato pueden moverse sin desplazar el cursor.
+  function offsetAfterReflow(edited, organized, position) {
+    const before = edited.slice(0, Math.max(0, position));
+    const count = [...before].filter(character => !/\s/u.test(character)).length;
+    if (!count) return 0;
+    let found = 0;
+    for (let i = 0; i < organized.length; i++) {
+      if (!/\s/u.test(organized[i])) found++;
+      if (found === count) return i + 1;
+    }
+    return organized.length;
+  }
+
+  function setPreviewSelection(start, end = start) {
+    const locate = (position) => {
+      const walker = document.createTreeWalker(outputPreview, NodeFilter.SHOW_TEXT);
+      let node;
+      let remaining = Math.max(0, position);
+      let last = null;
+      while ((node = walker.nextNode())) {
+        last = node;
+        if (remaining < node.textContent.length) return {node, offset:remaining};
+        remaining -= node.textContent.length;
+      }
+      return last ? {node:last, offset:last.textContent.length} : null;
+    };
+    const a=locate(start), b=locate(end);
+    if(!a || !b) return;
+    const range=document.createRange();
+    range.setStart(a.node,a.offset);
+    range.setEnd(b.node,b.offset);
+    const selection=window.getSelection();
+    if(selection) {selection.removeAllRanges();selection.addRange(range);}
+  }
+
+  let resultComposing = false;
+  let pendingNumberedLine = false;
+  function reorganizeEditedResult() {
+    if (resultComposing || outputPreview.classList.contains('is-placeholder')) return;
     setOriginalVisible(false);
-    const previous = outputText.value;
-    const edited = outputPreview.textContent.replace(/\u00a0/g, '');
-    const sourceUpdated = projectEditToSource(previous, edited, inputText.value);
+    const previous=outputText.value;
+    let edited=outputPreview.textContent.replace(/\u00a0/g,'');
+    const selection=window.getSelection();
+    let start=edited.length, end=edited.length;
+    if(selection?.rangeCount && outputPreview.contains(selection.getRangeAt(0).startContainer)) {
+      const range=selection.getRangeAt(0);
+      start=offsetInsidePreview(range.startContainer,range.startOffset);
+      end=offsetInsidePreview(range.endContainer,range.endOffset);
+    }
+    // En algunos navegadores el primer carácter después de Enter se coloca
+    // antes del salto final. Recuperamos su posición para poder crear «17.».
+    if(pendingNumberedLine && previous.endsWith('\n') && edited.endsWith('\n') &&
+       edited.length>previous.length && edited.startsWith(previous.slice(0,-1))) {
+      const addition=edited.slice(previous.length-1,-1);
+      edited=previous+addition;
+      start=edited.length;
+      end=start;
+    }
+    const sourceUpdated=projectEditToSource(previous,edited,inputText.value);
     linkedSelectionSource=null;
     linkedOutputRange=null;
     linkedInputRange=null;
     updateInputMirror(null);
-    if (sourceUpdated !== inputText.value) {
-      inputText.value = sourceUpdated;
+    if(sourceUpdated!==inputText.value) {
+      inputText.value=sourceUpdated;
       updateInputOverlayState();
     }
-    outputText.value = edited;
-    previewLinesLabel.textContent = String(edited ? edited.split('\n').length : 0);
-    caseBaseText = wrapBlocksWithSeparators(parseBlocks(sourceUpdated, basicCorrections.checked),
-      safeInteger(maxWidth.value, DEFAULT_WIDTH, 10),
-      safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30)).join('\n');
-    updateStatsAndValidation(edited ? edited.split('\n') : [], safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
+    const width=safeInteger(maxWidth.value,DEFAULT_WIDTH,10);
+    const indent=safeInteger(indentSize.value,DEFAULT_INDENT,0,30);
+    caseBaseText=wrapBlocksWithSeparators(parseBlocks(sourceUpdated,basicCorrections.checked),width,indent).join('\n');
+    let organized=convertirTipoLetra(caseBaseText,caseMode);
+    if(pendingNumberedLine) {
+      const fragment=edited.slice(edited.lastIndexOf('\n')+1);
+      if(/^\d+\.$/u.test(fragment)) {
+        // El nuevo numeral está completo y ya se puede formatear normalmente.
+        pendingNumberedLine=false;
+      } else if(!fragment || /^\d+$/u.test(fragment)) {
+        // Mostrar temporalmente la línea mientras se escribe el numeral.
+        organized=edited;
+      } else {
+        pendingNumberedLine=false;
+      }
+    }
+    // Conservar el separador que se acaba de escribir al final: sin él, la
+    // siguiente letra quedaría pegada a la palabra anterior.
+    const writingAtEnd=start===edited.length && end===start;
+    if(writingAtEnd && /[ \t\n]$/u.test(edited) && organized && !organized.endsWith(edited.slice(-1))) {
+      organized+=edited.endsWith('\n') ? '\n' : ' ';
+    }
+    const mappedStart=writingAtEnd && /\s$/u.test(edited)
+      ? organized.length : offsetAfterReflow(edited,organized,start);
+    const mappedEnd=writingAtEnd && /\s$/u.test(edited)
+      ? organized.length : offsetAfterReflow(edited,organized,end);
+    outputText.value=organized;
     closeSpellingPopover();
-    // No se vuelve a crear el contenido editable mientras se escribe: mantiene el cursor.
-    requestAnimationFrame(() => fitOutputPreview());
-    queueSpellingRefresh();
+    // Restaurar la selección después de reconstruir el HTML coloreado.
+    suppressLinkedSelection=true;
+    outputPreview.innerHTML=markSpelling(organized);
+    setPreviewSelection(mappedStart,mappedEnd);
+    suppressLinkedSelection=false;
+    updateStatsAndValidation(organized ? organized.split('\n') : [],width);
+    fitOutputPreview(width);
+  }
+
+  outputPreview.addEventListener('compositionstart', () => {resultComposing=true;});
+  outputPreview.addEventListener('compositionend', () => {
+    resultComposing=false;
+    reorganizeEditedResult();
   });
+  outputPreview.addEventListener('input', reorganizeEditedResult);
   outputPreview.addEventListener('click',(event)=>{
     const span=event.target.closest('.spelling-error');
     if(span) openSpellingPopover(span);
@@ -4349,6 +4438,8 @@
       const selection=window.getSelection();
       if(selection?.rangeCount) {
         const range=selection.getRangeAt(0); range.deleteContents();
+        const atEnd=offsetInsidePreview(range.startContainer,range.startOffset)===outputPreview.textContent.length;
+        pendingNumberedLine=atEnd;
         const node=document.createTextNode('\n');
         range.insertNode(node); range.setStartAfter(node); range.collapse(true);
         selection.removeAllRanges(); selection.addRange(range);
