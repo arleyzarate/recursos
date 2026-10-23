@@ -413,6 +413,20 @@
     min-height: 52px;
   }
 
+  .original-heading-line,
+  .result-title-bar {
+    position: sticky;
+    top: 10px;
+    z-index: 18;
+    margin: -4px -4px 12px;
+    padding: 10px 12px;
+    border: 1px solid color-mix(in srgb, var(--border) 92%, transparent);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+    box-shadow: 0 12px 30px rgba(31, 43, 73, .08);
+    backdrop-filter: blur(18px) saturate(135%);
+  }
+
   .result-head-group {
     display: flex;
     flex-direction: column;
@@ -426,11 +440,12 @@
     justify-content: flex-end;
     gap: 9px;
     padding: 5px;
+    margin-left: auto;
     border: 1px solid var(--border);
-    border-radius: 17px;
-    background: color-mix(in srgb, var(--surface-strong) 76%, transparent);
-    box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(12px) saturate(120%);
+    border-radius: 19px;
+    background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+    box-shadow: 0 12px 26px rgba(30, 44, 71, .08);
+    backdrop-filter: blur(14px) saturate(120%);
   }
 
   .result-tool-btn {
@@ -459,6 +474,13 @@
     border-color: var(--accent);
     box-shadow: 0 5px 14px color-mix(in srgb, var(--accent) 16%, transparent);
     outline-offset: 3px;
+  }
+
+  #copyBtn:hover,
+  #copyBtn:focus-visible {
+    transform: translateY(-2px) scale(1.08);
+    border-color: color-mix(in srgb, var(--accent-2) 40%, var(--accent));
+    box-shadow: 0 10px 22px rgba(0, 158, 171, .22);
   }
 
   .result-tool-btn[aria-pressed="true"],
@@ -498,6 +520,46 @@
   .color-tool-btn svg {
     width: 20px;
     height: 20px;
+  }
+
+  #copyBtn {
+    width: 56px;
+    min-width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 999px;
+    color: #009eab;
+    border-color: color-mix(in srgb, var(--accent-2) 34%, var(--border));
+    background:
+      radial-gradient(circle at 28% 24%, rgba(255,255,255,.98), transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--surface-strong) 96%, white 4%), color-mix(in srgb, var(--accent-2) 6%, var(--surface-soft)) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.24),
+      0 10px 24px rgba(0, 158, 171, .16),
+      0 0 0 1px rgba(255,255,255,.06);
+    animation: copyPrimaryPulse 1.95s ease-in-out infinite;
+  }
+
+  #copyBtn > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  #copyBtn::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: inherit;
+    border: 1px solid color-mix(in srgb, #8ef2ff 58%, transparent);
+    opacity: .55;
+    pointer-events: none;
+    animation: copyPrimaryHalo 1.95s ease-out infinite;
+  }
+
+  #copyBtn svg {
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
   }
 
   textarea {
@@ -1656,6 +1718,146 @@
   .editor-grid.is-original-hidden { grid-template-columns: minmax(0, 0fr) minmax(0, 1fr); gap: 0; }
   .result-card { grid-column: 2; }
   .result-tool-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
+  .workflow-guide {
+    position: fixed;
+    inset: 0;
+    z-index: 28;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .28s ease;
+  }
+
+  .workflow-guide.is-visible { opacity: 1; }
+
+  .workflow-guide svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+  .workflow-guide-path {
+    fill: none;
+    stroke: color-mix(in srgb, var(--accent-2) 62%, white 8%);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--accent-2) 18%, transparent));
+    opacity: .95;
+    stroke-dasharray: 14 12;
+    animation: workflowDash 11s linear infinite;
+  }
+
+  .workflow-guide-glow {
+    fill: none;
+    stroke: color-mix(in srgb, var(--accent) 36%, white 30%);
+    stroke-width: 10;
+    stroke-linecap: round;
+    opacity: .22;
+  }
+
+  .workflow-guide-dot {
+    fill: #fff;
+    stroke: color-mix(in srgb, var(--accent-2) 65%, white 8%);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent-2) 42%, transparent));
+  }
+
+  .copy-coach-bubble {
+    position: fixed;
+    z-index: 36;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, #d8bf37 42%, rgba(0,0,0,.06));
+    background: linear-gradient(180deg, #fff6b7, #ffe685);
+    color: #6c5411;
+    box-shadow: 0 14px 34px rgba(83, 70, 14, .18), 0 2px 0 rgba(255,255,255,.52) inset;
+    font-weight: 900;
+    font-size: .9rem;
+    letter-spacing: .01em;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px) scale(.92);
+    transition: opacity .18s ease, transform .18s ease;
+    white-space: nowrap;
+  }
+
+  .copy-coach-bubble::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    bottom: -8px;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(180deg, #ffe685, #ffe07a);
+    border-right: 1px solid color-mix(in srgb, #d8bf37 42%, rgba(0,0,0,.06));
+    border-bottom: 1px solid color-mix(in srgb, #d8bf37 42%, rgba(0,0,0,.06));
+    transform: rotate(45deg);
+    border-bottom-right-radius: 4px;
+  }
+
+  .copy-coach-bubble.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  #copyBtn.is-guided {
+    animation: copyGuidePulse 1.45s ease-in-out infinite;
+    border-color: color-mix(in srgb, #ffe685 62%, var(--accent) 22%);
+    box-shadow: 0 0 0 0 rgba(255, 230, 133, .32), 0 6px 18px rgba(255, 213, 89, .22);
+  }
+
+  #copyBtn.is-guided::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 230, 133, .62);
+    animation: copyGuideRing 1.45s ease-out infinite;
+  }
+
+  @keyframes workflowDash {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -260; }
+  }
+
+  @keyframes copyGuidePulse {
+    0%, 100% { transform: scale(1); }
+    28% { transform: scale(1.2); }
+    44% { transform: scale(1.08); }
+    60% { transform: scale(1.16); }
+  }
+
+  @keyframes copyGuideRing {
+    0% { opacity: 0; transform: scale(.9); }
+    25% { opacity: .7; transform: scale(1.02); }
+    100% { opacity: 0; transform: scale(1.16); }
+  }
+
+  @media (max-width: 980px) {
+    .workflow-guide-path { stroke-width: 3.2; }
+    .workflow-guide-glow { stroke-width: 8; }
+    .copy-coach-bubble { min-width: 78px; min-height: 38px; font-size: .82rem; padding: 0 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .workflow-guide, .copy-coach-bubble, #copyBtn, #copyBtn::before, #copyBtn.is-guided, #copyBtn.is-guided::after { animation: none !important; transition: none !important; }
+  }
+
+  @keyframes copyPrimaryPulse {
+    0%, 100% { transform: scale(1); }
+    20% { transform: scale(1.08); }
+    38% { transform: scale(1.14); }
+    58% { transform: scale(1.08); }
+    76% { transform: scale(1.12); }
+  }
+
+  @keyframes copyPrimaryHalo {
+    0% { opacity: .18; transform: scale(.96); }
+    42% { opacity: .48; transform: scale(1.04); }
+    100% { opacity: 0; transform: scale(1.15); }
+  }
+
   #copyBtn { color: #009eab; }
   #clearBtn { color: #ee744d; }
   .list-index-token { color: color-mix(in srgb, var(--text) 94%, #182e54 6%); font-weight: 850; }
@@ -1705,8 +1907,17 @@
     .result-card { padding: 13px; }
 
     .info-dock { border-radius: 16px; }
-    .result-tools { gap: 5px; padding: 4px; flex-wrap: wrap; justify-content: flex-end; }
+    .result-tools { gap: 5px; padding: 6px; flex-wrap: wrap; justify-content: flex-end; }
     .result-tool-btn { min-width: 39px; width: 39px; height: 40px; padding: 0 5px; }
+    #copyBtn { min-width: 50px; width: 50px; height: 50px; }
+
+    .original-heading-line,
+    .result-title-bar {
+      top: 8px;
+      margin: -2px -2px 10px;
+      padding: 8px 10px;
+      border-radius: 16px;
+    }
 
     .info-dock { border-radius: 16px; }
 
@@ -2049,7 +2260,7 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.17">v2.17</div>
+    <div class="version-pill" aria-label="Versión 2.19">v2.19</div>
   </header>
 
   <main class="workspace">
@@ -2144,6 +2355,8 @@
     <button id="zoomFitHeightBtn" type="button" aria-label="Ajustar al alto" title="Ajustar al alto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h16M4 21h16M12 7v10M9 10l3-3 3 3M9 14l3 3 3-3"/></svg></button>
   </nav>
 
+  <div id="workflowGuide" class="workflow-guide" aria-hidden="true"></div>
+  <div id="copyCoachBubble" class="copy-coach-bubble" aria-hidden="true">Copiar</div>
   <div id="statusToast" class="status-toast" aria-live="polite"></div>
 
   <section class="panel footer-panel" aria-label="Validación del resultado">
@@ -2303,8 +2516,8 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.17";
-  const APP_DATE = "22/oct/2026";
+  const APP_VERSION = "2.18";
+  const APP_DATE = "23/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -2339,6 +2552,8 @@
   const validationDetail = $("validationDetail");
   const copyStatus = $("copyStatus");
   const statusToast = $("statusToast");
+  const workflowGuide = $("workflowGuide");
+  const copyCoachBubble = $("copyCoachBubble");
   const inputCard = $("inputCard");
   const editorGrid = document.querySelector('.editor-grid');
   const toggleOriginalBtn = $("toggleOriginalBtn");
@@ -2386,6 +2601,9 @@
   let caseMode = 'original';
   let caseBaseText = '';
   let blankLineBetweenItems = false;
+  let workflowGuideDismissed = false;
+  let copyCoachShown = false;
+  let copyCoachTimer = 0;
   let originalIsHidden = false;
   let layoutResizeTimer = 0;
   let previewZoomRatio = 1;
@@ -2678,6 +2896,88 @@
     requestAnimationFrame(() => statusToast.classList.add('open'));
     statusTimer = window.setTimeout(() => statusToast.classList.remove('open'), timeout);
   }
+
+  function clearWorkflowGuide() {
+    if (!workflowGuide) return;
+    workflowGuide.classList.remove('is-visible');
+    workflowGuide.setAttribute('aria-hidden', 'true');
+    workflowGuide.innerHTML = '';
+  }
+
+  function hideCopyCoachBubble() {
+    window.clearTimeout(copyCoachTimer);
+    copyCoachBubble?.classList.remove('is-visible');
+    copyCoachBubble?.setAttribute('aria-hidden', 'true');
+    $("copyBtn")?.classList.remove('is-guided');
+  }
+
+  function positionCopyCoachBubble() {
+    if (!copyCoachBubble) return;
+    const copyBtn = $("copyBtn");
+    if (!copyBtn) return;
+    const rect = copyBtn.getBoundingClientRect();
+    const bubbleWidth = copyCoachBubble.offsetWidth || 88;
+    const bubbleHeight = copyCoachBubble.offsetHeight || 42;
+    const gap = 12;
+    const left = Math.max(10, Math.min(rect.left - 8, window.innerWidth - bubbleWidth - 10));
+    let top = rect.bottom + gap;
+    if (top + bubbleHeight > window.innerHeight - 10) top = rect.top - bubbleHeight - gap;
+    copyCoachBubble.style.left = left + 'px';
+    copyCoachBubble.style.top = Math.max(10, top) + 'px';
+  }
+
+  function showCopyCoachBubble() {
+    if (!copyCoachBubble || !$("copyBtn") || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    copyCoachShown = true;
+    positionCopyCoachBubble();
+    $("copyBtn").classList.add('is-guided');
+    copyCoachBubble.classList.add('is-visible');
+    copyCoachBubble.setAttribute('aria-hidden', 'false');
+    window.clearTimeout(copyCoachTimer);
+    copyCoachTimer = window.setTimeout(hideCopyCoachBubble, 5200);
+  }
+
+  function buildWorkflowPath() {
+    if (!workflowGuide || !pasteBtn || !$("copyBtn")) return;
+    if (workflowGuideDismissed) { clearWorkflowGuide(); return; }
+    const source = pasteBtn.getBoundingClientRect();
+    const target = $("copyBtn").getBoundingClientRect();
+    if (!source.width || !target.width) { clearWorkflowGuide(); return; }
+    const startX = source.left + source.width * .7;
+    const startY = source.top + source.height * .32;
+    const endX = target.left + target.width * .5;
+    const endY = target.top + target.height * .55;
+    const riseY = Math.min(startY, endY) - Math.max(86, window.innerHeight * .12);
+    const midX = (startX + endX) / 2;
+    const d = `M ${startX} ${startY} C ${startX + 42} ${startY - 60}, ${midX - 80} ${riseY}, ${midX} ${riseY} S ${endX - 80} ${endY - 18}, ${endX} ${endY}`;
+    workflowGuide.innerHTML = `<svg viewBox="0 0 ${window.innerWidth} ${window.innerHeight}" preserveAspectRatio="none" aria-hidden="true"><path class="workflow-guide-glow" d="${d}"></path><path id="workflowGuidePath" class="workflow-guide-path" d="${d}"></path><circle id="workflowGuideDot" class="workflow-guide-dot" r="7" cx="${startX}" cy="${startY}"></circle></svg>`;
+    workflowGuide.classList.add('is-visible');
+    workflowGuide.setAttribute('aria-hidden', 'false');
+    const path = workflowGuide.querySelector('#workflowGuidePath');
+    const dot = workflowGuide.querySelector('#workflowGuideDot');
+    if (path && dot && dot.animate && path.getTotalLength) {
+      const total = path.getTotalLength();
+      const frames = [];
+      for (let i = 0; i <= 40; i += 1) {
+        const point = path.getPointAtLength(total * (i / 40));
+        frames.push({ transform: `translate(${point.x - startX}px, ${point.y - startY}px)` });
+      }
+      dot.animate(frames, { duration: 3200, iterations: Infinity, easing: 'linear' });
+    }
+  }
+
+  function maybeShowWorkflowGuide() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    hideCopyCoachBubble();
+    if (workflowGuideDismissed) { clearWorkflowGuide(); return; }
+    buildWorkflowPath();
+  }
+
+  function markWorkflowGuideDismissed() {
+    workflowGuideDismissed = true;
+    clearWorkflowGuide();
+  }
+
 
 
   // Vocabulario de respaldo. Cuando se instala el paquete es_CO, se activa Hunspell mediante Typo.js.
@@ -3392,6 +3692,7 @@
     }
 
     try {
+      hideCopyCoachBubble();
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
       } else {
@@ -3484,6 +3785,7 @@
       updateInputOverlayState();
       setStatus('Texto pegado desde el portapapeles.');
       inputText.focus();
+      markWorkflowGuideDismissed();
       await runAutoOrganizeFlow(pasteBtn);
     } catch (_) {
       setStatus('No fue posible leer el portapapeles. Puede usar Ctrl + V.');
@@ -3731,6 +4033,7 @@
       ], { duration: 360, delay: index * 42, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' });
       window.setTimeout(() => spawnRevealBurst(element, index % 2 === 0 ? 'var(--accent)' : 'var(--accent-2)'), index * 42 + 40);
     });
+    window.setTimeout(() => maybeShowWorkflowGuide(), 650);
   }
 
   function stopIntroOverlay() {
@@ -4038,6 +4341,7 @@
     organizeText();
     await animateActionToOutput(sourceEl || inputText, 'var(--accent-2)');
     triggerResultImpact('organize');
+    if (outputText.value.trim()) showCopyCoachBubble();
   }
 
   function pulseButton(button) {
@@ -4223,6 +4527,10 @@
   });
   outputPreview.addEventListener('keyup', scheduleMirrorFromOutput);
   outputPreview.addEventListener('pointerup', scheduleMirrorFromOutput);
+  window.addEventListener('resize', () => { positionCopyCoachBubble(); buildWorkflowPath(); });
+  [inputText, outputPreview, focusInputBtn, pasteBtn].forEach(el => el?.addEventListener('pointerdown', markWorkflowGuideDismissed, { passive: true }));
+  $("copyBtn")?.addEventListener('pointerenter', hideCopyCoachBubble, { passive: true });
+
   document.addEventListener('selectionchange', () => {
     if(document.activeElement===outputPreview) scheduleMirrorFromOutput();
   });
