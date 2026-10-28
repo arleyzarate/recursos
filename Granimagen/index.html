@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#081321">
+<meta name="description" content="Gran Imagen: visor y editor local de imágenes geográficas.">
+<title>Gran Imagen · Editor local</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/></symbol>
+<symbol id="i-crop" viewBox="0 0 24 24"><path d="M7 2v15a2 2 0 0 0 2 2h13M2 7h15a2 2 0 0 1 2 2v13"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="1.5"/><path d="m21 16-5-5-9 10"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h12l4 4v14H3V3h2ZM7 3v6h10V3M7 21v-8h10v8"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 18v3h16v-3"/></symbol>
+<symbol id="i-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5M11 7v8M7 11h8"/></symbol>
+<symbol id="i-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5M7 11h8"/></symbol>
+<symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M3 8l6-5m12 5-6-5M3 16l6 5m12-5-6 5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3 21 21M10 5c.7-.2 1.4-.3 2-.3 6 0 10 7.3 10 7.3a16 16 0 0 1-3 3.5M6 7C3.5 9 2 12 2 12s4 7 10 7c1.4 0 2.7-.4 3.9-1"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="12" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="12" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0V5"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6M10 10v7m4-7v7"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V5a2 2 0 0 1 4 0v6-7a2 2 0 0 1 4 0v7-4a2 2 0 0 1 4 0v8c0 4-3 7-7 7h-2c-4 0-5-3-7-7l-1-2a2 2 0 0 1 4-2l1 2"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 3 8m-3 4v-7h7"/></symbol>
+</svg>
+<canvas id="introParticles" aria-hidden="true"></canvas>
+<main id="app" aria-label="Espacio de trabajo de Gran Imagen">
+  <div id="stage" tabindex="0" aria-label="Área de trabajo: rueda para ampliar, clic derecho para desplazarse, pellizco en pantalla táctil">
+    <canvas id="canvas" aria-label="Vista de imágenes y capas"></canvas>
+    <div id="empty" class="empty">
+      <div class="empty-symbol" aria-hidden="true"><span></span></div>
+      <div class="empty-title">El espacio comienza con una imagen</div>
+      <p>Arrastre un GeoTIFF, JPG, PNG o WebP hasta aquí.</p>
+      <button id="emptyOpen" class="primary">Abrir imagen <svg><use href="#i-folder"/></svg></button>
+      <span class="small">Su archivo permanece en este equipo.</span>
+    </div>
+    <div id="cropBox" class="crop-box" hidden><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i></div>
+    <div id="selectionBox" class="selection-box" hidden><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i></div>
+  </div>
+  <div id="dropOverlay" hidden><div><svg><use href="#i-image"/></svg>Soltar para abrir como capa</div></div>
+  <div class="brand" id="brand"><div class="brand-icon" aria-hidden="true"><span class="globe-grid"></span></div><div><strong>Gran<span>Imagen</span></strong><small>por Arley Zarate</small></div></div>
+  <nav class="toolbar" aria-label="Herramientas">
+    <button id="btnOpen" data-tip="Abrir imagen" aria-label="Abrir imagen"><svg><use href="#i-folder"/></svg></button>
+    <button id="btnLayers" data-tip="Capas" aria-label="Mostrar u ocultar capas" aria-expanded="false"><svg><use href="#i-layers"/></svg></button>
+    <button id="btnCrop" data-tip="Recortar" aria-label="Recortar imagen" disabled><svg><use href="#i-crop"/></svg></button>
+    <button id="btnInsert" data-tip="Insertar imagen" aria-label="Insertar imagen" disabled><svg><use href="#i-image"/></svg></button>
+    <div class="tool-separator"></div>
+    <button id="btnSave" data-tip="Guardar proyecto" aria-label="Guardar proyecto" disabled><svg><use href="#i-save"/></svg></button>
+    <button id="btnProject" data-tip="Abrir proyecto" aria-label="Abrir proyecto"><svg><use href="#i-folder"/></svg><span class="corner">P</span></button>
+    <button id="btnExport" data-tip="Exportar" aria-label="Exportar capas" disabled><svg><use href="#i-download"/></svg></button>
+  </nav>
+  <aside id="layersPanel" class="glass panel" hidden aria-label="Explorador de capas">
+    <div class="panel-header"><strong>Capas</strong><button id="closeLayers" aria-label="Cerrar capas" class="plain"><svg><use href="#i-x"/></svg></button></div>
+    <div id="layerList" class="layer-list"><p class="small">Todavía no hay capas.</p></div><button id="linkMissing" class="relink" hidden>Vincular imágenes pendientes</button>
+    <p class="hint">Toque una capa para seleccionarla. Doble clic en su nombre para cambiarlo.</p>
+  </aside>
+  <div id="actionTray" class="action-tray glass" hidden><span id="actionText">Recorte</span><button id="confirmAction" class="action-yes" aria-label="Aceptar"><svg><use href="#i-check"/></svg></button><button id="cancelAction" class="action-no" aria-label="Cancelar"><svg><use href="#i-x"/></svg></button></div>
+  <div id="geoStatus" class="geo-status glass" aria-live="polite"><div class="status-led"></div><div><strong id="geoTitle">Sin imagen</strong><span id="geoDetail">Seleccione un archivo local</span></div></div>
+  <div class="zoom-dock glass"><button id="zoomIn" title="Acercar" aria-label="Acercar"><svg><use href="#i-zoom-in"/></svg></button><button id="zoomOut" title="Alejar" aria-label="Alejar"><svg><use href="#i-zoom-out"/></svg></button><button id="zoomFit" title="Ajustar a pantalla" aria-label="Ajustar a pantalla"><svg><use href="#i-fit"/></svg></button></div>
+  <button id="btnHelp" class="help" title="Información" aria-label="Acerca de, instrucciones e intención"><svg><use href="#i-info"/></svg></button>
+  <div id="toast" role="status" aria-live="polite"></div>
+</main>
+<dialog id="modal"><div class="modal-header"><strong id="modalTitle">Información</strong><button id="modalClose" class="plain" aria-label="Cerrar"><svg><use href="#i-x"/></svg></button></div><div id="modalBody"></div></dialog>
+<input id="filePicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
+<input id="projectPicker" type="file" accept=".granimagen,application/json" hidden>
+<input id="relinkPicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
+<script src="aplicacion.js" defer></script>
+</body>
+</html>
