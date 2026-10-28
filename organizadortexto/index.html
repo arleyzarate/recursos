@@ -14,6 +14,14 @@
     --surface-strong: rgba(255,255,255,.90);
     --surface-soft: rgba(255,255,255,.48);
     --text: #121a2b;
+    --source-ink: #202b40;
+    --source-blue: #244d83;
+    --source-green: #245c50;
+    --source-copper: #874723;
+    --source-violet: #62438e;
+    --source-softblue: #386786;
+    --source-pink: #82425f;
+    --source-slate: #4d556a;
     --muted: #667085;
     --border: rgba(64, 84, 112, 0.18);
     --border-strong: rgba(64, 84, 112, 0.30);
@@ -42,6 +50,14 @@
     --surface-strong: rgba(17, 32, 51, 0.92);
     --surface-soft: rgba(18, 34, 54, 0.52);
     --text: #f2f6fb;
+    --source-ink: #ffffff;
+    --source-blue: #b9ddff;
+    --source-green: #b6f2d8;
+    --source-copper: #ffe1ac;
+    --source-violet: #e1d0ff;
+    --source-softblue: #a9e9ff;
+    --source-pink: #ffd0e2;
+    --source-slate: #d5e0f2;
     --muted: #91a0b5;
     --border: rgba(158, 181, 211, 0.16);
     --border-strong: rgba(158, 181, 211, 0.30);
@@ -405,12 +421,66 @@
 
   /* Controles CAD: solo dos iconos, con estados reales y teclado. */
   .result-title-bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px 14px;
+    column-gap: 14px;
+    row-gap: 5px;
     min-height: 52px;
+  }
+
+  .result-title-bar > .result-tools { grid-column: 2; grid-row: 1; }
+  .result-title-bar > .result-head-group { grid-column: 1; grid-row: 1; }
+  .result-title-bar > .dimension-bar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: start;
+    box-sizing: border-box;
+    height: 34px;
+    max-width: 100%;
+    margin: 0;
+  }
+  .result-title-bar > .dimension-bar::before { top: 22px; }
+  .result-title-bar > .dimension-bar::after,
+  .result-title-bar > .dimension-bar .dimension-label::before { top: 16px; }
+  .result-characters { font-size: .73rem; font-weight: 700; color: var(--muted); }
+  .result-characters strong { font-family: Consolas, 'Courier New', monospace; color: var(--result); }
+
+  .original-copy-btn {
+    margin-left: auto;
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-soft);
+    color: var(--accent-3);
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+  }
+  #sourceColorBtn {
+    margin-left: auto;
+    color: var(--accent-2);
+  }
+  #clearOriginalBtn { margin-left: 0; }
+  #sourceColorBtn:hover, #sourceColorBtn:focus-visible, #sourceColorBtn.is-active {
+    border-color: var(--accent-2);
+    background: color-mix(in srgb, var(--accent-2) 9%, var(--surface-strong));
+  }
+  .original-copy-btn:hover, .original-copy-btn:focus-visible {
+    border-color: var(--accent-3);
+    background: var(--surface-strong);
+  }
+  .original-copy-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .original-heading-line,
@@ -817,20 +887,40 @@
     position: absolute;
     left: var(--indent-guide-left, 24px);
     top: 0;
-    bottom: auto;
-    height: 28px;
-    width: 32px;
+    bottom: 0;
+    height: 100%;
+    width: 20px;
     transform: translateX(-50%);
     z-index: 3;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     cursor: ew-resize;
     touch-action: none;
+    outline: none;
+  }
+  .indent-guide:focus,
+  .indent-guide:focus-visible { outline: none; }
+  @media (max-width: 980px) {
+    .indent-guide { width: 38px; }
   }
 
-  /* El área vertical es solo de color; el marcador conserva el arrastre. */
-  .indent-guide-line { display: none; }
+  /* Guía mínima: aparece solo al tocar, enfocar, arrastrar o pasar el mouse. */
+  .indent-guide-line {
+    position: absolute;
+    inset: 25px auto 0 50%;
+    height: auto;
+    width: 0;
+    border-left: 1px dashed color-mix(in srgb, var(--accent-3) 78%, var(--accent) 22%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .12s ease;
+  }
+  .indent-guide:hover .indent-guide-line,
+  .indent-guide:focus-visible .indent-guide-line,
+  .indent-guide.is-dragging .indent-guide-line,
+  .indent-guide.is-selected .indent-guide-line { opacity: .95; }
+
 
   .indent-guide-handle {
     position: relative;
@@ -858,7 +948,8 @@
 
   .indent-guide:hover .indent-guide-handle,
   .indent-guide:focus-visible .indent-guide-handle,
-  .indent-guide.is-dragging .indent-guide-handle {
+  .indent-guide.is-dragging .indent-guide-handle,
+  .indent-guide.is-selected .indent-guide-handle {
     opacity: 1;
     border-color: var(--accent-2);
   }
@@ -932,6 +1023,16 @@
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
+  /* La capa de color conserva exactamente los mismos caracteres del textarea.
+     El textarea sigue gestionando el cursor, la selección, el teclado y el pegado. */
+  .editor-card.source-colored #inputText {
+    color: transparent;
+    caret-color: var(--source-ink);
+    -webkit-text-fill-color: transparent;
+  }
+  .editor-card.source-colored #inputText::selection {
+    background: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
   .input-mirror {
     position: absolute;
     z-index: 3;
@@ -939,14 +1040,15 @@
     pointer-events: none;
     border: 1px solid transparent;
     border-radius: 16px;
-    color: transparent;
+    color: var(--source-ink);
     white-space: pre-wrap;
     overflow-wrap: normal;
     word-break: normal;
     box-sizing: border-box;
   }
+  .editor-card:not(.source-colored) #inputText { color: var(--source-current-color, var(--source-ink)); }
   .input-mirror .linked-selection {
-    color: transparent;
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
   }
 
   /* Corrector ortográfico local. El HTML contiene su propio vocabulario. */
@@ -1909,6 +2011,12 @@
     .info-dock { border-radius: 16px; }
     .result-tools { gap: 5px; padding: 6px; flex-wrap: wrap; justify-content: flex-end; }
     .result-tool-btn { min-width: 39px; width: 39px; height: 40px; padding: 0 5px; }
+    .result-title-bar { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+    .result-title-bar > .result-head-group { grid-row: 1; grid-column: 1; }
+    .result-title-bar > .result-tools { grid-row: 2; grid-column: 1; justify-self: end; }
+    .result-title-bar > .dimension-bar { grid-row: 3; grid-column: 1; }
+    .result-characters { font-size: .69rem; }
+    .original-copy-btn { width: 36px; height: 36px; flex-basis: 36px; }
     #copyBtn { min-width: 50px; width: 50px; height: 50px; }
 
     .original-heading-line,
@@ -2260,7 +2368,7 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.19">v2.19</div>
+    <div class="version-pill" aria-label="Versión 2.22">v2.22</div>
   </header>
 
   <main class="workspace">
@@ -2270,6 +2378,12 @@
           <h2 id="inputTitle">Texto original</h2>
           <button id="toggleOriginalBtn" class="original-visibility-btn" type="button" aria-pressed="false" aria-label="Ocultar Texto original" title="Plegar Texto original">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M11 5l-7 7 7 7"/></svg>
+          </button>
+          <button id="sourceColorBtn" class="original-copy-btn source-palette-btn" type="button" data-tool="sourcecolor" aria-label="Cambiar color del texto original" aria-expanded="false" title="Cambiar color del texto original">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a5.5 5.5 0 0 0 0 11h1.2a1.8 1.8 0 0 1 0 3.6h-.7a2.5 2.5 0 0 0 0 5H13c4.97 0 9-4.03 9-9s-4.03-9-9-9Z"/><circle cx="7.5" cy="10" r="1.2"/><circle cx="11" cy="7" r="1.2"/><circle cx="15.2" cy="8.2" r="1.2"/><circle cx="16.2" cy="12.8" r="1.2"/></svg>
+          </button>
+          <button id="clearOriginalBtn" class="original-copy-btn" type="button" aria-label="Eliminar el texto original y el resultado" title="Eliminar texto original y organizado">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/><path d="M10 11v5M14 11v5"/></svg>
           </button>
         </div>
         <div class="input-overlay-actions">
@@ -2297,6 +2411,7 @@
               <h2 id="outputTitle">Texto organizado</h2>
             </div>
             <div class="editor-meta"><strong id="previewLinesLabel">0</strong> líneas · <span id="previewScaleLabel">100 %</span><span id="spellingCount" class="spelling-status" aria-live="polite" title="Revisión ortográfica local de español colombiano"><b>0</b> posibles errores</span></div>
+            <div class="result-characters"><strong id="previewCharsLabel">0</strong> caracteres en el resultado</div>
           </div>
           <div class="result-tools" aria-label="Acciones y formato del texto organizado">
             <button id="copyBtn" class="result-tool-btn" type="button" aria-label="Copiar texto organizado" title="Copiar texto organizado">
@@ -2321,14 +2436,14 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a5.5 5.5 0 0 0 0 11h1.2a1.8 1.8 0 0 1 0 3.6h-.7a2.5 2.5 0 0 0 0 5H13c4.97 0 9-4.03 9-9s-4.03-9-9-9Z"/><circle cx="7.5" cy="10" r="1.2"/><circle cx="11" cy="7" r="1.2"/><circle cx="15.2" cy="8.2" r="1.2"/><circle cx="16.2" cy="12.8" r="1.2"/></svg>
             </button>
           </div>
+          <div id="dimensionBar" class="dimension-bar" role="button" tabindex="0" aria-label="Editar ancho máximo">
+            <div class="dimension-label"><span><strong id="dimensionText">104 caracteres</strong><small id="dimensionScaleText">escala 100 %</small></span></div>
+          </div>
         </div>
         <div class="result-shell">
           <div id="outputViewport" class="output-viewport" aria-label="Vista exacta del texto organizado">
             <div id="zoomCanvas" class="zoom-canvas">
               <div id="outputScaler" class="output-scaler">
-              <div id="dimensionBar" class="dimension-bar" role="button" tabindex="0" aria-label="Editar ancho máximo">
-                <div class="dimension-label"><span><strong id="dimensionText">104 caracteres</strong><small id="dimensionScaleText">escala 100 %</small></span></div>
-              </div>
               <div id="outputSheet" class="output-sheet">
                 <div id="indentGuide" class="indent-guide" role="button" tabindex="0" aria-label="Ajustar sangría de continuación">
                   <button id="indentGuideHandle" class="indent-guide-handle" type="button" tabindex="-1" aria-hidden="true"></button>
@@ -2479,6 +2594,26 @@
     <p></p>
   </section>
 
+  <section id="sourceColorPanel" class="compact-tool-panel" data-panel="sourcecolor" hidden>
+    <h3>Color del texto original</h3>
+    <div class="tool-grid">
+      <div class="color-swatch-grid" id="sourceColorGrid">
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-ink)" style="background:var(--source-ink)" aria-label="Color original predeterminado"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-blue)" style="background:var(--source-blue)" aria-label="Azul"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-green)" style="background:var(--source-green)" aria-label="Verde"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-copper)" style="background:var(--source-copper)" aria-label="Cobre"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-violet)" style="background:var(--source-violet)" aria-label="Violeta"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-softblue)" style="background:var(--source-softblue)" aria-label="Cian"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-pink)" style="background:var(--source-pink)" aria-label="Rosado"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-slate)" style="background:var(--source-slate)" aria-label="Gris"></button>
+      </div>
+      <div class="tool-actions-row">
+        <button id="confirmSourceColorBtn" class="mini-btn icon-mini-btn" type="button" aria-label="Confirmar color original" title="Confirmar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></button>
+        <button id="closeSourceColorBtn" class="mini-btn icon-mini-btn" type="button" aria-label="Cancelar cambio de color original" title="Cancelar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+  </section>
+
   <section id="referencePanel" data-panel="reference" hidden>
     <h3>Calcular ancho desde ejemplo</h3>
     <div class="tool-grid">
@@ -2516,8 +2651,8 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.18";
-  const APP_DATE = "23/oct/2026";
+  const APP_VERSION = "2.22";
+  const APP_DATE = "28/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -2584,12 +2719,15 @@
   const caseToggleIcon = $("caseToggleIcon");
   const widthFactorBtn = $("widthFactorBtn");
   const textColorBtn = $("textColorBtn");
+  const sourceColorBtn = $("sourceColorBtn");
   const widthFactorLabel = $("widthFactorLabel");
   const textWidthFactor = $("textWidthFactor");
   const confirmTextWidthBtn = $("confirmTextWidthBtn");
   const closeTextWidthBtn = $("closeTextWidthBtn");
   const confirmTextColorBtn = $("confirmTextColorBtn");
   const closeTextColorBtn = $("closeTextColorBtn");
+  const confirmSourceColorBtn = $("confirmSourceColorBtn");
+  const closeSourceColorBtn = $("closeSourceColorBtn");
   const newBtn = $("newBtn");
   const restoreBtn = $("restoreBtn");
 
@@ -2614,6 +2752,8 @@
   let previewTextColor = 'var(--result)';
   let draftWidthFactorValue = DEFAULT_TEXT_WIDTH_FACTOR;
   let draftTextColor = 'var(--result)';
+  let sourceTextColor = 'var(--source-ink)';
+  let draftSourceTextColor = sourceTextColor;
   let introFallbackTimer = 0;
   let introStopped = false;
   let linkedSelectionSource = null;
@@ -2621,6 +2761,87 @@
   let linkedInputRange = null;
   let selectionMirrorScheduled = false;
   let suppressLinkedSelection = false;
+
+  // Historial propio: el navegador no puede deshacer correctamente dos campos
+  // sincronizados si uno de ellos se reescribe por código durante el reflujo.
+  const undoStack = [];
+  const redoStack = [];
+  const HISTORY_LIMIT = 100;
+  let historySource = inputText.value;
+  let historySuspended = false;
+  let historyCaret = null;
+  let historyOperation = null;
+  let lastUndoEdit = null;
+
+  function recordTextHistory() {
+    if (historySuspended || inputText.value === historySource) return;
+    const previous = { value: historySource, caret: historyCaret };
+    const now = performance.now();
+    const operation = historyOperation;
+    const deltaLength = Math.abs(inputText.value.length - historySource.length);
+    const joinTyping = deltaLength === 1 && lastUndoEdit?.deltaLength === 1 &&
+      operation?.kind === 'insertText' &&
+      lastUndoEdit?.kind === 'insertText' &&
+      lastUndoEdit.field === operation.field &&
+      now - lastUndoEdit.at < 650 && undoStack.length > 0;
+    if (!joinTyping) undoStack.push(previous);
+    if (undoStack.length > HISTORY_LIMIT) undoStack.shift();
+    redoStack.length = 0;
+    historySource = inputText.value;
+    historyCaret = null;
+    lastUndoEdit = {kind: operation?.kind, field: operation?.field, deltaLength, at: now};
+    historyOperation = null;
+  }
+
+  function resetTextHistory() {
+    undoStack.length = 0;
+    redoStack.length = 0;
+    historySource = inputText.value;
+    historyCaret = null;
+    historyOperation = null;
+    lastUndoEdit = null;
+  }
+
+  function restoreTextHistory(state, target) {
+    historySuspended = true;
+    try {
+      inputText.value = state.value;
+      historySource = state.value;
+      historyCaret = null;
+      clearLinkedSelection();
+      updateInputOverlayState();
+      organizeText();
+      if (target === 'output' && outputText.value) {
+        outputPreview.focus({ preventScroll: true });
+        // Posicionar el cursor sin depender del historial nativo del contenteditable.
+        const position = Math.min(outputText.value.length, state.caret?.start ?? outputText.value.length);
+        setPreviewSelection(position);
+      } else {
+        if (originalIsHidden) setOriginalVisible(true);
+        inputText.focus({ preventScroll: true });
+        const position = Math.min(inputText.value.length, state.caret?.start ?? inputText.value.length);
+        inputText.setSelectionRange(position, position);
+      }
+    } finally {
+      historySuspended = false;
+    }
+  }
+
+  function navigateTextHistory(direction) {
+    const source = direction < 0 ? undoStack : redoStack;
+    const destination = direction < 0 ? redoStack : undoStack;
+    if (!source.length) return false;
+    const focus = document.activeElement === outputPreview ? 'output' : 'input';
+    const currentPosition = focus === 'input' ? inputText.selectionStart : outputText.value.length;
+    destination.push({ value: inputText.value, caret: {start: currentPosition} });
+    const previous = source.pop();
+    historyOperation = null;
+    lastUndoEdit = null;
+    restoreTextHistory(previous, focus);
+    setStatus(direction < 0 ? 'Cambio deshecho.' : 'Cambio rehecho.');
+    return true;
+  }
+
 
   function safeInteger(value, fallback, min, max = Number.MAX_SAFE_INTEGER) {
     const parsed = Number.parseInt(value, 10);
@@ -2849,7 +3070,7 @@
   }
 
   function updateColorSwatches() {
-    document.querySelectorAll('.color-swatch').forEach(btn => {
+    document.querySelectorAll('.color-swatch[data-color]').forEach(btn => {
       btn.classList.toggle('is-active', btn.dataset.color === previewTextColor);
     });
   }
@@ -2858,6 +3079,32 @@
     previewTextColor = value || 'var(--result)';
     applyPreviewTypography();
     updateColorSwatches();
+  }
+
+  function setSourceTextColor(value) {
+    sourceTextColor = value || 'var(--source-ink)';
+    inputMirror.style.color = sourceTextColor;
+    inputText.style.caretColor = sourceTextColor;
+    // Mantiene el textarea utilizable cuando el espejo todavía está vacío.
+    inputText.style.setProperty('--source-current-color', sourceTextColor);
+    updateSourceColorSwatches();
+    updateInputMirror(linkedSelectionSource === 'output' ? linkedInputRange : null);
+  }
+
+  function updateSourceColorSwatches() {
+    document.querySelectorAll('.source-color-swatch').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.sourceColor === sourceTextColor);
+    });
+  }
+
+  function confirmSourceColorPanel() {
+    draftSourceTextColor = sourceTextColor;
+    closeToolPanel();
+  }
+
+  function cancelSourceColorPanel() {
+    setSourceTextColor(draftSourceTextColor);
+    closeToolPanel();
   }
 
   function confirmWidthPanel() {
@@ -2884,6 +3131,7 @@
 
   function updateInputOverlayState() {
     inputCard.classList.toggle('has-content', inputText.value.trim().length > 0);
+    updateInputMirror(linkedSelectionSource === 'output' ? linkedInputRange : null);
   }
 
   function setStatus(message = "", timeout = 2600) {
@@ -3182,7 +3430,7 @@
     return ranges;
   }
 
-  function markSpelling(text, linkedRange = null) {
+  function markSpelling(text, linkedRange = null, checkOrthography = true) {
     const fragments=[];
     const tokens=getDisplayTokens(text);
     let tokenIndex=0, count=0;
@@ -3198,7 +3446,7 @@
         const enumerator=tokenIsListNumber(text,token);
         const alphanumeric=/\p{L}/u.test(word) && /\p{N}/u.test(word);
         const standaloneNumber=!enumerator && /^\p{N}+(?:[-_\/]\p{N}+)*$/u.test(word);
-        const isError=!enumerator && !alphanumeric && /\p{L}/u.test(word) && estaErrorOrtografico(word);
+        const isError=checkOrthography && !enumerator && !alphanumeric && /\p{L}/u.test(word) && estaErrorOrtografico(word);
         const classes=[];
         if (enumerator) classes.push('list-index-token');
         else if (alphanumeric) classes.push('code-number-token');
@@ -3222,7 +3470,7 @@
       cursor=range.end;
     }
     renderSegment(cursor,text.length);
-    spellingCount.innerHTML = `<b>${count}</b> posible${count===1?'':'s'} error${count===1?'':'es'}`;
+    if (checkOrthography) spellingCount.innerHTML = `<b>${count}</b> posible${count===1?'':'s'} error${count===1?'':'es'}`;
     return fragments.join('');
   }
 
@@ -3267,29 +3515,35 @@
     };
   }
 
-  function updateInputMirror(range) {
-    if (!range || range.end<=range.start || !inputText.value) {
-      inputMirror.hidden=true;
+  function updateInputMirror(range = null) {
+    const hasText = Boolean(inputText.value);
+    if (!hasText) {
+      inputMirror.hidden = true;
+      inputCard.classList.remove('source-colored');
       inputMirrorContent.replaceChildren();
       return;
     }
-    const style=getComputedStyle(inputText);
-    inputMirror.hidden=false;
-    inputMirror.style.left=inputText.offsetLeft+'px';
-    inputMirror.style.top=inputText.offsetTop+'px';
-    inputMirror.style.width=inputText.clientWidth+'px';
-    inputMirror.style.height=inputText.clientHeight+'px';
-    inputMirror.style.padding=style.padding;
-    inputMirror.style.font=style.font;
-    inputMirror.style.letterSpacing=style.letterSpacing;
-    inputMirror.style.lineHeight=style.lineHeight;
-    inputMirror.style.tabSize=style.tabSize;
-    inputMirror.style.textAlign=style.textAlign;
-    inputMirror.style.whiteSpace=style.whiteSpace;
-    inputMirror.style.overflowWrap=style.overflowWrap;
-    inputMirror.style.wordBreak=style.wordBreak;
-    inputMirrorContent.innerHTML=formatSelectedFragment(inputText.value,0,inputText.value.length,range);
-    inputMirrorContent.style.transform=`translate(${-inputText.scrollLeft}px,${-inputText.scrollTop}px)`;
+    const style = getComputedStyle(inputText);
+    inputMirror.style.left = inputText.offsetLeft + 'px';
+    inputMirror.style.top = inputText.offsetTop + 'px';
+    inputMirror.style.width = inputText.offsetWidth + 'px';
+    inputMirror.style.height = inputText.offsetHeight + 'px';
+    inputMirror.style.padding = style.padding;
+    inputMirror.style.font = style.font;
+    inputMirror.style.color = sourceTextColor;
+    inputMirror.style.letterSpacing = style.letterSpacing;
+    inputMirror.style.lineHeight = style.lineHeight;
+    inputMirror.style.tabSize = style.tabSize;
+    inputMirror.style.textAlign = style.textAlign;
+    inputMirror.style.whiteSpace = style.whiteSpace;
+    inputMirror.style.overflowWrap = style.overflowWrap;
+    inputMirror.style.wordBreak = style.wordBreak;
+    // Igualar el ancho útil cuando el textarea tenga barra de desplazamiento.
+    inputMirrorContent.style.width = Math.max(1,inputText.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) + 'px';
+    inputMirrorContent.innerHTML = markSpelling(inputText.value, range, false);
+    inputMirrorContent.style.transform = `translate(${-inputText.scrollLeft}px,${-inputText.scrollTop}px)`;
+    inputMirror.hidden = false;
+    inputCard.classList.add('source-colored');
   }
 
   function clearLinkedSelection() {
@@ -3415,6 +3669,7 @@
     outputText.value=reformatted;
     renderOutputPreview(reformatted,width);
     updateStatsAndValidation(reformatted ? reformatted.split('\n') : [],width);
+    recordTextHistory();
     setStatus('Sugerencia aplicada en ambos textos.');
   }
 
@@ -3448,6 +3703,7 @@
     if (document.activeElement === outputPreview) caseBaseText = text;
     const lineCount = text ? text.split('\n').length : 0;
     previewLinesLabel.textContent = String(lineCount);
+    $("previewCharsLabel").textContent = charLength(text).toLocaleString('es-CO');
   }
 
   function updateZoomButtons() {
@@ -3526,6 +3782,8 @@
       zoomCanvas.style.width = renderWidth + 'px';
       zoomCanvas.style.height = renderHeight + 'px';
       zoomCanvas.style.marginInline = originalIsHidden && renderWidth <= outputViewport.clientWidth ? 'auto' : '0';
+      dimensionBar.style.width = Math.min(renderWidth, Math.max(1, outputViewport.clientWidth - 12)) + 'px';
+      dimensionBar.style.justifySelf = originalIsHidden ? 'center' : 'start';
       outputScaler.style.transform = 'scale(' + lastZoomScale + ')';
       outputViewport.style.height = previewZoomMode === 'height'
         ? Math.max(280, Math.min(availableHeight, Math.max(renderHeight + 8, 280))) + 'px'
@@ -3553,6 +3811,7 @@
     $("statMax").textContent = String(width);
     $("statLines").textContent = String(lines.length);
     previewLinesLabel.textContent = String(lines.length);
+    $("previewCharsLabel").textContent = charLength(outputText.value).toLocaleString('es-CO');
 
     let longest = 0;
     const issues = [];
@@ -3641,6 +3900,7 @@
     renderOutputPreview(result, width);
     updateStatsAndValidation(result ? result.split('\n') : [], width);
     setStatus("");
+    recordTextHistory();
   }
 
   function adjustWidth(delta) {
@@ -3730,6 +3990,7 @@
     updateInputOverlayState();
     renderOutputPreview("", safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
     updateStatsAndValidation([], safeInteger(maxWidth.value, DEFAULT_WIDTH, 10));
+    recordTextHistory();
     inputText.focus();
   }
 
@@ -3739,6 +4000,7 @@
     setOriginalVisible(true);
     fitPreviewBy('width');
     clearAll();
+    resetTextHistory();
     setStatus("Área lista para un nuevo texto.");
     playIntroSequence();
   }
@@ -3761,9 +4023,11 @@
     actualizarControlTipoLetra();
     setTextWidthFactor(DEFAULT_TEXT_WIDTH_FACTOR);
     setPreviewTextColor('var(--result)');
+    setSourceTextColor('var(--source-ink)');
     updateReferenceCount();
     updateBadges();
     clearAll();
+    resetTextHistory();
     fitOutputPreview(DEFAULT_WIDTH);
     setStatus("Valores restaurados al estado inicial.");
     playIntroSequence();
@@ -4108,7 +4372,7 @@
         "<li>Si necesita cambiar el ancho, la sangría o tomar un ancho desde ejemplo, use la cota superior y el marcador de sangría.</li>" +
         "<li>En Texto organizado, B activa la negrita; Aa alterna entre texto original, minúsculas, texto mixto tipo oración y mayúsculas; W ajusta el ancho.</li>" +
         "<li>Arrastre el marcador sobre el límite del fondo claro para ajustar la sangría de uno en uno; con doble clic abre el panel.</li>" +
-        "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
+        "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Para deshacer una edición use Ctrl + Z. Para rehacerla, Ctrl + Mayús + Z o Ctrl + Y.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
         "<li>Use el icono de líneas separadas para insertar o quitar un renglón vacío entre elementos numerados.</li>" +
         "<li>Use el icono junto a Texto original para plegarlo; la pestaña vertical permite recuperarlo. Al editar el resultado, el original se pliega automáticamente.</li><li>Los cuatro iconos laterales permiten acercar, alejar y ajustar la vista al ancho o al alto.</li>" +
         "<li>Use <strong>Nuevo</strong> para empezar otra sesión y <strong>Restaurar</strong> para volver a la configuración inicial.</li>" +
@@ -4166,7 +4430,7 @@
       left = rect.left + rect.width / 2 - panelRect.width / 2;
       top = rect.bottom + 10;
       if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
-    } else if (activeTool === 'textwidth' || activeTool === 'textcolor') {
+    } else if (activeTool === 'textwidth' || activeTool === 'textcolor' || activeTool === 'sourcecolor') {
       left = rect.right - panelRect.width;
       top = rect.bottom + 10;
       if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
@@ -4200,6 +4464,7 @@
     toolPanel.setAttribute("aria-hidden", "false");
     if (widthFactorBtn) widthFactorBtn.setAttribute('aria-expanded', name === 'textwidth' ? 'true' : 'false');
     if (textColorBtn) textColorBtn.setAttribute('aria-expanded', name === 'textcolor' ? 'true' : 'false');
+    if (sourceColorBtn) sourceColorBtn.setAttribute('aria-expanded', name === 'sourcecolor' ? 'true' : 'false');
     if (name === 'textwidth') {
       draftWidthFactorValue = previewWidthFactorValue;
       if (textWidthFactor) textWidthFactor.value = previewWidthFactorValue.toFixed(2);
@@ -4207,6 +4472,10 @@
     if (name === 'textcolor') {
       draftTextColor = previewTextColor;
       updateColorSwatches();
+    }
+    if (name === 'sourcecolor') {
+      draftSourceTextColor = sourceTextColor;
+      updateSourceColorSwatches();
     }
     positionToolPanel(button);
 
@@ -4219,6 +4488,8 @@
       textWidthFactor.select();
     } else if (name === "textcolor") {
       toolPanel.querySelector('.color-swatch.is-active')?.focus();
+    } else if (name === "sourcecolor") {
+      toolPanel.querySelector('.source-color-swatch.is-active')?.focus();
     } else if (name === "reference") {
       referenceLine.focus();
     }
@@ -4231,6 +4502,7 @@
     toolPanel.setAttribute("aria-hidden", "true");
     if (widthFactorBtn) widthFactorBtn.setAttribute('aria-expanded', 'false');
     if (textColorBtn) textColorBtn.setAttribute('aria-expanded', 'false');
+    if (sourceColorBtn) sourceColorBtn.setAttribute('aria-expanded', 'false');
     document.querySelectorAll("[data-tool]").forEach(btn => btn.classList.remove("is-active"));
   }
 
@@ -4390,18 +4662,24 @@
     guideDrag = {
       pointerId: event.pointerId,
       startX: event.clientX,
-      startIndent: safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30)
+      startIndent: safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30),
+      zoomAtStart: Math.max(.0001, lastZoomScale),
+      changed: false
     };
-    indentGuide.classList.add('is-dragging');
+    indentGuide.classList.add('is-dragging', 'is-selected');
+    indentGuide.focus({preventScroll:true});
     indentGuide.setPointerCapture?.(event.pointerId);
   }
 
   function onGuidePointerMove(event) {
     if (!guideDrag || guideDrag.pointerId !== event.pointerId) return;
     const delta = event.clientX - guideDrag.startX;
-    const change = Math.round(delta / Math.max(1, previewCharWidth));
+    // El desplazamiento físico debe tener en cuenta la escala visual del documento.
+    const charWidth = Math.max(1, previewCharWidth * guideDrag.zoomAtStart);
+    const change = Math.round(delta / charWidth);
     const next = Math.max(0, Math.min(30, guideDrag.startIndent + change));
     if (next !== safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30)) {
+      guideDrag.changed = true;
       indentSize.value = next;
       updateBadges();
       organizeText();
@@ -4410,10 +4688,16 @@
 
   function onGuidePointerUp(event) {
     if (!guideDrag || guideDrag.pointerId !== event.pointerId) return;
-    indentGuide.releasePointerCapture?.(event.pointerId);
+    if (indentGuide.hasPointerCapture?.(event.pointerId)) indentGuide.releasePointerCapture(event.pointerId);
     guideDrag = null;
     indentGuide.classList.remove('is-dragging');
+    // Conservar la guía punteada tras tocarla facilita el siguiente gesto en móvil.
   }
+
+  $("clearOriginalBtn").addEventListener('click', () => {
+    clearAll();
+    triggerResultImpact('clear');
+  });
 
   $("copyBtn").addEventListener("click", async (event) => {
     await copyResult();
@@ -4488,13 +4772,16 @@
   textWidthFactor?.addEventListener('change', () => setTextWidthFactor(textWidthFactor.value));
   confirmTextWidthBtn?.addEventListener('click', confirmWidthPanel);
   closeTextWidthBtn?.addEventListener('click', cancelWidthPanel);
+  confirmSourceColorBtn?.addEventListener('click', confirmSourceColorPanel);
+  closeSourceColorBtn?.addEventListener('click', cancelSourceColorPanel);
+  document.querySelectorAll('.source-color-swatch').forEach(btn => btn.addEventListener('click', () => setSourceTextColor(btn.dataset.sourceColor)));
   confirmTextColorBtn?.addEventListener('click', confirmColorPanel);
   closeTextColorBtn?.addEventListener('click', cancelColorPanel);
   document.querySelectorAll('.width-factor-adjust').forEach(btn => btn.addEventListener('click', () => {
     const delta = Number(btn.dataset.delta || '0');
     setTextWidthFactor((safeFloat(textWidthFactor?.value, previewWidthFactorValue, 0.4, 1) + delta).toFixed(2));
   }));
-  document.querySelectorAll('.color-swatch').forEach(btn => btn.addEventListener('click', () => setPreviewTextColor(btn.dataset.color)));
+  document.querySelectorAll('.color-swatch[data-color]').forEach(btn => btn.addEventListener('click', () => setPreviewTextColor(btn.dataset.color)));
   newBtn?.addEventListener('click', createNewDocument);
   restoreBtn?.addEventListener('click', restoreDefaults);
   skipIntroBtn?.addEventListener('click', () => { introRunId += 1; stopIntroOverlay(); });
@@ -4503,12 +4790,40 @@
   indentGuide?.addEventListener('pointerup', onGuidePointerUp);
   indentGuide?.addEventListener('pointercancel', onGuidePointerUp);
   indentGuide?.addEventListener('dblclick', openIndentPanelFromGuide);
+  document.addEventListener('pointerdown', event => {
+    if (!indentGuide?.contains(event.target)) indentGuide?.classList.remove('is-selected');
+  });
   indentGuide?.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowLeft') { event.preventDefault(); adjustIndent(-1); }
     else if (event.key === 'ArrowRight') { event.preventDefault(); adjustIndent(1); }
     else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openIndentPanelFromGuide(); }
   });
   let sourceComposing = false;
+  [inputText, outputPreview].forEach(editor => {
+    editor.addEventListener('beforeinput', event => {
+      if (event.inputType === 'historyUndo' || event.inputType === 'historyRedo') {
+        event.preventDefault();
+        navigateTextHistory(event.inputType === 'historyUndo' ? -1 : 1);
+      } else {
+        historyOperation = {kind: event.inputType, field: editor === inputText ? 'input' : 'output'};
+        if (editor === inputText && !sourceComposing) {
+          historyCaret = { start: inputText.selectionStart, end: inputText.selectionEnd };
+        }
+      }
+    });
+  });
+
+  document.addEventListener('keydown', event => {
+    const key = event.key.toLowerCase();
+    if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+    const editor = document.activeElement;
+    if (editor !== inputText && editor !== outputPreview) return;
+    if (key === 'z' || key === 'y') {
+      event.preventDefault();
+      navigateTextHistory(key === 'y' || event.shiftKey ? 1 : -1);
+    }
+  }, true);
+
   inputText.addEventListener('compositionstart', () => { sourceComposing = true; });
   inputText.addEventListener('compositionend', () => { sourceComposing = false; organizeText(); });
   inputText.addEventListener('input', () => {
@@ -4520,8 +4835,14 @@
   inputText.addEventListener('keyup', () => { if(document.activeElement===inputText) mirrorFromInput(); });
   inputText.addEventListener('pointerup', () => { if(document.activeElement===inputText) mirrorFromInput(); });
   inputText.addEventListener('scroll', () => {
-    if(linkedSelectionSource==='output') updateInputMirror(linkedInputRange);
+    if (inputText.value) inputMirrorContent.style.transform = `translate(${-inputText.scrollLeft}px,${-inputText.scrollTop}px)`;
   }, {passive:true});
+  if ('ResizeObserver' in window) {
+    const inputResizeObserver = new ResizeObserver(() => {
+      if (inputText.value) updateInputMirror(linkedSelectionSource === 'output' ? linkedInputRange : null);
+    });
+    inputResizeObserver.observe(inputText);
+  }
   outputPreview.addEventListener('pointerdown', () => {
     if(linkedSelectionSource==='input') clearLinkedSelection();
   });
@@ -4726,6 +5047,7 @@
     suppressLinkedSelection=false;
     updateStatsAndValidation(organized ? organized.split('\n') : [],width);
     fitOutputPreview(width);
+    recordTextHistory();
   }
 
   outputPreview.addEventListener('compositionstart', () => {resultComposing=true;});
@@ -4804,6 +5126,7 @@
   updateInputOverlayState();
   applyPreviewTypography();
   updateColorSwatches();
+  updateSourceColorSwatches();
   renderOutputPreview("", DEFAULT_WIDTH);
   updateStatsAndValidation([], DEFAULT_WIDTH);
   resizeIntroCanvas();
