@@ -1,4 +1,4 @@
-/* Gran Imagen 1.2.0. Lector EXIF / GPS local, sin conexiones externas.
+/* Gran Imagen 1.3.0. Lector EXIF / GPS local, sin conexiones externas.
    Lee IFD TIFF 32 bits estándar, EXIF de JPEG/PNG/WebP y descripciones PNG/XMP.
    No interpreta MakerNotes propietarios ni garantiza todas las extensiones. */
 (()=>{'use strict';
@@ -40,10 +40,46 @@ function parseTiff(bytes,start=0){
  const e=groups.exif,i=groups.ifd;
  return{gps,items,resumen:{fabricante:i[271]||null,modelo:i[272]||null,fecha:e[36867]||e[36868]||i[306]||null,iso:e[34855]??null,focal:e[37386]??null,apertura:e[33437]??null,exposicion:e[33434]??null,orientacion:i[274]??null,software:i[305]||null},groups};
 }
+// Algunos editores conservan GPS únicamente en XMP (sin etiquetas GPS EXIF).
+// No se fabrican coordenadas a partir del nombre del archivo o del GPS del dispositivo.
+function xmpPosition(xml){
+ try{
+  const doc=new DOMParser().parseFromString(xml,'application/xml');
+  if(doc.querySelector('parsererror'))return null;
+  const values={};const keys=new Set(['GPSLatitude','GPSLongitude','GPSLatitudeRef','GPSLongitudeRef','GPSAltitude','GPSAltitudeRef','GPSMapDatum']);
+  for(const element of doc.getElementsByTagName('*')){
+   const name=element.localName||element.nodeName.split(':').pop();
+   if(keys.has(name)&&!element.children.length)values[name]=element.textContent.trim();
+   for(const attr of element.attributes){const key=attr.localName||attr.name.split(':').pop();if(keys.has(key))values[key]=attr.value.trim();}
+  }
+  function coordinate(raw,ref,axis){
+   if(!raw)return null;let a=String(raw).trim().replace(/\s+/g,'');
+   const tail=a.match(/([NSEW])$/i);const hemi=(tail?.[1]||ref||'').toUpperCase();if(tail)a=a.slice(0,-1);
+   if(axis==='lat'&&hemi&&!['N','S'].includes(hemi))return null;
+   if(axis==='lon'&&hemi&&!['E','W'].includes(hemi))return null;
+   let v;if(a.includes(',')){
+    const parts=a.split(',');if(parts.length<2||parts.length>3)return null;
+    const nums=parts.map(q=>{const m=q.match(/^([+-]?\d+(?:\.\d+)?)(?:\/(\d+(?:\.\d+)?))?$/);return m?Number(m[1])/(m[2]?Number(m[2]):1):NaN});
+    if(nums.some(n=>!Number.isFinite(n))||nums[1]>=60||nums[1]<0||parts.length===3&&(nums[2]>=60||nums[2]<0))return null;
+    v=Math.abs(nums[0])+nums[1]/60+(nums[2]||0)/3600;
+    if(nums[0]<0)v=-v;
+   }else if(/^[+-]?\d+(?:\.\d+)?$/.test(a))v=Number(a);else return null;
+   if(['S','W'].includes(hemi))v=-Math.abs(v);
+   if(['N','E'].includes(hemi))v=Math.abs(v);
+   if(!Number.isFinite(v)||Math.abs(v)>(axis==='lat'?90:180))return null;
+   return v;
+  }
+  const lat=coordinate(values.GPSLatitude,values.GPSLatitudeRef,'lat'),lon=coordinate(values.GPSLongitude,values.GPSLongitudeRef,'lon');
+  if(lat===null||lon===null)return null;
+  const gps={lat,lon,datum:values.GPSMapDatum||null,fuente:'XMP'};
+  const alt=Number(values.GPSAltitude);if(values.GPSAltitude&&Number.isFinite(alt))gps.alt=values.GPSAltitudeRef==='1'?-alt:alt;
+  return gps;
+ }catch{return null}
+}
 async function readMetadata(file){const result={gps:null,resumen:{},items:[],format:file.name.split('.').pop()?.toUpperCase()||'',incomplete:false};const amount=Math.min(file.size,LIMIT);const bytes=new Uint8Array(await file.slice(0,amount).arrayBuffer());const len=bytes.length;
- const merge=(parsed)=>{if(!parsed)return;result.gps=parsed.gps||result.gps;Object.assign(result.resumen,parsed.resumen);result.items.push(...parsed.items)};
+ const merge=(parsed)=>{if(!parsed)return;result.gps=parsed.gps?{...parsed.gps,fuente:'EXIF'}:result.gps;Object.assign(result.resumen,parsed.resumen);result.items.push(...parsed.items)};
  const matches=(p,str)=>p>=0&&p+str.length<=len&&[...str].every((c,i)=>bytes[p+i]===c.charCodeAt(0));
- function collectXMP(u){const txt=textDecode(u);if(!txt||txt.length>1000000)return;const hit=txt.match(/<\?xpacket|<x:xmpmeta|<rdf:RDF/i);if(hit){result.items.push({grupo:'xmp',etiqueta:'Paquete XMP',valor:trunc(txt,10000)});}}
+ function collectXMP(u){const txt=textDecode(u);if(!txt||txt.length>1000000)return;const hit=txt.match(/<\?xpacket|<(?:[\w.-]+:)?xmpmeta|<(?:[\w.-]+:)?RDF/i);if(hit){result.items.push({grupo:'xmp',etiqueta:'Paquete XMP',valor:trunc(txt,10000)});const gps=xmpPosition(txt);if(gps&&!result.gps)result.gps=gps;}}
  if(len>8&&bytes[0]===0xff&&bytes[1]===0xd8){let p=2;while(p+4<=len){if(bytes[p]!==0xff){p++;continue}let marker=bytes[p+1];if(marker===0xda||marker===0xd9)break;if(marker===0x00||marker===0xff){p++;continue}if(marker>=0xd0&&marker<=0xd7){p+=2;continue}const seglen=(bytes[p+2]<<8)|bytes[p+3];if(seglen<2||p+2+seglen>len){result.incomplete=true;break}const beg=p+4,end=p+2+seglen;
    if(marker===0xe1&&matches(beg,'Exif\0\0'))merge(parseTiff(bytes,beg+6));
    else if(marker===0xe1&&matches(beg,'http://ns.adobe.com/xap/1.0/\0'))collectXMP(bytes.subarray(beg+29,end));

@@ -17,3 +17,20 @@
 .layer-panel-tools{display:flex;gap:6px;flex-wrap:wrap}.layer-panel-tools button{display:flex;align-items:center;justify-content:center;flex:1;gap:5px;font-size:11px;color:#c8edf2;border:1px solid #54899881;background:#16354a;border-radius:9px;padding:7px 6px;min-width:100px;cursor:pointer}.layer-panel-tools button:hover{background:#245365}.layer-panel-tools svg{width:14px;height:14px}.layer-actions button[title="Eliminar capa"]{color:#ffb2b9}.layer-actions button[title="Eliminar capa"]:hover{background:#b94b5544;color:#ffd9de}
 #modal:has(.meta-grid){width:min(680px,calc(100vw - 24px))}.meta-grid{display:grid;grid-template-columns:minmax(110px,40%) minmax(0,1fr);gap:6px 10px;margin:9px 0;border-top:1px solid #45617a77}.meta-grid dt,.meta-grid dd{padding:6px 2px;margin:0;font-size:12px;overflow-wrap:anywhere;border-bottom:1px solid #45617a55}.meta-grid dt{color:#88bacc}.meta-grid dd{color:#e2f2fb}.meta-note{border-left:2px solid #71d9ca;padding-left:9px}.meta-all{border-top:1px solid #45617a66;margin:13px 0;padding:10px 0}.meta-all summary{cursor:pointer;color:#8aeee3;font-weight:650}.maps-link{display:inline-block;padding:8px 10px;border:1px solid #59b7af9c;border-radius:8px;text-decoration:none}
 @media(max-width:600px){.geo-status{max-width:calc(100vw - 161px);padding:8px}.geo-status .status-arrow{width:12px;flex-basis:12px;margin-left:0}.layer-panel-tools button{min-width:95px;font-size:10px}.layer-actions button{width:27px}.layer{padding:8px 3px}.meta-grid{grid-template-columns:minmax(92px,39%) minmax(0,1fr)}}
+
+/* Gran Imagen 1.3.0: acciones de capas explícitas y utilizables en pantallas estrechas. */
+.layer{flex-direction:column;align-items:stretch;gap:8px;padding:10px}
+.layer-main{display:flex;align-items:center;gap:6px;min-width:0}
+.layer-main .layer-name{flex:1;min-width:0}
+.layer-main .layer-actions{display:flex;flex-shrink:0}
+.layer-main .layer-actions button{width:33px;height:33px}
+.layer-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.layer-tools button{display:flex;justify-content:center;align-items:center;gap:5px;padding:6px 4px;min-width:0;min-height:34px;border:1px solid #5e8ea066;background:#17384b;border-radius:8px;color:#d8edf5;font-size:11px;white-space:nowrap}
+.layer-tools button svg{width:15px;height:15px;flex:none}
+.layer-tools button:not(:disabled):hover,.layer-tools button:not(:disabled):focus-visible{background:#226077;color:var(--cyan)}
+.layer-tools button.layer-delete{border-color:#b9697077;color:#ffbdc1;background:#4b28334d}
+.layer-tools button.layer-delete:hover{background:#683641;color:#ffe4e7}
+.layer-opacity{display:flex;align-items:center;gap:8px;font-size:11px;color:#b6d0df;cursor:pointer}
+.layer-opacity span{white-space:nowrap;min-width:87px}
+.layer-opacity input{width:100%;min-width:0;accent-color:var(--cyan);touch-action:pan-x}
+@media(max-width:600px){.layer{padding:9px}.layer-tools button{font-size:11px;min-height:34px}.layer-main .layer-actions button{width:36px;height:35px}}
