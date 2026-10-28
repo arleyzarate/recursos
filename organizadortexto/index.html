@@ -2328,6 +2328,112 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  /* Versión 2.23: composición de escritorio y navegación móvil de una sola vista. */
+  .topbar { gap: 14px; margin-bottom: 20px; align-items: center; }
+  .topbar .brand { flex: 1 1 auto; }
+  .topbar .info-dock {
+    position: static; flex: 0 1 auto; left: auto; bottom: auto; margin: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 1px; padding: 5px; min-width: 0; max-width: min(810px, 62vw);
+    border-radius: 19px; box-shadow: 0 8px 26px rgba(39,57,95,.07);
+    overflow: visible;
+  }
+  .topbar .info-dock .dock-btn { height: 40px; width: auto; flex: 0 0 auto; padding: 0 9px; display: inline-flex; gap: 7px; font-size: 12px; font-weight: 750; }
+  .topbar .info-dock .dock-btn svg { width: 18px; height: 18px; flex: 0 0 18px; }
+  .topbar .info-dock .dock-btn .desktop-nav-label { white-space: nowrap; }
+  .mobile-top-actions,.mobile-view-switch,.mobile-bottom-nav { display: none; }
+  .editor-grid { gap: 16px; }
+  .editor-grid .editor-card { border-radius: 24px; }
+  .editor-grid .result-card { border-radius: 24px; background: color-mix(in srgb, var(--surface) 81%, var(--accent-2) 5%); border-color:var(--border); }
+  .original-heading-line,.result-title-bar { background:color-mix(in srgb, var(--surface-strong) 94%, transparent); border-radius: 20px; }
+  .result-card .result-title-bar { z-index: 19; }
+  #pasteBtn.overlay-action.primary { background:linear-gradient(145deg,#ffe4d2,#ffd2b4);color:#473025; border-color:rgba(225,156,124,.27); box-shadow:0 7px 18px rgba(198,109,65,.10); }
+  .editor-card { padding-bottom: 14px; }
+  .editor-card .input-overlay-actions { top: 100px; right: 105px; left:auto; transform:none; }
+  .editor-card .input-overlay-note { top: 160px; left:auto; right:18px; transform:none; }
+  .editor-card.has-content .input-overlay-actions { transform:translateY(-7px); }
+  .original-status { display:flex; align-items:center; gap:9px; padding:11px 7px 3px; color:var(--muted); font-size:.81rem; font-weight:650; }
+  .original-status strong { color:var(--result); font-family:Consolas, 'Courier New', monospace; }
+  .format-strip { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:10px 0 0; padding:7px;
+    border:1px solid var(--border); border-radius:18px; background:color-mix(in srgb,var(--surface-strong) 84%, transparent); }
+  .format-strip button { min-width:0; padding:7px 6px; display:flex; align-items:center; justify-content:center; gap:9px; border:0; border-right:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer; }
+  .format-strip button:last-child { border-right:0; }
+  .format-strip button:hover,.format-strip button:focus-visible { border-radius:10px; background:color-mix(in srgb,var(--accent-2) 10%,transparent); }
+  .format-strip button>span:last-child { display:flex; flex-direction:column; text-align:left; gap:1px; font-size:.67rem; }
+  .format-strip strong { font-size:.72rem; font-weight:850; }
+  .format-glyph { font-weight:900; font-size:1.22rem; color:var(--accent-2); }
+  @media (max-width: 1360px) {
+    .topbar .info-dock .dock-btn .desktop-nav-label { display:none; }
+    .topbar .info-dock .dock-btn { width:42px; height:42px; justify-content:center; padding:0; }
+    .topbar .info-dock { max-width:none; }
+  }
+  @media (max-width: 980px) {
+    .topbar .info-dock { max-width:100%; margin:0; }
+    .editor-grid .result-card { background:color-mix(in srgb,var(--surface) 84%, var(--accent-2) 7%); }
+  }
+  @media (max-width: 680px) {
+    body { overflow-x:hidden; }
+    .app { width:calc(100% - 20px); padding: 9px 0 calc(98px + env(safe-area-inset-bottom)); }
+    .topbar { gap:7px; min-height:72px; margin-bottom:10px; }
+    .topbar .brand { gap:9px; }
+    .topbar .brand-mark { width:52px; height:52px; flex-basis:52px; }
+    .topbar .info-dock,.topbar .version-pill { display:none !important; }
+    .mobile-top-actions { display:flex; align-items:center; gap:4px; position:relative; flex:none; }
+    .mobile-top-btn { display:grid; place-items:center; width:37px; height:38px; padding:0; border:0; border-radius:50%; color:var(--text); background:color-mix(in srgb,var(--surface-strong) 74%,transparent); cursor:pointer; }
+    .mobile-top-btn svg { height:21px; width:21px; stroke:currentColor; stroke-width:1.7; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .mobile-top-btn svg circle { fill:currentColor; stroke:none; }
+    .mobile-more-menu { position:absolute; top:44px; right:0; z-index:45; min-width:180px; background:var(--surface-strong); border:1px solid var(--border); border-radius:14px; padding:6px; box-shadow:var(--shadow); }
+    .mobile-more-menu:not([hidden]) { display:flex; flex-direction:column; }
+    .mobile-more-menu button { border:0; background:none; color:var(--text); padding:12px; border-radius:10px; text-align:left; font-size:.88rem; }
+    .mobile-more-menu button:hover { background:var(--surface-soft); }
+    .mobile-view-switch { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px; padding:4px; border-radius:16px; background:color-mix(in srgb,var(--surface-strong) 74%,transparent); border:1px solid var(--border); position:sticky; top:0; z-index:24; backdrop-filter:blur(18px); }
+    .mobile-view-switch button { border:1px solid transparent; border-radius:12px; padding:12px 5px; background:transparent; color:var(--muted); font-size:.86rem; font-weight:800; }
+    .mobile-view-switch button[aria-selected="true"] { background:color-mix(in srgb,var(--accent) 10%,var(--surface-strong)); border-color:color-mix(in srgb,var(--accent) 17%,transparent); color:var(--accent); box-shadow:0 3px 12px rgba(55,70,132,.05); }
+    .editor-grid,.editor-grid.is-original-hidden { display:block; padding:0 !important; gap:0; }
+    .editor-grid:not(.is-original-hidden) .result-card { display:none !important; }
+    .editor-grid.is-original-hidden .editor-card { display:none !important; }
+    .editor-grid .editor-card,.editor-grid .result-card { display:block; width:100%; max-width:100%; grid-column:auto; grid-row:auto; margin:0; min-height:0; height:auto; padding:11px !important; border-radius:20px; opacity:1; visibility:visible; transform:none; overflow:visible; }
+    .editor-grid.is-original-hidden .result-card { display:block !important; }
+    .editor-grid .result-card .original-tab { display:none !important; }
+    .original-heading-line,.result-title-bar { position:sticky; top:57px; z-index:19; margin:0 0 9px; padding:9px; border-radius:15px; }
+    .original-heading-line h2,.result-title-bar h2 { font-size:.96rem; }
+    .editor-card textarea { min-height: min(66vh, 560px); height:min(66vh,560px); font-size:13.5px; }
+    .result-card .result-title-bar { display:grid; grid-template-columns:minmax(0,1fr); row-gap:6px; }
+    .result-title-bar > .result-head-group { grid-row:1; grid-column:1; }
+    .result-title-bar > .result-tools { grid-row:2; grid-column:1; justify-self:stretch; width:100%; margin:0; justify-content:space-between; flex-wrap:nowrap; gap:3px; padding:5px; }
+    .result-title-bar .result-tool-btn { width:34px; min-width:0; height:36px; flex:1 1 auto; padding:0 2px; border-radius:50%; }
+    .result-title-bar #copyBtn { flex:0 0 43px; width:43px; min-width:43px; height:43px; }
+    .result-title-bar .result-tool-icon { font-size:1.06rem; }
+    .result-title-bar > .dimension-bar { grid-row:3; grid-column:1; height:31px; max-width:100%; }
+    .editor-card .input-overlay-actions { top:auto; right:auto; left:50%; bottom:70px; transform:translateX(-50%); }
+    .editor-card.has-content .input-overlay-actions { transform:translateX(-50%) translateY(8px); }
+    .editor-card .input-overlay-note { display:none; }
+    .editor-card #pasteBtn.overlay-action.primary { min-height:50px; border-radius:28px; padding:0 24px; }
+    .original-status { padding:12px 3px 3px; }
+    .format-strip { position:fixed; left:8px; right:8px; bottom:calc(67px + env(safe-area-inset-bottom)); z-index:33; grid-template-columns:repeat(4,minmax(0,1fr)); padding:5px; margin:0; border-radius:17px; background:color-mix(in srgb,var(--surface-strong) 95%,transparent); box-shadow:0 8px 26px rgba(25,43,77,.14); backdrop-filter:blur(20px); }
+    .format-strip button { flex-direction:column; justify-content:center; gap:4px; padding:7px 1px; }
+    .format-strip button>span:last-child { font-size:.55rem; align-items:center; text-align:center; }
+    .format-strip strong { font-size:.63rem; }
+    .format-glyph { font-size:1.15rem; }
+    .mobile-bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:40; display:grid; grid-template-columns:repeat(5,1fr); gap:1px; align-items:stretch; padding:7px 6px calc(9px + env(safe-area-inset-bottom)); background:color-mix(in srgb,var(--surface-strong) 94%,transparent); border-top:1px solid var(--border); box-shadow:0 -8px 22px rgba(24,45,77,.07); backdrop-filter:blur(18px); }
+    .mobile-bottom-nav button,.mobile-bottom-nav a { min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:0; background:transparent; border-radius:12px; padding:4px 2px; color:var(--text); font-size:.64rem; font-weight:740; text-decoration:none; }
+    .mobile-bottom-nav button:hover,.mobile-bottom-nav a:hover { background:color-mix(in srgb,var(--accent) 9%,transparent); }
+    .mobile-bottom-nav button:disabled { opacity:.4; }
+    .mobile-bottom-nav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .editor-grid.is-original-hidden .result-shell,.editor-grid.is-original-hidden .output-viewport { min-height:420px; }
+    .editor-grid.is-original-hidden .result-card { padding-bottom:80px !important; }
+    #zoomDock { z-index:17; right:2px; }
+    .footer-panel { display:none; }
+  }
+  @media (max-width: 360px) {
+    .brand-title-main {font-size:1.08rem;}
+    .brand-title-accent {font-size:.7rem;letter-spacing:.07em;}
+    .mobile-top-btn {width:31px;}
+    .result-tools {gap:2px !important;}
+    .result-title-bar .result-tool-btn { height:34px; }
+    .result-title-bar #copyBtn {flex-basis:40px; width:40px; min-width:40px; height:40px; }
+  }
 </style>
 </head>
 <body>
@@ -2368,10 +2474,46 @@
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.22">v2.22</div>
+<nav class="info-dock" aria-label="Información y navegación">
+  <button id="newBtn" class="dock-btn" type="button" data-tooltip="Nuevo" aria-label="Nuevo documento">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></svg><span class="desktop-nav-label">Nuevo</span>
+  </button>
+  <button id="restoreBtn" class="dock-btn" type="button" data-tooltip="Restaurar" aria-label="Restaurar valores por defecto">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span class="desktop-nav-label">Restaurar</span>
+  </button>
+  <button class="dock-btn info-trigger" type="button" data-panel="about" data-tooltip="Acerca de" aria-label="Acerca de">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg><span class="desktop-nav-label">Acerca de</span>
+  </button>
+  <button class="dock-btn info-trigger" type="button" data-panel="intent" data-tooltip="Intención" aria-label="Intención">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M17.5 6.5 21 3m0 0v4m0-4h-4"/></svg><span class="desktop-nav-label">Intención</span>
+  </button>
+  <button class="dock-btn info-trigger" type="button" data-panel="help" data-tooltip="Instrucciones" aria-label="Instrucciones de uso">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5z"/><path d="M5 4.5v17M9 7h7M9 11h6"/></svg><span class="desktop-nav-label">Instrucciones</span>
+  </button>
+  <button id="themeBtn" class="dock-btn" type="button" data-tooltip="Cambiar tema" aria-label="Cambiar tema">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg><span class="desktop-nav-label">Tema</span>
+  </button>
+  <a class="dock-btn dock-link" href="https://arleyzarate.github.io/" data-tooltip="Inicio" aria-label="Ir al inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg><span class="desktop-nav-label">Inicio</span>
+  </a>
+</nav>
+    <div class="mobile-top-actions">
+      <button id="mobileThemeBtn" class="mobile-top-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg></button>
+      <button id="mobileMenuBtn" class="mobile-top-btn" type="button" aria-label="Más opciones" title="Más opciones" aria-expanded="false" aria-controls="mobileMoreMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg></button>
+      <div id="mobileMoreMenu" class="mobile-more-menu" hidden>
+        <button type="button" data-mobile-action="restore">Restaurar ajustes</button>
+        <button type="button" data-mobile-action="about">Acerca de</button>
+        <button type="button" data-mobile-action="intent">Intención</button>
+      </div>
+    </div>
+    <div class="version-pill" aria-label="Versión 2.23">v2.23</div>
   </header>
 
   <main class="workspace">
+    <div id="mobileViewSwitch" class="mobile-view-switch" role="tablist" aria-label="Ver texto original u organizado">
+      <button id="mobileOriginalTab" type="button" role="tab" aria-selected="true" aria-controls="inputCard">Texto original</button>
+      <button id="mobileResultTab" type="button" role="tab" aria-selected="false" aria-controls="resultCard">Texto organizado</button>
+    </div>
     <div class="editor-grid">
       <section id="inputCard" class="panel editor-card" aria-labelledby="inputTitle">
         <div class="editor-title original-heading-line">
@@ -2398,9 +2540,10 @@
         <div class="input-overlay-note">Use Ctrl + V o el icono Pegar.</div>
         <textarea id="inputText" spellcheck="false" placeholder="Pegue aquí el listado técnico numerado..."></textarea>
         <div id="inputMirror" class="input-mirror" aria-hidden="true" hidden><div id="inputMirrorContent"></div></div>
+        <div class="original-status" aria-live="polite"><span><strong id="sourceLinesCount">0</strong> líneas</span><span class="status-separator">·</span><span><strong id="sourceCharsCount">0</strong> caracteres</span></div>
       </section>
 
-      <section class="result-card" aria-labelledby="outputTitle">
+      <section id="resultCard" class="result-card" aria-labelledby="outputTitle">
         <button id="originalTab" class="original-tab" type="button" aria-label="Mostrar Texto original" tabindex="-1" aria-hidden="true" title="Mostrar Texto original">
           <span class="original-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 12H5m7-6-6 6 6 6"/></svg></span>
           <span class="original-tab-text">Texto original</span>
@@ -2456,6 +2599,12 @@
             <div class="output-target" aria-hidden="true"></div>
           </div>
         </div>
+        <div class="format-strip" aria-label="Controles técnicos de presentación">
+          <button id="formatIndentBtn" type="button" data-tool="indent" aria-label="Modificar sangría"><span class="format-glyph">⠿</span><span>Sangría: <strong id="formatIndentValue">3 espacios</strong></span></button>
+          <button id="formatCaseBtn" type="button" aria-label="Cambiar mayúsculas y minúsculas"><span class="format-glyph">Aa</span><span>Texto: <strong id="formatCaseValue">Original</strong></span></button>
+          <button id="formatSpacingBtn" type="button" aria-label="Separar numerales"><span class="format-glyph">☷</span><span>Separar: <strong id="formatSpacingValue">No</strong></span></button>
+          <button id="formatWidthBtn" type="button" data-tool="textwidth" aria-label="Cambiar factor W"><span class="format-glyph">W</span><span>Factor W: <strong id="formatWidthValue">0.80</strong></span></button>
+        </div>
         <textarea id="outputText" class="output-storage" readonly spellcheck="false" aria-hidden="true" tabindex="-1"></textarea>
         <span id="outputMeasure" class="output-measure" aria-hidden="true"></span>
       </section>
@@ -2498,28 +2647,14 @@
   </section>
 </div>
 
-<nav class="info-dock" aria-label="Información y navegación">
-  <button id="newBtn" class="dock-btn" type="button" data-tooltip="Nuevo" aria-label="Nuevo documento">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></svg>
-  </button>
-  <button id="restoreBtn" class="dock-btn" type="button" data-tooltip="Restaurar" aria-label="Restaurar valores por defecto">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-  </button>
-  <button class="dock-btn info-trigger" type="button" data-panel="about" data-tooltip="Acerca de" aria-label="Acerca de">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-  </button>
-  <button class="dock-btn info-trigger" type="button" data-panel="intent" data-tooltip="Intención" aria-label="Intención">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M17.5 6.5 21 3m0 0v4m0-4h-4"/></svg>
-  </button>
-  <button class="dock-btn info-trigger" type="button" data-panel="help" data-tooltip="Instrucciones" aria-label="Instrucciones de uso">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5z"/><path d="M5 4.5v17M9 7h7M9 11h6"/></svg>
-  </button>
-  <button id="themeBtn" class="dock-btn" type="button" data-tooltip="Cambiar tema" aria-label="Cambiar tema">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg>
-  </button>
-  <a class="dock-btn dock-link" href="https://arleyzarate.github.io/" data-tooltip="Inicio" aria-label="Ir al inicio">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg>
-  </a>
+
+
+<nav class="mobile-bottom-nav" aria-label="Navegación móvil">
+  <a href="https://arleyzarate.github.io/" aria-label="Inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-6h6v6"/></svg><span>Inicio</span></a>
+  <button id="mobileNewBtn" type="button" aria-label="Nuevo documento"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7zM14 3v5h5M12 11v6M9 14h6"/></svg><span>Nuevo</span></button>
+  <button id="mobileUndoBtn" type="button" aria-label="Deshacer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6M3 13a8.5 8.5 0 1 1 4 6.9"/></svg><span>Deshacer</span></button>
+  <button id="mobileRedoBtn" type="button" aria-label="Rehacer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 7v6h-6M21 13a8.5 8.5 0 1 0-4 6.9"/></svg><span>Rehacer</span></button>
+  <button id="mobileHelpBtn" type="button" aria-label="Instrucciones"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4a2 2 0 0 1 2-2h13v18H7a2 2 0 0 0-2 2zM5 4v18M10 7h6M10 11h5"/></svg><span>Ayuda</span></button>
 </nav>
 
 <div id="toolPanel" class="tool-panel" aria-hidden="true">
@@ -2651,7 +2786,7 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.22";
+  const APP_VERSION = "2.23";
   const APP_DATE = "28/oct/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
@@ -5118,6 +5253,62 @@
       if (toolPanel.classList.contains("open") && activeToolButton) positionToolPanel(activeToolButton);
     });
   }, { passive: true });
+
+  // V2.23: conmutación visual móvil sin alterar la sincronización de los editores.
+  const mobileOriginalTab = $("mobileOriginalTab");
+  const mobileResultTab = $("mobileResultTab");
+  const mobileSwitch = $("mobileViewSwitch");
+  const mobileMenuBtn = $("mobileMenuBtn");
+  const mobileMoreMenu = $("mobileMoreMenu");
+  function updateMobileTabs() {
+    const showOriginal = !originalIsHidden;
+    mobileOriginalTab?.setAttribute('aria-selected', String(showOriginal));
+    mobileResultTab?.setAttribute('aria-selected', String(!showOriginal));
+    if (mobileSwitch) mobileSwitch.dataset.view = showOriginal ? 'original' : 'organizado';
+    const source = inputText.value || '';
+    const countLines = source ? source.split(/\r\n|\r|\n/).length : 0;
+    if ($('sourceLinesCount')) $('sourceLinesCount').textContent = countLines.toLocaleString('es-CO');
+    if ($('sourceCharsCount')) $('sourceCharsCount').textContent = charLength(source).toLocaleString('es-CO');
+    if ($('mobileUndoBtn')) $('mobileUndoBtn').disabled = undoStack.length === 0;
+    if ($('mobileRedoBtn')) $('mobileRedoBtn').disabled = redoStack.length === 0;
+  }
+  function updateFormatStrip() {
+    if ($('formatIndentValue')) $('formatIndentValue').textContent = String(safeInteger(indentSize.value, DEFAULT_INDENT, 0, 30)) + ' espacios';
+    if ($('formatCaseValue')) $('formatCaseValue').textContent = ({original:'Original', lower:'Minúsculas', sentence:'Mixto', upper:'Mayúsculas'})[caseMode] || (caseMode === 'original' ? 'Original' : caseMode);
+    if ($('formatSpacingValue')) $('formatSpacingValue').textContent = blankLineBetweenItems ? 'Sí' : 'No';
+    if ($('formatWidthValue')) $('formatWidthValue').textContent = Number(previewWidthFactorValue).toFixed(2);
+  }
+  const previousSetMobileView = () => {updateMobileTabs(); updateFormatStrip();};
+  mobileOriginalTab?.addEventListener('click', () => { setOriginalVisible(true); previousSetMobileView(); });
+  mobileResultTab?.addEventListener('click', () => { setOriginalVisible(false); previousSetMobileView(); });
+  $('formatCaseBtn')?.addEventListener('click', () => { caseToggleBtn?.click(); updateFormatStrip(); });
+  $('formatSpacingBtn')?.addEventListener('click', () => { blankLineToggleBtn?.click(); updateFormatStrip(); });
+  $('mobileThemeBtn')?.addEventListener('click', () => themeBtn?.click());
+  $('mobileNewBtn')?.addEventListener('click', () => {newBtn?.click(); previousSetMobileView();});
+  $('mobileUndoBtn')?.addEventListener('click', () => {navigateTextHistory(-1);previousSetMobileView();});
+  $('mobileRedoBtn')?.addEventListener('click', () => {navigateTextHistory(1);previousSetMobileView();});
+  $('mobileHelpBtn')?.addEventListener('click', () => document.querySelector('.info-trigger[data-panel="help"]')?.click());
+  mobileMenuBtn?.addEventListener('click', () => {const visible=mobileMoreMenu.hidden; mobileMoreMenu.hidden=!visible; mobileMenuBtn.setAttribute('aria-expanded',String(visible));});
+  mobileMoreMenu?.addEventListener('click', event => {
+    const button=event.target.closest('[data-mobile-action]'); if(!button)return;
+    const action=button.dataset.mobileAction;
+    mobileMoreMenu.hidden=true; mobileMenuBtn?.setAttribute('aria-expanded','false');
+    if(action==='restore') {restoreBtn?.click();previousSetMobileView();}
+    else document.querySelector('.info-trigger[data-panel="'+action+'"]')?.click();
+  });
+  document.addEventListener('pointerdown', event => {
+    if(mobileMoreMenu && !mobileMoreMenu.hidden && !event.target.closest('.mobile-top-actions')) {
+      mobileMoreMenu.hidden=true; mobileMenuBtn?.setAttribute('aria-expanded','false');
+    }
+  });
+  inputText.addEventListener('input', updateMobileTabs);
+  [toggleOriginalBtn,originalTab,newBtn,restoreBtn,outputPreview].forEach(el=>el?.addEventListener('click',()=>requestAnimationFrame(previousSetMobileView)));
+  [indentGuide,indentSize,caseToggleBtn,blankLineToggleBtn,widthFactorBtn,textWidthFactor].forEach(el=>el?.addEventListener('input',()=>requestAnimationFrame(updateFormatStrip)));
+  [caseToggleBtn,blankLineToggleBtn,indentGuide,widthFactorBtn].forEach(el=>el?.addEventListener('click',()=>requestAnimationFrame(updateFormatStrip)));
+  // El original se pliega automáticamente al editar el resultado; observar el cambio.
+  const mobileObserver = new MutationObserver(previousSetMobileView);
+  mobileObserver.observe(editorGrid,{attributes:true,attributeFilter:['class']});
+  previousSetMobileView();
 
   initializeTheme();
   actualizarControlTipoLetra();
