@@ -80,3 +80,58 @@
 .selection-box .dimension-label{position:absolute;background:#071d30de;color:#e3fffa;min-width:38px;text-align:center;border:1px solid #85e3e4;border-radius:5px;padding:3px 5px;font-size:11px;pointer-events:none;white-space:nowrap}.selection-box .dim-w{left:50%;top:100%;transform:translate(-50%,8px)}.selection-box .dim-h{left:100%;top:50%;transform:translate(9px,-50%)}
 .measure-cursor{cursor:crosshair!important}
 @media(max-width:700px){.measure-menu{left:52px;top:auto;bottom:170px}.compass{width:72px;height:95px}.compass .north-arrow{width:44px;height:55px}.text-edit-tray{bottom:145px}.object-dims{bottom:182px;top:auto!important;left:52px!important;right:4px}.object-dims input{width:59px}}
+
+
+/* 2026-10-28 · Gran Imagen 1.7.0 */
+.panel-header-actions{display:flex;align-items:center;gap:.35rem}
+.panel-header-actions .plain{margin-left:0}
+.selection-tools{
+  position:absolute; z-index:28; display:flex; gap:.35rem; padding:.45rem; border-radius:14px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.selection-tools button{
+  width:2.15rem;height:2.15rem;border-radius:12px;border:1px solid rgba(98,235,255,.28);
+  background:rgba(15,35,57,.92); color:#c9fbff; display:grid; place-items:center;
+}
+.selection-tools button:hover,.selection-tools button:focus-visible{background:rgba(39,95,122,.92); transform:translateY(-1px)}
+.selection-tools button.rotate-r svg{transform:scaleX(-1)}
+.selection-tools svg{width:1.05rem;height:1.05rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.selection-box.multi .handle.a,.selection-box.multi .handle.b,.selection-box.multi .handle.c,.selection-box.multi .handle.d{display:none}
+.selection-box.multi .dimension-label{opacity:.85}
+.selection-box .handle.flip-h,.selection-box .handle.flip-v{
+  width:20px;height:20px;border-radius:50%; background:rgba(10,25,40,.96); border:1px solid #9fffff;
+  position:absolute; display:grid; place-items:center;
+}
+.selection-box .handle.flip-h::before,.selection-box .handle.flip-v::before{
+  content:''; display:block; width:10px; height:10px; border:2px solid #aefcff; border-radius:2px;
+}
+.selection-box .handle.flip-h::after{
+  content:''; position:absolute; width:2px;height:12px;background:#aefcff;
+}
+.selection-box .handle.flip-v::after{
+  content:''; position:absolute; width:12px;height:2px;background:#aefcff;
+}
+.selection-box .handle.flip-h{right:-12px; top:50%; transform:translateY(-50%)}
+.selection-box .handle.flip-v{left:50%; bottom:-12px; transform:translateX(-50%)}
+.layer[aria-multi="true"]{outline:1px solid rgba(98,235,255,.65); box-shadow:0 0 0 2px rgba(98,235,255,.16) inset}
+.layer .layer-alpha input[type="range"]{touch-action:none}
+
+/* 1.7.0: edición vectorial, selección táctil y controles de apariencia */
+.panel-header-actions .plain.active,.panel-header-actions .plain[aria-pressed="true"]{background:#176b78;color:#bafffb;outline:1px solid #59eadb}
+.vector-nodes{position:absolute;inset:0;z-index:17;pointer-events:none}
+.vector-nodes[hidden],.vector-tool[hidden]{display:none!important}
+.vector-node{position:absolute;display:block;width:15px;height:15px;border-radius:50%;padding:0;transform:translate(-50%,-50%);border:2px solid #fff;background:#35d9c5;box-shadow:0 0 0 2px #073242;touch-action:none;cursor:move;pointer-events:auto}
+.vector-tool{display:flex;align-items:center;justify-content:center;height:35px;border-radius:9px;background:#14344b;border:1px solid #448c9b;padding:4px}
+.vector-tool input[type=color]{width:28px;height:26px;border:none;background:transparent;cursor:pointer;padding:0}
+.vector-tool input[type=number]{width:52px;height:26px;border:none;background:#0a2534;color:#eafffb;border-radius:5px;padding:3px}
+.selection-tools{max-width:calc(100vw - 30px);flex-wrap:wrap;justify-content:center}
+@media(max-width:700px){.selection-tools{max-width:calc(100vw - 15px)}.selection-tools button{width:30px;height:30px}}
+
+.selection-tools button.active{background:#49b8ab;color:#062d37;border-color:#a8ffed}
+
+/* Importar y exportar en un grupo, sin alterar sus acciones */
+.io-group{display:flex;flex-direction:column;gap:1px;align-items:center;border:1px solid #5cc5ca3f;border-radius:15px;background:#0c2b3d99;padding:2px}
+.io-group .toolbar button{min-width:0}
+.compass{background:transparent;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none}
+@media(max-width:700px){.io-group{gap:0;padding:1px}.io-group button{width:34px!important;height:32px!important}}
+.selection-tools[hidden]{display:none!important}

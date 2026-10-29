@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#081321">
 <meta name="description" content="Gran Imagen: visor y editor local de imágenes geográficas.">
 <title>Gran Imagen · Editor local</title>
-<link rel="stylesheet" href="estilos.css?v=1.6.0">
+<link rel="stylesheet" href="estilos.css?v=1.7.0">
 </head>
 <body>
 <svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
@@ -45,6 +45,13 @@
 <symbol id="i-flip" viewBox="0 0 24 24"><path d="M12 3v18M9 5 3 12l6 7M15 5l6 7-6 7"/></symbol>
 <symbol id="i-ruler" viewBox="0 0 24 24"><path d="m3 17 14-14 4 4L7 21 3 17Zm5-5 3 3m0-6 3 3m0-6 3 3"/></symbol>
 <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 3 8m-3 4v-7h7"/></symbol>
+
+<symbol id="i-duplicate" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><rect x="5" y="5" width="11" height="11" rx="2"/></symbol>
+<symbol id="i-flip-h" viewBox="0 0 24 24"><path d="M12 4v16M4 7l7 5-7 5V7zm16 0v10l-7-5 7-5z"/></symbol>
+<symbol id="i-flip-v" viewBox="0 0 24 24"><path d="M4 12h16M7 4l5 7 5-7H7zm0 16l5-7 5 7H7z"/></symbol>
+<symbol id="i-move" viewBox="0 0 24 24"><path d="M12 2l3 3h-2v4h4V7l3 3-3 3v-2h-4v4h2l-3 3-3-3h2v-4H7v2l-3-3 3-3v2h4V5H9l3-3z"/></symbol>
+<symbol id="i-rotate-cw" viewBox="0 0 24 24"><path d="M20 4v6h-6M20 10a8 8 0 10 2.1 5.4"/></symbol>
+
 </svg>
 <canvas id="introParticles" aria-hidden="true"></canvas>
 <main id="app" aria-label="Espacio de trabajo de Gran Imagen">
@@ -62,15 +69,17 @@
     <div id="textEditTray" class="text-edit-tray glass" hidden><button id="textAccept" class="action-yes">✓ Aceptar</button><button id="textExit" class="action-no">✕ Salir</button></div>
     <textarea id="textEntry" class="text-entry" rows="2" maxlength="2000" hidden aria-label="Escribir texto directamente en la imagen"></textarea>
     <div id="objectDims" class="object-dims glass" hidden><label>Ancho <input id="dimWidth" type="number" min="0.000001" step="any" aria-label="Modificar ancho"></label><label>Alto <input id="dimHeight" type="number" min="0.000001" step="any" aria-label="Modificar alto"></label><span id="dimUnit">m</span><button id="dimUniform" title="Escala uniforme" aria-label="Alternar escala uniforme">⛓</button><label>° <input id="dimAngle" type="number" step="1" aria-label="Ángulo en grados"></label></div>
-    <div id="selectionBox" class="selection-box" hidden><div class="dimension-label dim-w" id="viewWidth" title="Ancho de la capa"></div><div class="dimension-label dim-h" id="viewHeight" title="Alto de la capa"></div><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i></div>
+    <div id="vectorNodes" class="vector-nodes" hidden aria-label="Editar nodos de la medición"></div>
+    <div id="selectionBox" class="selection-box" hidden><div class="dimension-label dim-w" id="viewWidth" title="Ancho de la capa"></div><div class="dimension-label dim-h" id="viewHeight" title="Alto de la capa"></div><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i><i class="handle flip-h" data-handle="mirrorh" title="Simetría horizontal"></i><i class="handle flip-v" data-handle="mirrorv" title="Simetría vertical"></i></div>
   </div>
+  <div id="selectionTools" class="selection-tools glass" hidden><button id="selDuplicate" title="Duplicar selección" aria-label="Duplicar selección"><svg><use href="#i-duplicate"/></svg></button><button id="selDelete" title="Eliminar selección" aria-label="Eliminar selección"><svg><use href="#i-trash"/></svg></button><button id="selFlipH" title="Simetría horizontal" aria-label="Simetría horizontal"><svg><use href="#i-flip-h"/></svg></button><button id="selFlipV" title="Simetría vertical" aria-label="Simetría vertical"><svg><use href="#i-flip-v"/></svg></button><button id="selRotateL" title="Girar -15°" aria-label="Girar -15 grados"><svg><use href="#i-rotate-cw"/></svg></button><button id="selRotateR" class="rotate-r" title="Girar 15°" aria-label="Girar 15 grados"><svg><use href="#i-rotate-cw"/></svg></button><label id="vectorColorWrap" class="vector-tool" title="Color del vector" hidden><input id="vectorColor" type="color" value="#8af5e5" aria-label="Color del vector"></label><label id="vectorWidthWrap" class="vector-tool" title="Espesor del vector" hidden><input id="vectorWidth" type="number" min="0.5" max="30" step="0.5" value="2" aria-label="Espesor del vector"></label><button id="selMoveHint" title="Mover selección" aria-label="Mover selección"><svg><use href="#i-move"/></svg></button></div>
   <div id="loadProgress" class="load-progress glass" hidden role="status" aria-live="polite"><strong id="loadTitle">Leyendo imagen</strong><div><span id="loadBar"></span></div><small id="loadText">Preparando archivo…</small></div>
   <div id="dropOverlay" hidden><div><svg><use href="#i-image"/></svg>Soltar para abrir como capa</div></div>
   <div class="brand" id="brand"><div class="brand-icon" aria-hidden="true"><span class="globe-grid"></span></div><div><strong>Gran<span>Imagen</span></strong><small>por Arley Zarate</small></div></div>
   <div id="tabMenu" class="tab-menu glass" hidden><button id="tabNew">Nuevo proyecto</button><button id="tabOpen">Abrir .granimagen</button></div>
   <div id="documentTabs" class="document-tabs" role="tablist" aria-label="Archivos y proyectos abiertos"></div>
   <nav class="toolbar" aria-label="Herramientas">
-    <button id="btnOpen" data-tip="Importar imagen" aria-label="Importar imagen"><svg><use href="#i-import"/></svg></button>
+    <div class="io-group"><button id="btnOpen" data-tip="Importar imagen" aria-label="Importar imagen"><svg><use href="#i-import"/></svg></button><button id="btnExport" data-tip="Exportar capas" aria-label="Exportar capas" disabled><svg><use href="#i-arrow-up"/></svg></button></div>
     <button id="btnLayers" data-tip="Capas" aria-label="Mostrar u ocultar capas" aria-expanded="false"><svg><use href="#i-layers"/></svg></button>
     <button id="btnCrop" data-tip="Recortar" aria-label="Recortar imagen" disabled><svg><use href="#i-crop"/></svg></button>
     <button id="btnMeasure" data-tip="Medir" aria-label="Medir distancias, áreas, rutas y coordenadas" disabled><svg><use href="#i-ruler"/></svg></button>
@@ -78,10 +87,10 @@
       <button id="btnSave" data-tip="Guardar proyecto" aria-label="Guardar proyecto" disabled><svg><use href="#i-memory"/></svg></button>
     <button id="btnUndo" data-tip="Deshacer" aria-label="Deshacer" disabled><svg><use href="#i-undo"/></svg></button>
     <button id="btnRedo" data-tip="Rehacer" aria-label="Rehacer" disabled><svg><use href="#i-redo"/></svg></button>
-    <button id="btnExport" data-tip="Exportar" aria-label="Exportar capas" disabled><svg><use href="#i-download"/></svg></button>
+    
   </nav>
   <aside id="layersPanel" class="glass panel" hidden aria-label="Explorador de capas">
-    <div class="panel-header"><strong>Capas</strong><button id="closeLayers" aria-label="Cerrar capas" class="plain"><svg><use href="#i-x"/></svg></button></div>
+    <div class="panel-header"><strong>Capas</strong><div class="panel-header-actions"><button id="btnMultiMode" class="plain" aria-label="Activar selección múltiple" aria-pressed="false" title="Selección múltiple (útil en pantallas táctiles)"><svg><use href="#i-layers"/></svg></button><button id="btnDuplicateLayers" class="plain" aria-label="Duplicar selección" title="Duplicar selección"><svg><use href="#i-duplicate"/></svg></button><button id="btnDeleteLayers" class="plain" aria-label="Eliminar selección" title="Eliminar selección"><svg><use href="#i-trash"/></svg></button><button id="closeLayers" aria-label="Cerrar capas" class="plain"><svg><use href="#i-x"/></svg></button></div></div>
     <div id="layerList" class="layer-list"><p class="small">Todavía no hay capas.</p></div><button id="linkMissing" class="relink" hidden>Vincular imágenes pendientes</button>
     <p class="hint">Doble clic: renombrar. Supr: eliminar. Clic derecho o pulsación prolongada: opciones.</p>
   </aside>
@@ -89,7 +98,7 @@
   <div id="actionTray" class="action-tray glass" hidden><span id="actionText">Recorte</span><button id="confirmAction" class="action-yes" aria-label="Aceptar"><svg><use href="#i-check"/></svg></button><button id="cancelAction" class="action-no" aria-label="Cancelar"><svg><use href="#i-x"/></svg></button></div>
   <button id="geoStatus" type="button" class="geo-status glass" title="Ver información de la imagen" aria-label="Consultar datos de la imagen"><div class="status-led"></div><div><strong id="geoTitle">Sin imagen</strong><span id="geoDetail">Seleccione un archivo local</span></div><svg class="status-arrow" aria-hidden="true"><use href="#i-info"/></svg></button>
   <div class="zoom-dock glass"><button id="zoomIn" title="Acercar" aria-label="Acercar"><svg><use href="#i-zoom-in"/></svg></button><button id="zoomOut" title="Alejar" aria-label="Alejar"><svg><use href="#i-zoom-out"/></svg></button><button id="zoomFit" title="Ajustar a pantalla" aria-label="Ajustar a pantalla"><svg><use href="#i-fit"/></svg></button></div>
-  <div id="compass" class="compass" hidden title="NG: orientación norte aproximada, según la cuadrícula del raster"><span class="compass-n">NG</span><svg class="north-arrow" viewBox="0 0 56 72" aria-hidden="true"><defs><linearGradient id="northGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcfffb"/><stop offset="1" stop-color="#45c6bc"/></linearGradient></defs><path d="M28 3 7 58 28 44 49 58Z" fill="url(#northGrad)" stroke="#a0fff1" stroke-width="2"/><path d="M28 3v41l21 14Z" fill="#276a8e"/><path d="M21 50 28 68l7-18-7-6Z" fill="#1b455b"/></svg><div class="compass-caption">Referencia norte</div></div>
+  <div id="compass" class="compass" hidden title="NG: orientación norte aproximada, según la cuadrícula del raster"><span class="compass-n">NG</span><svg class="north-arrow" viewBox="0 0 56 72" aria-hidden="true"><defs><linearGradient id="northGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcfffb"/><stop offset="1" stop-color="#45c6bc"/></linearGradient></defs><path d="M28 3 7 58 28 44 49 58Z" fill="url(#northGrad)" stroke="#a0fff1" stroke-width="2"/><path d="M28 3v41l21 14Z" fill="#276a8e"/><path d="M21 50 28 68l7-18-7-6Z" fill="#1b455b"/></svg></div>
   <button id="btnHelp" class="help" title="Información" aria-label="Acerca de, instrucciones e intención"><svg><use href="#i-info"/></svg></button>
   <div id="toast" role="status" aria-live="polite"></div>
 </main>
@@ -98,6 +107,6 @@
 <input id="projectPicker" type="file" accept=".granimagen,application/json" hidden>
 <input id="relinkPicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
 <script src="metadatos.js?v=1.6.0" defer></script>
-<script src="aplicacion.js?v=1.6.0" defer></script>
+<script src="aplicacion.js?v=1.7.0" defer></script>
 </body>
 </html>

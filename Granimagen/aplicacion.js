@@ -1,4 +1,4 @@
-/* Gran Imagen 1.6.0 | Diseño: Arley Zarate | Desarrollo: NOVA | 28/oct/2026
+/* Gran Imagen 1.7.0 | Diseño: Arley Zarate | Desarrollo: NOVA | 28/oct/2026
    Los archivos de usuario se procesan únicamente en este navegador.
    GeoTIFF.js 2.1.3 se usa para leer TIFF con sus avisos de licencia respectivos. */
 (()=>{'use strict';
@@ -162,7 +162,7 @@ function loadAsLayer(src,at=null){record();state.sources.set(src.id,src);if(!sta
  else{const sc=Math.min(1,Math.min(state.scene.w*.8/src.w,state.scene.h*.8/src.h));w=src.w*sc;h=src.h*sc;const pos=at||{x:cw()/2,y:ch()/2};x=wx(pos.x)-w/2;y=wy(pos.y)-h/2}
  state.layers.push({id:uuid(),name:src.name,kind:'image',sourceId:src.id,x,y,w,h,angle:0,visible:true,locked:false,opacity:1,srcWindow:null});state.selected=state.layers.at(-1).id;state.multi=new Set([state.selected]);state.mode='edit'}updateControls();msg(`Imagen importada localmente: ${src.name}`)}
 async function loadFiles(files,relink=false,at=null){const arr=[...files];if(!arr.length)return;setBusy(true,'Leyendo archivos locales…');let ok=0;for(const file of arr){try{progress(0,'Leyendo '+file.name);const old=relink?[...state.sources.values()].find(s=>s.missing&&s.name===file.name&&s.size===file.size):null;if(relink&&!old){msg(`No coincide: ${file.name}. Revise nombre y tamaño.`,true);continue;}const src=await buildSource(file,old?.id||null);if(old){record();state.sources.set(src.id,src);ok++;msg('Archivo vinculado: '+src.name)}else{loadAsLayer(src,at);ok++}progress(4,'Vista lista: '+file.name);await new Promise(r=>setTimeout(r,150))}catch(e){console.error(e);msg(`No se pudo abrir ${file.name}: ${e.message}`,true)}}progress(4,'Carga finalizada',false);setBusy(false);updateControls();if(ok)laterDraw();state.fileMode='open'}
-function saveProject(){if(!state.layers.length)return;const data={format:'GranImagen',version:'1.6.0',fecha:new Date().toISOString(),aviso:'El archivo .granimagen contiene referencias y ajustes, no incluye las imágenes originales.',sources:[...state.sources.values()].map(s=>({id:s.id,name:s.name,size:s.size,modified:s.modified,format:s.format,w:s.w,h:s.h,geodata:s.geodata?{epsg:s.geodata.epsg,hasGeo:s.geodata.hasGeo,origin:s.geodata.origin,resolution:s.geodata.resolution,description:s.geodata.description,rotated:s.geodata.rotated,rasterType:s.geodata.rasterType}:null,metadata:s.metadata?{gps:s.metadata.gps,resumen:s.metadata.resumen,items:s.metadata.items?.slice(0,2000),incomplete:s.metadata.incomplete}:null})),scene:state.scene,view:state.view,layers:state.layers,selected:state.selected};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),safeName(state.projectName.replace(/\.[^.]+$/,'')||'GranImagen')+'.granimagen');msg('Proyecto preparado para descarga; imágenes originales excluidas.')}
+function saveProject(){if(!state.layers.length)return;const data={format:'GranImagen',version:'1.7.0',fecha:new Date().toISOString(),aviso:'El archivo .granimagen contiene referencias y ajustes, no incluye las imágenes originales.',sources:[...state.sources.values()].map(s=>({id:s.id,name:s.name,size:s.size,modified:s.modified,format:s.format,w:s.w,h:s.h,geodata:s.geodata?{epsg:s.geodata.epsg,hasGeo:s.geodata.hasGeo,origin:s.geodata.origin,resolution:s.geodata.resolution,description:s.geodata.description,rotated:s.geodata.rotated,rasterType:s.geodata.rasterType}:null,metadata:s.metadata?{gps:s.metadata.gps,resumen:s.metadata.resumen,items:s.metadata.items?.slice(0,2000),incomplete:s.metadata.incomplete}:null})),scene:state.scene,view:state.view,layers:state.layers,selected:state.selected};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),safeName(state.projectName.replace(/\.[^.]+$/,'')||'GranImagen')+'.granimagen');msg('Proyecto preparado para descarga; imágenes originales excluidas.')}
 async function openProject(file){try{const json=JSON.parse(await file.text());if(json.format!=='GranImagen'||!Array.isArray(json.sources)||!Array.isArray(json.layers)||json.sources.length>2000||json.layers.length>5000)throw Error('Archivo de proyecto no compatible');createDocument(file.name.replace(/\.granimagen$/i,''));state.sources=new Map(json.sources.filter(s=>typeof s.id==='string'&&typeof s.name==='string'&&Number.isFinite(s.w)&&Number.isFinite(s.h)).map(s=>[s.id,{...s,missing:true,preview:null,file:null}]));state.layers=json.layers.filter(l=>(['text','measure'].includes(l.kind)||state.sources.has(l.sourceId))&&Number.isFinite(l.w)&&Number.isFinite(l.h)&&Number.isFinite(l.x)&&Number.isFinite(l.y)).map(l=>({...l,angle:Number.isFinite(l.angle)?l.angle:0,visible:l.visible!==false,locked:!!l.locked,opacity:clamp(Number(l.opacity)||0,0,1)}));state.scene=json.scene||{w:0,h:0};state.selected=state.layers.some(l=>l.id===json.selected)?json.selected:state.layers.at(-1)?.id||null;state.multi=new Set(state.selected?[state.selected]:[]);state.mode='normal';fit();updateControls();msg('Proyecto abierto. Vincule las imágenes originales.');modal('Vincular archivos',`<p>Este proyecto no contiene las imágenes originales. Seleccione sus archivos TIFF, JPG, PNG o WebP para volver a mostrarlos. Deben conservar el nombre y tamaño originales.</p><button id="modalRelink">Vincular imágenes</button>`);$('modalRelink').onclick=()=>{closeModal();$('relinkPicker').click()}}catch(e){msg('No se pudo leer el proyecto: '+e.message,true)}}
 function download(blob,filename){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=safeName(filename);document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60_000)}
 function startCrop(){measureType=null;measureDraft=null;const l=getSelected()||state.layers[0];if(!l||['text','measure'].includes(l.kind)){msg('Seleccione una capa de imagen para dibujar el recorte.',true);return}if(Math.abs(l.angle||0)>1e-6){msg('Para recortar esta capa, ajuste primero su rotación a cero.',true);return}state.selected=l.id;state.mode='crop';state.crop=null;$('actionText').textContent='Recorte dibujado';updateControls();msg('Dibuje el área: toque y arrastre sobre la imagen. Después puede ajustar las esquinas.')}
@@ -223,7 +223,7 @@ function finishTextEdit(exit){const l=getSelected();if(l?.kind==='text'&&l.editi
 function editText(){if(!state.scene.w){msg('Primero importe una imagen.',true);return}const l=getSelected();if(l?.kind==='text'){state.mode='edit';showTextEntry(l);return}state.mode='text-place';msg('Toque o haga clic sobre la imagen para escribir.');updateControls()}
 function modal(title,html){$('modalTitle').textContent=title;$('modalBody').innerHTML=html;$('modal').showModal()}
 function closeModal(){$('modal').close()}
-function help(){modal('Gran Imagen · v1.6.0',`<p>Importe imágenes locales como capas en la pestaña actual. Use + para abrir un proyecto o crear uno nuevo. Arrastrar una imagen la coloca en el punto donde la suelte, o según su referencia espacial si esta coincide con la base.</p><p>Las mediciones de distancia, área, ruta y coordenadas se basan en el EPSG y la resolución espacial de la base; no equivalen a un levantamiento topográfico. Pegue imágenes y texto mediante Ctrl+V. Eliminar no solicita confirmación porque puede deshacer con Ctrl+Z.</p><p>La vista GeoTIFF obtiene primero una panorámica y mejora el detalle visible cuando usted amplía. El indicador de carga mide etapas completadas, no bytes leídos. Para recortar, dibuje el rectángulo con el mouse o el dedo, ajuste las esquinas y confirme.</p><p>Ctrl+Z deshace y Ctrl+Y rehace. El texto se coloca tocando el mapa. Su barra permite fuente, escala uniforme o libre mediante las esquinas, rotación y simetría. Las capas se reordenan por el menú «Mover posición».</p><p>Exportar compone las capas visibles con un máximo de ocho millones de píxeles. Se conservan coordenadas GeoTIFF compatibles; no todos los metadatos originales.</p><p>Diseño: Arley Zarate. Desarrollo: NOVA. Versión 1.6.0.</p>`)}
+function help(){modal('Gran Imagen · v1.7.0',`<p>Importe imágenes locales como capas en la pestaña actual. Use + para abrir un proyecto o crear uno nuevo. Arrastrar una imagen la coloca en el punto donde la suelte, o según su referencia espacial si esta coincide con la base.</p><p>Las mediciones de distancia, área, ruta y coordenadas se basan en el EPSG y la resolución espacial de la base; no equivalen a un levantamiento topográfico. Pegue imágenes y texto mediante Ctrl+V. Eliminar no solicita confirmación porque puede deshacer con Ctrl+Z.</p><p>La vista GeoTIFF obtiene primero una panorámica y mejora el detalle visible cuando usted amplía. El indicador de carga mide etapas completadas, no bytes leídos. Para recortar, dibuje el rectángulo con el mouse o el dedo, ajuste las esquinas y confirme.</p><p>Ctrl+Z deshace y Ctrl+Y rehace. El texto se coloca tocando el mapa. Su barra permite fuente, escala uniforme o libre mediante las esquinas, rotación y simetría. Las capas se reordenan por el menú «Mover posición».</p><p>Exportar compone las capas visibles con un máximo de ocho millones de píxeles. Se conservan coordenadas GeoTIFF compatibles; no todos los metadatos originales.</p><p>Diseño: Arley Zarate. Desarrollo: NOVA. Versión 1.7.0.</p>`)}
 
 /* Medición: origen y paso de píxel de la imagen base. No se fabrican unidades cuando el CRS es desconocido. */
 function measurementGeo(){const l=state.layers.find(q=>q.kind==='base');const g=l&&state.sources.get(l.sourceId)?.geodata;if(!g||!g.epsg||!g.origin||!g.resolution||g.rotated||!g.resolution.every(v=>Number.isFinite(v))||!g.origin.every(v=>Number.isFinite(v)))return null;return g}
@@ -234,10 +234,10 @@ function polyArea(points){const crs=measureCRS();if(!crs||points.length<3)return
 const fmtMeters=n=>n==null?'Sin unidad verificable':n>=1000?(n/1000).toLocaleString('es-CO',{maximumFractionDigits:3})+' km':n.toLocaleString('es-CO',{maximumFractionDigits:n<1?3:2})+' m';
 const fmtArea=n=>n==null?'Sin área verificable':n>=10000?(n/10000).toLocaleString('es-CO',{maximumFractionDigits:3})+' ha':n.toLocaleString('es-CO',{maximumFractionDigits:2})+' m²';
 function measureLabel(l){const pts=l.vertices||[];if(!pts.length)return '';if(l.measureType==='point'){const pt=geoPoint(pts[0]);return pt?`EPSG:${measurementGeo().epsg}  ${pt.x.toFixed(3)}, ${pt.y.toFixed(3)}`:''}if(l.measureType==='area')return fmtArea(polyArea(pts));let d=0;for(let i=1;i<pts.length;i++)d+=(segmentMeters(pts[i-1],pts[i])||0);return fmtMeters(d)}
-function drawMeasurement(c,l){const pts=l.vertices||[];if(!pts.length)return;const scale=Math.max(state.view.zoom,.000001);c.save();c.globalAlpha=clamp(l.opacity??1,0,1);c.lineWidth=2/scale;c.strokeStyle='#8af5e5';c.fillStyle='#93ffed';c.lineJoin='round';c.setLineDash(l.preview?[6/scale,5/scale]:[]);c.beginPath();c.moveTo(pts[0].x,pts[0].y);for(const pt of pts.slice(1))c.lineTo(pt.x,pt.y);if(l.measureType==='area'&&pts.length>2){c.closePath();c.fillStyle='#4de0b633';c.fill()}if(pts.length>1)c.stroke();c.setLineDash([]);for(const pt of pts){c.beginPath();c.arc(pt.x,pt.y,4/scale,0,2*Math.PI);c.fillStyle='#aafff4';c.fill()}const last=pts.at(-1),label=l.preview?'':measureLabel(l);if(label){const size=12/scale;c.font=`600 ${size}px Arial`;const w=c.measureText(label).width+12/scale;c.fillStyle='#092333e8';c.fillRect(last.x+8/scale,last.y-23/scale,w,21/scale);c.fillStyle='#ecfffa';c.fillText(label,last.x+14/scale,last.y-8/scale)}c.restore()}
+function drawMeasurement(c,l){const pts=l.vertices||[];if(!pts.length)return;const scale=Math.max(state.view.zoom,.000001);c.save();c.globalAlpha=clamp(l.opacity??1,0,1);c.lineWidth=clamp(Number(l.lineWidth)||2,0.5,30)/scale;c.strokeStyle=l.color||'#8af5e5';c.fillStyle=l.color||'#93ffed';c.lineJoin='round';c.setLineDash(l.preview?[6/scale,5/scale]:[]);c.beginPath();c.moveTo(pts[0].x,pts[0].y);for(const pt of pts.slice(1))c.lineTo(pt.x,pt.y);if(l.measureType==='area'&&pts.length>2){c.closePath();c.fillStyle='#4de0b633';c.fill()}if(pts.length>1)c.stroke();c.setLineDash([]);for(const pt of pts){c.beginPath();c.arc(pt.x,pt.y,4/scale,0,2*Math.PI);c.fillStyle=l.color||'#aafff4';c.fill()}const last=pts.at(-1),label=l.preview?'':measureLabel(l);if(label){const size=12/scale;c.font=`600 ${size}px Arial`;const w=c.measureText(label).width+12/scale;c.fillStyle='#092333e8';c.fillRect(last.x+8/scale,last.y-23/scale,w,21/scale);c.fillStyle='#ecfffa';c.fillText(label,last.x+14/scale,last.y-8/scale)}c.restore()}
 function startMeasurement(type){if(!measurementGeo()||!measureCRS()){msg('El EPSG no permite determinar unidades métricas seguras. Use un CRS admitido (3116, 9377, UTM, WGS84).',true);return}measureType=type;measureDraft=[];measureHover=null;state.mode='measure';$('actionText').textContent={distance:'Distancia: dos puntos',route:'Ruta: marque puntos y acepte',area:'Área: dibuje polígono y acepte',point:'Coordenadas: toque un punto'}[type];updateControls();msg('Marque los puntos sobre la imagen. Para finalizar ruta o área pulse ✓.');}
 function addMeasureVertex(pt){if(!measureDraft)return;measureDraft.push(pt);measureHover=null;if((measureType==='point'&&measureDraft.length===1)||(measureType==='distance'&&measureDraft.length===2))finishMeasurement();else updateControls()}
-function finishMeasurement(){const minimum=measureType==='area'?3:measureType==='route'||measureType==='distance'?2:1;if(!measureDraft||measureDraft.length<minimum){msg('Marque más puntos para completar la medición.',true);return}record();const v=measureDraft.map(p=>({x:p.x,y:p.y}));const xs=v.map(p=>p.x),ys=v.map(p=>p.y),l={id:uuid(),kind:'measure',measureType,name:{point:'Coordenadas',distance:'Distancia',area:'Área',route:'Ruta'}[measureType],vertices:v,sourceId:null,x:Math.min(...xs),y:Math.min(...ys),w:Math.max(1,Math.max(...xs)-Math.min(...xs)),h:Math.max(1,Math.max(...ys)-Math.min(...ys)),angle:0,opacity:1,visible:true,locked:false};state.layers.push(l);state.selected=l.id;state.multi=new Set([l.id]);measureDraft=null;measureHover=null;measureType=null;state.mode='normal';updateControls();msg('Medición: '+measureLabel(l))}
+function finishMeasurement(){const minimum=measureType==='area'?3:measureType==='route'||measureType==='distance'?2:1;if(!measureDraft||measureDraft.length<minimum){msg('Marque más puntos para completar la medición.',true);return}record();const v=measureDraft.map(p=>({x:p.x,y:p.y}));const xs=v.map(p=>p.x),ys=v.map(p=>p.y),l={id:uuid(),kind:'measure',measureType,name:{point:'Coordenadas',distance:'Distancia',area:'Área',route:'Ruta'}[measureType],vertices:v,sourceId:null,x:Math.min(...xs),y:Math.min(...ys),w:Math.max(1,Math.max(...xs)-Math.min(...xs)),h:Math.max(1,Math.max(...ys)-Math.min(...ys)),angle:0,opacity:1,color:'#8af5e5',lineWidth:2,visible:true,locked:false};state.layers.push(l);state.selected=l.id;state.multi=new Set([l.id]);measureDraft=null;measureHover=null;measureType=null;state.mode='normal';updateControls();msg('Medición: '+measureLabel(l))}
 function selectedDimensions(l){const geo=measurementGeo(),crs=measureCRS();if(!geo||!crs)return{width:l.w,height:l.h,unit:'px',factorX:1,factorY:1};const a={x:l.x,y:l.y},t=l.angle||0;const wx0={x:a.x+l.w*Math.cos(t),y:a.y+l.w*Math.sin(t)},hy0={x:a.x-l.h*Math.sin(t),y:a.y+l.h*Math.cos(t)};const aw=segmentMeters(a,wx0),ah=segmentMeters(a,hy0);return aw!=null&&ah!=null?{width:aw,height:ah,unit:'m',factorX:aw/Math.max(1e-8,l.w),factorY:ah/Math.max(1e-8,l.h)}:{width:l.w,height:l.h,unit:'px',factorX:1,factorY:1}}
 function positionDimensions(){const panel=$('objectDims'),l=getSelected();if(!l||l.kind==='measure'||l.locked||!l.visible||!['edit'].includes(state.mode)){panel.hidden=true;return}panel.hidden=false;const d=selectedDimensions(l),fmt=v=>v.toFixed(d.unit==='px'?1:3);if(!dimensionRefresh){$('dimWidth').value=fmt(d.width);$('dimHeight').value=fmt(d.height);$('dimAngle').value=((l.angle||0)*180/Math.PI).toFixed(1)}$('dimUnit').textContent=d.unit;$('dimUniform').classList.toggle('active',l.uniformScale!==false);const vw=$('viewWidth'),vh=$('viewHeight');vw.textContent=fmt(d.width)+' '+d.unit;vh.textContent=fmt(d.height)+' '+d.unit;panel.style.left=Math.max(5,Math.min(cw()-Math.min(370,cw()-10),sx(l.x)))+'px';panel.style.top=Math.max(8,Math.min(ch()-55,sy(l.y+l.h)+35))+'px'}
 function initDimensions(){const change=(name,input)=>{const l=getSelected();if(!l||l.locked||l.kind==='measure')return;const n=Number(input.value),d=selectedDimensions(l);if(!Number.isFinite(n)||n<=0)return;record();if(name==='angle'){l.angle=n*Math.PI/180}else{const originalW=l.w,originalH=l.h;if(name==='width'){l.w=n/d.factorX;if(l.uniformScale!==false)l.h=originalH*l.w/originalW}else{l.h=n/d.factorY;if(l.uniformScale!==false)l.w=originalW*l.h/originalH}}updateControls()};$('dimWidth').onchange=e=>change('width',e.target);$('dimHeight').onchange=e=>change('height',e.target);$('dimAngle').onchange=e=>change('angle',e.target);$('dimUniform').onclick=()=>{const l=getSelected();if(l){record();l.uniformScale=l.uniformScale===false;updateControls()}};for(const el of $('objectDims').querySelectorAll('input')){el.addEventListener('focus',()=>dimensionRefresh=true);el.addEventListener('blur',()=>{dimensionRefresh=false;laterDraw()});el.addEventListener('pointerdown',e=>e.stopPropagation())}}
@@ -256,5 +256,353 @@ function wireEvents(){window.addEventListener('resize',resize);stage.addEventLis
  window.addEventListener('paste',onPaste);let depth=0;window.addEventListener('dragenter',e=>{if(e.dataTransfer?.types.includes('Files')){e.preventDefault();depth++;$('dropOverlay').hidden=false}});window.addEventListener('dragover',e=>{if(e.dataTransfer?.types.includes('Files'))e.preventDefault()});window.addEventListener('dragleave',e=>{if(e.dataTransfer?.types.includes('Files')){depth=Math.max(0,depth-1);if(!depth)$('dropOverlay').hidden=true}});window.addEventListener('drop',e=>{e.preventDefault();depth=0;$('dropOverlay').hidden=true;if(e.dataTransfer?.files?.length){state.fileMode='insert';loadFiles(e.dataTransfer.files,false,pointerStage(e))}});
 }
 function intro(){if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;const el=$('introParticles'),c=el.getContext('2d');const dpr=Math.min(devicePixelRatio||1,2);el.width=Math.round(innerWidth*dpr);el.height=Math.round(innerHeight*dpr);el.classList.add('intro');const N=Math.min(135,innerWidth<650?70:130),pts=Array.from({length:N},(_,i)=>({angle:Math.random()*Math.PI*2,r:Math.sqrt(Math.random()),phase:Math.random()*5,size:Math.random()*1.6+0.5}));let start=performance.now();function frame(t){const f=Math.min(1,(t-start)/1750),ease=1-Math.pow(1-f,3),g=$('brand').getBoundingClientRect(),center={x:g.left+22,y:g.top+23},cx=innerWidth/2,cy=innerHeight/2;const scale=(1-ease)*Math.min(innerWidth,innerHeight)*.23+ease*20;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,innerWidth,innerHeight);for(const p of pts){const a=p.angle+t*.0001;const origin={x:cx+Math.cos(a)*scale*(.7+p.r),y:cy+Math.sin(a)*scale*(.7+p.r)*.85};const x=origin.x+(center.x-origin.x)*ease,y=origin.y+(center.y-origin.y)*ease;c.beginPath();c.fillStyle=`rgba(103,239,235,${(.8-f*.7).toFixed(3)})`;c.arc(x,y,p.size*(1-ease*.5),0,Math.PI*2);c.fill()}if(f<1)requestAnimationFrame(frame);else{el.classList.remove('intro');c.clearRect(0,0,innerWidth,innerHeight)}}requestAnimationFrame(frame)}
+
+/* 2026-10-28 · Gran Imagen 1.7.0 · selección múltiple y herramientas rápidas */
+const GI_PATCH_VERSION='1.7.0';
+let lastLayerPick=null, multiPickMode=false, moveArmed=false;
+let multiTransform=null;
+
+function rotatePoint(p,cx,cy,rad){const x=p.x-cx,y=p.y-cy,co=Math.cos(rad),si=Math.sin(rad);return{x:cx+x*co-y*si,y:cy+x*si+y*co};}
+function syncVectorBounds(l){if(!l.vertices?.length)return;const xs=l.vertices.map(v=>v.x),ys=l.vertices.map(v=>v.y);l.x=Math.min(...xs);l.y=Math.min(...ys);l.w=Math.max(1,Math.max(...xs)-l.x);l.h=Math.max(1,Math.max(...ys)-l.y);}
+function drawVectorNodes(){
+ const container=$('vectorNodes');if(!container)return;
+ const ids=currentSelectionIds(),l=ids.length===1?getSelected():null;
+ const show=l?.kind==='measure' && Array.isArray(l.vertices) && !l.locked && l.visible && state.mode!=='measure';
+ container.hidden=!show;
+ if(!show){container.replaceChildren();return;}
+ if(container.dataset.layer===l.id && container.childElementCount===l.vertices.length){
+  [...container.children].forEach((handle,i)=>{handle.style.left=sx(l.vertices[i].x)+'px';handle.style.top=sy(l.vertices[i].y)+'px';});
+  return;
+ }
+ container.replaceChildren(); container.dataset.layer=l.id;
+ l.vertices.forEach((v,i)=>{
+  const h=document.createElement('button');h.type='button';h.className='vector-node';h.title=`Mover nodo ${i+1}`;h.setAttribute('aria-label',`Mover nodo ${i+1}`);
+  h.style.left=sx(v.x)+'px';h.style.top=sy(v.y)+'px';
+  h.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();e.stopPropagation();record();h.setPointerCapture(e.pointerId);h.dataset.drag='1';});
+  h.addEventListener('pointermove',e=>{if(h.dataset.drag!=='1')return;const p=pointerStage(e);l.vertices[i]={x:wx(p.x),y:wy(p.y)};syncVectorBounds(l);laterDraw();e.stopPropagation();});
+  const end=e=>{if(h.dataset.drag!=='1')return;delete h.dataset.drag;updateControls();e.stopPropagation();};
+  h.addEventListener('pointerup',end);h.addEventListener('pointercancel',end);
+  container.append(h);
+ });
+}
+function currentSelectionIds(){ return state.multi?.size ? [...state.multi] : (state.selected ? [state.selected] : []); }
+function currentSelectionLayers(){
+  const ids=currentSelectionIds();
+  return ids.map(id=>state.layers.find(l=>l.id===id)).filter(Boolean);
+}
+function deepClone(obj){ try{return structuredClone(obj);}catch(_){ return JSON.parse(JSON.stringify(obj)); } }
+function layerBounds(layer){
+  if(!layer) return null;
+  if(layer.kind==='measure'){
+    const pts=(layer.vertices||[]);
+    if(!pts.length) return {x:layer.x||0,y:layer.y||0,w:layer.w||1,h:layer.h||1};
+    const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+    return {x:Math.min(...xs), y:Math.min(...ys), w:Math.max(1,Math.max(...xs)-Math.min(...xs)), h:Math.max(1,Math.max(...ys)-Math.min(...ys))};
+  }
+  return {x:layer.x||0,y:layer.y||0,w:Math.max(1,layer.w||1),h:Math.max(1,layer.h||1)};
+}
+function unionBounds(ids){
+  const layers=ids.map(id=>state.layers.find(l=>l.id===id)).filter(Boolean);
+  if(!layers.length) return null;
+  const bounds=layers.map(layerBounds).filter(Boolean);
+  const xs=bounds.map(b=>[b.x,b.x+b.w]).flat(), ys=bounds.map(b=>[b.y,b.y+b.h]).flat();
+  return {x:Math.min(...xs), y:Math.min(...ys), w:Math.max(...xs)-Math.min(...xs), h:Math.max(...ys)-Math.min(...ys)};
+}
+function updateSelectionState(ids,last){
+  const clean=(ids||[]).filter(Boolean);
+  state.multi=new Set(clean);
+  state.selected=(last && state.multi.has(last))?last:(clean.at(-1)||null);
+  lastLayerPick=state.selected||lastLayerPick;
+  state.mode=(state.selected && getSelected() && !getSelected().locked && getSelected().kind!=='base') ? 'edit' : 'normal';
+  updateControls();
+}
+const _selectLayerOriginal = selectLayer;
+selectLayer = function(id, options){
+  const opts=options||{};
+  if(!opts || (!opts.additive && !opts.range)) {
+    _selectLayerOriginal(id);
+    lastLayerPick=id;
+    return;
+  }
+  const order=state.layers.map(l=>l.id);
+  if(opts.range && (state.selected || lastLayerPick)){
+    const a=order.indexOf(lastLayerPick || state.selected);
+    const b=order.indexOf(id);
+    if(a>-1 && b>-1){
+      const [s,e]=a<b?[a,b]:[b,a];
+      const ids=order.slice(s,e+1);
+      updateSelectionState(ids,id);
+      return;
+    }
+  }
+  const set=new Set(currentSelectionIds());
+  if(set.has(id)) set.delete(id); else set.add(id);
+  if(!set.size) set.add(id);
+  updateSelectionState([...set],id);
+};
+function duplicateSelection(){
+  const layers=currentSelectionLayers().filter(l=>l.kind!=='base');
+  if(!layers.length) return;
+  record();
+  const clones=[];
+  for(const layer of layers){
+    const copy=deepClone(layer);
+    copy.id=uuid();
+    copy.name=((layer.name||'Capa')+' copia').trim();
+    copy.x=(layer.x||0)+10;
+    copy.y=(layer.y||0)+10;
+    if(Array.isArray(copy.vertices)) copy.vertices=copy.vertices.map(v=>({x:v.x+10,y:v.y+10}));
+    const index=state.layers.findIndex(l=>l.id===layer.id);
+    state.layers.splice(index+1,0,copy);
+    clones.push(copy);
+  }
+  if(clones.length){
+    updateSelectionState(clones.map(c=>c.id), clones.at(-1).id);
+    laterDraw();
+    msg((clones.length===1?'Capa duplicada.':'Capas duplicadas.'));
+  }
+}
+function applyFlip(axis){
+  const layers=currentSelectionLayers().filter(l=>!l.locked && l.kind!=='base');
+  if(!layers.length) return;
+  record();
+  const bounds=unionBounds(layers.map(l=>l.id));
+  const centerX=bounds.x+bounds.w/2, centerY=bounds.y+bounds.h/2;
+  for(const l of layers){
+    if(l.kind==='measure' && Array.isArray(l.vertices)){
+      l.vertices=l.vertices.map(p=>axis==='h'?{x:centerX*2-p.x,y:p.y}:{x:p.x,y:centerY*2-p.y});
+      syncVectorBounds(l);
+    } else {
+      if(axis==='h'){l.x=centerX*2-l.x-l.w;l.flipX=!l.flipX;}
+      if(axis==='v'){l.y=centerY*2-l.y-l.h;l.flipY=!l.flipY;}
+    }
+  }
+  laterDraw(); updateControls();
+}
+function rotateSelection(step){
+  const layers=currentSelectionLayers().filter(l=>!l.locked && l.kind!=='base');
+  if(!layers.length) return;
+  record();
+  const b=unionBounds(layers.map(l=>l.id));const cx=b.x+b.w/2,cy=b.y+b.h/2,rad=step*Math.PI/180;
+  for(const l of layers){
+    if(l.kind==='measure' && Array.isArray(l.vertices)){
+      l.vertices=l.vertices.map(p=>rotatePoint(p,cx,cy,rad));syncVectorBounds(l);
+    } else {
+      const c=rotatePoint({x:l.x+l.w/2,y:l.y+l.h/2},cx,cy,rad);
+      l.x=c.x-l.w/2;l.y=c.y-l.h/2;l.angle=(l.angle||0)+rad;
+    }
+  }
+  laterDraw(); updateControls();
+}
+function pointInLayer(layer,x,y){
+  if(!layer || !layer.visible || layer.locked) return false;
+  const b=layerBounds(layer);
+  if(layer.kind==='measure'){
+    return x>=b.x-6/state.view.zoom && x<=b.x+b.w+6/state.view.zoom && y>=b.y-6/state.view.zoom && y<=b.y+b.h+6/state.view.zoom;
+  }
+  const cx=b.x+b.w/2, cy=b.y+b.h/2;
+  let px=x-cx, py=y-cy;
+  const ang=-(layer.angle||0);
+  const rx=px*Math.cos(ang)-py*Math.sin(ang);
+  const ry=px*Math.sin(ang)+py*Math.cos(ang);
+  px=rx; py=ry;
+  const localX=px + b.w/2, localY=py + b.h/2;
+  return localX>=0 && localX<=b.w && localY>=0 && localY<=b.h;
+}
+function hitSelectable(tx,ty){
+  return [...state.layers].reverse().find(l=>l.kind!=='base' && l.visible && pointInLayer(l,tx,ty));
+}
+function positionSelectionTools(){
+  const tools=$('selectionTools'), sb=$('selectionBox');
+  if(!tools || !sb) return;
+  const ids=currentSelectionIds();
+  if(!ids.length || !ids.some(id=>{const l=state.layers.find(x=>x.id===id);return l && !l.locked && l.kind!=='base' && l.visible}) || ['crop','measure','text-place'].includes(state.mode)){ tools.hidden=true; return; }
+  const b=ids.length>1 ? unionBounds(ids) : layerBounds(getSelected());
+  if(!b){ tools.hidden=true; return; }
+  tools.hidden=false;
+  tools.style.left=Math.max(10, Math.min(cw()-260, sx(b.x)+Math.max(0,(b.w*state.view.zoom-210)/2)))+'px';
+  tools.style.top=Math.max(10, sy(b.y)-46)+'px';
+}
+const _positionBoxesOriginal=positionBoxes;
+positionBoxes=function(){
+  _positionBoxesOriginal();
+  const ids=currentSelectionIds();
+  const s=$('selectionBox');
+  if(ids.length>1){
+    const b=unionBounds(ids);
+    if(b){
+      s.hidden=false;
+      s.classList.add('multi');
+      s.style.left=sx(b.x)+'px';
+      s.style.top=sy(b.y)+'px';
+      s.style.width=Math.max(8,b.w*state.view.zoom)+'px';
+      s.style.height=Math.max(8,b.h*state.view.zoom)+'px';
+      s.style.transform='none';
+      $('viewWidth').textContent=(Math.abs(b.w).toFixed(3).replace(/\.?0+$/,''))+'';
+      $('viewHeight').textContent=ids.length+' seleccionados';
+      $('objectDims').hidden=true;
+    }
+  } else {
+    s.classList.remove('multi');
+  }
+  positionSelectionTools();
+  drawVectorNodes();
+}
+const _renderLayersOriginal=renderLayers;
+renderLayers=function(){
+  _renderLayersOriginal();
+  const list=$('layerList');
+  const rows=[...list.querySelectorAll('.layer')];
+  const mapped=[...state.layers].reverse();
+  rows.forEach((row,i)=>{
+    const layer=mapped[i]; if(!layer) return;
+    row.dataset.layerId=layer.id;
+    if(state.multi?.has(layer.id)) row.setAttribute('aria-multi','true'); else row.removeAttribute('aria-multi');
+    row.onclick=(e)=>{
+      if(e.target.closest('button,input,label,.layer-alpha')) return;
+      if(e.shiftKey && !multiPickMode) selectLayer(layer.id,{range:true});
+      else if(e.ctrlKey||e.metaKey||multiPickMode) selectLayer(layer.id,{additive:true});
+      else selectLayer(layer.id);
+    };
+    row.onkeydown=(e)=>{
+      if(e.key==='Delete'||e.key==='Backspace'){ e.preventDefault(); deleteSelected(); }
+      if((e.key||'').toLowerCase()==='d' && !e.ctrlKey && !e.metaKey){ e.preventDefault(); duplicateSelection(); }
+      if(e.key===' '||e.key==='Enter'){ e.preventDefault(); row.click(); }
+    };
+    const slider=row.querySelector('input[type="range"]');
+    if(slider){
+      slider.addEventListener('pointerdown',ev=>ev.stopPropagation());
+      slider.addEventListener('click',ev=>ev.stopPropagation());
+      slider.addEventListener('keydown',ev=>ev.stopPropagation());
+    }
+  });
+}
+function wireQuickActions(){
+  $('btnDuplicateLayers')?.addEventListener('click',duplicateSelection);
+  $('btnDeleteLayers')?.addEventListener('click',deleteSelected);
+  $('btnMultiMode')?.addEventListener('click',()=>{multiPickMode=!multiPickMode;const b=$('btnMultiMode');b.setAttribute('aria-pressed',String(multiPickMode));b.title=multiPickMode?'Desactivar selección múltiple':'Activar selección múltiple';b.classList.toggle('active',multiPickMode);msg(multiPickMode?'Selección múltiple activada. Toque las capas u objetos.':'Selección múltiple desactivada.');});
+  $('selDuplicate')?.addEventListener('click',duplicateSelection);
+  $('selDelete')?.addEventListener('click',deleteSelected);
+  $('selFlipH')?.addEventListener('click',()=>applyFlip('h'));
+  $('selFlipV')?.addEventListener('click',()=>applyFlip('v'));
+  $('selRotateL')?.addEventListener('click',()=>rotateSelection(-15));
+  $('selRotateR')?.addEventListener('click',()=>rotateSelection(15));
+  $('selMoveHint')?.addEventListener('click',()=>{moveArmed=!moveArmed;$('selMoveHint').classList.toggle('active',moveArmed);msg(moveArmed?'Arrastre en la imagen para mover la selección.':'Movimiento libre desactivado.');});
+  $('vectorColor')?.addEventListener('change',e=>{const l=getSelected();if(l?.kind!=='measure')return;record();l.color=e.target.value;laterDraw();});
+  $('vectorWidth')?.addEventListener('change',e=>{const l=getSelected();if(l?.kind!=='measure')return;record();l.lineWidth=clamp(Number(e.target.value)||2,.5,30);laterDraw();});
+}
+function startMultiTransform(kind,start){
+  const editable=currentSelectionLayers().filter(l=>!l.locked && l.kind!=='base' && l.visible);
+  if(!editable.length)return false;
+  const center=unionBounds(editable.map(l=>l.id)); if(!center) return false;
+  multiTransform={kind,start,center:{x:center.x+center.w/2,y:center.y+center.h/2},items:editable.map(l=>({id:l.id,x:l.x||0,y:l.y||0,angle:l.angle||0,vertices:Array.isArray(l.vertices)?l.vertices.map(v=>({x:v.x,y:v.y})):null}))};
+  return true;
+}
+function updateMultiTransform(pt){
+  if(!multiTransform) return;
+  const dx=(pt.x-multiTransform.start.x)/state.view.zoom;
+  const dy=(pt.y-multiTransform.start.y)/state.view.zoom;
+  if(multiTransform.kind==='move'){
+    multiTransform.items.forEach(item=>{
+      const l=state.layers.find(x=>x.id===item.id); if(!l) return;
+      if(Array.isArray(item.vertices)){l.vertices=item.vertices.map(v=>({x:v.x+dx,y:v.y+dy}));syncVectorBounds(l);}
+      if(Number.isFinite(item.x)) l.x=item.x+dx;
+      if(Number.isFinite(item.y)) l.y=item.y+dy;
+    });
+  } else if(multiTransform.kind==='rotate'){
+    const c=multiTransform.center;
+    const startA=Math.atan2(multiTransform.start.y-sy(c.y), multiTransform.start.x-sx(c.x));
+    const nowA=Math.atan2(pt.y-sy(c.y), pt.x-sx(c.x));
+    const delta=nowA-startA;
+    multiTransform.items.forEach(item=>{
+      const l=state.layers.find(x=>x.id===item.id); if(!l) return;
+      if(Array.isArray(item.vertices)){l.vertices=item.vertices.map(p=>rotatePoint(p,c.x,c.y,delta));syncVectorBounds(l);}
+      else {const center=rotatePoint({x:item.x+l.w/2,y:item.y+l.h/2},c.x,c.y,delta);l.x=center.x-l.w/2;l.y=center.y-l.h/2;l.angle=(item.angle||0)+delta;}
+    });
+  }
+  laterDraw();
+}
+function stopMultiTransform(){
+  if(multiTransform){ multiTransform=null; updateControls(); }
+}
+function installSelectionInterceptors(){
+  const box=$('selectionBox');
+  if(box && !box.dataset.giPatch){
+    box.dataset.giPatch='1';
+    box.addEventListener('pointerdown',e=>{
+      const handle=e.target.closest('[data-handle]')?.dataset.handle;
+      if(handle==='mirrorh' || handle==='mirrorv'){
+        e.preventDefault(); e.stopImmediatePropagation();
+        applyFlip(handle==='mirrorh'?'h':'v');
+        return;
+      }
+      if(currentSelectionIds().length>1){
+        if(handle==='rotate' || !handle){
+          record();
+          startMultiTransform(handle==='rotate'?'rotate':'move', pointerStage(e));
+          box.setPointerCapture?.(e.pointerId);
+          e.preventDefault(); e.stopImmediatePropagation();
+        }
+      }
+    }, true);
+    box.addEventListener('pointermove',e=>{
+      if(!multiTransform) return;
+      updateMultiTransform(pointerStage(e));
+      e.preventDefault(); e.stopImmediatePropagation();
+    }, true);
+    const endMulti=(e)=>{ if(!multiTransform) return; stopMultiTransform(); e.preventDefault(); e.stopImmediatePropagation(); };
+    box.addEventListener('pointerup',endMulti,true);
+    box.addEventListener('pointercancel',endMulti,true);
+  }
+  stage.addEventListener('pointerdown',e=>{
+    if(e.target!==stage && e.target!==canvas) return;
+    if(!['normal','edit'].includes(state.mode)) return;
+    if(e.button!==0)return;
+    if(moveArmed && currentSelectionLayers().some(l=>!l.locked && l.kind!=='base' && l.visible)){
+      record();startMultiTransform('move',pointerStage(e));
+      stage.setPointerCapture?.(e.pointerId);
+      e.preventDefault();e.stopImmediatePropagation();return;
+    }
+    if(!(e.ctrlKey||e.metaKey||e.shiftKey||multiPickMode)) {
+      const pt=pointerStage(e), hit=hitSelectable(wx(pt.x),wy(pt.y));
+      if(hit && hit.id!==state.selected) {selectLayer(hit.id);e.preventDefault();e.stopImmediatePropagation();}
+      return;
+    }
+    const p=pointerStage(e), tx=wx(p.x), ty=wy(p.y);
+    const hit=hitSelectable(tx,ty);
+    if(!hit) return;
+    if(e.shiftKey && !multiPickMode) selectLayer(hit.id,{range:true});
+    else selectLayer(hit.id,{additive:true});
+    e.preventDefault(); e.stopImmediatePropagation();
+  }, true);
+  stage.addEventListener('pointermove',e=>{
+    if(multiTransform){ updateMultiTransform(pointerStage(e)); e.preventDefault(); e.stopImmediatePropagation(); }
+  }, true);
+  stage.addEventListener('pointerup',e=>{ if(multiTransform){ stopMultiTransform(); if(moveArmed){moveArmed=false;$('selMoveHint').classList.remove('active');}e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  stage.addEventListener('pointercancel',e=>{if(multiTransform)stopMultiTransform();moveArmed=false;$('selMoveHint').classList.remove('active');},true);
+}
+function patchKeyboard(){
+  window.addEventListener('keydown',e=>{
+    const active=document.activeElement;
+    const typing=active && /input|textarea/i.test(active.tagName);
+    if(!typing && (e.key||'').toLowerCase()==='d' && currentSelectionIds().length){
+      e.preventDefault();
+      duplicateSelection();
+    }
+  }, true);
+}
+const _updateControlsOriginal=updateControls;
+updateControls=function(){
+  _updateControlsOriginal();
+  const many=currentSelectionIds().length>1;
+  if($('btnDuplicateLayers')) $('btnDuplicateLayers').disabled=!currentSelectionIds().length;
+  if($('btnDeleteLayers')) $('btnDeleteLayers').disabled=!currentSelectionIds().length;
+  positionSelectionTools();
+  const v=currentSelectionIds().length===1?getSelected():null;
+  for(const id of ['vectorColorWrap','vectorWidthWrap'])$(id).hidden=!(v?.kind==='measure' && !v.locked);
+  if(v?.kind==='measure'){$('vectorColor').value=v.color||'#8af5e5';$('vectorWidth').value=Number(v.lineWidth)||2;}
+}
+setTimeout(()=>{ wireQuickActions(); installSelectionInterceptors(); patchKeyboard(); updateControls(); renderLayers(); }, 0);
+
 wireEvents();initDock();createDocument();resize();updateControls();requestAnimationFrame(intro);
 })();
