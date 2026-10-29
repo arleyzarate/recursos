@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#081321">
 <meta name="description" content="Gran Imagen: visor y editor local de imágenes geográficas.">
 <title>Gran Imagen · Editor local</title>
-<link rel="stylesheet" href="estilos.css?v=1.5.0">
+<link rel="stylesheet" href="estilos.css?v=1.6.0">
 </head>
 <body>
 <svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +43,7 @@
 <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 3 8l6-6M3 8h11a7 7 0 0 1 0 14h-3"/></symbol>
 <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 6-6-6-6m6 6H10a7 7 0 0 0 0 14h3"/></symbol>
 <symbol id="i-flip" viewBox="0 0 24 24"><path d="M12 3v18M9 5 3 12l6 7M15 5l6 7-6 7"/></symbol>
+<symbol id="i-ruler" viewBox="0 0 24 24"><path d="m3 17 14-14 4 4L7 21 3 17Zm5-5 3 3m0-6 3 3m0-6 3 3"/></symbol>
 <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 3 8m-3 4v-7h7"/></symbol>
 </svg>
 <canvas id="introParticles" aria-hidden="true"></canvas>
@@ -58,8 +59,10 @@
     </div>
     <div id="cropBox" class="crop-box" hidden><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i></div>
     <div id="textTools" class="text-tools glass" hidden aria-label="Herramientas de texto"><select id="textFont" aria-label="Fuente"><option>Arial</option><option>Verdana</option><option>Georgia</option><option>Tahoma</option><option>Courier New</option></select><input id="textSize" type="number" min="6" max="500" aria-label="Tamaño" title="Tamaño"/><input id="textColor" type="color" aria-label="Color" title="Color"/><button id="textBold" title="Negrita"><b>B</b></button><button id="textShadow" title="Sombra">☷</button><button id="textEffect" title="Efecto normal, hundido o tinta">✦</button><button id="textRotate" title="Rotar 15 grados">↻</button><button id="textMirror" title="Simetría horizontal">⇋</button><button id="textFlipY" title="Simetría vertical">⇵</button><button id="textUniform" title="Escala uniforme o libre">⤢</button><input id="textAlpha" type="range" min="0" max="100" title="Opacidad" aria-label="Transparencia" /></div>
+    <div id="textEditTray" class="text-edit-tray glass" hidden><button id="textAccept" class="action-yes">✓ Aceptar</button><button id="textExit" class="action-no">✕ Salir</button></div>
     <textarea id="textEntry" class="text-entry" rows="2" maxlength="2000" hidden aria-label="Escribir texto directamente en la imagen"></textarea>
-    <div id="selectionBox" class="selection-box" hidden><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i></div>
+    <div id="objectDims" class="object-dims glass" hidden><label>Ancho <input id="dimWidth" type="number" min="0.000001" step="any" aria-label="Modificar ancho"></label><label>Alto <input id="dimHeight" type="number" min="0.000001" step="any" aria-label="Modificar alto"></label><span id="dimUnit">m</span><button id="dimUniform" title="Escala uniforme" aria-label="Alternar escala uniforme">⛓</button><label>° <input id="dimAngle" type="number" step="1" aria-label="Ángulo en grados"></label></div>
+    <div id="selectionBox" class="selection-box" hidden><div class="dimension-label dim-w" id="viewWidth" title="Ancho de la capa"></div><div class="dimension-label dim-h" id="viewHeight" title="Alto de la capa"></div><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i></div>
   </div>
   <div id="loadProgress" class="load-progress glass" hidden role="status" aria-live="polite"><strong id="loadTitle">Leyendo imagen</strong><div><span id="loadBar"></span></div><small id="loadText">Preparando archivo…</small></div>
   <div id="dropOverlay" hidden><div><svg><use href="#i-image"/></svg>Soltar para abrir como capa</div></div>
@@ -70,6 +73,7 @@
     <button id="btnOpen" data-tip="Importar imagen" aria-label="Importar imagen"><svg><use href="#i-import"/></svg></button>
     <button id="btnLayers" data-tip="Capas" aria-label="Mostrar u ocultar capas" aria-expanded="false"><svg><use href="#i-layers"/></svg></button>
     <button id="btnCrop" data-tip="Recortar" aria-label="Recortar imagen" disabled><svg><use href="#i-crop"/></svg></button>
+    <button id="btnMeasure" data-tip="Medir" aria-label="Medir distancias, áreas, rutas y coordenadas" disabled><svg><use href="#i-ruler"/></svg></button>
     <button id="btnText" data-tip="Agregar texto" aria-label="Agregar texto georreferenciado" disabled><svg><use href="#i-type"/></svg></button>
       <button id="btnSave" data-tip="Guardar proyecto" aria-label="Guardar proyecto" disabled><svg><use href="#i-memory"/></svg></button>
     <button id="btnUndo" data-tip="Deshacer" aria-label="Deshacer" disabled><svg><use href="#i-undo"/></svg></button>
@@ -81,10 +85,11 @@
     <div id="layerList" class="layer-list"><p class="small">Todavía no hay capas.</p></div><button id="linkMissing" class="relink" hidden>Vincular imágenes pendientes</button>
     <p class="hint">Doble clic: renombrar. Supr: eliminar. Clic derecho o pulsación prolongada: opciones.</p>
   </aside>
+  <div id="measureMenu" class="measure-menu glass" hidden><button data-measure="distance">Dos puntos</button><button data-measure="route">Ruta</button><button data-measure="area">Área</button><button data-measure="point">Coordenadas</button></div>
   <div id="actionTray" class="action-tray glass" hidden><span id="actionText">Recorte</span><button id="confirmAction" class="action-yes" aria-label="Aceptar"><svg><use href="#i-check"/></svg></button><button id="cancelAction" class="action-no" aria-label="Cancelar"><svg><use href="#i-x"/></svg></button></div>
   <button id="geoStatus" type="button" class="geo-status glass" title="Ver información de la imagen" aria-label="Consultar datos de la imagen"><div class="status-led"></div><div><strong id="geoTitle">Sin imagen</strong><span id="geoDetail">Seleccione un archivo local</span></div><svg class="status-arrow" aria-hidden="true"><use href="#i-info"/></svg></button>
   <div class="zoom-dock glass"><button id="zoomIn" title="Acercar" aria-label="Acercar"><svg><use href="#i-zoom-in"/></svg></button><button id="zoomOut" title="Alejar" aria-label="Alejar"><svg><use href="#i-zoom-out"/></svg></button><button id="zoomFit" title="Ajustar a pantalla" aria-label="Ajustar a pantalla"><svg><use href="#i-fit"/></svg></button></div>
-  <div id="compass" class="compass" hidden title="Norte de cuadrícula, no necesariamente norte geográfico"><span class="compass-n">N</span><div class="compass-needle">▲<span>▼</span></div><div class="compass-caption">Norte de cuadrícula</div></div>
+  <div id="compass" class="compass" hidden title="NG: orientación norte aproximada, según la cuadrícula del raster"><span class="compass-n">NG</span><svg class="north-arrow" viewBox="0 0 56 72" aria-hidden="true"><defs><linearGradient id="northGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcfffb"/><stop offset="1" stop-color="#45c6bc"/></linearGradient></defs><path d="M28 3 7 58 28 44 49 58Z" fill="url(#northGrad)" stroke="#a0fff1" stroke-width="2"/><path d="M28 3v41l21 14Z" fill="#276a8e"/><path d="M21 50 28 68l7-18-7-6Z" fill="#1b455b"/></svg><div class="compass-caption">Referencia norte</div></div>
   <button id="btnHelp" class="help" title="Información" aria-label="Acerca de, instrucciones e intención"><svg><use href="#i-info"/></svg></button>
   <div id="toast" role="status" aria-live="polite"></div>
 </main>
@@ -92,7 +97,7 @@
 <input id="filePicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
 <input id="projectPicker" type="file" accept=".granimagen,application/json" hidden>
 <input id="relinkPicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
-<script src="metadatos.js?v=1.5.0" defer></script>
-<script src="aplicacion.js?v=1.5.0" defer></script>
+<script src="metadatos.js?v=1.6.0" defer></script>
+<script src="aplicacion.js?v=1.6.0" defer></script>
 </body>
 </html>
