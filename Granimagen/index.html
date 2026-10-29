@@ -6,10 +6,15 @@
 <meta name="theme-color" content="#081321">
 <meta name="description" content="Gran Imagen: visor y editor local de imágenes geográficas.">
 <title>Gran Imagen · Editor local</title>
-<link rel="stylesheet" href="estilos.css?v=1.3.1">
+<link rel="stylesheet" href="estilos.css?v=1.4.0">
 </head>
 <body>
 <svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-import" viewBox="0 0 24 24"><path d="M3 18v3h18v-3M12 2v14m-5-5 5 5 5-5M4 7h4M16 7h4"/></symbol>
+<symbol id="i-memory" viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="3"/><path d="M17 9h5v6h-5M6 10v4M9 10v4M12 10v4"/></symbol>
+<symbol id="i-type" viewBox="0 0 24 24"><path d="M3 5h18M12 5v15M7 20h10M5 5v3M19 5v3"/></symbol>
+<symbol id="i-opacity" viewBox="0 0 24 24"><path d="M12 2C9 6 4 11 4 15a8 8 0 1 0 16 0c0-4-5-9-8-13Z"/><path d="M12 7v14"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-2 6-4 2 2-6 4-2Z"/></symbol>
 <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/></symbol>
 <symbol id="i-crop" viewBox="0 0 24 24"><path d="M7 2v15a2 2 0 0 0 2 2h13M2 7h15a2 2 0 0 1 2 2v13"/></symbol>
@@ -53,25 +58,24 @@
   </div>
   <div id="dropOverlay" hidden><div><svg><use href="#i-image"/></svg>Soltar para abrir como capa</div></div>
   <div class="brand" id="brand"><div class="brand-icon" aria-hidden="true"><span class="globe-grid"></span></div><div><strong>Gran<span>Imagen</span></strong><small>por Arley Zarate</small></div></div>
+  <div id="documentTabs" class="document-tabs" role="tablist" aria-label="Archivos y proyectos abiertos"></div>
   <nav class="toolbar" aria-label="Herramientas">
-    <button id="btnOpen" data-tip="Abrir imagen" aria-label="Abrir imagen"><svg><use href="#i-folder"/></svg></button>
+    <button id="btnOpen" data-tip="Importar imagen" aria-label="Importar imagen"><svg><use href="#i-import"/></svg></button>
     <button id="btnLayers" data-tip="Capas" aria-label="Mostrar u ocultar capas" aria-expanded="false"><svg><use href="#i-layers"/></svg></button>
     <button id="btnCrop" data-tip="Recortar" aria-label="Recortar imagen" disabled><svg><use href="#i-crop"/></svg></button>
-    <button id="btnInsert" data-tip="Insertar imagen" aria-label="Insertar imagen" disabled><svg><use href="#i-image"/></svg></button>
-    <div class="tool-separator"></div>
-    <button id="btnSave" data-tip="Guardar proyecto" aria-label="Guardar proyecto" disabled><svg><use href="#i-usb"/></svg></button>
-    <button id="btnProject" data-tip="Abrir proyecto" aria-label="Abrir proyecto"><svg><use href="#i-folder"/></svg><span class="corner">P</span></button>
+    <button id="btnText" data-tip="Agregar texto" aria-label="Agregar texto georreferenciado" disabled><svg><use href="#i-type"/></svg></button>
+      <button id="btnSave" data-tip="Guardar proyecto" aria-label="Guardar proyecto" disabled><svg><use href="#i-memory"/></svg></button>
     <button id="btnExport" data-tip="Exportar" aria-label="Exportar capas" disabled><svg><use href="#i-download"/></svg></button>
   </nav>
   <aside id="layersPanel" class="glass panel" hidden aria-label="Explorador de capas">
     <div class="panel-header"><strong>Capas</strong><button id="closeLayers" aria-label="Cerrar capas" class="plain"><svg><use href="#i-x"/></svg></button></div>
-    <div class="layer-panel-tools"><button id="btnAddLayer" title="Añadir imagen como capa"><svg aria-hidden="true"><use href="#i-plus"/></svg> Añadir imagen</button><button id="btnNewProject" title="Crear un proyecto nuevo"><svg aria-hidden="true"><use href="#i-file-plus"/></svg> Nuevo proyecto</button></div>
     <div id="layerList" class="layer-list"><p class="small">Todavía no hay capas.</p></div><button id="linkMissing" class="relink" hidden>Vincular imágenes pendientes</button>
-    <p class="hint">Toque una capa para seleccionarla. Doble clic en su nombre para cambiarlo.</p>
+    <p class="hint">Doble clic: renombrar. Supr: eliminar. Clic derecho o pulsación prolongada: opciones.</p>
   </aside>
   <div id="actionTray" class="action-tray glass" hidden><span id="actionText">Recorte</span><button id="confirmAction" class="action-yes" aria-label="Aceptar"><svg><use href="#i-check"/></svg></button><button id="cancelAction" class="action-no" aria-label="Cancelar"><svg><use href="#i-x"/></svg></button></div>
   <button id="geoStatus" type="button" class="geo-status glass" title="Ver información de la imagen" aria-label="Consultar datos de la imagen"><div class="status-led"></div><div><strong id="geoTitle">Sin imagen</strong><span id="geoDetail">Seleccione un archivo local</span></div><svg class="status-arrow" aria-hidden="true"><use href="#i-info"/></svg></button>
   <div class="zoom-dock glass"><button id="zoomIn" title="Acercar" aria-label="Acercar"><svg><use href="#i-zoom-in"/></svg></button><button id="zoomOut" title="Alejar" aria-label="Alejar"><svg><use href="#i-zoom-out"/></svg></button><button id="zoomFit" title="Ajustar a pantalla" aria-label="Ajustar a pantalla"><svg><use href="#i-fit"/></svg></button></div>
+  <div id="compass" class="compass" hidden title="Norte de cuadrícula de la imagen; no representa necesariamente el norte verdadero"><span>N</span><svg aria-hidden="true"><use href="#i-compass"/></svg><div><span>O</span><span>E</span></div><span>S</span></div>
   <button id="btnHelp" class="help" title="Información" aria-label="Acerca de, instrucciones e intención"><svg><use href="#i-info"/></svg></button>
   <div id="toast" role="status" aria-live="polite"></div>
 </main>
@@ -79,7 +83,7 @@
 <input id="filePicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
 <input id="projectPicker" type="file" accept=".granimagen,application/json" hidden>
 <input id="relinkPicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
-<script src="metadatos.js?v=1.3.1" defer></script>
-<script src="aplicacion.js?v=1.3.1" defer></script>
+<script src="metadatos.js?v=1.4.0" defer></script>
+<script src="aplicacion.js?v=1.4.0" defer></script>
 </body>
 </html>
