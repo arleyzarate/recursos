@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; worker-src 'none'; font-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none';">
+  <title>Megaste | Organizador</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="aplicacion.js" defer></script>
+</head>
+<body>
+  <header class="superior">
+    <div class="marca" aria-label="Megaste, organizador, por Arley Zarate">
+      <span class="marca-icono" aria-hidden="true"><span class="marca-papel"></span><span class="marca-papel dos"></span></span>
+      <span class="marca-letras"><strong>Megaste</strong><span class="marca-subfila"><small class="marca-subtitulo">Organizador</small><small class="marca-autor">por Arley Zarate</small></span></span>
+    </div>
+    <nav class="acciones" aria-label="Herramientas del documento">
+      <button type="button" id="abrir" title="Abrir proyecto .megaste o .recibi">Abrir proyecto</button>
+      <button type="button" id="guardar" title="Guardar proyecto editable .megaste">Guardar .megaste</button>
+      <button type="button" id="pdf" class="principal" title="Descargar PDF">PDF</button>
+      <button type="button" id="imagenes" title="Descargar páginas como PNG">Imágenes</button>
+      <button type="button" id="ayuda" aria-label="Información y ayuda" title="Acerca de e instrucciones">ⓘ</button>
+      <a class="inicio" href="https://arleyzarate.github.io/" rel="noopener noreferrer" aria-label="Inicio" title="Inicio">⌂</a>
+    </nav>
+  </header>
+
+  <main class="principal-area">
+    <aside class="panel" aria-label="Ajustes y recibos">
+      <div class="panel-titulo"><h1>Organizar recibos</h1><p>Todo el procesamiento ocurre en este navegador.</p></div>
+      <label id="zona" class="zona" for="entrada" tabindex="0"><span class="zona-emblema" aria-hidden="true">+</span><strong>Arrastre los recibos aquí</strong><span>o toque para seleccionarlos</span><small>JPG, PNG y WebP</small></label>
+      <input id="entrada" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+      <input id="entrada-proyecto" type="file" accept=".megaste,.recibi,application/zip" hidden>
+      <div class="ajuste"><label for="modo">Organización</label><select id="modo"><option value="auto">Automática · aprovechar espacio</option><option value="manual">Por el orden del índice</option></select></div>
+      <div class="ajuste"><label for="separacion">Separación entre recibos <output id="separacion-valor">2 mm</output></label><input id="separacion" type="range" min="0" max="10" step="0.5" value="2"></div>
+      <details class="margenes" open><summary>Márgenes independientes (mm)</summary><div class="cuatro">
+        <label>Superior<input id="m-superior" type="number" min="0" max="100" step="0.5" value="10"></label>
+        <label>Inferior<input id="m-inferior" type="number" min="0" max="100" step="0.5" value="10"></label>
+        <label>Izquierda<input id="m-izquierda" type="number" min="0" max="100" step="0.5" value="10"></label>
+        <label>Derecha<input id="m-derecha" type="number" min="0" max="100" step="0.5" value="10"></label>
+      </div></details>
+      <div class="panel-seccion">
+        <div class="cabecera-lista"><h2>Recibos <span id="cantidad">0</span></h2><button type="button" id="vaciar" class="sutil" title="Limpiar documento">Nuevo</button></div>
+        <div id="lista-recibos" class="lista-recibos" aria-live="polite"><p class="sin-recibos">Los recibos agregados aparecerán aquí.</p></div>
+      </div>
+    </aside>
+
+    <section class="workspace" aria-label="Vista previa del documento">
+      <div class="workspace-encabezado"><div><b>Documento tamaño carta</b><span>215,9 × 279,4 mm · impresión al 100 %</span></div><div id="estado-paginas" class="paginas-metrica">0 recibos · 0 páginas</div></div>
+      <div class="barra-navegar"><button type="button" id="portada">Portada</button><button type="button" id="anterior" aria-label="Página anterior">‹</button><span id="contador-pagina">Portada</span><button type="button" id="siguiente" aria-label="Página siguiente">›</button><button type="button" id="ajustar" title="Volver al inicio del documento">Inicio del documento</button></div>
+      <div id="documento" class="documento" aria-live="polite"></div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialogo"><div class="dialogo-contenido"><button type="button" id="cerrar-dialogo" class="cerrar" aria-label="Cerrar">×</button><h2>Megaste · 0.1.1</h2><p><strong>Diseño: Arley Zarate</strong><br>Desarrollo: NOVA<br>30/oct/2026</p><h3>Intención</h3><p>Organizar recibos y facturas en páginas tamaño carta, con márgenes editables, índice, escala estimada y exportaciones locales.</p><h3>Instrucciones</h3><p>Arrastre imágenes. Revise la altura detectada del texto y corríjala cuando sea necesario. Ajuste los márgenes, cambie el modo de organización y mueva las filas del índice arrastrándolas o usando el campo «Mover a». Descargue el proyecto .megaste para conservarlo editable. Puede abrir también proyectos anteriores .recibi. Exporte PDF o imágenes PNG.</p><h3>Privacidad y límites</h3><p>Los archivos que el usuario selecciona se procesan localmente. Esta versión no realiza solicitudes de red ni transmite imágenes. La altura de letra se estima mediante análisis de píxeles, no mediante OCR completo. Las fotografías inclinadas o borrosas pueden requerir corrección manual. La impresión sin márgenes depende de la impresora.</p><p>Uso público gratuito de la herramienta. Derechos sobre código propio sujetos a la titularidad que corresponda. Los recibos siguen siendo del usuario.</p></div></dialog>
+</body>
+</html>
