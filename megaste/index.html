@@ -12,7 +12,7 @@
 </head>
 <body>
   <header class="superior">
-    <div class="marca" aria-label="Megaste, organizador de recibos"><span class="marca-icono" aria-hidden="true"><span class="marca-papel"></span><span class="marca-papel dos"></span></span><span class="marca-letras"><strong>Megaste</strong></span></div>
+    <div class="marca" aria-label="Megasté, organizador de recibos"><span class="marca-icono" aria-hidden="true"><span class="marca-papel"></span><span class="marca-papel dos"></span></span><span class="marca-letras"><strong>Megasté</strong></span></div>
     <button id="configuracion" class="icon-btn" type="button" aria-label="Configuración" aria-expanded="false" aria-controls="panel-config" title="Configuración">⚙</button>
   </header>
   <section id="bienvenida" class="bienvenida" aria-label="Inicio">
@@ -38,8 +38,8 @@
   <main id="principal-area" class="principal-area" hidden>
     <aside class="panel" aria-label="Índice editable">
       <div class="indice-titulo"><strong>Índice</strong><span id="cantidad">0</span></div>
-      <div class="indice-encabezados"><span>N.º</span><span>Descripción</span><span>Valor</span></div>
-      <div id="indice-vivo" class="indice-vivo" aria-label="Recibos del documento"></div>
+      <div id="indice-encabezados" class="indice-encabezados"></div>
+      <div id="indice-vivo" class="indice-vivo" aria-label="Recibos del documento"></div><div id="indice-total" class="indice-total"></div><div class="indice-herramientas"><button id="agregar-columna" type="button" aria-label="Agregar columna" title="Agregar columna">＋</button><button id="quitar-columna" type="button" aria-label="Quitar columna" title="Quitar columna">−</button></div>
     </aside>
     <section class="workspace" aria-label="Vista preliminar del documento">
       <div class="workspace-encabezado"><div><b>Documento tamaño carta</b><span>215,9 × 279,4 mm · 100 %</span></div><div id="estado-paginas" class="paginas-metrica">0 recibos · 0 páginas</div></div>
@@ -47,13 +47,13 @@
     </section>
   </main>
   <footer id="pie-flotante" class="pie-flotante" hidden>
-    <button id="portada" type="button" class="icon-btn" aria-label="Ir al índice" title="Ir al índice">☷</button>
-    <button id="anterior" type="button" class="icon-btn" aria-label="Página anterior">‹</button><span id="contador-pagina">Portada</span>
-    <button id="siguiente" type="button" class="icon-btn" aria-label="Página siguiente">›</button>
-    <button id="ajustar" type="button" class="icon-btn" aria-label="Inicio del documento" title="Inicio del documento">⌂</button>
+    <button id="portada" type="button" class="icon-btn" aria-label="Ir al inicio" title="Ir al inicio">⌂</button>
+    <button id="anterior" type="button" class="icon-btn" aria-label="Subir una página">↑</button><span id="contador-pagina">Portada</span>
+    <button id="siguiente" type="button" class="icon-btn" aria-label="Bajar una página">↓</button>
+    <button id="ajustar" type="button" class="icon-btn" aria-label="Acercar o alejar" title="Acercar o alejar">⊕</button>
     <button id="agregar" type="button" class="agregar-pie" aria-label="Agregar recibos" title="Agregar recibos">+</button>
   </footer>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <dialog id="dialogo"><div class="dialogo-contenido"><button type="button" id="cerrar-dialogo" class="cerrar" aria-label="Cerrar">×</button><h2>Megaste · 0.2.0</h2><p><strong>Diseño: Arley Zarate</strong><br>Desarrollo: NOVA<br>30/oct/2026</p><h3>Intención</h3><p>Organizar recibos y facturas en páginas tamaño carta, con márgenes editables, índice, escala estimada y exportaciones locales.</p><h3>Instrucciones</h3><p>Arrastre imágenes. Revise la altura detectada del texto y corríjala cuando sea necesario. Ajuste los márgenes, cambie el modo de organización y mueva las filas del índice arrastrándolas o usando el campo «Mover a». Descargue el proyecto .megaste para conservarlo editable. Puede abrir también proyectos anteriores .recibi. Exporte PDF o imágenes PNG.</p><h3>Privacidad y límites</h3><p>Los archivos que el usuario selecciona se procesan localmente. Esta versión no realiza solicitudes de red ni transmite imágenes. La altura de letra se estima mediante análisis de píxeles, no mediante OCR completo. Las fotografías inclinadas o borrosas pueden requerir corrección manual. La impresión sin márgenes depende de la impresora.</p><p>Uso público gratuito de la herramienta. Derechos sobre código propio sujetos a la titularidad que corresponda. Los recibos siguen siendo del usuario.</p></div></dialog>
+  <div id="editor-flotante" class="editor-flotante" hidden><div class="editor-cabecera">Editar recibo <button id="editor-cerrar" type="button" aria-label="Cancelar">×</button></div><label>Descripción<input id="editor-descripcion" autocomplete="off" maxlength="100"></label><div id="sugerencias" class="sugerencias" role="listbox"></div><label>Valor<input id="editor-valor" inputmode="decimal" maxlength="100"></label><div class="editor-acciones"><button id="editor-cancelar" type="button" aria-label="Cancelar cambios">✕ Cancelar</button><button id="editor-aceptar" type="button" aria-label="Aceptar cambios">✓ Aceptar</button></div></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialogo"><div class="dialogo-contenido"><button type="button" id="cerrar-dialogo" class="cerrar" aria-label="Cerrar">×</button><h2>Megaste · 0.2.1</h2><p><strong>Diseño: Arley Zarate</strong><br>Desarrollo: NOVA<br>30/oct/2026</p><h3>Intención</h3><p>Organizar recibos y facturas en páginas tamaño carta, con márgenes editables, índice, escala estimada y exportaciones locales.</p><h3>Instrucciones</h3><p>Arrastre imágenes. Revise la altura detectada del texto y corríjala cuando sea necesario. Ajuste los márgenes, cambie el modo de organización y mueva las filas del índice arrastrándolas o usando el campo «Mover a». Descargue el proyecto .megaste para conservarlo editable. Puede abrir también proyectos anteriores .recibi. Exporte PDF o imágenes PNG.</p><h3>Privacidad y límites</h3><p>Los archivos que el usuario selecciona se procesan localmente. Esta versión no realiza solicitudes de red ni transmite imágenes. La altura de letra se estima mediante análisis de píxeles, no mediante OCR completo. Las fotografías inclinadas o borrosas pueden requerir corrección manual. La impresión sin márgenes depende de la impresora.</p><p>Uso público gratuito de la herramienta. Derechos sobre código propio sujetos a la titularidad que corresponda. Los recibos siguen siendo del usuario.</p></div></dialog>
 </body>
 </html>
