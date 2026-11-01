@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
+<!-- Establecer el tema antes del primer dibujo para que la portada no cambie de color. -->
+<script>
+(function () {
+  try {
+    document.documentElement.setAttribute('data-theme',
+      localStorage.getItem('organizadorTema') === 'dark' ? 'dark' : 'light');
+  } catch (_) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 <title>Organizador de texto</title>
 <style>
   :root {
@@ -3748,9 +3759,130 @@
     }
   }
 
+  /* v2.34: portada visible ANTES del primer fotograma, sin mostrar la interfaz detrás.
+     En JS la clase se retira solo al cerrar/omitir la entrada. */
+  body.intro-running #introOverlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Un único espacio óptico entre Organizador / de / texto. */
+  .brand-copy h1 { --brand-word-space: 6px; column-gap: var(--brand-word-space); }
+  .brand-copy h1 .brand-title-accent {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--brand-word-space);
+  }
+  .brand-title-accent > span { white-space: nowrap; }
+  @media (max-width: 680px) {
+    .brand-copy h1 { flex-wrap: nowrap; }
+    .brand-copy h1 .brand-title-main,
+    .brand-copy h1 .brand-title-accent { font-size: clamp(14px, 4vw, 16px); }
+  }
+  @media (max-width: 360px) {
+    .brand-copy h1 { --brand-word-space: 5px; }
+    .brand-copy h1 .brand-title-main,
+    .brand-copy h1 .brand-title-accent { font-size: 13.5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body.intro-running .topbar,
+    body.intro-running .workspace,
+    body.intro-running .info-dock,
+    body.intro-running #statusToast {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      pointer-events: auto;
+    }
+    body.intro-running #introOverlay {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+
+  /* v2.34 · Emblema de identidad sin sombra de botón. */
+  .topbar .brand-mark, [data-theme="dark"] .topbar .brand-mark,
+  [data-theme="light"] .topbar .brand-mark {
+    box-shadow: none !important;
+    filter: none !important;
+    cursor: default;
+  }
+  .topbar .brand-mark::before,
+  .topbar .brand-mark::after {
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* v2.34 · La zona inicial de entrada se dimensiona según el espacio
+     REAL entre el campo de escritura y la navegación inferior fija. */
+  @media (max-width: 680px) {
+    .editor-card #inputText {
+      height: var(--mobile-editor-input-height, min(66dvh, 560px)) !important;
+      min-height: min(170px, var(--mobile-editor-input-height, min(66dvh, 560px))) !important;
+      max-height: none !important;
+    }
+    .editor-card:not(.has-content) .input-overlay-actions {
+      bottom: 55px;
+    }
+    .editor-card .input-overlay-actions {
+      max-width: calc(100% - 18px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ui-entering .topbar,
+    .ui-entering .workspace,
+    .ui-entering .mobile-bottom-nav { animation: none !important; }
+  }
+
+  /* v2.35 · Marca editorial, no botón: únicamente el símbolo SVG.
+     Sin placa, marco, fondo, reflejo ni sombra incluso en el tema oscuro. */
+  .topbar .brand-mark,
+  [data-theme="light"] .topbar .brand-mark,
+  [data-theme="dark"] .topbar .brand-mark {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    overflow: visible !important;
+    cursor: default !important;
+    isolation: auto !important;
+  }
+  .topbar .brand-mark::before,
+  .topbar .brand-mark::after,
+  [data-theme="dark"] .topbar .brand-mark::before,
+  [data-theme="dark"] .topbar .brand-mark::after {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
+  }
+  .topbar .brand-mark svg,
+  [data-theme="dark"] .topbar .brand-mark svg {
+    width: min(100%, 60px) !important;
+    height: min(100%, 60px) !important;
+    filter: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  @media (max-width:680px) {
+    .topbar .brand-mark svg { width: 49px !important; height: 49px !important; }
+  }
+
 </style>
 </head>
-<body>
+<body class="intro-running">
+<noscript><style>
+  body.intro-running .topbar, body.intro-running .workspace,
+  body.intro-running .info-dock, body.intro-running #statusToast {
+    opacity: 1 !important; transform: none !important;
+    filter: none !important; pointer-events: auto !important;
+  }
+  body.intro-running #introOverlay {display:none !important;}
+</style></noscript>
 <div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
 <div id="introOverlay" class="intro-overlay" aria-hidden="true">
   <div class="intro-stage" aria-hidden="true">
@@ -3801,7 +3933,7 @@
         </svg>
       </div>
       <div class="brand-copy">
-        <h1><span class="brand-title-main">Organizador</span> <span class="brand-title-accent">de texto</span></h1>
+        <h1><span class="brand-title-main">Organizador</span> <span class="brand-title-accent"><span>de</span> <span>texto</span></span></h1>
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
@@ -3837,7 +3969,7 @@
         <button type="button" data-mobile-action="intent">Intención</button>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.32">v2.32</div>
+    <div class="version-pill" aria-label="Versión 2.35">v2.35</div>
   </header>
 
   <main class="workspace">
@@ -4117,8 +4249,8 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.32";
-  const APP_DATE = "31/oct/2026";
+  const APP_VERSION = "2.35";
+  const APP_DATE = "01/nov/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -5676,31 +5808,157 @@
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  function revealInterface() {
-    document.body.classList.remove('intro-running');
-    if (!prefersReducedMotion()) {
-      const targets = [document.querySelector('.topbar'), inputCard, document.querySelector('.action-dock'), document.querySelector('.result-card'), document.querySelector('.info-dock')].filter(Boolean);
-      targets.forEach((element, index) => {
-        if (!element.animate) return;
-        element.animate([
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 300, delay: index * 35, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      });
+  // El área inicial debe permitir ver Pegar y Editar antes de desplazar la página.
+  // Calculamos el alto disponible sin asumir una altura fija de la barra de Android.
+  function fitMobileInputOnStart() {
+    if (!window.matchMedia('(max-width: 680px)').matches) {
+      document.documentElement.style.removeProperty('--mobile-editor-input-height');
+      return;
     }
-    window.setTimeout(() => maybeShowWorkflowGuide(), prefersReducedMotion() ? 0 : 450);
+    if (document.activeElement === inputText) return; // no encoger al abrir el teclado
+    const card = document.getElementById('inputCard');
+    const nav = document.querySelector('.mobile-bottom-nav');
+    if (!card || !nav || !inputText) return;
+    const inputRect = inputText.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const navRect = nav.getBoundingClientRect();
+    if (!inputRect.height || !navRect.height) return;
+    // Incluye contador de líneas, borde inferior y margen de seguridad.
+    const spaceBelow = Math.max(0, cardRect.bottom - inputRect.bottom);
+    const targetHeight = Math.floor(navRect.top - inputRect.top - spaceBelow - 12);
+    // Solo si la pantalla es realmente pequeña permitimos desplazamiento.
+    const height = Math.max(165, Math.min(560, targetHeight));
+    document.documentElement.style.setProperty('--mobile-editor-input-height', height + 'px');
   }
 
-  function stopIntroOverlay() {
+  // Revelación en grupos: primero estructura, luego superficie e iconos.
+  // Se utiliza translate independiente para respetar transform preexistentes
+  // de los botones centrados y la navegación flotante.
+  let entranceAnimations = [];
+  let introFlight = null;
+  let introFlightNode = null;
+  let introFlightFallback = 0;
+  function clearIntroFlight() {
+    window.clearTimeout(introFlightFallback);
+    try { introFlight?.cancel(); } catch (_) {}
+    introFlight = null;
+    introFlightNode?.remove();
+    introFlightNode = null;
+    const realMark = document.getElementById('brandMark');
+    if (realMark) realMark.style.opacity = '';
+  }
+
+  /* Continuidad geométrica: el documento dibujado en la portada llega
+     a la coordenada real de la marca. Si falla, se muestra la marca real. */
+  function anchorIntroGlyph(runId) {
+    clearIntroFlight();
+    if (prefersReducedMotion()) return;
+    const original = introOverlay?.querySelector('.intro-glyph');
+    const target = document.getElementById('brandMark');
+    if (!original || !target || !original.getClientRects().length || !target.getClientRects().length) return;
+    const start = original.getBoundingClientRect();
+    const end = target.getBoundingClientRect();
+    if (!start.width || !end.width) return;
+    const clone = original.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.style.cssText = `position:fixed;left:${start.left}px;top:${start.top}px;` +
+      `width:${start.width}px;height:${start.height}px;z-index:10000;` +
+      'pointer-events:none;margin:0;animation:none;will-change:transform,opacity;';
+    for (const stroke of clone.querySelectorAll('.intro-outline, .intro-inkline, .intro-arrow')) {
+      stroke.style.strokeDashoffset = '0';
+      stroke.style.animation = 'none';
+    }
+    document.body.appendChild(clone);
+    introFlightNode = clone;
+    target.style.opacity = '0';
+    const dx = end.left - start.left;
+    const dy = end.top - start.top;
+    const scale = Math.min(end.width / start.width, end.height / start.height);
+    const done = () => {
+      if (introRunId !== runId) return;
+      clearIntroFlight();
+    };
+    if (!clone.animate) { done(); return; }
+    try {
+      introFlight = clone.animate([
+        {transform:'translate(0px,0px) scale(1)',opacity:1},
+        {transform:`translate(${dx}px,${dy}px) scale(${scale})`,opacity:.82}
+      ], {duration:460, easing:'cubic-bezier(.19,.82,.21,1)',fill:'forwards'});
+      introFlight.onfinish = done;
+      introFlightFallback = window.setTimeout(done, 620);
+    } catch (_) { done(); }
+  }
+
+  function cancelEntranceAnimations() {
+    entranceAnimations.forEach(animation => { try { animation.cancel(); } catch (_) {} });
+    entranceAnimations = [];
+  }
+  function animateWorkspaceEntrance() {
+    cancelEntranceAnimations();
+    if (prefersReducedMotion()) return;
+    const scenes = [];
+    const add = (selector, delay, amplitude = 14, duration = 420, scale = false) => {
+      const el = document.querySelector(selector);
+      if (el) scenes.push({el, delay, amplitude, duration, scale});
+    };
+    add('.topbar', 0, 14, 410);
+    // El logotipo real recibe el vuelo de anclaje y no un segundo efecto.
+    add('.topbar .brand-copy', 105, 10, 400);
+    add('.mobile-view-switch', 185, 18, 420);
+    add('#inputCard', 245, 20, 480);
+    add('#inputCard .original-heading-line', 300, 12, 370);
+    add('#inputText', 350, 16, 450);
+    add('#inputCard .input-overlay-actions', 430, 13, 400, true);
+    add('#resultCard', 265, 20, 470);
+    add('#resultCard .result-title-bar', 330, 12, 390);
+    add('#zoomDock', 425, 14, 400);
+    add('.mobile-bottom-nav', 390, 18, 410);
+    const iconSelectors = [
+      '.mobile-top-actions > button', '.mobile-bottom-nav > button',
+      '.mobile-bottom-nav > a', '.result-tools > button',
+      '.info-dock > button', '.info-dock > a'
+    ];
+    let iconIndex = 0;
+    for (const selector of iconSelectors) {
+      for (const el of document.querySelectorAll(selector)) {
+        scenes.push({el, delay: 435 + (iconIndex++ % 9) * 34, amplitude: 8, duration: 320, scale: true});
+      }
+    }
+    for (const {el,delay,amplitude,duration,scale} of scenes) {
+      if (!el.animate || !el.getClientRects().length) continue;
+      const from = {opacity: 0, translate: `0 ${amplitude}px`};
+      const to = {opacity: 1, translate: '0 0'};
+      if (scale) {from.scale = '0.88'; to.scale='1';}
+      const animation = el.animate([from,to], {
+        duration, delay, fill:'backwards', easing:'cubic-bezier(.17,.82,.23,1)'
+      });
+      entranceAnimations.push(animation);
+    }
+  }
+
+  function revealInterface() {
+    fitMobileInputOnStart();
+    // Ningún fotograma muestra la interfaz sin su entrada escalonada.
+    document.body.classList.remove('intro-running');
+    animateWorkspaceEntrance();
+    window.setTimeout(() => maybeShowWorkflowGuide(), prefersReducedMotion() ? 0 : 850);
+  }
+
+  function stopIntroOverlay(skipFlight = false) {
     if (introStopped) return;
     introStopped = true;
     window.clearTimeout(introFallbackTimer);
+    const runId = introRunId;
+    // Calcular el destino mientras el símbolo aún ocupa su posición visible.
+    if (!skipFlight) anchorIntroGlyph(runId);
     introOverlay?.classList.remove('open');
     introOverlay?.setAttribute('aria-hidden', 'true');
     revealInterface();
   }
 
   function playIntroSequence() {
+    clearIntroFlight();
+    cancelEntranceAnimations();
     introRunId += 1;
     const runId = introRunId;
     window.clearTimeout(introFallbackTimer);
@@ -6158,7 +6416,7 @@
   document.querySelectorAll('.color-swatch[data-color]').forEach(btn => btn.addEventListener('click', () => setPreviewTextColor(btn.dataset.color)));
   newBtn?.addEventListener('click', createNewDocument);
   restoreBtn?.addEventListener('click', restoreDefaults);
-  skipIntroBtn?.addEventListener('click', () => { introRunId += 1; stopIntroOverlay(); });
+  skipIntroBtn?.addEventListener('click', () => stopIntroOverlay(true));
   indentGuide?.addEventListener('pointerdown', onGuidePointerDown);
   indentGuide?.addEventListener('pointermove', onGuidePointerMove);
   indentGuide?.addEventListener('pointerup', onGuidePointerUp);
@@ -6547,6 +6805,11 @@
   const mobileObserver = new MutationObserver(previousSetMobileView);
   mobileObserver.observe(editorGrid,{attributes:true,attributeFilter:['class']});
   previousSetMobileView();
+  fitMobileInputOnStart();
+  window.addEventListener('resize', () => requestAnimationFrame(fitMobileInputOnStart), {passive:true});
+  window.addEventListener('orientationchange', () => requestAnimationFrame(fitMobileInputOnStart), {passive:true});
+  mobileOriginalTab?.addEventListener('click', () => requestAnimationFrame(fitMobileInputOnStart));
+  mobileResultTab?.addEventListener('click', () => requestAnimationFrame(fitMobileInputOnStart));
 
   initializeTheme();
   actualizarControlTipoLetra();
