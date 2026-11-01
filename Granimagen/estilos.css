@@ -135,3 +135,46 @@
 .compass{background:transparent;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none}
 @media(max-width:700px){.io-group{gap:0;padding:1px}.io-group button{width:34px!important;height:32px!important}}
 .selection-tools[hidden]{display:none!important}
+
+
+/* 2026-11-01 | Gran Imagen 1.8.0 - identidad SVG monocolor y carga sin superposición */
+:root{--gi-logo-ink:#73eee3}
+.gi-mark{display:block;fill:none!important;stroke:currentColor!important;stroke-width:17;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.gi-mark path{fill:none!important;stroke:currentColor!important;stroke-width:17;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* El trazo reduce su peso cuando el símbolo se presenta en dimensiones pequeñas. */
+.gi-brand-icon{width:60px;height:46px;border:none;border-radius:0;background:none;box-shadow:none;overflow:visible;color:var(--gi-logo-ink);flex:none}
+.gi-mark-brand{width:100%;height:100%}
+.gi-mark-brand path{stroke-width:21;vector-effect:none}
+.brand strong,.brand strong span{color:var(--gi-logo-ink);font-weight:750}
+.brand small{color:var(--gi-logo-ink);opacity:.83}
+.gi-empty-symbol{width:min(190px,52vw);height:120px;border:0;border-radius:0;background:none;box-shadow:none;color:var(--gi-logo-ink);display:grid;place-items:center;animation:none}
+.gi-mark-empty{width:100%;height:100%}
+.gi-mark-empty path{stroke-width:18;vector-effect:none}
+.gi-empty-symbol:before,.gi-empty-symbol:after,.gi-empty-symbol span{display:none!important}
+.gi-intro{position:fixed;z-index:55;inset:0;background:#081321;display:grid;place-items:center;pointer-events:auto;color:var(--gi-logo-ink);animation:giIntroHide .48s ease-in 2.55s forwards}
+.gi-intro-content{display:flex;flex-direction:column;align-items:center;gap:20px;width:min(540px,85vw);text-align:center}
+.gi-mark-intro{width:min(420px,78vw);height:auto;aspect-ratio:1100/685}
+.gi-mark-intro path{stroke-width:17;vector-effect:none;stroke-dasharray:100;stroke-dashoffset:100;animation:giTrace 1.65s ease forwards}
+.gi-mark-intro .gi-shape-top{animation-delay:.12s}
+.gi-mark-intro .gi-shape-surface{animation-delay:.36s}
+.gi-mark-intro .gi-shape-grid{animation-delay:.64s}
+.gi-intro-content strong{font-weight:760;letter-spacing:-.04em;font-size:clamp(27px,5vw,48px);opacity:0;animation:giTitleShow .6s ease 1.38s forwards}
+@keyframes giTrace{to{stroke-dashoffset:0}}
+@keyframes giTitleShow{to{opacity:1}}
+@keyframes giIntroHide{to{opacity:0;visibility:hidden;pointer-events:none}}
+.gi-load-progress{color:var(--gi-logo-ink)}
+.gi-progress-heading{display:flex;align-items:center;gap:12px;min-height:53px}
+.gi-progress-heading strong{color:#e4ffff;line-height:1.3;overflow-wrap:anywhere}
+.gi-mark-loading{width:79px;height:53px;flex:none}
+.gi-mark-loading path{stroke-width:23;vector-effect:none}
+.gi-mark-loading .gi-shape-surface,.gi-mark-loading .gi-shape-top,.gi-mark-loading .gi-shape-grid{animation:giLoadPulse 1.4s ease-in-out infinite alternate;transform-origin:center}
+.gi-mark-loading .gi-shape-grid{animation-delay:.3s}
+@keyframes giLoadPulse{0%{opacity:.35}100%{opacity:1}}
+.gi-load-progress .gi-progress-track{height:9px;background:#173345;border-radius:10px;overflow:hidden}
+.gi-load-progress .gi-progress-track #loadBar{height:100%;background-color:var(--gi-logo-ink);background-image:repeating-linear-gradient(115deg,transparent 0 12px,#08132166 12px 15px);transition:width .3s ease}
+.gi-load-progress small{color:#b9e3e0}
+/* El fondo de arrastrar nunca puede superponerse a una carga activa. */
+body.gi-loading #empty,body.gi-loading #dropOverlay{display:none!important}
+body.gi-loading #btnOpen,body.gi-loading #emptyOpen{pointer-events:none}
+@media(max-width:700px){.gi-brand-icon{width:55px;height:43px}.gi-load-progress .gi-progress-heading{gap:8px}.gi-mark-loading{width:62px;height:43px}}
+@media(prefers-reduced-motion:reduce){.gi-intro{animation:giIntroHide 0s linear 0s forwards}.gi-mark-intro path,.gi-intro-content strong,.gi-mark-loading path{animation:none;stroke-dashoffset:0;opacity:1}.gi-load-progress .gi-progress-track #loadBar{transition:none}}

@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#081321">
 <meta name="description" content="Gran Imagen: visor y editor local de imágenes geográficas.">
 <title>Gran Imagen · Editor local</title>
-<link rel="stylesheet" href="estilos.css?v=1.7.0">
+<link rel="stylesheet" href="estilos.css?v=1.8.0">
 </head>
 <body>
 <svg aria-hidden="true" class="sprite" xmlns="http://www.w3.org/2000/svg">
@@ -53,12 +53,32 @@
 <symbol id="i-rotate-cw" viewBox="0 0 24 24"><path d="M20 4v6h-6M20 10a8 8 0 10 2.1 5.4"/></symbol>
 
 </svg>
-<canvas id="introParticles" aria-hidden="true"></canvas>
+<div class="gi-intro" aria-hidden="true"><div class="gi-intro-content"><svg class="gi-mark gi-mark-intro" viewBox="205 230 1100 685" role="img" aria-label="Gran Imagen: símbolo geoespacial de superficie cuadriculada" xmlns="http://www.w3.org/2000/svg">
+<path class="gi-shape-top" d="M534 396 L758 261 L1019 261 L835 445 L808 396 Z" pathLength="100"/>
+<path class="gi-shape-top gi-middle" d="M758 261 L835 445" pathLength="100"/>
+<path class="gi-shape-surface" d="M245 692 C347 644 407 620 478 611 C611 585 664 498 772 498 C875 498 938 588 1067 625 C1142 648 1201 673 1287 692 L776 902 Z" pathLength="100"/>
+<path class="gi-shape-grid" d="M391 734 C475 676 570 611 690 568 C729 541 753 513 772 498" pathLength="100"/>
+<path class="gi-shape-grid" d="M516 780 C594 699 674 644 805 606 C858 588 919 582 962 587" pathLength="100"/>
+<path class="gi-shape-grid" d="M649 839 C717 766 777 730 812 736 C890 681 975 637 1067 625" pathLength="100"/>
+<path class="gi-shape-grid" d="M969 808 C864 708 756 651 663 624 C563 593 505 603 478 611" pathLength="100"/>
+<path class="gi-shape-grid" d="M1135 733 C1029 694 941 656 808 602 C766 580 726 564 690 568" pathLength="100"/>
+<path class="gi-shape-grid" d="M458 611 C578 606 651 577 693 568 C797 566 837 615 941 645 C1016 618 1086 640 1166 665" pathLength="100"/>
+</svg><strong>Gran Imagen</strong></div></div>
 <main id="app" aria-label="Espacio de trabajo de Gran Imagen">
   <div id="stage" tabindex="0" aria-label="Área de trabajo: rueda para ampliar, clic derecho para desplazarse, pellizco en pantalla táctil">
     <canvas id="canvas" aria-label="Vista de imágenes y capas"></canvas>
     <div id="empty" class="empty">
-      <div class="empty-symbol" aria-hidden="true"><span></span></div>
+      <div class="empty-symbol gi-empty-symbol" aria-hidden="true"><svg class="gi-mark gi-mark-empty" viewBox="205 230 1100 685" role="img" aria-label="Gran Imagen: símbolo geoespacial de superficie cuadriculada" xmlns="http://www.w3.org/2000/svg">
+<path class="gi-shape-top" d="M534 396 L758 261 L1019 261 L835 445 L808 396 Z" pathLength="100"/>
+<path class="gi-shape-top gi-middle" d="M758 261 L835 445" pathLength="100"/>
+<path class="gi-shape-surface" d="M245 692 C347 644 407 620 478 611 C611 585 664 498 772 498 C875 498 938 588 1067 625 C1142 648 1201 673 1287 692 L776 902 Z" pathLength="100"/>
+<path class="gi-shape-grid" d="M391 734 C475 676 570 611 690 568 C729 541 753 513 772 498" pathLength="100"/>
+<path class="gi-shape-grid" d="M516 780 C594 699 674 644 805 606 C858 588 919 582 962 587" pathLength="100"/>
+<path class="gi-shape-grid" d="M649 839 C717 766 777 730 812 736 C890 681 975 637 1067 625" pathLength="100"/>
+<path class="gi-shape-grid" d="M969 808 C864 708 756 651 663 624 C563 593 505 603 478 611" pathLength="100"/>
+<path class="gi-shape-grid" d="M1135 733 C1029 694 941 656 808 602 C766 580 726 564 690 568" pathLength="100"/>
+<path class="gi-shape-grid" d="M458 611 C578 606 651 577 693 568 C797 566 837 615 941 645 C1016 618 1086 640 1166 665" pathLength="100"/>
+</svg></div>
       <div class="empty-title">El espacio comienza con una imagen</div>
       <p>Arrastre un GeoTIFF, JPG, PNG o WebP hasta aquí.</p>
       <button id="emptyOpen" class="primary">Abrir imagen <svg><use href="#i-folder"/></svg></button>
@@ -73,9 +93,29 @@
     <div id="selectionBox" class="selection-box" hidden><div class="dimension-label dim-w" id="viewWidth" title="Ancho de la capa"></div><div class="dimension-label dim-h" id="viewHeight" title="Alto de la capa"></div><i class="handle a" data-handle="nw"></i><i class="handle b" data-handle="ne"></i><i class="handle c" data-handle="sw"></i><i class="handle d" data-handle="se"></i><i class="handle turn" data-handle="rotate" title="Rotar"></i><i class="handle flip-h" data-handle="mirrorh" title="Simetría horizontal"></i><i class="handle flip-v" data-handle="mirrorv" title="Simetría vertical"></i></div>
   </div>
   <div id="selectionTools" class="selection-tools glass" hidden><button id="selDuplicate" title="Duplicar selección" aria-label="Duplicar selección"><svg><use href="#i-duplicate"/></svg></button><button id="selDelete" title="Eliminar selección" aria-label="Eliminar selección"><svg><use href="#i-trash"/></svg></button><button id="selFlipH" title="Simetría horizontal" aria-label="Simetría horizontal"><svg><use href="#i-flip-h"/></svg></button><button id="selFlipV" title="Simetría vertical" aria-label="Simetría vertical"><svg><use href="#i-flip-v"/></svg></button><button id="selRotateL" title="Girar -15°" aria-label="Girar -15 grados"><svg><use href="#i-rotate-cw"/></svg></button><button id="selRotateR" class="rotate-r" title="Girar 15°" aria-label="Girar 15 grados"><svg><use href="#i-rotate-cw"/></svg></button><label id="vectorColorWrap" class="vector-tool" title="Color del vector" hidden><input id="vectorColor" type="color" value="#8af5e5" aria-label="Color del vector"></label><label id="vectorWidthWrap" class="vector-tool" title="Espesor del vector" hidden><input id="vectorWidth" type="number" min="0.5" max="30" step="0.5" value="2" aria-label="Espesor del vector"></label><button id="selMoveHint" title="Mover selección" aria-label="Mover selección"><svg><use href="#i-move"/></svg></button></div>
-  <div id="loadProgress" class="load-progress glass" hidden role="status" aria-live="polite"><strong id="loadTitle">Leyendo imagen</strong><div><span id="loadBar"></span></div><small id="loadText">Preparando archivo…</small></div>
+  <div id="loadProgress" class="load-progress glass gi-load-progress" hidden role="status" aria-live="polite"><div class="gi-progress-heading"><svg class="gi-mark gi-mark-loading" viewBox="205 230 1100 685" role="img" aria-label="Gran Imagen: símbolo geoespacial de superficie cuadriculada" xmlns="http://www.w3.org/2000/svg">
+<path class="gi-shape-top" d="M534 396 L758 261 L1019 261 L835 445 L808 396 Z" pathLength="100"/>
+<path class="gi-shape-top gi-middle" d="M758 261 L835 445" pathLength="100"/>
+<path class="gi-shape-surface" d="M245 692 C347 644 407 620 478 611 C611 585 664 498 772 498 C875 498 938 588 1067 625 C1142 648 1201 673 1287 692 L776 902 Z" pathLength="100"/>
+<path class="gi-shape-grid" d="M391 734 C475 676 570 611 690 568 C729 541 753 513 772 498" pathLength="100"/>
+<path class="gi-shape-grid" d="M516 780 C594 699 674 644 805 606 C858 588 919 582 962 587" pathLength="100"/>
+<path class="gi-shape-grid" d="M649 839 C717 766 777 730 812 736 C890 681 975 637 1067 625" pathLength="100"/>
+<path class="gi-shape-grid" d="M969 808 C864 708 756 651 663 624 C563 593 505 603 478 611" pathLength="100"/>
+<path class="gi-shape-grid" d="M1135 733 C1029 694 941 656 808 602 C766 580 726 564 690 568" pathLength="100"/>
+<path class="gi-shape-grid" d="M458 611 C578 606 651 577 693 568 C797 566 837 615 941 645 C1016 618 1086 640 1166 665" pathLength="100"/>
+</svg><strong id="loadTitle">Leyendo imagen</strong></div><div class="gi-progress-track"><span id="loadBar"></span></div><small id="loadText">Preparando archivo…</small></div>
   <div id="dropOverlay" hidden><div><svg><use href="#i-image"/></svg>Soltar para abrir como capa</div></div>
-  <div class="brand" id="brand"><div class="brand-icon" aria-hidden="true"><span class="globe-grid"></span></div><div><strong>Gran<span>Imagen</span></strong><small>por Arley Zarate</small></div></div>
+  <div class="brand" id="brand"><div class="brand-icon gi-brand-icon" aria-hidden="true"><svg class="gi-mark gi-mark-brand" viewBox="205 230 1100 685" role="img" aria-label="Gran Imagen: símbolo geoespacial de superficie cuadriculada" xmlns="http://www.w3.org/2000/svg">
+<path class="gi-shape-top" d="M534 396 L758 261 L1019 261 L835 445 L808 396 Z" pathLength="100"/>
+<path class="gi-shape-top gi-middle" d="M758 261 L835 445" pathLength="100"/>
+<path class="gi-shape-surface" d="M245 692 C347 644 407 620 478 611 C611 585 664 498 772 498 C875 498 938 588 1067 625 C1142 648 1201 673 1287 692 L776 902 Z" pathLength="100"/>
+<path class="gi-shape-grid" d="M391 734 C475 676 570 611 690 568 C729 541 753 513 772 498" pathLength="100"/>
+<path class="gi-shape-grid" d="M516 780 C594 699 674 644 805 606 C858 588 919 582 962 587" pathLength="100"/>
+<path class="gi-shape-grid" d="M649 839 C717 766 777 730 812 736 C890 681 975 637 1067 625" pathLength="100"/>
+<path class="gi-shape-grid" d="M969 808 C864 708 756 651 663 624 C563 593 505 603 478 611" pathLength="100"/>
+<path class="gi-shape-grid" d="M1135 733 C1029 694 941 656 808 602 C766 580 726 564 690 568" pathLength="100"/>
+<path class="gi-shape-grid" d="M458 611 C578 606 651 577 693 568 C797 566 837 615 941 645 C1016 618 1086 640 1166 665" pathLength="100"/>
+</svg></div><div><strong>Gran<span>Imagen</span></strong><small>por Arley Zarate</small></div></div>
   <div id="tabMenu" class="tab-menu glass" hidden><button id="tabNew">Nuevo proyecto</button><button id="tabOpen">Abrir .granimagen</button></div>
   <div id="documentTabs" class="document-tabs" role="tablist" aria-label="Archivos y proyectos abiertos"></div>
   <nav class="toolbar" aria-label="Herramientas">
@@ -107,6 +147,6 @@
 <input id="projectPicker" type="file" accept=".granimagen,application/json" hidden>
 <input id="relinkPicker" type="file" accept=".tif,.tiff,.jpg,.jpeg,.png,.webp,image/*" multiple hidden>
 <script src="metadatos.js?v=1.6.0" defer></script>
-<script src="aplicacion.js?v=1.7.0" defer></script>
+<script src="aplicacion.js?v=1.8.0" defer></script>
 </body>
 </html>
