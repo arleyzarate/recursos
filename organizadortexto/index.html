@@ -3872,6 +3872,87 @@
     .topbar .brand-mark svg { width: 49px !important; height: 49px !important; }
   }
 
+
+/* v2.36 | Paneles flotantes responsivos: lectura y cierre siempre accesibles.
+   Un solo lugar para desplazarse y un anillo exterior que deja visible el trabajo. */
+.info-backdrop { z-index: 74; }
+.info-panel {
+  z-index: 75;
+  left: 50%; right: auto; bottom: auto;
+  top: clamp(20px, 10dvh, 96px);
+  width: min(540px, calc(100vw - 40px));
+  max-height: min(76dvh, calc(100dvh - 90px));
+  display: flex; flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  translate: -50% 0;
+  padding: clamp(12px, 2.2vw, 20px);
+  overscroll-behavior: contain;
+}
+.info-panel-head {
+  position: relative;
+  flex: 0 0 auto;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.info-panel .close-btn { min-width: 44px; min-height: 44px; flex: 0 0 44px; }
+.info-panel .info-body {
+  min-height: 0; flex: 1 1 auto;
+  overflow-y: auto; overflow-x: hidden;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding: 0 5px 10px 0;
+}
+.info-panel .info-body li { overflow-wrap: anywhere; }
+body.info-dialog-open { overscroll-behavior: none; }
+/* Los ajustes y las sugerencias tampoco pueden superar el espacio táctil. */
+.tool-panel {
+  max-height: min(70dvh, calc(100dvh - 100px));
+  overflow-y: auto; overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-top: 48px;
+}
+.tool-panel-close {
+  position: sticky; top: 0; margin: -40px -3px 6px auto;
+  z-index: 3;
+  min-width: 44px; min-height: 40px;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+  background:var(--neo-raised, var(--surface-strong)); color:var(--text);
+  border:1px solid var(--border); border-radius:10px;
+  font-size:.75rem; font-weight:700; cursor:pointer;
+}
+.tool-panel-close svg { width:17px; height:17px; stroke:currentColor; stroke-width:2; fill:none; stroke-linecap:round; }
+.spelling-popover {
+  max-height:min(60dvh,calc(100dvh - 96px));
+  overflow-y:auto; overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+@media (max-width:680px) {
+  .info-panel {
+    left:50%; right:auto; bottom:auto;
+    top:clamp(28px, 9dvh, 78px);
+    width:calc(100vw - 36px);
+    max-height:min(68dvh, calc(100dvh - 150px));
+    border-radius:19px;
+  }
+  .info-panel .info-body { font-size:clamp(.83rem, 3.5vw, .96rem); line-height:1.53; }
+  .info-panel .info-body li + li {margin-top:9px;}
+  .tool-panel {max-height:min(65dvh, calc(100dvh - 124px));}
+  .tool-panel-close {min-height:44px;}
+}
+@media (max-height:520px) {
+  .info-panel {top:12px; max-height:calc(100dvh - 75px);}
+  .tool-panel {max-height:calc(100dvh - 62px);}
+}
+@media (prefers-reduced-motion:reduce) {
+  .info-panel,.info-backdrop,.tool-panel {transition:none !important;}
+}
+
 </style>
 </head>
 <body class="intro-running">
@@ -4121,6 +4202,7 @@
 </nav>
 
 <div id="toolPanel" class="tool-panel" aria-hidden="true">
+  <button id="closeToolPanelBtn" class="tool-panel-close" type="button" aria-label="Cerrar configuración" title="Cerrar configuración"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg><span>Cerrar</span></button>
   <section id="widthPanel" data-panel="width" hidden>
     <h3>Ancho máximo de línea</h3>
     <div class="tool-grid">
@@ -4229,7 +4311,7 @@
 <div id="spellingPopover" class="spelling-popover" role="dialog" aria-label="Sugerencias ortográficas" aria-hidden="true"></div>
 
 <div id="infoBackdrop" class="info-backdrop" aria-hidden="true"></div>
-<aside id="infoPanel" class="info-panel" role="dialog" aria-modal="true" aria-labelledby="infoTitle" aria-hidden="true">
+<aside id="infoPanel" class="info-panel" role="dialog" aria-modal="true" aria-labelledby="infoTitle" aria-hidden="true" inert>
   <div class="info-panel-head">
     <h2 id="infoTitle">Acerca de</h2>
     <button id="closeInfoBtn" class="close-btn" type="button" aria-label="Cerrar panel">
@@ -4249,7 +4331,7 @@
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.35";
+  const APP_VERSION = "2.36";
   const APP_DATE = "01/nov/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
@@ -6021,28 +6103,41 @@
     if (!item) return;
     lastInfoTrigger = trigger || null;
     infoTitle.textContent = item.title;
+    // No solapar ventanas configurables: una sola acción contextual activa.
+    if (toolPanel.classList.contains("open")) closeToolPanel();
+    if (spellingPopover.classList.contains("open")) closeSpellingPopover();
     infoBody.innerHTML = item.html;
+    infoBody.scrollTop = 0;
+    infoPanel.inert = false;
     infoPanel.classList.add("open");
     infoBackdrop.classList.add("open");
+    document.body.classList.add("info-dialog-open");
     infoPanel.setAttribute("aria-hidden", "false");
     infoBackdrop.setAttribute("aria-hidden", "false");
-    closeInfoBtn.focus();
+    closeInfoBtn.focus({preventScroll:true});
   }
 
   function closeInfo() {
+    if (!infoPanel.classList.contains("open")) return;
     infoPanel.classList.remove("open");
     infoBackdrop.classList.remove("open");
     infoPanel.setAttribute("aria-hidden", "true");
     infoBackdrop.setAttribute("aria-hidden", "true");
-    if (lastInfoTrigger) lastInfoTrigger.focus();
+    document.body.classList.remove("info-dialog-open");
+    if (lastInfoTrigger?.isConnected) lastInfoTrigger.focus({preventScroll:true});
+    infoPanel.inert = true;
+    lastInfoTrigger = null;
   }
 
   function positionToolPanel(button) {
     if (!button) return;
     const rect = button.getBoundingClientRect();
     const panelRect = toolPanel.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    const visual = window.visualViewport;
+    const viewportWidth = visual?.width || window.innerWidth;
+    const viewportTop = visual?.offsetTop || 0;
+    const viewportHeight = visual?.height || window.innerHeight;
+    const bottomLimit = viewportTop + viewportHeight;
     const margin = 9;
     let left, top;
 
@@ -6051,28 +6146,28 @@
       if (window.matchMedia('(max-width: 680px)').matches) {
         // En teléfonos aparece centrada dentro de la mitad superior visible.
         left = Math.max(margin, (viewportWidth - panelRect.width) / 2);
-        top = Math.max(margin, Math.min(viewportHeight * .48 - panelRect.height,
+        top = Math.max(margin, Math.min(viewportTop + viewportHeight * .48 - panelRect.height,
             rect.top - panelRect.height - 12));
       } else {
         left = rect.left + (rect.width - panelRect.width) / 2;
         top = rect.top - panelRect.height - 12;
-        if (top < margin) top = rect.bottom + 10;
+        if (top < viewportTop + margin) top = rect.bottom + 10;
       }
     } else if (activeTool === 'indent') {
       left = rect.left + rect.width / 2 - panelRect.width / 2;
       top = rect.bottom + 10;
-      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
+      if (top + panelRect.height > bottomLimit - margin) top = rect.top - panelRect.height - 10;
     } else if (activeTool === 'textwidth' || activeTool === 'textcolor' || activeTool === 'sourcecolor') {
       left = rect.right - panelRect.width;
       top = rect.bottom + 10;
-      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
+      if (top + panelRect.height > bottomLimit - margin) top = rect.top - panelRect.height - 10;
     } else {
       left = rect.left + rect.width / 2 - panelRect.width / 2;
       top = rect.bottom + 10;
-      if (top + panelRect.height > viewportHeight - margin) top = rect.top - panelRect.height - 10;
+      if (top + panelRect.height > bottomLimit - margin) top = rect.top - panelRect.height - 10;
     }
     toolPanel.style.left = Math.max(margin, Math.min(left, viewportWidth - panelRect.width - margin)) + 'px';
-    toolPanel.style.top = Math.max(margin, Math.min(top, viewportHeight - panelRect.height - margin)) + 'px';
+    toolPanel.style.top = Math.max(viewportTop + margin, Math.min(top, bottomLimit - panelRect.height - margin)) + 'px';
   }
 
   function openToolPanel(name, button) {
@@ -6509,6 +6604,11 @@
 
   closeInfoBtn.addEventListener("click", closeInfo);
   infoBackdrop.addEventListener("click", closeInfo);
+  $("closeToolPanelBtn")?.addEventListener("click", () => {
+    const trigger = activeToolButton;
+    closeToolPanel();
+    if (trigger?.isConnected) trigger.focus({preventScroll:true});
+  });
 
   document.addEventListener("click", (event) => {
     if (spellingPopover.classList.contains('open') && !spellingPopover.contains(event.target) && !event.target.closest('.spelling-error')) closeSpellingPopover();
@@ -6518,6 +6618,19 @@
   });
 
   document.addEventListener("keydown", (event) => {
+    // En un diálogo abierto, Tab se queda dentro del panel y Escape siempre sale.
+    if (infoPanel.classList.contains("open") && event.key === "Tab") {
+      const candidates = [...infoPanel.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])')]
+        .filter(el => el.getClientRects().length > 0);
+      if (candidates.length) {
+        const first = candidates[0], last = candidates[candidates.length-1];
+        if (event.shiftKey && (document.activeElement === first || !infoPanel.contains(document.activeElement))) {
+          event.preventDefault(); last.focus({preventScroll:true});
+        } else if (!event.shiftKey && (document.activeElement === last || !infoPanel.contains(document.activeElement))) {
+          event.preventDefault(); first.focus({preventScroll:true});
+        }
+      }
+    }
     if (event.key === "Escape") {
       if(spellingPopover.classList.contains('open')) closeSpellingPopover();
       if (toolPanel.classList.contains("open")) {
