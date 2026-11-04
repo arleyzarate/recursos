@@ -6,23 +6,23 @@
   <meta name="color-scheme" content="light">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; worker-src 'none'; font-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none';">
-  <title>Megaste | Organizador</title>
+  <title>OrdeGastos</title>
   <link rel="stylesheet" href="estilos.css">
   <script src="aplicacion.js" defer></script>
 </head>
 <body>
   <header class="superior">
-    <div class="marca" aria-label="Megasté, organizador de recibos"><span class="marca-icono" aria-hidden="true"><span class="marca-papel"></span><span class="marca-papel dos"></span></span><span class="marca-letras"><strong>Megasté</strong></span></div>
+    <div class="marca" aria-label="OrdeGastos, organizador de recibos y facturas"><span class="marca-icono" aria-hidden="true"><span class="marca-papel"></span><span class="marca-papel dos"></span></span><span class="marca-letras"><strong>OrdeGastos</strong></span></div>
     <button id="configuracion" class="icon-btn" type="button" aria-label="Configuración" aria-expanded="false" aria-controls="panel-config" title="Configuración">⚙</button>
   </header>
   <section id="bienvenida" class="bienvenida" aria-label="Inicio">
-    <div class="bienvenida-logo" aria-hidden="true">✓</div><h1>Megasté</h1><p>Organizador de recibos</p><p class="instruccion">Agregue sus recibos para organizarlos.</p>
+    <div class="bienvenida-logo" aria-hidden="true">✓</div><h1>OrdeGastos</h1><p class="instruccion">Organice sus recibos y facturas en un solo documento.</p>
     <button id="agregar-inicio" class="agregar-grande" type="button" aria-label="Agregar recibos" title="Agregar recibos">+</button>
   </section>
   <aside id="panel-config" class="panel-config" aria-label="Configuración" hidden>
     <div class="config-titulo"><strong>Configuración</strong><button id="cerrar-config" type="button" class="icon-btn" aria-label="Cerrar configuración">×</button></div>
     <div class="config-opciones">
-      <button type="button" id="abrir">↗ <span>Abrir proyecto</span></button><button type="button" id="guardar">▣ <span>Guardar .megaste</span></button>
+      <button type="button" id="abrir">↗ <span>Abrir proyecto</span></button><button type="button" id="guardar">▣ <span>Guardar .ordegastos</span></button>
       <button type="button" id="pdf">↓ <span>Exportar PDF</span></button><button type="button" id="imagenes">▧ <span>Exportar imágenes</span></button>
       <div class="ajuste"><label for="modo">Organización</label><select id="modo"><option value="auto">Automática · aprovechar espacio</option><option value="manual">Por el orden del índice</option></select></div>
       <div class="ajuste"><label for="separacion">Separación <output id="separacion-valor">2 mm</output></label><input id="separacion" type="range" min="0" max="10" step="0.5" value="2"></div>
@@ -33,7 +33,7 @@
     </div>
   </aside>
   <input id="entrada" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
-  <input id="entrada-proyecto" type="file" accept=".megaste,.recibi,application/zip" hidden>
+  <input id="entrada-proyecto" type="file" accept=".ordegastos,.megaste,.recibi,application/zip" hidden>
   <label id="zona" class="zona-carga" for="entrada" tabindex="0" aria-label="Arrastre o seleccione imágenes para agregar recibos"></label>
   <main id="principal-area" class="principal-area" hidden>
     <aside class="panel" aria-label="Índice editable">
@@ -54,6 +54,6 @@
     <button id="agregar" type="button" class="agregar-pie" aria-label="Agregar recibos" title="Agregar recibos">+</button>
   </footer>
   <div id="editor-flotante" class="editor-flotante" hidden><div class="editor-cabecera">Editar recibo <button id="editor-cerrar" type="button" aria-label="Cancelar">×</button></div><label>Descripción<input id="editor-descripcion" autocomplete="off" maxlength="100"></label><div id="sugerencias" class="sugerencias" role="listbox"></div><label>Valor<input id="editor-valor" inputmode="decimal" maxlength="100"></label><div class="editor-acciones"><button id="editor-cancelar" type="button" aria-label="Cancelar cambios">✕ Cancelar</button><button id="editor-aceptar" type="button" aria-label="Aceptar cambios">✓ Aceptar</button></div></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <dialog id="dialogo"><div class="dialogo-contenido"><button type="button" id="cerrar-dialogo" class="cerrar" aria-label="Cerrar">×</button><h2>Megaste · 0.2.1</h2><p><strong>Diseño: Arley Zarate</strong><br>Desarrollo: NOVA<br>30/oct/2026</p><h3>Intención</h3><p>Organizar recibos y facturas en páginas tamaño carta, con márgenes editables, índice, escala estimada y exportaciones locales.</p><h3>Instrucciones</h3><p>Arrastre imágenes. Revise la altura detectada del texto y corríjala cuando sea necesario. Ajuste los márgenes, cambie el modo de organización y mueva las filas del índice arrastrándolas o usando el campo «Mover a». Descargue el proyecto .megaste para conservarlo editable. Puede abrir también proyectos anteriores .recibi. Exporte PDF o imágenes PNG.</p><h3>Privacidad y límites</h3><p>Los archivos que el usuario selecciona se procesan localmente. Esta versión no realiza solicitudes de red ni transmite imágenes. La altura de letra se estima mediante análisis de píxeles, no mediante OCR completo. Las fotografías inclinadas o borrosas pueden requerir corrección manual. La impresión sin márgenes depende de la impresora.</p><p>Uso público gratuito de la herramienta. Derechos sobre código propio sujetos a la titularidad que corresponda. Los recibos siguen siendo del usuario.</p></div></dialog>
+  <dialog id="dialogo"><div class="dialogo-contenido"><button type="button" id="cerrar-dialogo" class="cerrar" aria-label="Cerrar">×</button><h2>OrdeGastos · 0.2.2</h2><p><strong>Diseño: Arley Zarate</strong><br>Desarrollo: NOVA<br>31/oct/2026</p><h3>Intención</h3><p>Organizar recibos y facturas en páginas tamaño carta, con márgenes editables, índice, escala estimada y exportaciones locales.</p><h3>Instrucciones</h3><p>Arrastre imágenes. Revise la altura detectada del texto y corríjala cuando sea necesario. Ajuste los márgenes, cambie el modo de organización y mueva las filas del índice arrastrándolas o usando el campo «Mover a». Descargue el proyecto .ordegastos para conservarlo editable. Puede abrir también proyectos anteriores .megaste y .recibi. Exporte PDF o imágenes PNG.</p><h3>Privacidad y límites</h3><p>Los archivos que el usuario selecciona se procesan localmente. Esta versión no realiza solicitudes de red ni transmite imágenes. La altura de letra se estima mediante análisis de píxeles, no mediante OCR completo. Las fotografías inclinadas o borrosas pueden requerir corrección manual. La impresión sin márgenes depende de la impresora.</p><p>Uso público gratuito de la herramienta. Derechos sobre código propio sujetos a la titularidad que corresponda. Los recibos siguen siendo del usuario.</p></div></dialog>
 </body>
 </html>
