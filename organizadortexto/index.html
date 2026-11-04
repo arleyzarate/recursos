@@ -3953,6 +3953,43 @@ body.info-dialog-open { overscroll-behavior: none; }
   .info-panel,.info-backdrop,.tool-panel {transition:none !important;}
 }
 
+
+
+  /* v2.37 · Cabecera del resultado con superficie blanca al desplazarse.
+     Mantiene la misma forma superior y evita que el contenido se mezcle con
+     la regla, botones y metadatos mientras el encabezado queda fijo. */
+  .result-card .result-title-bar {
+    position: sticky;
+    isolation: isolate;
+    transition: background-color .18s ease, box-shadow .18s ease, border-color .18s ease, backdrop-filter .18s ease;
+  }
+  .result-card .result-title-bar.is-reading-surface,
+  .editor-grid .result-card .result-title-bar.is-reading-surface,
+  [data-theme="dark"] .result-card .result-title-bar.is-reading-surface {
+    background: rgba(255,255,255,.985) !important;
+    border-color: rgba(205, 212, 224, .92) !important;
+    box-shadow: 0 12px 28px rgba(34, 46, 69, .10) !important;
+    backdrop-filter: blur(12px) saturate(120%) !important;
+  }
+  .result-card .result-title-bar.is-reading-surface::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: -1px;
+    height: 1px;
+    border-radius: 1px;
+    background: rgba(210, 216, 227, .78);
+    pointer-events: none;
+  }
+  @media (max-width: 680px) {
+    .result-card .result-title-bar.is-reading-surface,
+    .editor-grid .result-card .result-title-bar.is-reading-surface,
+    [data-theme="dark"] .result-card .result-title-bar.is-reading-surface {
+      background: rgba(255,255,255,.992) !important;
+    }
+  }
+
 </style>
 </head>
 <body class="intro-running">
@@ -4050,7 +4087,7 @@ body.info-dialog-open { overscroll-behavior: none; }
         <button type="button" data-mobile-action="intent">Intención</button>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.35">v2.35</div>
+    <div class="version-pill" aria-label="Versión 2.38">v2.38</div>
   </header>
 
   <main class="workspace">
@@ -4331,8 +4368,8 @@ body.info-dialog-open { overscroll-behavior: none; }
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.36";
-  const APP_DATE = "01/nov/2026";
+  const APP_VERSION = "2.38";
+  const APP_DATE = "04/nov/2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -6923,6 +6960,52 @@ body.info-dialog-open { overscroll-behavior: none; }
   window.addEventListener('orientationchange', () => requestAnimationFrame(fitMobileInputOnStart), {passive:true});
   mobileOriginalTab?.addEventListener('click', () => requestAnimationFrame(fitMobileInputOnStart));
   mobileResultTab?.addEventListener('click', () => requestAnimationFrame(fitMobileInputOnStart));
+
+
+
+  // v2.38 · El zoom de ancho debe seguir el tamaño REAL del panel organizado.
+  // Las transiciones de columnas cambian el visor sin disparar el evento resize.
+  // Observar únicamente su ANCHO evita repetir cálculos cuando solo varía su alto.
+  let observedResultViewportWidth = 0;
+  let responsiveFitFrame = 0;
+  if (typeof ResizeObserver !== 'undefined') {
+    const resultViewportObserver = new ResizeObserver(entries => {
+      const entry = entries.find(item => item.target === outputViewport);
+      if (!entry) return;
+      const width = entry.contentRect.width;
+      if (width < 40 || Math.abs(width - observedResultViewportWidth) < 1) return;
+      observedResultViewportWidth = width;
+      cancelAnimationFrame(responsiveFitFrame);
+      responsiveFitFrame = requestAnimationFrame(() => {
+        // Se conserva el modo de zoom elegido y las coordenadas de sangría.
+        fitOutputPreview();
+      });
+    });
+    resultViewportObserver.observe(outputViewport);
+  } else {
+    // Alternativa para navegadores antiguos: recalcular al finalizar la
+    // transición de distribución, no en cada movimiento del scroll.
+    editorGrid.addEventListener('transitionend', event => {
+      if (event.target === editorGrid &&
+          (event.propertyName === 'grid-template-columns' || event.propertyName === 'grid-template-rows')) {
+        fitOutputPreview();
+      }
+    });
+  }
+
+  // v2.37 · Fondo sólido de lectura para la cabecera del resultado.
+  const resultTitleBar = document.querySelector('#resultCard .result-title-bar');
+  function syncResultHeaderSurface() {
+    if (!resultTitleBar) return;
+    const pageScrolled = (window.scrollY || document.documentElement.scrollTop || 0) > 10;
+    const outputScrolled = !!(outputViewport && outputViewport.scrollTop > 6);
+    const headerPinned = !!(resultTitleBar.getBoundingClientRect().top <= 12);
+    resultTitleBar.classList.toggle('is-reading-surface', pageScrolled || outputScrolled || headerPinned);
+  }
+  outputViewport?.addEventListener('scroll', () => requestAnimationFrame(syncResultHeaderSurface), { passive: true });
+  window.addEventListener('scroll', () => requestAnimationFrame(syncResultHeaderSurface), { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(syncResultHeaderSurface), { passive: true });
+  requestAnimationFrame(syncResultHeaderSurface);
 
   initializeTheme();
   actualizarControlTipoLetra();
