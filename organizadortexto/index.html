@@ -16,6 +16,8 @@
 })();
 </script>
 <title>Organizador de texto</title>
+<meta name="description" content="Organizador de texto técnico con numeración y sangría automáticas, edición sincronizada, control del ancho y revisión ortográfica en español.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZD0iTTE5IDExLjVoMTguNWw4LjUgOC41VjQ0YTYgNiAwIDAgMS02IDZIMTlhNiA2IDAgMCAxLTYtNlYxNy41YTYgNiAwIDAgMSA2LTZaIiBmaWxsPSIjZWRmNGZmIiBzdHJva2U9IiMzODZlOWMiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik0zNy41IDExLjVWMjBhMiAyIDAgMCAwIDIgMkg0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzg2ZTljIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTIxIDIzLjVoMTQuNU0yMSAzMWgxMS41TTIxIDM4LjVoMTQuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzg2ZTljIiBzdHJva2Utd2lkdGg9IjMuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTQyIDI0LjV2MTQuMm0tNC4yLTMuOUw0MiAzOWw0LjItNC4yIiBmaWxsPSJub25lIiBzdHJva2U9IiNiYTg0MzAiIHN0cm9rZS13aWR0aD0iMy42IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48Y2lyY2xlIGN4PSI0OC43IiBjeT0iMTQuNCIgcj0iMi41IiBmaWxsPSIjMzg2ZTljIi8+PGNpcmNsZSBjeD0iNDgiIGN5PSI0NC41IiByPSIyLjYiIGZpbGw9IiNiYTg0MzAiLz48L3N2Zz4=">
 <style>
   :root {
     color-scheme: light;
@@ -3990,6 +3992,136 @@ body.info-dialog-open { overscroll-behavior: none; }
     }
   }
 
+
+  /* v2.39 · Alerta corta de numeración repetida, como la nube «Copiar». */
+  .duplicate-number-bubble {
+    position: fixed;
+    z-index: 37;
+    max-width: calc(100vw - 24px);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border-radius: 15px;
+    border: 1px solid #e78383;
+    background: linear-gradient(180deg, #ffe9e8, #ffc9c7);
+    color: #831e29;
+    box-shadow: 0 10px 24px rgba(134, 28, 35, .17);
+    font: 800 .91rem/1.2 system-ui, sans-serif;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px) scale(.96);
+    transition: opacity 180ms ease, transform 180ms ease;
+    white-space: nowrap;
+  }
+  .duplicate-number-bubble.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .duplicate-number-bubble { transition: none !important; }
+  }
+
+
+
+
+  /* v2.41 · La advertencia señala el numeral concreto, en ambas clases de anomalía. */
+  .numbering-anomaly {
+    position: relative;
+    z-index: 1;
+    border-radius: 999px;
+    outline: 1.6px solid rgba(195, 36, 39, .92);
+    outline-offset: 2px;
+    background: rgba(234, 62, 60, .12);
+    box-shadow: 0 0 0 5px rgba(215, 42, 46, .095), 0 6px 9px -5px rgba(161, 32, 32, .45);
+    text-decoration: none !important;
+  }
+  .numbering-anomaly[data-numbering-kind="jump"] {
+    outline-style: dashed;
+  }
+  .duplicate-number-bubble {
+    border-color: #c55252;
+    background: linear-gradient(180deg, #ffeae8, #ffd0cc);
+    color: #7c1521;
+    box-shadow: 0 8px 18px rgba(134, 28, 35, .14);
+  }
+  .duplicate-number-bubble::after {
+    content: "";
+    position: absolute;
+    left: var(--pointer-x, 50%);
+    bottom: -7px;
+    width: 12px;
+    height: 12px;
+    background: #ffd0cc;
+    border-right: 1px solid #c55252;
+    border-bottom: 1px solid #c55252;
+    transform: translateX(-50%) rotate(45deg);
+    pointer-events: none;
+  }
+  .duplicate-number-bubble.below-target::after {
+    top: -7px;
+    bottom: auto;
+    background: #ffeae8;
+    border: 0;
+    border-left: 1px solid #c55252;
+    border-top: 1px solid #c55252;
+  }
+  .duplicate-number-bubble:not(.has-target)::after {display: none;}
+  @media (prefers-reduced-motion: reduce) {
+    .duplicate-number-bubble {transition: none !important;}
+  }
+
+  /* v2.41 · Un tratamiento discreto para regla, pestañas y alerta editorial. */
+  .result-card .result-title-bar > .character-ruler {
+    background: transparent !important;
+    border: 1px solid color-mix(in srgb,var(--text) 9%,transparent) !important;
+    border-radius: 13px !important;
+    box-shadow: inset 0 1px 0 color-mix(in srgb,var(--text) 4%,transparent) !important;
+  }
+  .duplicate-inline-marker {
+    border-radius: 2px;
+    box-shadow: 0 4px 0 -1px rgba(198,44,43,.56),0 7px 9px -5px rgba(198,44,43,.45);
+    text-decoration: underline dotted rgba(180,35,24,.7);
+    text-underline-offset: 3px;
+  }
+  .document-tab-strip[hidden] {display:none !important;}
+  .document-tab-strip {
+    display:flex;gap:5px;overflow-x:auto;overscroll-behavior-x:contain;
+    max-width:100%;padding:7px 5px;margin:4px 0 12px;
+    scrollbar-width:thin;border-bottom:1px solid var(--border);
+  }
+  .document-tab-item {display:inline-flex;flex:0 0 auto;align-items:center;border:1px solid var(--border);border-radius:13px; background:var(--surface-soft);}
+  .document-tab-item:has(.document-tab[aria-selected="true"]) {border-color:var(--border-strong);background:var(--surface-strong);}
+  .document-tab,.document-tab-close {background:transparent;border:0;color:var(--text);min-height:40px;cursor:pointer;}
+  .document-tab {padding:7px 10px 7px 13px;font-size:12px;font-weight:650;max-width:185px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .document-tab-close {min-width:36px;padding:0 8px;font-size:21px;color:var(--muted);}
+  .document-tab:focus-visible,.document-tab-close:focus-visible {outline:2px solid var(--accent);outline-offset:2px;}
+  .document-tab:hover,.document-tab-close:hover {color:var(--accent);}
+  .info-body .source-about-heading {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+  .about-identity {display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .about-mark {width:58px;flex:0 0 58px;}
+  .about-mark svg {width:100%;height:auto;display:block;}
+  .about-identity h3 {margin:0 0 3px;font-size:1.05rem;}
+  .about-identity p {margin:0;font-size:.87rem;}
+  .about-data {margin:10px 0 20px;display:grid;gap:8px;}
+  .about-data>div {display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);padding:7px 0;}
+  .about-data dt {color:var(--muted);}
+  .about-data dd {margin:0;font-weight:700;text-align:right;}
+  .info-link-button {color:var(--text);border:1px solid var(--border-strong);background:var(--surface-strong);border-radius:11px;padding:12px;min-height:44px;cursor:pointer;}
+  .legal-viewer {height:min(53dvh,500px);overflow:auto;border:1px solid var(--border);border-radius:11px;}
+  .legal-viewer iframe {display:block;border:0;width:100%;height:100%;background:white;}
+  .editor-card .input-overlay-note {text-align:right;right:105px !important;max-width:min(280px,70%);left:auto !important;transform:none !important;}
+  #themeBtn {color:var(--text);margin-left:auto;}
+  .original-heading-line #sourceColorBtn {margin-left:0;}
+  #themeBtn svg {width:19px;height:19px;}
+  @media(max-width:680px){
+    .document-tab-strip {margin:0 0 8px;padding:4px 3px;}
+    .document-tab {max-width:135px;}
+    .editor-card .input-overlay-note {display:none !important;}
+  }
+  @media(prefers-reduced-motion:reduce){.document-tab,.document-tab-close{transition:none !important;}}
+
 </style>
 </head>
 <body class="intro-running">
@@ -4059,36 +4191,25 @@ body.info-dialog-open { overscroll-behavior: none; }
   <button id="newBtn" class="dock-btn" type="button" data-tooltip="Nuevo" aria-label="Nuevo documento">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></svg><span class="desktop-nav-label">Nuevo</span>
   </button>
-  <button id="restoreBtn" class="dock-btn" type="button" data-tooltip="Restaurar" aria-label="Restaurar valores por defecto">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span class="desktop-nav-label">Restaurar</span>
-  </button>
   <button class="dock-btn info-trigger" type="button" data-panel="about" data-tooltip="Acerca de" aria-label="Acerca de">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg><span class="desktop-nav-label">Acerca de</span>
   </button>
-  <button class="dock-btn info-trigger" type="button" data-panel="intent" data-tooltip="Intención" aria-label="Intención">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M17.5 6.5 21 3m0 0v4m0-4h-4"/></svg><span class="desktop-nav-label">Intención</span>
-  </button>
   <button class="dock-btn info-trigger" type="button" data-panel="help" data-tooltip="Instrucciones" aria-label="Instrucciones de uso">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v17H7.5A2.5 2.5 0 0 0 5 21.5z"/><path d="M5 4.5v17M9 7h7M9 11h6"/></svg><span class="desktop-nav-label">Instrucciones</span>
-  </button>
-  <button id="themeBtn" class="dock-btn" type="button" data-tooltip="Cambiar tema" aria-label="Cambiar tema">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg><span class="desktop-nav-label">Tema</span>
   </button>
   <a class="dock-btn dock-link" href="https://arleyzarate.github.io/" data-tooltip="Inicio" aria-label="Ir al inicio">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg><span class="desktop-nav-label">Inicio</span>
   </a>
 </nav>
     <div class="mobile-top-actions">
-      <button id="mobileThemeBtn" class="mobile-top-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg></button>
       <button id="mobileMenuBtn" class="mobile-top-btn" type="button" aria-label="Más opciones" title="Más opciones" aria-expanded="false" aria-controls="mobileMoreMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg></button>
       <div id="mobileMoreMenu" class="mobile-more-menu" hidden>
-        <button type="button" data-mobile-action="restore">Restaurar ajustes</button>
         <button type="button" data-mobile-action="about">Acerca de</button>
-        <button type="button" data-mobile-action="intent">Intención</button>
       </div>
     </div>
-    <div class="version-pill" aria-label="Versión 2.38">v2.38</div>
   </header>
+
+  <nav id="documentTabStrip" class="document-tab-strip" role="tablist" aria-label="Documentos abiertos" hidden></nav>
 
   <main class="workspace">
     <div id="mobileViewSwitch" class="mobile-view-switch" role="tablist" aria-label="Ver texto original u organizado">
@@ -4101,6 +4222,9 @@ body.info-dialog-open { overscroll-behavior: none; }
           <h2 id="inputTitle">Texto original</h2>
           <button id="toggleOriginalBtn" class="original-visibility-btn" type="button" aria-pressed="false" aria-label="Ocultar Texto original" title="Plegar Texto original">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M11 5l-7 7 7 7"/></svg>
+          </button>
+          <button id="themeBtn" class="original-copy-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2A8 8 0 1 1 8.8 4a6.5 6.5 0 0 0 11.2 11.2Z"/></svg>
           </button>
           <button id="sourceColorBtn" class="original-copy-btn source-palette-btn" type="button" data-tool="sourcecolor" aria-label="Cambiar color del texto original" aria-expanded="false" title="Cambiar color del texto original">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a5.5 5.5 0 0 0 0 11h1.2a1.8 1.8 0 0 1 0 3.6h-.7a2.5 2.5 0 0 0 0 5H13c4.97 0 9-4.03 9-9s-4.03-9-9-9Z"/><circle cx="7.5" cy="10" r="1.2"/><circle cx="11" cy="7" r="1.2"/><circle cx="15.2" cy="8.2" r="1.2"/><circle cx="16.2" cy="12.8" r="1.2"/></svg>
@@ -4202,6 +4326,7 @@ body.info-dialog-open { overscroll-behavior: none; }
 
   <div id="workflowGuide" class="workflow-guide" aria-hidden="true"></div>
   <div id="copyCoachBubble" class="copy-coach-bubble" aria-hidden="true">Copiar</div>
+  <div id="duplicateNumberBubble" class="duplicate-number-bubble" role="status" aria-live="polite" aria-hidden="true">¡Qué raro!</div>
   <div id="statusToast" class="status-toast" aria-live="polite"></div>
 
   <section class="panel footer-panel" aria-label="Validación del resultado">
@@ -4347,6 +4472,21 @@ body.info-dialog-open { overscroll-behavior: none; }
 
 <div id="spellingPopover" class="spelling-popover" role="dialog" aria-label="Sugerencias ortográficas" aria-hidden="true"></div>
 
+<!-- Ficha canónica estática: el portal puede leerla sin ejecutar JavaScript. -->
+<section id="aboutStaticContent" class="about-static-source" hidden aria-label="Acerca de Organizador de texto">
+  <h2 class="source-about-heading">Acerca de</h2>
+  <div class="about-identity"><div class="about-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Emblema del Organizador de texto"><path d="M19 11.5h18.5l8.5 8.5V44a6 6 0 0 1-6 6H19a6 6 0 0 1-6-6V17.5a6 6 0 0 1 6-6Z" fill="#edf4ff" stroke="#386e9c" stroke-width="2.5"/><path d="M37.5 11.5V20a2 2 0 0 0 2 2H48" fill="none" stroke="#386e9c" stroke-width="2.5"/><path d="M21 23.5h14.5M21 31h11.5M21 38.5h14.5" stroke="#386e9c" fill="none" stroke-width="3.4" stroke-linecap="round"/><path d="M42 24.5v14.2m-4.2-3.9L42 39l4.2-4.2" fill="none" stroke="#ba8430" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.7" cy="14.4" r="2.5" fill="#386e9c"/><circle cx="48" cy="44.5" r="2.6" fill="#ba8430"/></svg></div><p>Organizador de texto técnico con ajuste automático de párrafos numerados, ancho, sangría y edición sincronizada.</p></div>
+  <dl class="about-data">
+    <div><dt>Versión</dt><dd>2.41</dd></div>
+    <div><dt>Creación</dt><dd><time datetime="2026-10-15">15 oct. 2026</time></dd></div>
+    <div><dt>Actualización</dt><dd><time datetime="2026-11-05">5 nov. 2026</time></dd></div>
+    <div><dt>Autor</dt><dd>Arley Zarate</dd></div>
+  </dl>
+  <h3>Intención</h3>
+  <p>Organizar listados y textos técnicos para que cada línea respete el ancho configurado, conservando palabras, códigos y referencias.</p>
+  <p>El texto original y el resultado se sincronizan al escribir. El ancho, la sangría y la revisión ortográfica facilitan preparar el contenido para otras herramientas.</p>
+</section>
+
 <div id="infoBackdrop" class="info-backdrop" aria-hidden="true"></div>
 <aside id="infoPanel" class="info-panel" role="dialog" aria-modal="true" aria-labelledby="infoTitle" aria-hidden="true" inert>
   <div class="info-panel-head">
@@ -4368,8 +4508,8 @@ body.info-dialog-open { overscroll-behavior: none; }
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.38";
-  const APP_DATE = "04/nov/2026";
+  const APP_VERSION = "2.41";
+  const APP_DATE = "5 nov. 2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -4446,7 +4586,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   const confirmSourceColorBtn = $("confirmSourceColorBtn");
   const closeSourceColorBtn = $("closeSourceColorBtn");
   const newBtn = $("newBtn");
-  const restoreBtn = $("restoreBtn");
+  const restoreBtn = null;
 
   const charLength = (value) => Array.from(value ?? "").length;
   let previewCharWidth = 7;
@@ -4595,12 +4735,53 @@ body.info-dialog-open { overscroll-behavior: none; }
     return value;
   }
 
+  // Reconoce encabezados numerados incluso sin espacio después del punto.
+  // Solo genera un salto nuevo para consecutivos (+1); los índices iguales
+  // son advertencias dentro del mismo párrafo y no se separan.
+  // El texto fuente permanece intacto. No divide decimales, códigos ni
+  // subapartados con múltiples puntos, como (5.3.2.2.b).
+  function separateConsecutiveNumerals(source) {
+    const candidates = [];
+    const pattern = /\d{1,4}\.(?!\d)/gu;
+    let match;
+    let previousNumber = null;
+    while ((match = pattern.exec(source))) {
+      const start = match.index;
+      const number = Number.parseInt(match[0], 10);
+      const before = source[start - 1] || '';
+      const after = source[pattern.lastIndex] || '';
+      const lineStart = source.lastIndexOf('\n', start - 1) + 1;
+      const atLineStart = source.slice(lineStart, start).trim() === '';
+      const afterSentenceEnd = before === '.' && /\p{L}/u.test(source[start - 2] || '');
+      const boundary = start === 0 || /\s/u.test(before) || afterSentenceEnd;
+      // Se admite 1.TEXTO, pero no una cifra decimal (1.5), un identificador
+      // alfanumérico (PR-1.) ni una referencia numérica compuesta.
+      const nextIsValid = !after || /[\s\p{L}(«“]/u.test(after);
+      if (!boundary || !nextIsValid) continue;
+      const followsList = previousNumber !== null &&
+        (number === previousNumber + 1);
+      if (!atLineStart && !followsList) continue;
+      candidates.push({ start, atLineStart, number });
+      previousNumber = number;
+    }
+    if (!candidates.length) return source;
+    // Las inserciones se hacen desde el final para mantener índices originales.
+    for (let i = candidates.length - 1; i >= 0; i--) {
+      const candidate = candidates[i];
+      if (candidate.atLineStart) continue;
+      const left = source.slice(0, candidate.start).replace(/[ \t]+$/u, '');
+      source = left + '\n' + source.slice(candidate.start);
+    }
+    return source;
+  }
+
   function parseBlocks(rawText, correctionsEnabled) {
     let source = normalizeLineBreaks(rawText);
 
     if (correctionsEnabled) {
       source = applySafeCorrections(source);
     }
+    source = separateConsecutiveNumerals(source);
 
     const lines = source.split("\n");
     const blocks = [];
@@ -4618,7 +4799,7 @@ body.info-dialog-open { overscroll-behavior: none; }
       const trimmed = rawLine.trim();
       if (!trimmed) continue;
 
-      const numbered = trimmed.match(/^(\d+)\.(?:\s+(.*)|\s*)$/);
+      const numbered = trimmed.match(/^(\d{1,4})\.(?!\d)[ \t]*(.*)$/u);
 
       if (numbered) {
         pushCurrent();
@@ -4894,6 +5075,8 @@ body.info-dialog-open { overscroll-behavior: none; }
   }
 
   function showCopyCoachBubble() {
+    // Una alerta de numeración repetida tiene prioridad sobre la guía Copiar.
+    if (previousDuplicateSignature) return;
     if (!copyCoachBubble || !$("copyBtn") || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     copyCoachShown = true;
     positionCopyCoachBubble();
@@ -4903,6 +5086,157 @@ body.info-dialog-open { overscroll-behavior: none; }
     window.clearTimeout(copyCoachTimer);
     copyCoachTimer = window.setTimeout(hideCopyCoachBubble, 5200);
   }
+
+  // v2.41 · Un mismo detector para numerales duplicados o saltos de
+  // consecutivo. Se usa sobre el texto final para señalar la posición exacta.
+  // No se altera la numeración que el usuario escribió.
+  const duplicateNumberBubble = $("duplicateNumberBubble");
+  let duplicateBubbleTimer = 0;
+  let previousDuplicateSignature = '';
+  let activeNumberingIssue = null;
+
+  function numberingAnomalies(text) {
+    const issues = [];
+    const regex = /\d{1,4}\.(?!\d)/gu;
+    let previousNumber = null;
+    let match;
+    while ((match = regex.exec(text))) {
+      const before = text[match.index - 1] || '';
+      const after = text[regex.lastIndex] || '';
+      // No confundir decimales, versiones, referencias, códigos ni
+      // componentes como (5.3.2.2.b) con encabezados de lista.
+      if (match.index > 0 && !/\s/u.test(before)) continue;
+      if (after && !/[\s\p{L}(«“]/u.test(after)) continue;
+      const number = Number.parseInt(match[0], 10);
+      if (previousNumber !== null) {
+        const kind = number === previousNumber ? 'duplicate'
+          : number > previousNumber + 1 ? 'jump' : '';
+        if (kind) issues.push({
+          start: match.index, end: regex.lastIndex, number,
+          previous: previousNumber, expected: previousNumber + 1, kind
+        });
+      }
+      previousNumber = number;
+    }
+    return issues;
+  }
+
+  function hideDuplicateNumberBubble() {
+    window.clearTimeout(duplicateBubbleTimer);
+    duplicateNumberBubble?.classList.remove('is-visible');
+    duplicateNumberBubble?.setAttribute('aria-hidden', 'true');
+    duplicateNumberBubble?.removeAttribute('aria-label');
+  }
+
+  function positionNumberingBubble() {
+    if (!duplicateNumberBubble || !activeNumberingIssue) return;
+    const target = [...outputPreview.querySelectorAll('.numbering-anomaly')]
+      .find(el => Number(el.dataset.numberingStart) === activeNumberingIssue.start);
+    const rect = target?.getBoundingClientRect();
+    const inView = rect && rect.width > 0 && rect.height > 0 &&
+      rect.bottom > 8 && rect.top < window.innerHeight - 8 &&
+      rect.right > 0 && rect.left < window.innerWidth;
+    const bubbleWidth = duplicateNumberBubble.offsetWidth || 105;
+    const bubbleHeight = duplicateNumberBubble.offsetHeight || 40;
+    const margin = 12;
+    let left, top;
+    duplicateNumberBubble.classList.toggle('has-target', !!inView);
+    duplicateNumberBubble.classList.remove('below-target');
+    if (inView) {
+      const center = rect.left + rect.width / 2;
+      left = Math.max(margin, Math.min(window.innerWidth - bubbleWidth - margin,
+        center - bubbleWidth / 2));
+      const above = rect.top >= bubbleHeight + 18;
+      top = above ? rect.top - bubbleHeight - 16 : rect.bottom + 17;
+      top = Math.max(margin, Math.min(window.innerHeight - bubbleHeight - margin, top));
+      duplicateNumberBubble.classList.toggle('below-target', !above);
+      duplicateNumberBubble.style.setProperty('--pointer-x',
+        Math.max(12, Math.min(bubbleWidth - 12, center - left)) + 'px');
+    } else {
+      const mobileSourceOpen = window.matchMedia('(max-width: 680px)').matches &&
+        document.getElementById('mobileOriginalTab')?.getAttribute('aria-selected') === 'true';
+      const fallbackElement = mobileSourceOpen ? inputText :
+        document.querySelector('#resultCard .result-title-bar');
+      const fallback = fallbackElement?.getBoundingClientRect();
+      // En móvil con Texto original activo, la vista organizada está oculta:
+      // mantener la alerta dentro del editor y nunca sobre el logotipo.
+      top = fallback ? Math.max(margin, Math.min(window.innerHeight - bubbleHeight - margin,
+        mobileSourceOpen ? fallback.top + 10 : fallback.bottom + 8)) : 80;
+      left = fallback ? Math.max(margin, Math.min(window.innerWidth - bubbleWidth - margin,
+        fallback.right - bubbleWidth - (mobileSourceOpen ? 12 : 0))) : margin;
+    }
+    duplicateNumberBubble.style.left = left + 'px';
+    duplicateNumberBubble.style.top = top + 'px';
+  }
+
+  function showDuplicateNumberBubble(issue) {
+    if (!duplicateNumberBubble || !issue) return;
+    hideCopyCoachBubble();
+    activeNumberingIssue = issue;
+    duplicateNumberBubble.setAttribute('aria-label', issue.kind === 'duplicate'
+      ? '¡Qué raro! Se repite el numeral ' + issue.number + '. Revise el orden.'
+      : '¡Qué raro! Después del numeral ' + issue.previous + ' se esperaba ' + issue.expected + ', pero aparece ' + issue.number + '.');
+    duplicateNumberBubble.setAttribute('aria-hidden', 'false');
+    duplicateNumberBubble.classList.remove('is-visible');
+    requestAnimationFrame(() => {
+      positionNumberingBubble();
+      duplicateNumberBubble.classList.add('is-visible');
+    });
+    window.clearTimeout(duplicateBubbleTimer);
+    duplicateBubbleTimer = window.setTimeout(hideDuplicateNumberBubble, 3900);
+  }
+
+  function updateRepeatedNumberWarning(issues) {
+    const signature = issues.map(issue => issue.kind + ':' + issue.previous + ':' + issue.number).join('|');
+    if (!signature) {
+      previousDuplicateSignature = '';
+      activeNumberingIssue = null;
+      hideDuplicateNumberBubble();
+    } else if (signature !== previousDuplicateSignature) {
+      previousDuplicateSignature = signature;
+      showDuplicateNumberBubble(issues[0]);
+    } else if (activeNumberingIssue) {
+      // El texto anterior puede crecer: renovar su posición sin relanzar
+      // avisos ni animaciones al teclear.
+      activeNumberingIssue = issues[0];
+      if (duplicateNumberBubble?.classList.contains('is-visible'))
+        requestAnimationFrame(positionNumberingBubble);
+    }
+  }
+
+  // La marca permite volver a consultar el aviso sin bloquear la edición.
+  outputPreview.addEventListener('click', event => {
+    const flagged = event.target.closest?.('.numbering-anomaly');
+    if (!flagged) return;
+    const issue = numberingAnomalies(outputText.value)
+      .find(item => item.start === Number(flagged.dataset.numberingStart));
+    if (issue) showDuplicateNumberBubble(issue);
+  });
+  outputViewport.addEventListener('scroll', () => {
+    if (duplicateNumberBubble?.classList.contains('is-visible'))
+      requestAnimationFrame(positionNumberingBubble);
+  }, {passive:true});
+  window.addEventListener('resize', () => {
+    if (duplicateNumberBubble?.classList.contains('is-visible'))
+      requestAnimationFrame(positionNumberingBubble);
+  }, {passive:true});
+  // La selección de una vista móvil cambia el área real de referencia.
+  for (const tabId of ['mobileOriginalTab', 'mobileResultTab']) {
+    document.getElementById(tabId)?.addEventListener('click', () => {
+      if (duplicateNumberBubble?.classList.contains('is-visible')) {
+        requestAnimationFrame(() => requestAnimationFrame(positionNumberingBubble));
+        // La transición entre vistas cambia la geometría tras el primer frame.
+        window.setTimeout(() => {
+          if (duplicateNumberBubble?.classList.contains('is-visible'))
+            positionNumberingBubble();
+        }, 280);
+      }
+    });
+  }
+  window.addEventListener('scroll', () => {
+    if (duplicateNumberBubble?.classList.contains('is-visible'))
+      requestAnimationFrame(positionNumberingBubble);
+  }, {passive:true});
 
   function buildWorkflowPath() {
     if (!workflowGuide || !pasteBtn || !$("copyBtn")) return;
@@ -5149,7 +5483,9 @@ body.info-dialog-open { overscroll-behavior: none; }
     return ranges;
   }
 
-  function markSpelling(text, linkedRange = null, checkOrthography = true) {
+  function markSpelling(text, linkedRange = null, checkOrthography = true, issues = null) {
+    const issueMap = new Map((checkOrthography ? (issues || numberingAnomalies(text)) : [])
+      .map(issue => [issue.start, issue]));
     const fragments=[];
     const tokens=getDisplayTokens(text);
     let tokenIndex=0, count=0;
@@ -5167,12 +5503,16 @@ body.info-dialog-open { overscroll-behavior: none; }
         const standaloneNumber=!enumerator && /^\p{N}+(?:[-_\/]\p{N}+)*$/u.test(word);
         const isError=checkOrthography && !enumerator && !alphanumeric && /\p{L}/u.test(word) && estaErrorOrtografico(word);
         const classes=[];
+        const numberIssue=issueMap.get(token.start);
+        if (numberIssue) classes.push('numbering-anomaly');
         if (enumerator) classes.push('list-index-token');
         else if (alphanumeric) classes.push('code-number-token');
         else if (standaloneNumber) classes.push('standalone-number-token');
         if (isError) { classes.push('spelling-error'); count++; }
-        const data=isError ? ` tabindex="0" data-spell-start="${token.start}" data-spell-end="${token.end}" data-spell-word="${escapeSpellHtml(word)}" title="Posible error ortográfico. Seleccione para ver sugerencias."` : '';
-        const suffix=enumerator ? '.' : '';
+        const spellData=isError ? ` tabindex="0" data-spell-start="${token.start}" data-spell-end="${token.end}" data-spell-word="${escapeSpellHtml(word)}" title="Posible error ortográfico. Seleccione para ver sugerencias."` : '';
+        const issueData=numberIssue ? ` data-numbering-start="${token.start}" data-numbering-kind="${numberIssue.kind}" title="Numeración inesperada: revise el consecutivo"` : '';
+        const data=spellData+issueData;
+        const suffix=enumerator || numberIssue ? '.' : '';
         const fragment=formatSelectedFragment(word+suffix,token.start,token.end+suffix.length,linkedRange);
         fragments.push(classes.length ? `<span class="${classes.join(' ')}"${data}>${fragment}</span>` : fragment);
         index=token.end+suffix.length;
@@ -5639,13 +5979,15 @@ body.info-dialog-open { overscroll-behavior: none; }
     clearLinkedSelection();
     const hasResult = result.length > 0;
     closeSpellingPopover();
-    outputPreview.innerHTML = hasResult ? markSpelling(result) : 'El resultado aparecerá aquí...';
+    const numberIssues = hasResult ? numberingAnomalies(result) : [];
+    outputPreview.innerHTML = hasResult ? markSpelling(result, null, true, numberIssues) : 'El resultado aparecerá aquí...';
     if(!hasResult) spellingCount.innerHTML='<b>0</b> posibles errores';
     outputPreview.classList.toggle("is-placeholder", !hasResult);
     outputPreview.setAttribute('contenteditable', hasResult ? 'true' : 'false');
     outputPreview.spellcheck = false;
     fitOutputPreview(width);
     syncPreviewToOutput();
+    updateRepeatedNumberWarning(numberIssues);
   }
 
   function updateStatsAndValidation(lines, width) {
@@ -5836,14 +6178,109 @@ body.info-dialog-open { overscroll-behavior: none; }
     inputText.focus();
   }
 
+  // v2.41 · Pestañas de documentos independientes, con historial y ajustes
+  // por documento. La barra se oculta mientras haya un único documento.
+  const documentTabStrip = $("documentTabStrip");
+  let nextDocumentId = 2;
+  let activeDocumentId = 1;
+  const openDocuments = new Map();
+  function captureCurrentDocument() {
+    return {
+      text: inputText.value,
+      width: maxWidth.value, indent: indentSize.value,
+      corrections: basicCorrections.checked, reference: referenceLine.value,
+      bold: previewBold, caseMode, blankLineBetweenItems,
+      widthFactor: previewWidthFactorValue, textColor: previewTextColor,
+      sourceColor: sourceTextColor, hidden: originalIsHidden,
+      zoomMode: previewZoomMode, zoomRatio: previewZoomRatio,
+      scrollInput: inputText.scrollTop, scrollOutput: outputViewport.scrollTop,
+      undo: undoStack.map(x => ({...x})), redo: redoStack.map(x => ({...x})),
+      historySource, historyCaret, lastUndoEdit: lastUndoEdit ? {...lastUndoEdit} : null
+    };
+  }
+  function freshDocument() {
+    return {text:'', width:String(DEFAULT_WIDTH), indent:String(DEFAULT_INDENT),
+      corrections:false,reference:'', bold:false,caseMode:'original',blankLineBetweenItems:false,
+      widthFactor:DEFAULT_TEXT_WIDTH_FACTOR,textColor:'var(--result)',
+      sourceColor:'var(--source-ink)',hidden:false,zoomMode:'width',zoomRatio:1,
+      scrollInput:0, scrollOutput:0, undo:[],redo:[],historySource:'',historyCaret:null,lastUndoEdit:null};
+  }
+  function saveActiveDocument() {
+    const current = openDocuments.get(activeDocumentId);
+    if (current) current.state = captureCurrentDocument();
+  }
+  function renderDocumentTabs() {
+    documentTabStrip.replaceChildren();
+    documentTabStrip.hidden = openDocuments.size < 2;
+    if (documentTabStrip.hidden) return;
+    for (const doc of openDocuments.values()) {
+      const wrap=document.createElement('span');
+      wrap.className='document-tab-item';
+      const tab=document.createElement('button');
+      tab.type='button'; tab.className='document-tab'; tab.role='tab';
+      tab.setAttribute('aria-selected', String(doc.id===activeDocumentId));
+      tab.title=doc.name; tab.textContent=doc.name;
+      tab.addEventListener('click', () => activateDocument(doc.id));
+      const close=document.createElement('button');
+      close.type='button'; close.className='document-tab-close';
+      close.textContent='×'; close.setAttribute('aria-label', 'Cerrar '+doc.name);
+      close.addEventListener('click', () => closeDocument(doc.id));
+      wrap.append(tab,close);documentTabStrip.append(wrap);
+    }
+  }
+  function activateDocument(id) {
+    if (id===activeDocumentId || !openDocuments.has(id)) return;
+    saveActiveDocument();
+    activeDocumentId=id;
+    const data=openDocuments.get(id).state;
+    historySuspended=true;
+    inputText.value=data.text;
+    maxWidth.value=data.width; indentSize.value=data.indent;
+    basicCorrections.checked=data.corrections; referenceLine.value=data.reference;
+    previewBold=data.bold;caseMode=data.caseMode;blankLineBetweenItems=data.blankLineBetweenItems;
+    previewZoomMode=data.zoomMode;previewZoomRatio=data.zoomRatio;
+    setTextWidthFactor(data.widthFactor);
+    setPreviewTextColor(data.textColor);
+    setSourceTextColor(data.sourceColor);
+    actualizarControlTipoLetra();updateBlankLineButton();updateReferenceCount();
+    setOriginalVisible(!data.hidden);
+    updateInputOverlayState();organizeText();
+    undoStack.splice(0,undoStack.length,...data.undo.map(x=>({...x})));
+    redoStack.splice(0,redoStack.length,...data.redo.map(x=>({...x})));
+    historySource=data.historySource;historyCaret=data.historyCaret;
+    lastUndoEdit=data.lastUndoEdit;
+    historySuspended=false;
+    hideDuplicateNumberBubble();previousDuplicateSignature='';
+    updateMobileTabs();updateFormatStrip();renderDocumentTabs();
+    requestAnimationFrame(()=>{
+      inputText.scrollTop=data.scrollInput;
+      outputViewport.scrollTop=data.scrollOutput;
+      fitOutputPreview();
+    });
+  }
+  function closeDocument(id) {
+    const doc=openDocuments.get(id);
+    if (!doc) return;
+    if (id===activeDocumentId) saveActiveDocument();
+    if (doc.state.text.trim() && !window.confirm('¿Cerrar «'+doc.name+'»? Los cambios de esta pestaña que no haya copiado se perderán.')) return;
+    openDocuments.delete(id);
+    if (!openDocuments.size) {
+      const newId=nextDocumentId++;
+      openDocuments.set(newId,{id:newId,name:'Sin título '+newId,state:freshDocument()});
+    }
+    if (id===activeDocumentId) {
+      const next=[...openDocuments.keys()][0];
+      activeDocumentId=-1;activateDocument(next);
+    } else renderDocumentTabs();
+  }
+  openDocuments.set(1,{id:1,name:'Sin título 1',state:freshDocument()});
   function createNewDocument() {
-    closeInfo();
-    closeToolPanel();
-    setOriginalVisible(true);
-    fitPreviewBy('width');
-    clearAll();
-    resetTextHistory();
-    setStatus("Área lista para un nuevo texto.");
+    closeInfo();closeToolPanel();saveActiveDocument();
+    const id=nextDocumentId++;
+    openDocuments.set(id,{id,name:'Sin título '+id,state:freshDocument()});
+    activeDocumentId=-1;
+    activateDocument(id);
+    inputText.focus({preventScroll:true});
     playIntroSequence();
   }
 
@@ -6102,35 +6539,24 @@ body.info-dialog-open { overscroll-behavior: none; }
   }
 
   const infoContent = {
-    about: {
-      title: "Acerca de",
-      html: "<p><strong>Organizador de texto</strong></p>" +
-        "<p>Versión: " + APP_VERSION + "<br>Fecha: " + APP_DATE + "<br>Diseño: Arley Zarate<br>Desarrollo: NOVA</p>" +
-        "<p>Revisión ortográfica en español con sugerencias para corregir el texto.</p>"
-    },
-    intent: {
-      title: "Intención",
-      html: "<p>Organizar listados y textos técnicos para que cada línea respete un ancho máximo de caracteres sin alterar palabras, códigos ni datos técnicos.</p>" +
-        "<p>Está pensado para preparar contenido en editores o entornos que no organizan automáticamente el texto por ancho de línea.</p>" +
-        "<p>La zona más clara a la izquierda marca visualmente la sangría. Su límite se ajusta arrastrando el marcador superior; la vista escala en pantallas pequeñas.</p>" +
-        "<p>La revisión ortográfica señala posibles errores y permite corregirlos desde las sugerencias, sin perder la sincronización entre ambos textos.</p>"
-    },
+    about: { title: "Acerca de", html: "" },
     help: {
       title: "Instrucciones de uso",
       html: "<ol>" +
-        "<li>Pegue el contenido en <strong>Texto original</strong> con Ctrl + V o el icono Pegar.</li>" +
-        "<li>El resultado se reorganiza <strong>automáticamente al escribir o editar cualquiera de los dos textos</strong>, respetando el ancho y la sangría.</li>" +
-        "<li>Si necesita cambiar el ancho, la sangría o tomar un ancho desde ejemplo, use la cota superior y el marcador de sangría.</li>" +
-        "<li>En Texto organizado, B activa la negrita; Aa alterna entre texto original, minúsculas, texto mixto tipo oración y mayúsculas; W ajusta el ancho.</li>" +
-        "<li>Arrastre el marcador sobre el límite del fondo claro para ajustar la sangría de uno en uno; con doble clic abre el panel.</li>" +
-        "<li>Seleccione las palabras subrayadas en rojo para ver correcciones o incorporarlas a su diccionario personal.</li><li>Edite directamente cualquiera de los dos textos: el otro se actualiza automáticamente.</li><li>Para deshacer una edición use Ctrl + Z. Para rehacerla, Ctrl + Mayús + Z o Ctrl + Y.</li><li>Los iconos Copiar y Limpiar están junto a B, Aa, W y la paleta.</li>" +
-        "<li>Use el icono de líneas separadas para insertar o quitar un renglón vacío entre elementos numerados.</li>" +
-        "<li>Use el icono junto a Texto original para plegarlo; la pestaña vertical permite recuperarlo. Al editar el resultado, el original se pliega automáticamente.</li><li>Los cuatro iconos laterales permiten acercar, alejar y ajustar la vista al ancho o al alto.</li>" +
-        "<li>Use <strong>Nuevo</strong> para empezar otra sesión y <strong>Restaurar</strong> para volver a la configuración inicial.</li>" +
+        "<li>Pegue contenido en <strong>Texto original</strong> con Ctrl + V o el icono Pegar.</li>" +
+        "<li>La escritura o edición en cualquiera de las dos áreas reorganiza el resultado de forma automática.</li>" +
+        "<li>La regla fija el ancho máximo; el marcador ajusta la sangría de continuación.</li>" +
+        "<li>Los controles B, Aa, W, color y líneas vacías cambian la presentación del resultado.</li>" +
+        "<li>La numeración consecutiva abre párrafos. Una numeración repetida o un salto en el consecutivo muestra «¡Qué raro!» y señala el número con un círculo y una flecha, sin alterar los párrafos.</li>" +
+        "<li>Seleccione palabras señaladas por el corrector para revisar sugerencias o agregarlas al diccionario personal.</li>" +
+        "<li>Ctrl + Z deshace; Ctrl + Mayús + Z o Ctrl + Y rehacen.</li>" +
+        "<li>Nuevo crea otra pestaña independiente sin cerrar el texto actual. Use las pestañas para cambiar de documento.</li>" +
+        "<li>El resultado dispone de controles laterales para acercar, alejar y ajustar la vista.</li>" +
         "</ol>"
     }
   };
 
+  const aboutStaticContent = $("aboutStaticContent");
   let lastInfoTrigger = null;
   let activeTool = "";
   let activeToolButton = null;
@@ -6143,7 +6569,13 @@ body.info-dialog-open { overscroll-behavior: none; }
     // No solapar ventanas configurables: una sola acción contextual activa.
     if (toolPanel.classList.contains("open")) closeToolPanel();
     if (spellingPopover.classList.contains("open")) closeSpellingPopover();
-    infoBody.innerHTML = item.html;
+    if (key === 'about') {
+      const aboutSource = aboutStaticContent;
+      aboutSource.hidden = false;
+      infoBody.replaceChildren(aboutSource);
+    } else {
+      infoBody.innerHTML = item.html;
+    }
     infoBody.scrollTop = 0;
     infoPanel.inert = false;
     infoPanel.classList.add("open");
@@ -6156,6 +6588,10 @@ body.info-dialog-open { overscroll-behavior: none; }
 
   function closeInfo() {
     if (!infoPanel.classList.contains("open")) return;
+    if (aboutStaticContent && aboutStaticContent.parentElement === infoBody) {
+      aboutStaticContent.hidden = true;
+      document.body.appendChild(aboutStaticContent);
+    }
     infoPanel.classList.remove("open");
     infoBackdrop.classList.remove("open");
     infoPanel.setAttribute("aria-hidden", "true");
@@ -6547,7 +6983,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   }));
   document.querySelectorAll('.color-swatch[data-color]').forEach(btn => btn.addEventListener('click', () => setPreviewTextColor(btn.dataset.color)));
   newBtn?.addEventListener('click', createNewDocument);
-  restoreBtn?.addEventListener('click', restoreDefaults);
+
   skipIntroBtn?.addEventListener('click', () => stopIntroOverlay(true));
   indentGuide?.addEventListener('pointerdown', onGuidePointerDown);
   indentGuide?.addEventListener('pointermove', onGuidePointerMove);
@@ -6796,7 +7232,9 @@ body.info-dialog-open { overscroll-behavior: none; }
     }
     const width=safeInteger(maxWidth.value,DEFAULT_WIDTH,10);
     const indent=safeInteger(indentSize.value,DEFAULT_INDENT,0,30);
-    caseBaseText=wrapBlocksWithSeparators(parseBlocks(sourceUpdated,basicCorrections.checked),width,indent).join('\n');
+    const editedBlocks = parseBlocks(sourceUpdated, basicCorrections.checked);
+    updateRepeatedNumberWarning(editedBlocks);
+    caseBaseText=wrapBlocksWithSeparators(editedBlocks,width,indent).join('\n');
     let organized=convertirTipoLetra(caseBaseText,caseMode);
     if(pendingNumberedLine) {
       const fragment=edited.slice(edited.lastIndexOf('\n')+1);
@@ -6929,7 +7367,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   mobileResultTab?.addEventListener('click', () => { setOriginalVisible(false); previousSetMobileView(); });
   $('formatCaseBtn')?.addEventListener('click', () => { caseToggleBtn?.click(); updateFormatStrip(); });
   $('formatSpacingBtn')?.addEventListener('click', () => { blankLineToggleBtn?.click(); updateFormatStrip(); });
-  $('mobileThemeBtn')?.addEventListener('click', () => themeBtn?.click());
+
   $('mobileNewBtn')?.addEventListener('click', () => {newBtn?.click(); previousSetMobileView();});
   $('mobileUndoBtn')?.addEventListener('click', () => {navigateTextHistory(-1);previousSetMobileView();});
   $('mobileRedoBtn')?.addEventListener('click', () => {navigateTextHistory(1);previousSetMobileView();});
@@ -6939,8 +7377,7 @@ body.info-dialog-open { overscroll-behavior: none; }
     const button=event.target.closest('[data-mobile-action]'); if(!button)return;
     const action=button.dataset.mobileAction;
     mobileMoreMenu.hidden=true; mobileMenuBtn?.setAttribute('aria-expanded','false');
-    if(action==='restore') {restoreBtn?.click();previousSetMobileView();}
-    else document.querySelector('.info-trigger[data-panel="'+action+'"]')?.click();
+    document.querySelector('.info-trigger[data-panel="'+action+'"]')?.click();
   });
   document.addEventListener('pointerdown', event => {
     if(mobileMoreMenu && !mobileMoreMenu.hidden && !event.target.closest('.mobile-top-actions')) {
