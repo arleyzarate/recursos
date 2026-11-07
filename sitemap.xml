@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Inventario inicial provisional: solo URL base documentada de Recursos.
+       Incorporar las URL de aplicaciones tras verificar su publicación real.
+       No inventar etiquetas lastmod. Mantenimiento manual: README.md, sección 48. -->
+  <url>
+    <loc>https://arleyzarate.github.io/recursos/</loc>
+  </url>
+</urlset>
