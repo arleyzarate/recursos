@@ -1,8 +1,0 @@
-/* ScaleSync | Referencia interna = 200 unidades. Orientación: horizontal.
-   Ajuste --scalesync-factor para cambiar el tamaño de la composición.
-   Ejemplo: 2 duplica el tamaño; 0.5 lo reduce a la mitad.
-   La referencia puede ser horizontal, vertical o en L (X/Y).
-   Las imágenes y desplazamientos comparten el factor global; cada capa puede tener escala X/Y independiente. */
-.scalesync-scene{--scalesync-factor:1;--scalesync-width-factor:1;--scalesync-height-factor:1;position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;}
-.scalesync-origin{position:absolute;left:50%;top:50%;width:0;height:0;transform:scale(calc(var(--scalesync-factor) * var(--scalesync-width-factor)),calc(var(--scalesync-factor) * var(--scalesync-height-factor)));transform-origin:0 0;}
-.scalesync-layer{position:absolute;display:block;max-width:none;height:auto;transform-origin:center;pointer-events:none;}
