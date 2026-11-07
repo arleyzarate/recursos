@@ -79,7 +79,7 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
 #aboutPanel .home-action:focus-visible{outline:3px solid #f4d995;outline-offset:2px}
 @media(max-width:640px){#exportPanel{max-height:78dvh}.resolution-list{max-height:190px}#exportPanel .panelhead{top:-13px}}
 </style><style id="v411-ui">
-/* ScaleSync 4.14: trabajo centrado y exportación con desplazamiento completo */
+/* ScaleSync 4.15: trabajo centrado y exportación con desplazamiento completo */
 #exportPanel{left:50%!important;right:auto!important;top:50%!important;transform:translate(-50%,-50%)!important;width:min(530px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;max-height:min(88dvh,880px)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:0!important}
 #exportPanel[hidden]{display:none!important}
 #exportPanel .panelhead{flex:none!important;position:relative!important;top:auto!important;z-index:2;padding:14px 18px!important;margin:0!important}
@@ -132,7 +132,7 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
  <div id="panelProgress" class="panel-progress" hidden><div id="panelProgressText">Esperando…</div><progress id="panelBar" max="100" value="0"></progress></div>
  <p id="status" class="status" role="status" aria-live="polite"></p><p id="progress" class="progress"></p>
 </div></section>
-<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.14</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
+<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.15</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
 <input accept="image/jpeg,image/png" hidden="" id="file" type="file"/><script>
 'use strict';
 const $=id=>document.getElementById(id),workspace=$('workspace'),stage=$('stage');let layers=[],selected=null,mode='move',history=[],future=[],resolutions=[320,640,960,1280,1920],gesture=null;const REF=200;let uid=0;let chosenWidths=new Set([320,640,960,1280,1920]);let exportBusy=false;let exportCancelled=false;let referenceDirection='horizontal';$('referenceDirection').onchange=e=>{referenceDirection=e.target.value;updateReference();say('Referencia '+referenceDirection+'.')};function updateReference(){const descriptions={horizontal:'Horizontal (X): el ancho controla la escala. Arrastre horizontalmente para ampliar o reducir la imagen. El alto cambia en la misma proporción, sin deformación.',vertical:'Vertical (Y): el alto controla la escala. Arrastre verticalmente para ampliar o reducir la imagen. El ancho cambia en la misma proporción, sin deformación.',dual:'En L (X + Y): el ancho y el alto se ajustan por separado. Arrastre horizontalmente para cambiar X y verticalmente para cambiar Y. La imagen puede deformarse.'};$('referenceHelp').textContent=descriptions[referenceDirection];$('referenceGuide').classList.toggle('vertical',referenceDirection==='vertical');$('referenceGuide').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').classList.toggle('vertical',referenceDirection==='vertical');$('referenceLabel').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').textContent=(referenceDirection==='dual'?'Referencia en L (X/Y)':'Referencia '+referenceDirection)}
@@ -230,7 +230,7 @@ const crcTable=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k
 const exportOverlay=document.createElement('div');exportOverlay.id='exportOverlay';exportOverlay.hidden=true;exportOverlay.innerHTML='<div class="export-card" role="dialog" aria-modal="true" aria-label="Progreso de exportación"><div class="export-title">Preparando exportación</div><div class="export-current" id="exportCurrent">Iniciando…</div><progress id="exportBar" max="100" value="0"></progress><div id="exportPercent">0 %</div><button type="button" id="cancelExport">Cancelar y descargar lo procesado</button></div>';document.body.append(exportOverlay);
 const extraStyle=document.createElement('style');extraStyle.textContent='#exportOverlay:not([hidden]){position:fixed;inset:0;z-index:9999;background:#06101bdc;display:grid;place-items:center;padding:20px}.export-card{width:min(440px,92vw);border:1px solid #caa45d;border-radius:20px;background:#14253a;color:#f6f0e7;padding:25px;text-align:center;box-shadow:0 18px 70px #0009}.export-title{font-weight:800;font-size:1.3rem;margin-bottom:12px}.export-current{min-height:3em;color:#c4d1df;margin-bottom:12px;overflow-wrap:anywhere}#exportBar{width:100%;height:18px;accent-color:#e7b65d}#exportPercent{margin:10px}#cancelExport{padding:10px 14px;border-radius:12px;background:#5c3440;color:white;border:1px solid #b87d7d}';document.head.append(extraStyle);
 $('cancelExport').onclick=()=>{exportCancelled=true;$('exportCurrent').textContent='Cancelación solicitada. Terminando la operación actual…'};
-// Exportación 4.14: trabajador local reutilizable para no bloquear la interfaz.
+// Exportación 4.15: trabajador local reutilizable para no bloquear la interfaz.
 // La conversión conserva la proporción y calidad seleccionada; no transmite datos a servidores.
 const workerScript413 = `
 self.onmessage = async ({data}) => {
@@ -291,8 +291,8 @@ async function exportVariant(file,width,height,quality){
  }finally{if(canvas)canvas.width=canvas.height=0;bitmap?.close()}
 }
 
-// ScaleSync Gold 4.14: exportación local de un ZIP único, sin recorte.
-const FORMAT_VERSION='4.14';
+// ScaleSync Gold 4.15: exportación local de un ZIP único, sin recorte.
+const FORMAT_VERSION='4.15';
 const BYTES_CHUNK=2*1024*1024;
 const CRC_TABLE=crcTable;
 const utf8=new TextEncoder();
@@ -439,10 +439,10 @@ function projectFiles(records,prefix,date,plan,skipped,canceled=false){
   const srcset=variants.map(v=>`${v.file} ${v.width}w`).join(', ');
   return `<img alt="" draggable="false" src="${escaped(source)}" ${srcset?`srcset="${escaped(srcset)}" sizes="100vw"`:''} width="${l.original.width}" height="${l.original.height}" style="left:${p(x)}%;top:${p(y)}%;width:${p(w)}%;height:${p(h)}%;display:${l.visible?'block':'none'}">`;
  }).join('\n');
- const css=`/* ScaleSync Gold 4.14. Composición responsiva, sin recorte. */\n*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080e19;color:#fff}.scalesync-scene{position:relative;width:min(100vw, calc(100dvh * ${p(bounds.width/bounds.height)}));max-width:100vw;aspect-ratio:${p(bounds.width)} / ${p(bounds.height)};margin:auto;overflow:visible}.scalesync-scene img{position:absolute;object-fit:fill;max-width:none;margin:0;padding:0;border:0;image-rendering:auto;display:block}.scalesync-frame{display:grid;align-items:center;min-height:100dvh;overflow:visible}\n`;
+ const css=`/* ScaleSync Gold 4.15. Composición responsiva, sin recorte. */\n*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080e19;color:#fff}.scalesync-scene{position:relative;width:min(100vw, calc(100dvh * ${p(bounds.width/bounds.height)}));max-width:100vw;aspect-ratio:${p(bounds.width)} / ${p(bounds.height)};margin:auto;overflow:visible}.scalesync-scene img{position:absolute;object-fit:fill;max-width:none;margin:0;padding:0;border:0;image-rendering:auto;display:block}.scalesync-frame{display:grid;align-items:center;min-height:100dvh;overflow:visible}\n`;
  const html=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScaleSync | ${escaped(prefix)}</title><link rel="stylesheet" href="scalesync.css"></head><body><main class="scalesync-frame"><div class="scalesync-scene">${item}</div></main></body></html>`;
  const doc={app:'ScaleSync Gold',version:FORMAT_VERSION,exportDate:date,prefix,referenceLength:REF,referenceDirection,quality:Number($('quality').value)/100,selectedMaxSide:plan.requested,bounds,layers:records,skipped,canceled,partial:canceled,originalsIncluded:records.filter(l=>l.original.included).length,variantsCompleted:records.reduce((n,l)=>n+l.variants.length,0)};
- const readme=`ScaleSync Gold 4.14
+ const readme=`ScaleSync Gold 4.15
 
 ${canceled?'EXPORTACIÓN PARCIAL: se solicitó cancelar y se conservaron los archivos terminados.':'Exportación completa de las variantes que pudo procesar el navegador.'}
 
@@ -602,20 +602,50 @@ $('export').onclick=async()=>{
  finally{converter413?.close();exportBusy=false;exportOverlay.hidden=true;$('export').disabled=false;$('cancelExport').disabled=false;$('cancelExport').textContent='Cancelar y descargar lo procesado';updateExportHint()}
 };
 
-$('intentBtn').onclick=()=>{$('infoDetail').textContent='Alinear imágenes por referencia geométrica y exportarlas para distintas pantallas.'};$('helpBtn').onclick=()=>{$('infoDetail').textContent='Agregue imágenes, alinee las capas y seleccione las resoluciones. La descarga única incluye una carpeta IMG. Cancelar entrega las variantes terminadas dentro de un ZIP parcial válido.'};$('legalBtn').onclick=()=>{
- let viewer=document.getElementById('v411-legal-viewer');
- if(!viewer){
-  viewer=document.createElement('div');viewer.id='v411-legal-viewer';
-  viewer.style.cssText='position:fixed;inset:0;z-index:20000;background:#06111ddd;display:grid;place-items:center;padding:14px';
-  viewer.innerHTML='<section role="dialog" aria-modal="true" aria-label="Aviso legal" style="width:min(720px,96vw);height:min(82dvh,750px);background:#15253a;border:1px solid #d5ad62;border-radius:19px;padding:12px;display:flex;flex-direction:column;box-shadow:0 20px 65px #000a"><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 10px 10px"><strong>Aviso legal</strong><button type="button" id="v411-legal-close" style="padding:6px 10px;border-radius:10px;background:#28425c;color:#fff;border:1px solid #62829a" aria-label="Cerrar aviso legal">×</button></div><iframe id="v411-legal-frame" title="Aviso legal común" style="flex:1;border:0;border-radius:11px;background:#fff" loading="lazy"></iframe><div id="v411-legal-status" style="font-size:12px;color:#bfd0df;margin-top:8px">Documento común del proyecto.</div></section>';
-  document.body.append(viewer);
-  document.getElementById('v411-legal-close').onclick=()=>viewer.remove();
-  viewer.addEventListener('click',e=>{if(e.target===viewer)viewer.remove()});
-  const frame=document.getElementById('v411-legal-frame');
-  frame.onerror=()=>{document.getElementById('v411-legal-status').textContent='El documento común no está disponible en esta ubicación.'};
-  const inSubfolder=location.pathname.endsWith('/index.html')&&location.pathname.split('/').filter(Boolean).length>=3;
-  frame.src=inSubfolder?'../aviso-legal.html':'./aviso-legal.html';
+$('intentBtn').onclick=()=>{$('infoDetail').textContent='Alinear imágenes por referencia geométrica y exportarlas para distintas pantallas.'};$('helpBtn').onclick=()=>{$('infoDetail').textContent='Agregue imágenes, alinee las capas y seleccione las resoluciones. La descarga única incluye una carpeta IMG. Cancelar entrega las variantes terminadas dentro de un ZIP parcial válido.'};$('legalBtn').onclick=async()=>{
+ let viewer=document.getElementById('v415-legal-viewer');
+ if(viewer){viewer.remove();return;}
+ viewer=document.createElement('div');viewer.id='v415-legal-viewer';
+ viewer.style.cssText='position:fixed;inset:0;z-index:20000;background:#06111ddd;display:grid;place-items:center;padding:14px';
+ viewer.innerHTML='<section role="dialog" aria-modal="true" aria-label="Aviso legal" style="width:min(720px,96vw);height:min(82dvh,750px);background:#15253a;border:1px solid #d5ad62;border-radius:19px;padding:12px;display:flex;flex-direction:column;box-shadow:0 20px 65px #000a"><div style="display:flex;align-items:center;justify-content:space-between;padding:4px 10px 10px"><strong>Aviso legal</strong><button type="button" id="v415-legal-close" style="padding:6px 10px;border-radius:10px;background:#28425c;color:#fff;border:1px solid #62829a" aria-label="Cerrar aviso legal">×</button></div><iframe id="v415-legal-frame" title="Aviso legal común" style="flex:1;min-height:0;border:0;border-radius:11px;background:#fff" loading="eager" hidden></iframe><div id="v415-legal-status" role="status" style="font-size:12px;color:#bfd0df;margin-top:8px">Buscando el documento del proyecto…</div><a id="v415-legal-link" target="_blank" rel="noopener noreferrer" style="color:#f0c575;font-size:12px;padding:5px 0">Abrir aviso legal en otra pestaña</a></section>';
+ document.body.append(viewer);
+ const close=()=>viewer.remove();
+ document.getElementById('v415-legal-close').onclick=close;
+ viewer.addEventListener('click',e=>{if(e.target===viewer)close()});
+ const frame=document.getElementById('v415-legal-frame');
+ const status=document.getElementById('v415-legal-status');
+ const link=document.getElementById('v415-legal-link');
+ // Todas las rutas son RELATIVAS al HTML actual; nunca contienen dominio ni proveedor.
+ // En Recursos, ScaleSync/ y aviso-legal.html son hermanos respecto de la raíz del portal.
+ const folder=new URL('.',document.baseURI).pathname.replace(/\/$/,'').split('/').pop()?.toLowerCase()||'';
+ const preferred=folder==='scalesync'?'../aviso-legal.html':'./aviso-legal.html';
+ const alternate=preferred==='../aviso-legal.html'?'./aviso-legal.html':'../aviso-legal.html';
+ const candidates=[preferred,alternate];
+ // Una página local (file://) no permite verificar la existencia con fetch.
+ // Allí se abre la ruta relativa deducida de la ubicación del archivo.
+ let found=preferred;
+ if(location.protocol==='http:'||location.protocol==='https:'){
+  found=null;
+  for(const relative of candidates){
+   try{
+    const response=await fetch(relative,{method:'HEAD',cache:'no-store'});
+    if(response.ok){found=relative;break}
+    if(response.status===405||response.status===501){
+     const get=await fetch(relative,{method:'GET',cache:'no-store'});
+     if(get.ok){found=relative;break}
+    }
+   }catch(error){console.warn('No se pudo comprobar el aviso legal:',error)}
+  }
  }
+ if(!viewer.isConnected)return;
+ link.href=found||preferred;
+ if(!found){
+  status.textContent='No se encontró aviso-legal.html en la carpeta del proyecto ni en su carpeta superior. Revise que esté publicado.';
+  frame.hidden=true;
+  return;
+ }
+ frame.src=found;frame.hidden=false;
+ status.textContent='Documento común del proyecto. Ruta relativa: '+found;
 };drawRes();updateReference();render();$('includeOriginal')?.addEventListener('change',updateExportHint);
 (function playIntro(){const logo=document.querySelector('.brand-mark'),trail=document.querySelector('.gold-trail');if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.body.classList.add('intro-done');return}const r=logo.getBoundingClientRect(),sx=innerWidth-25,sy=innerHeight-30,tx=r.left+r.width/2,ty=r.top+r.height/2,dx=tx-sx,dy=ty-sy;trail.style.setProperty('--sx',sx+'px');trail.style.setProperty('--sy',sy+'px');trail.style.setProperty('--dx',dx+'px');trail.style.setProperty('--dy',dy+'px');trail.style.setProperty('--dist',Math.hypot(dx,dy)+'px');trail.style.setProperty('--angle',Math.atan2(dy,dx)+'rad');document.body.classList.add('intro-play');setTimeout(()=>{document.body.classList.remove('intro-play');document.body.classList.add('intro-done')},3100)})();
 
