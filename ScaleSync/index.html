@@ -79,7 +79,7 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
 #aboutPanel .home-action:focus-visible{outline:3px solid #f4d995;outline-offset:2px}
 @media(max-width:640px){#exportPanel{max-height:78dvh}.resolution-list{max-height:190px}#exportPanel .panelhead{top:-13px}}
 </style><style id="v411-ui">
-/* ScaleSync 4.13: trabajo centrado y exportación con desplazamiento completo */
+/* ScaleSync 4.14: trabajo centrado y exportación con desplazamiento completo */
 #exportPanel{left:50%!important;right:auto!important;top:50%!important;transform:translate(-50%,-50%)!important;width:min(530px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;max-height:min(88dvh,880px)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:0!important}
 #exportPanel[hidden]{display:none!important}
 #exportPanel .panelhead{flex:none!important;position:relative!important;top:auto!important;z-index:2;padding:14px 18px!important;margin:0!important}
@@ -132,7 +132,7 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
  <div id="panelProgress" class="panel-progress" hidden><div id="panelProgressText">Esperando…</div><progress id="panelBar" max="100" value="0"></progress></div>
  <p id="status" class="status" role="status" aria-live="polite"></p><p id="progress" class="progress"></p>
 </div></section>
-<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.13</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
+<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.14</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
 <input accept="image/jpeg,image/png" hidden="" id="file" type="file"/><script>
 'use strict';
 const $=id=>document.getElementById(id),workspace=$('workspace'),stage=$('stage');let layers=[],selected=null,mode='move',history=[],future=[],resolutions=[320,640,960,1280,1920],gesture=null;const REF=200;let uid=0;let chosenWidths=new Set([320,640,960,1280,1920]);let exportBusy=false;let exportCancelled=false;let referenceDirection='horizontal';$('referenceDirection').onchange=e=>{referenceDirection=e.target.value;updateReference();say('Referencia '+referenceDirection+'.')};function updateReference(){const descriptions={horizontal:'Horizontal (X): el ancho controla la escala. Arrastre horizontalmente para ampliar o reducir la imagen. El alto cambia en la misma proporción, sin deformación.',vertical:'Vertical (Y): el alto controla la escala. Arrastre verticalmente para ampliar o reducir la imagen. El ancho cambia en la misma proporción, sin deformación.',dual:'En L (X + Y): el ancho y el alto se ajustan por separado. Arrastre horizontalmente para cambiar X y verticalmente para cambiar Y. La imagen puede deformarse.'};$('referenceHelp').textContent=descriptions[referenceDirection];$('referenceGuide').classList.toggle('vertical',referenceDirection==='vertical');$('referenceGuide').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').classList.toggle('vertical',referenceDirection==='vertical');$('referenceLabel').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').textContent=(referenceDirection==='dual'?'Referencia en L (X/Y)':'Referencia '+referenceDirection)}
@@ -227,10 +227,10 @@ $('selectWeb').onclick=()=>{resolutions=[...new Set([...resolutions,320,480,640,
 $('addRes').onclick=()=>{let n=800;while(resolutions.includes(n))n+=100;resolutions.push(n);chosenWidths.add(n);drawRes()};$('defaultRes').onclick=()=>{resolutions=[320,640,960,1280,1920];chosenWidths=new Set(resolutions);drawRes()};$('quality').oninput=()=>{$('qualityOut').textContent=$('quality').value};
 // ZIP64 is not supported by this standalone packer. Reject oversized archives explicitly.
 const crcTable=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0);crcTable[n]=c>>>0}function safeName(s){return (s||'').normalize('NFKD').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,45)||'imagen'}function webpBlob(canvas,quality){return new Promise((resolve,reject)=>canvas.toBlob(b=>b&&b.type==='image/webp'?resolve(b):reject(Error('WebP no disponible en este navegador.')),'image/webp',quality))}function escaped(s){return s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
-const exportOverlay=document.createElement('div');exportOverlay.id='exportOverlay';exportOverlay.hidden=true;exportOverlay.innerHTML='<div class="export-card" role="dialog" aria-modal="true" aria-label="Progreso de exportación"><div class="export-title">Preparando exportación</div><div class="export-current" id="exportCurrent">Iniciando…</div><progress id="exportBar" max="100" value="0"></progress><div id="exportPercent">0 %</div><button type="button" id="cancelExport">Cancelar después de la operación actual</button></div>';document.body.append(exportOverlay);
+const exportOverlay=document.createElement('div');exportOverlay.id='exportOverlay';exportOverlay.hidden=true;exportOverlay.innerHTML='<div class="export-card" role="dialog" aria-modal="true" aria-label="Progreso de exportación"><div class="export-title">Preparando exportación</div><div class="export-current" id="exportCurrent">Iniciando…</div><progress id="exportBar" max="100" value="0"></progress><div id="exportPercent">0 %</div><button type="button" id="cancelExport">Cancelar y descargar lo procesado</button></div>';document.body.append(exportOverlay);
 const extraStyle=document.createElement('style');extraStyle.textContent='#exportOverlay:not([hidden]){position:fixed;inset:0;z-index:9999;background:#06101bdc;display:grid;place-items:center;padding:20px}.export-card{width:min(440px,92vw);border:1px solid #caa45d;border-radius:20px;background:#14253a;color:#f6f0e7;padding:25px;text-align:center;box-shadow:0 18px 70px #0009}.export-title{font-weight:800;font-size:1.3rem;margin-bottom:12px}.export-current{min-height:3em;color:#c4d1df;margin-bottom:12px;overflow-wrap:anywhere}#exportBar{width:100%;height:18px;accent-color:#e7b65d}#exportPercent{margin:10px}#cancelExport{padding:10px 14px;border-radius:12px;background:#5c3440;color:white;border:1px solid #b87d7d}';document.head.append(extraStyle);
 $('cancelExport').onclick=()=>{exportCancelled=true;$('exportCurrent').textContent='Cancelación solicitada. Terminando la operación actual…'};
-// Exportación 4.13: trabajador local reutilizable para no bloquear la interfaz.
+// Exportación 4.14: trabajador local reutilizable para no bloquear la interfaz.
 // La conversión conserva la proporción y calidad seleccionada; no transmite datos a servidores.
 const workerScript413 = `
 self.onmessage = async ({data}) => {
@@ -291,16 +291,17 @@ async function exportVariant(file,width,height,quality){
  }finally{if(canvas)canvas.width=canvas.height=0;bitmap?.close()}
 }
 
-// ScaleSync Gold 4.13: exportación local de un ZIP único, sin recorte.
-const FORMAT_VERSION='4.13';
+// ScaleSync Gold 4.14: exportación local de un ZIP único, sin recorte.
+const FORMAT_VERSION='4.14';
 const BYTES_CHUNK=2*1024*1024;
 const CRC_TABLE=crcTable;
 const utf8=new TextEncoder();
-const nowIsoDate=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+const nowIsoDate=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('')};
 function fileExt(file){return (file.name.match(/\.([a-z0-9]{1,10})$/i)?.[1]||({"image/jpeg":"jpg","image/png":"png","image/webp":"webp"}[file.type])||'bin').toLowerCase()}
 function safePrefix(){return safeName($('prefix').value||'ScaleSync')}
 function includeOriginalEnabled(){return !!$('includeOriginal')?.checked}
-function layerFolder(index){return `capas/${String(index+1).padStart(2,'0')}`}
+// Una única carpeta IMG. En proyectos multicapa el identificador forma parte del prefijo para evitar duplicados.
+function layerPrefix(prefix,index,total){return total===1?prefix:`${prefix}${String(index+1).padStart(2,'0')}`} 
 function compactName(prefix,date,side,ext){return `${prefix}_${date}_${side}.${ext}`}
 function resolutionDimensions(layer, maxSide){const max=Math.max(layer.w,layer.h);return {width:Math.max(1,Math.round(layer.w*maxSide/max)),height:Math.max(1,Math.round(layer.h*maxSide/max))}}
 function selectionPlan(){
@@ -361,7 +362,7 @@ class ZipStreamWriter{
   await this.push(header);
   let crc=0xffffffff;
   for(let pos=0;pos<sz;pos+=BYTES_CHUNK){
-   if(exportCancelled)throw Error('Operación cancelada');
+   // Una entrada ZIP comenzada debe finalizarse para permitir descargarla al cancelar.
    const raw=new Uint8Array(await blob.slice(pos,Math.min(pos+BYTES_CHUNK,sz)).arrayBuffer());
    for(let i=0;i<raw.length;i++)crc=CRC_TABLE[(crc^raw[i])&255]^(crc>>>8);
    await this.push(raw);
@@ -424,23 +425,43 @@ function boundsOfLayers(rs){
  }
  return {left,top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
 }
-function projectFiles(records,prefix,date,plan,skipped){
- const bounds=boundsOfLayers(records);
+function projectFiles(records,prefix,date,plan,skipped,canceled=false){
+ const available=records.filter(l=>l.variants.length>0 || l.original.included);
+ const bounds=boundsOfLayers(available);
  const p=n=>Number.isFinite(n)?n.toFixed(6).replace(/0+$/,'').replace(/\.$/,''):'0';
- const item=records.map(l=>{
+ const item=available.map(l=>{
   const ww=l.original.width*Math.abs(l.scaleX),hh=l.original.height*Math.abs(l.scaleY);
   const x=100*(l.x-ww/2-bounds.left)/bounds.width;
   const y=100*(l.y-hh/2-bounds.top)/bounds.height;
   const w=100*ww/bounds.width,h=100*hh/bounds.height;
   const variants=[...l.variants].sort((a,b)=>a.width-b.width);
-  const source=variants.at(-1)?.file||l.original.file;
+  const source=variants.at(-1)?.file||(l.original.included?l.original.file:'');
   const srcset=variants.map(v=>`${v.file} ${v.width}w`).join(', ');
   return `<img alt="" draggable="false" src="${escaped(source)}" ${srcset?`srcset="${escaped(srcset)}" sizes="100vw"`:''} width="${l.original.width}" height="${l.original.height}" style="left:${p(x)}%;top:${p(y)}%;width:${p(w)}%;height:${p(h)}%;display:${l.visible?'block':'none'}">`;
  }).join('\n');
- const css=`/* ScaleSync Gold 4.13. Composición responsiva, sin recorte. */\n*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080e19;color:#fff}.scalesync-scene{position:relative;width:min(100vw, calc(100dvh * ${p(bounds.width/bounds.height)}));max-width:100vw;aspect-ratio:${p(bounds.width)} / ${p(bounds.height)};margin:auto;overflow:visible}.scalesync-scene img{position:absolute;object-fit:fill;max-width:none;margin:0;padding:0;border:0;image-rendering:auto;display:block}.scalesync-frame{display:grid;align-items:center;min-height:100dvh;overflow:visible}\n`;
+ const css=`/* ScaleSync Gold 4.14. Composición responsiva, sin recorte. */\n*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080e19;color:#fff}.scalesync-scene{position:relative;width:min(100vw, calc(100dvh * ${p(bounds.width/bounds.height)}));max-width:100vw;aspect-ratio:${p(bounds.width)} / ${p(bounds.height)};margin:auto;overflow:visible}.scalesync-scene img{position:absolute;object-fit:fill;max-width:none;margin:0;padding:0;border:0;image-rendering:auto;display:block}.scalesync-frame{display:grid;align-items:center;min-height:100dvh;overflow:visible}\n`;
  const html=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScaleSync | ${escaped(prefix)}</title><link rel="stylesheet" href="scalesync.css"></head><body><main class="scalesync-frame"><div class="scalesync-scene">${item}</div></main></body></html>`;
- const doc={app:'ScaleSync Gold',version:FORMAT_VERSION,exportDate:date,prefix,referenceLength:REF,referenceDirection,quality:Number($('quality').value)/100,selectedMaxSide:plan.requested,bounds,layers:records,skipped};
- const readme=`ScaleSync Gold 4.13\n\nArchivo ZIP único con las variantes WebP en carpetas por capa y la composición responsiva. El original se incorpora únicamente cuando se activa su casilla.\n\n1. Descomprima este ZIP en una carpeta.\n2. Abra index.html. El tamaño de la composición se adapta al espacio disponible sin recortar la imagen.\n3. Ajuste scalesync.css para integraciones personalizadas.\n4. La referencia geométrica original consta de ${REF} unidades y su modo era ${referenceDirection}.\n5. Las variantes se dimensionan según el lado mayor de la imagen sin modificar su relación de aspecto. No se aplica object-fit: cover.\n6. Las capas en modo En L admiten escalas X/Y independientes, tal como fueron editadas.\n7. Si hay resoluciones omitidas por seguridad o límites del navegador, se registran en composition.json.\n8. Formato de imagen: prefijo_AAAA-MM-DD_resolucion.ext, en carpetas distintas para cada capa.\n\nDiseño: Arley Zarate\nDesarrollo: NOVA (IA)\n`;
+ const doc={app:'ScaleSync Gold',version:FORMAT_VERSION,exportDate:date,prefix,referenceLength:REF,referenceDirection,quality:Number($('quality').value)/100,selectedMaxSide:plan.requested,bounds,layers:records,skipped,canceled,partial:canceled,originalsIncluded:records.filter(l=>l.original.included).length,variantsCompleted:records.reduce((n,l)=>n+l.variants.length,0)};
+ const readme=`ScaleSync Gold 4.14
+
+${canceled?'EXPORTACIÓN PARCIAL: se solicitó cancelar y se conservaron los archivos terminados.':'Exportación completa de las variantes que pudo procesar el navegador.'}
+
+Estructura: index.html, scalesync.css, composition.json, README.txt y una sola carpeta IMG/.
+Nombres: prefijo_AAAAMMDD_resolucion.ext. Para varias capas se integra un número de capa al prefijo, evitando colisiones.
+El original es opcional; cuando se incluye conserva sus bytes y usa el nombre prefijo_AAAAMMDD_original.ext.
+
+1. Descomprima este ZIP en una carpeta.
+2. Abra index.html. La composición se adapta sin recortar las imágenes.
+3. Ajuste scalesync.css para integraciones personalizadas.
+4. La referencia geométrica original consta de ${REF} unidades y su modo era ${referenceDirection}.
+5. Las variantes usan el lado mayor definido y respetan la relación de aspecto.
+6. En L admite escalas X/Y independientes editadas por el usuario.
+7. Consulte composition.json para ver las variantes omitidas o canceladas y los originales incluidos.
+8. La cancelación termina la operación de imagen/ZIP en curso y luego genera el archivo con lo completado.
+
+Diseño: Arley Zarate
+Desarrollo: NOVA (IA)
+`;
  return [['index.html',new Blob([html],{type:'text/html'})],['scalesync.css',new Blob([css],{type:'text/css'})],['composition.json',new Blob([JSON.stringify(doc,null,2)],{type:'application/json'})],['README.txt',new Blob([readme],{type:'text/plain'})]];
 }
 function progressPlan(){
@@ -477,7 +498,14 @@ function downloadOnce(blob,name,after){
  document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>{URL.revokeObjectURL(url);after?.()},300000);
 }
-$('cancelExport').onclick=()=>{exportCancelled=true;$('exportCurrent').textContent='Cancelación solicitada. Terminando la etapa actual…'};
+$('cancelExport').onclick=()=>{
+ if(!exportBusy||exportCancelled)return;
+ exportCancelled=true;
+ $('cancelExport').disabled=true;
+ $('cancelExport').textContent='Preparando descarga parcial…';
+ $('exportCurrent').textContent='Cancelación solicitada. Se terminará la operación actual y se descargará lo completado.';
+ $('panelProgressText').textContent='Cancelación solicitada. Conservando las variantes ya procesadas…';
+};
 $('export').onclick=async()=>{
  if(exportBusy)return;
  if(!layers.length){say('Agregue por lo menos una imagen.');return;}
@@ -488,9 +516,12 @@ $('export').onclick=async()=>{
  exportBusy=true;exportCancelled=false;
  $('export').disabled=true;$('panelProgress').hidden=false;exportOverlay.hidden=false;
  const records=layers.map((l,i)=>{
-  const folder=layerFolder(i);
-  const base=`${prefix}_${date}`;
-  return {name:l.name,folder,original:{width:l.w,height:l.h,file:`${folder}/originales/${compactName(prefix,date,Math.max(l.w,l.h),fileExt(l.file))}`,bytes:l.file.size,type:l.file.type},x:l.x,y:l.y,scaleX:l.scaleX??l.scale,scaleY:l.scaleY??l.scale,visible:l.visible,locked:l.locked,variants:[]};
+  const idPrefix=layerPrefix(prefix,i,layers.length);
+  return {
+   name:l.name,
+   original:{width:l.w,height:l.h,file:`IMG/${compactName(idPrefix,date,'original',fileExt(l.file))}`,bytes:l.file.size,type:l.file.type,included:false},
+   x:l.x,y:l.y,scaleX:l.scaleX??l.scale,scaleY:l.scaleY??l.scale,visible:l.visible,locked:l.locked,variants:[]
+  };
  });
  const skipped=[];
  const units=Math.max(1,plan.originals+plan.tasks.length+4);
@@ -501,8 +532,9 @@ $('export').onclick=async()=>{
   const output=oneZipWriter;
   if(plan.includeOriginal){
    for(let i=0;i<layers.length;i++){
-    if(exportCancelled)throw Error('Operación cancelada');
+    if(exportCancelled)break;
     await output.add(records[i].original.file,layers[i].file,frac=>newExportProgress((completed+frac)/units,`Conservando original ${i+1}/${layers.length}`,start));
+    records[i].original.included=true;
     completed++;newExportProgress(completed/units,`Original ${i+1}/${layers.length} conservado`,start);
     await nextPaint();
    }
@@ -513,33 +545,45 @@ $('export').onclick=async()=>{
   const pixelsMax=devicePixelBudget();
   let jobNo=0;
   for(const job of plan.tasks){
-   if(exportCancelled)throw Error('Operación cancelada');jobNo++;
+   if(exportCancelled)break;jobNo++;
    const pixels=job.width*job.height;
    const label=`${job.maxSide} px`;
    newExportProgress((completed+.01)/units,`Variante ${jobNo}/${plan.tasks.length}: ${label}`,start);
    await nextPaint();
    if(pixels>pixelsMax){
-    skipped.push({layer:job.layer.name,requested:job.maxSide,width:job.width,height:job.height,reason:'Supera el presupuesto preventivo de memoria de este dispositivo'});
+    skipped.push({layer:job.layer.name,layerIndex:job.index,requested:job.maxSide,width:job.width,height:job.height,reason:'Supera el presupuesto preventivo de memoria de este dispositivo'});
    }else{
     let converted=null,error=null;
     try{converted=await convertVariant413(job.layer.file,job.width,job.height,Number($('quality').value)/100);}catch(e){error=e}
     if(converted){
-     const path=`${records[job.index].folder}/images/${compactName(prefix,date,job.maxSide,'webp')}`;
+     const imagePrefix=layerPrefix(prefix,job.index,layers.length);
+     const path=`IMG/${compactName(imagePrefix,date,job.maxSide,'webp')}`;
      await output.add(path,converted,frac=>newExportProgress(Math.min(.98,(completed+frac)/units),`Guardando WebP ${label}`,start));
      records[job.index].variants.push({width:job.width,height:job.height,file:path,maxSide:job.maxSide});
      converted=null;
     }else{
-     skipped.push({layer:job.layer.name,requested:job.maxSide,width:job.width,height:job.height,reason:String(error?.message||error||'No se pudo convertir')});
+     skipped.push({layer:job.layer.name,layerIndex:job.index,requested:job.maxSide,width:job.width,height:job.height,reason:String(error?.message||error||'No se pudo convertir')});
     }
    }
    completed++;newExportProgress(completed/units,`Procesadas ${jobNo} de ${plan.tasks.length} variantes`,start);
    if(jobNo%4===0)await nextPaint();
   }
-  if(!plan.includeOriginal && records.some(r=>r.variants.length===0)){
+  if(!exportCancelled && !plan.includeOriginal && records.some(r=>r.variants.length===0)){
    throw Error('Una o más capas no generaron variantes. Elija tamaños menores o active «Incluir archivo original» para conservarlas.');
   }
-  for(const [name,content] of projectFiles(records,prefix,date,plan,skipped)){
-   if(exportCancelled)throw Error('Operación cancelada');
+  if(exportCancelled){
+   const processed=records.flatMap((rec,index)=>rec.variants.map(v=>`${index}:${v.maxSide}`));
+   const doneKeys=new Set(processed);
+   const skippedKeys=new Set(skipped.map(v=>`${v.layerIndex}:${v.requested}`));
+   for(const job of plan.tasks){
+    const key=`${job.index}:${job.maxSide}`;
+    if(!doneKeys.has(key) && !skippedKeys.has(key)){
+     skipped.push({layer:job.layer.name,layerIndex:job.index,requested:job.maxSide,width:job.width,height:job.height,reason:'Cancelada por el usuario antes de procesar esta variante'});
+    }
+   }
+   newExportProgress(Math.min(.98,completed/units),'Cancelada. Preparando ZIP con los archivos completados…',start);
+  }
+  for(const [name,content] of projectFiles(records,prefix,date,plan,skipped,exportCancelled)){
    await output.add(name,content,frac=>newExportProgress((completed+frac)/units,'Guardando proyecto y metadatos',start));
    completed++;await nextPaint();
   }
@@ -549,14 +593,16 @@ $('export').onclick=async()=>{
   const after=()=>{void output.cleanup();if(oneZipWriter===output)oneZipWriter=null};
   downloadOnce(blob,zipName,after);
   $('exportCurrent').textContent='Descarga solicitada: '+zipName;
-  $('panelProgressText').textContent=skipped.length?`100 % · ZIP listo. ${skipped.length} variante(s) omitidas.`:'100 % · ZIP listo. Todas las variantes aplicables generadas.';
-  const originalsIncluded=plan.includeOriginal?records.length:0;
-  say(`Descarga única solicitada: ${zipName}. ${originalsIncluded} original(es), ${records.reduce((n,l)=>n+l.variants.length,0)} WebP. ${skipped.length} omitidas.`);
+  $('panelProgressText').textContent=exportCancelled
+   ?`100 % · ZIP parcial listo: ${records.reduce((n,r)=>n+r.variants.length,0)} WebP y ${records.filter(r=>r.original.included).length} originales conservados.`
+   :skipped.length?`100 % · ZIP listo. ${skipped.length} variante(s) omitidas.`:'100 % · ZIP listo. Todas las variantes aplicables generadas.';
+  const originalsIncluded=records.filter(r=>r.original.included).length;
+  say(`${exportCancelled?'Descarga parcial':'Descarga única'} solicitada: ${zipName}. ${originalsIncluded} original(es), ${records.reduce((n,l)=>n+l.variants.length,0)} WebP. ${skipped.length} no generadas.`);
  }catch(e){console.error(e);say('No se pudo completar el ZIP: '+(e?.message||e));$('panelProgressText').textContent='Error en la exportación.';if(oneZipWriter){await oneZipWriter.cleanup();oneZipWriter=null}}
- finally{converter413?.close();exportBusy=false;exportOverlay.hidden=true;$('export').disabled=false;updateExportHint()}
+ finally{converter413?.close();exportBusy=false;exportOverlay.hidden=true;$('export').disabled=false;$('cancelExport').disabled=false;$('cancelExport').textContent='Cancelar y descargar lo procesado';updateExportHint()}
 };
 
-$('intentBtn').onclick=()=>{$('infoDetail').textContent='Alinear imágenes por referencia geométrica y exportarlas para distintas pantallas.'};$('helpBtn').onclick=()=>{$('infoDetail').textContent='Agregue imágenes, centre y alinee capas, elija referencias y exporte un único ZIP con originales y variantes sin recorte.'};$('legalBtn').onclick=()=>{
+$('intentBtn').onclick=()=>{$('infoDetail').textContent='Alinear imágenes por referencia geométrica y exportarlas para distintas pantallas.'};$('helpBtn').onclick=()=>{$('infoDetail').textContent='Agregue imágenes, alinee las capas y seleccione las resoluciones. La descarga única incluye una carpeta IMG. Cancelar entrega las variantes terminadas dentro de un ZIP parcial válido.'};$('legalBtn').onclick=()=>{
  let viewer=document.getElementById('v411-legal-viewer');
  if(!viewer){
   viewer=document.createElement('div');viewer.id='v411-legal-viewer';
