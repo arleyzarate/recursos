@@ -29,6 +29,39 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
 @keyframes goldReveal{from{opacity:0;transform:translateY(8px);filter:blur(5px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @keyframes iconIgnite{0%{opacity:0;transform:scale(.4);filter:drop-shadow(0 0 16px #f8c56b)}65%{opacity:1;transform:scale(1.13)}100%{opacity:1;transform:scale(1);filter:none}}
 @media(prefers-reduced-motion:reduce){.gold-trail{display:none!important}.brand-mark,.brand-title,.brand-sub{opacity:1!important;animation:none!important}.rail .iconbtn,.toolbar .iconbtn{animation:none!important}}
+
+/* ScaleSync 4.10: panel de exportación con zonas estables y lista desplazable */
+#exportPanel{display:flex;flex-direction:column;overflow:hidden;padding:0;max-height:min(84dvh,820px);width:min(385px,calc(100vw - 108px));}
+#exportPanel[hidden]{display:none!important;}
+#exportPanel .panelhead{flex:none;padding:16px 16px 12px;margin:0;border-bottom:1px solid #ffffff1d;background:#172940;}
+#exportPanel .export-config{padding:10px 16px 8px;overflow-y:auto;overscroll-behavior:contain;min-height:0;flex:1;scrollbar-width:thin;}
+#exportPanel .export-prefix{display:flex;flex-direction:column;gap:5px;}
+#exportPanel .export-prefix input{box-sizing:border-box;width:100%;padding:10px;border:1px solid #56728c;border-radius:10px;color:#f8f9ff;background:#0d1c2f;font:inherit;min-width:0;}
+#exportPanel .export-filters{gap:6px;flex-wrap:wrap;}
+#exportPanel .export-filters button{font-size:13px;flex:1 1 90px;white-space:nowrap;}
+#exportPanel .export-resolution-title{margin:13px 0 6px;}
+#exportPanel .resolution-summary{background:linear-gradient(135deg,#433726,#283544);color:#f6cf79;padding:9px 11px;border-radius:11px;font-weight:700;font-size:12px;line-height:1.4;}
+#exportPanel .resolution-list{box-sizing:border-box;max-height:min(28dvh,200px);min-height:78px;overflow-y:auto;overscroll-behavior:contain;margin:8px 0;padding:4px 8px;border:1px solid #45617c;border-radius:12px;background:#0c1b30;scrollbar-width:thin;}
+#exportPanel .res-row{margin:5px 0;gap:6px;flex-wrap:nowrap;}
+#exportPanel .res-row input[type=number]{width:90px;min-width:0;flex:1;font-size:15px;}
+#exportPanel .res-row input[type=checkbox]{flex:none;min-width:20px;min-height:20px;accent-color:#e9b75f;}
+#exportPanel .res-row button{flex:none;padding:6px 11px;}
+#exportPanel .export-quality{flex-wrap:nowrap;gap:6px;}
+#exportPanel .export-quality input{min-width:45px;flex:1;}
+#exportPanel .export-footer{flex:none;padding:11px 16px max(14px,env(safe-area-inset-bottom));border-top:1px solid #ffffff27;background:#122339;box-shadow:0 -10px 18px #07101b55;}
+#exportPanel .export-original{font-size:12px;display:flex;gap:9px;color:#dce9f4;line-height:1.3;margin-bottom:8px;}
+#exportPanel .export-original>span:first-child{color:#f5c86f;font-size:18px;font-weight:700;}
+#exportPanel .export-estimate{border:1px solid #6c5836;background:#4a39243d;color:#f3d49b;font-size:12px;line-height:1.38;padding:9px 10px;border-radius:11px;}
+#exportPanel #export{width:100%;margin-top:9px;background:linear-gradient(135deg,#f6c469,#ab7b32);border-color:#d4ac67;color:#172031;font-weight:850;font-size:14px;min-height:44px;}
+#exportPanel #export:disabled{filter:grayscale(.35);opacity:.55;}
+#exportPanel .panel-progress{padding:7px 9px;margin-top:8px;border:1px solid #52677b;border-radius:9px;}
+#exportPanel .panel-progress[hidden]{display:none!important;}
+#exportPanel #panelBar{display:block;width:100%;height:12px;accent-color:#eeb75c;}
+#exportPanel #panelProgressText{font-size:12px;margin-bottom:4px;}
+#exportPanel #status{max-height:48px;overflow-y:auto;margin:7px 0 0;}
+#exportPanel #progress{display:none;}
+@media(max-width:640px){#exportPanel{right:74px;width:calc(100vw - 92px);max-height:76dvh;}#exportPanel .resolution-list{max-height:25dvh;}#exportPanel .export-config{padding:8px 12px;}#exportPanel .export-footer{padding:10px 12px max(11px,env(safe-area-inset-bottom));}}
+
 </style><style id="v48-fixes">
 #exportPanel{display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain;max-height:min(82dvh,760px)}#exportPanel[hidden]{display:none}
 #exportPanel .panelhead{position:sticky;top:-13px;z-index:3;background:#172a40;padding:9px 0;border-bottom:1px solid #ffffff20}
@@ -50,8 +83,27 @@ body.intro-play .gold-trail:after{animation:starTravel 1.12s cubic-bezier(.45,0,
 <nav aria-label="Paneles" class="rail"><button aria-label="Agregar imagen" class="iconbtn primary" data-icon="plus" id="addTop" title="Agregar imagen"></button><button aria-label="Capas" class="iconbtn" data-icon="layers" data-panel="layersPanel" title="Capas"></button><button aria-label="Referencia" class="iconbtn" data-icon="ruler" data-panel="referencePanel" title="Referencia"></button><button aria-label="Resoluciones y exportación" class="iconbtn" data-icon="download" data-panel="exportPanel" title="Resoluciones y exportación"></button><span class="rail-sep"></span><button aria-label="Acerca de ScaleSync" class="iconbtn" data-icon="info" data-panel="aboutPanel" title="Acerca de ScaleSync"></button></nav>
 <section class="panel" hidden="" id="layersPanel"><div class="panelhead"><h2>Capas</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="row"><button id="add" title="Agregar capa">＋</button><button class="danger" id="remove" title="Eliminar capa">−</button><button id="up" title="Traer adelante">↑</button><button id="down" title="Enviar atrás">↓</button></div><label><input checked="" id="inherit" type="checkbox"/> Heredar posición y escala</label><div id="layers"></div><p class="muted" id="selectionInfo">Agregue una imagen JPG o PNG.</p></section>
 <section class="panel" hidden="" id="referencePanel"><div class="panelhead"><h2>Referencia de escalado</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="row"><label for="referenceDirection">Orientación</label><select id="referenceDirection"><option value="horizontal">Horizontal</option><option value="vertical">Vertical</option><option value="dual">En L (ancho y alto)</option></select></div><p class="muted" id="referenceHelp" aria-live="polite">Horizontal (X): el ancho controla la escala. El alto se ajusta proporcionalmente, sin deformar la imagen.</p></section>
-<section class="panel" hidden="" id="exportPanel"><div class="panelhead"><h2>Exportar proyecto</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="row"><label for="prefix">Prefijo de exportación</label><input id="prefix" type="text" maxlength="60" value="ScaleSync" placeholder="Nombre del proyecto"/></div><p class="muted">Seleccione únicamente los anchos que necesita. El original permanece disponible.</p><div class="row"><button id="selectAll" type="button">Todas</button><button id="selectNone" type="button">Ninguna</button><button id="selectWeb" type="button">Web básico</button></div><p class="muted">Resoluciones adicionales WebP (ancho en píxeles)</p><div id="resolutionSummary" class="resolution-summary" role="status" aria-live="polite"></div><div id="resolutions" class="resolution-list"></div><div class="row"><button id="addRes">＋ Resolución</button><button id="defaultRes">Restablecer</button></div><div class="row"><label for="quality">Calidad WebP</label><input id="quality" max="100" min="1" type="range" value="85"/><output id="qualityOut">85</output></div><p class="muted">Se incluye el archivo original sin modificar. Las variantes WebP se generan hasta donde permita el navegador; no se amplían imágenes pequeñas.</p><button id="export" style="width:100%;margin-top:10px">↓ Exportar ZIP</button><div id="panelProgress" class="panel-progress" hidden><div id="panelProgressText">Preparando…</div><progress id="panelBar" max="100" value="0"></progress></div><p class="status" id="status" role="status"></p><p class="progress" id="progress"></p><p class="muted" id="exportHint">Las variantes se descargan en lotes pequeños para reducir el uso de memoria.</p></section>
-<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.8</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
+<section class="panel" hidden id="exportPanel" aria-label="Exportar proyecto">
+<div class="panelhead"><h2>Exportar proyecto</h2><button aria-label="Cerrar" class="panel-close">×</button></div>
+<div class="export-config">
+ <div class="export-prefix"><label for="prefix">Prefijo de los archivos</label><input id="prefix" type="text" maxlength="60" value="ScaleSync" placeholder="Nombre del proyecto" autocomplete="off"/></div>
+ <p class="muted">Elija las resoluciones WebP que necesita.</p>
+ <div class="row export-filters"><button id="selectAll" type="button">Todas</button><button id="selectNone" type="button">Ninguna</button><button id="selectWeb" type="button">Web básico</button></div>
+ <div class="muted export-resolution-title">Ancho de las variantes, en píxeles</div>
+ <div id="resolutionSummary" class="resolution-summary" role="status" aria-live="polite"></div>
+ <div id="resolutions" class="resolution-list" aria-label="Resoluciones disponibles"></div>
+ <div class="row"><button id="addRes" type="button">＋ Resolución</button><button id="defaultRes" type="button">Restablecer</button></div>
+ <div class="row export-quality"><label for="quality">Calidad WebP</label><input id="quality" type="range" min="1" max="100" value="85"/><output id="qualityOut">85</output></div>
+ <p id="exportHint" class="muted">Puede desmarcar cualquier resolución.</p>
+</div>
+<div class="export-footer">
+ <div class="export-original"><span aria-hidden="true">✓</span> <span>El archivo original se incluye sin conversión y con el prefijo elegido.</span></div>
+ <div id="packageEstimate" class="export-estimate" aria-live="polite">Agregue una imagen para calcular los paquetes.</div>
+ <button id="export" type="button">↓ Preparar y descargar</button>
+ <div id="panelProgress" class="panel-progress" hidden><div id="panelProgressText">Esperando…</div><progress id="panelBar" max="100" value="0"></progress></div>
+ <p id="status" class="status" role="status" aria-live="polite"></p><p id="progress" class="progress"></p>
+</div></section>
+<section class="panel" hidden="" id="aboutPanel"><div class="panelhead"><h2>Acerca de</h2><button aria-label="Cerrar" class="panel-close">×</button></div><div class="about-logo">ScaleSync</div><p class="muted">Editor visual de imágenes responsivas</p><hr class="divider"/><div class="about-grid"><span>Versión</span><span>4.10</span><span>Creación</span><span>14 oct. 2026</span><span>Actualización</span><span>07/nov/2026</span><span>Autor</span><span>Arley Zarate</span><span>Intención</span><span>Alinear capas de imágenes con una referencia geométrica, escalar de forma uniforme o independiente en X/Y y exportar composiciones responsivas en WebP, HTML y CSS.</span></div><hr class="divider"/><div class="row"><button id="intentBtn">Intención</button><button id="helpBtn">Instrucciones</button><button id="legalBtn">Aviso legal</button><a class="home-action" href="https://arleyzarate.github.io/" target="_blank" rel="noopener noreferrer" role="button" aria-label="Ir a Inicio">⌂ Inicio</a></div><p class="muted" id="infoDetail" aria-live="polite"></p><hr class="divider"/><p class="muted">Herramienta autónoma. Funciona localmente sin servidor ni servicios externos. Entrada JPG/PNG y salida ZIP.</p></section>
 <input accept="image/jpeg,image/png" hidden="" id="file" type="file"/><script>
 'use strict';
 const $=id=>document.getElementById(id),workspace=$('workspace'),stage=$('stage');let layers=[],selected=null,mode='move',history=[],future=[],resolutions=[320,640,960,1280,1920],gesture=null;const REF=200;let uid=0;let chosenWidths=new Set([320,640,960,1280,1920]);let exportBusy=false;let exportCancelled=false;let referenceDirection='horizontal';$('referenceDirection').onchange=e=>{referenceDirection=e.target.value;updateReference();say('Referencia '+referenceDirection+'.')};function updateReference(){const descriptions={horizontal:'Horizontal (X): el ancho controla la escala. Arrastre horizontalmente para ampliar o reducir la imagen. El alto cambia en la misma proporción, sin deformación.',vertical:'Vertical (Y): el alto controla la escala. Arrastre verticalmente para ampliar o reducir la imagen. El ancho cambia en la misma proporción, sin deformación.',dual:'En L (X + Y): el ancho y el alto se ajustan por separado. Arrastre horizontalmente para cambiar X y verticalmente para cambiar Y. La imagen puede deformarse.'};$('referenceHelp').textContent=descriptions[referenceDirection];$('referenceGuide').classList.toggle('vertical',referenceDirection==='vertical');$('referenceGuide').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').classList.toggle('vertical',referenceDirection==='vertical');$('referenceLabel').classList.toggle('dual',referenceDirection==='dual');$('referenceLabel').textContent=(referenceDirection==='dual'?'Referencia en L (X/Y)':'Referencia '+referenceDirection)}
@@ -61,17 +113,36 @@ function renderMovement(){for(const l of layers){const img=stage.querySelector(`
 let framePending=false;function scheduleMovement(){if(framePending)return;framePending=true;requestAnimationFrame(()=>{framePending=false;renderMovement()})}
 function nextPaint(){return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))}
 async function makeWorkingPreview(file,w,h){const target=Math.min(1800,Math.max(900,Math.ceil(Math.max(workspace.clientWidth,workspace.clientHeight)*2)));const ratio=Math.min(1,target/Math.max(w,h));const pw=Math.max(1,Math.round(w*ratio)),ph=Math.max(1,Math.round(h*ratio));let bitmap;try{bitmap=await createImageBitmap(file,{resizeWidth:pw,resizeHeight:ph,resizeQuality:'high'});const canvas=document.createElement('canvas');canvas.width=pw;canvas.height=ph;const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)throw Error('No hay memoria disponible para la vista de trabajo.');ctx.drawImage(bitmap,0,0,pw,ph);const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('No se pudo generar vista de trabajo.')),'image/webp',.82));canvas.width=canvas.height=0;return URL.createObjectURL(blob)}finally{bitmap?.close()}}
-function fit(w,h){return Math.min(1,(workspace.clientWidth*.75)/w,(workspace.clientHeight*.65)/h)}$('file').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)&&!/^image\//.test(f.type)){say('Seleccione un archivo de imagen compatible.');return}let preview=null;const addButtons=[$('add'),$('addTop')];addButtons.forEach(b=>b.disabled=true);try{say('Leyendo dimensiones de la imagen…');await nextPaint();const dimensions=await new Promise((resolve,reject)=>{const im=new Image;const url=URL.createObjectURL(f);im.onload=()=>{resolve({w:im.naturalWidth,h:im.naturalHeight});URL.revokeObjectURL(url)};im.onerror=()=>{URL.revokeObjectURL(url);reject(Error('El navegador no puede interpretar esta imagen.'))};im.src=url});const {w,h}=dimensions;if(!w||!h)throw Error('Dimensiones inválidas.');say(`Preparando vista ligera de ${w} × ${h} px…`);await nextPaint();preview=await makeWorkingPreview(f,w,h);const prev=active();const inherited=$('inherit').checked&&prev?{x:prev.x,y:prev.y,displayW:prev.w*(prev.scaleX??prev.scale)}:null;const scale=inherited?inherited.displayW/w:fit(w,h);checkpoint();const l={id:++uid,name:f.name.replace(/\.[^.]+$/,'').slice(0,80),file:f,preview,src:preview,w,h,x:inherited?.x??0,y:inherited?.y??0,scale,scaleX:scale,scaleY:scale,visible:true,locked:false};layers.push(l);selected=l.id;render();say(`Vista de trabajo lista: ${w} × ${h} px. Original intacto para exportación.`)}catch(err){if(preview)URL.revokeObjectURL(preview);say('No se pudo cargar: '+err.message)}finally{addButtons.forEach(b=>b.disabled=false)}};
+function fit(w,h){return Math.min(1,(workspace.clientWidth*.75)/w,(workspace.clientHeight*.65)/h)}$('file').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(!['image/jpeg','image/png','image/webp'].includes(f.type)&&!/^image\//.test(f.type)){say('Seleccione un archivo de imagen compatible.');return}let preview=null;const addButtons=[$('add'),$('addTop')];addButtons.forEach(b=>b.disabled=true);try{say('Leyendo dimensiones de la imagen…');await nextPaint();const dimensions=await new Promise((resolve,reject)=>{const im=new Image;const url=URL.createObjectURL(f);im.onload=()=>{resolve({w:im.naturalWidth,h:im.naturalHeight});URL.revokeObjectURL(url)};im.onerror=()=>{URL.revokeObjectURL(url);reject(Error('El navegador no puede interpretar esta imagen.'))};im.src=url});const {w,h}=dimensions;if(!w||!h)throw Error('Dimensiones inválidas.');say(`Preparando vista ligera de ${w} × ${h} px…`);await nextPaint();preview=await makeWorkingPreview(f,w,h);const prev=active();const inherited=$('inherit').checked&&prev?{x:prev.x,y:prev.y,displayW:prev.w*(prev.scaleX??prev.scale)}:null;const scale=inherited?inherited.displayW/w:fit(w,h);checkpoint();const l={id:++uid,name:f.name.replace(/\.[^.]+$/,'').slice(0,80),file:f,preview,src:preview,w,h,x:inherited?.x??0,y:inherited?.y??0,scale,scaleX:scale,scaleY:scale,visible:true,locked:false};layers.push(l);selected=l.id;render();updateExportHint();say(`Vista de trabajo lista: ${w} × ${h} px. Original intacto para exportación.`)}catch(err){if(preview)URL.revokeObjectURL(preview);say('No se pudo cargar: '+err.message)}finally{addButtons.forEach(b=>b.disabled=false)}};
 
-function add(){$('file').click()}$('add').onclick=add;$('addTop').onclick=add;$('remove').onclick=()=>{if(!active())return;checkpoint();layers=layers.filter(l=>l.id!==selected);selected=layers.at(-1)?.id??null;render()};function reorder(dir){const i=layers.findIndex(l=>l.id===selected),j=i+dir;if(i<0||j<0||j>=layers.length)return;checkpoint();[layers[i],layers[j]]=[layers[j],layers[i]];render()}$('up').onclick=()=>reorder(1);$('down').onclick=()=>reorder(-1);$('move').onclick=()=>setMode('move');$('scale').onclick=()=>setMode('scale');$('undo').onclick=undo;$('redo').onclick=redo;$('reset').onclick=()=>{const a=active();if(!a||a.locked)return;checkpoint();a.x=0;a.y=0;a.scale=fit(a.w,a.h);a.scaleX=a.scaleY=a.scale;render()};
+function add(){$('file').click()}$('add').onclick=add;$('addTop').onclick=add;$('remove').onclick=()=>{if(!active())return;checkpoint();layers=layers.filter(l=>l.id!==selected);selected=layers.at(-1)?.id??null;render();updateExportHint()};function reorder(dir){const i=layers.findIndex(l=>l.id===selected),j=i+dir;if(i<0||j<0||j>=layers.length)return;checkpoint();[layers[i],layers[j]]=[layers[j],layers[i]];render()}$('up').onclick=()=>reorder(1);$('down').onclick=()=>reorder(-1);$('move').onclick=()=>setMode('move');$('scale').onclick=()=>setMode('scale');$('undo').onclick=undo;$('redo').onclick=redo;$('reset').onclick=()=>{const a=active();if(!a||a.locked)return;checkpoint();a.x=0;a.y=0;a.scale=fit(a.w,a.h);a.scaleX=a.scaleY=a.scale;render()};
 function point(e){const r=workspace.getBoundingClientRect();return{x:e.clientX-r.left-r.width/2,y:e.clientY-r.top-r.height/2}}workspace.addEventListener('pointerdown',e=>{const a=active();if(!a||a.locked||!a.visible||e.button!==0)return;const p=point(e);gesture={id:e.pointerId,p,orig:{x:a.x,y:a.y,scale:a.scale,scaleX:a.scaleX??a.scale,scaleY:a.scaleY??a.scale},changed:false};workspace.setPointerCapture(e.pointerId)});workspace.addEventListener('pointermove',e=>{if(!gesture||gesture.id!==e.pointerId)return;const a=active();if(!a||a.locked)return;const p=point(e),dx=p.x-gesture.p.x,dy=p.y-gesture.p.y;if(Math.abs(dx)+Math.abs(dy)<1&&!gesture.changed)return;if(!gesture.changed){checkpoint();gesture.changed=true}if(mode==='move'){a.x=gesture.orig.x+dx;a.y=gesture.orig.y+dy}else if(referenceDirection==='dual'){a.scaleX=Math.max(.005,Math.min(100,gesture.orig.scaleX*Math.exp(dx/220)));a.scaleY=Math.max(.005,Math.min(100,gesture.orig.scaleY*Math.exp(dy/220)));a.scale=a.scaleX}else{a.scale=Math.max(.005,Math.min(100,gesture.orig.scale*Math.exp((referenceDirection==='vertical'?dy:dx)/220)));a.scaleX=a.scaleY=a.scale}scheduleMovement()});function endGesture(){gesture=null}workspace.addEventListener('pointerup',endGesture);workspace.addEventListener('pointercancel',()=>{if(gesture?.changed)undo();endGesture()});document.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}else if(e.key.toLowerCase()==='s'&&!e.ctrlKey&&!e.metaKey){e.preventDefault();setMode('scale')}else if(e.key.toLowerCase()==='m'){setMode('move')}else if(e.key==='Escape'){if(gesture?.changed)undo();endGesture();setMode('move')}});
 function drawRes(){const box=$('resolutions');box.replaceChildren();resolutions.forEach((n,i)=>{const row=document.createElement('div');row.className='res-row';const check=document.createElement('input');check.type='checkbox';check.checked=chosenWidths.has(n);check.setAttribute('aria-label','Incluir '+n+' píxeles');check.onchange=()=>{check.checked?chosenWidths.add(n):chosenWidths.delete(n);updateExportHint()};const input=document.createElement('input');input.type='number';input.min='1';input.max='1000000';input.value=n;input.setAttribute('aria-label','Ancho en píxeles');input.onchange=()=>{const v=Number(input.value);if(!Number.isInteger(v)||v<1||v>1000000||resolutions.some((r,j)=>i!==j&&r===v)){input.value=resolutions[i];say('Resolución inválida o duplicada.');return}chosenWidths.delete(n);chosenWidths.add(v);resolutions[i]=v;drawRes()};const unit=document.createElement('span');unit.textContent='px';const del=document.createElement('button');del.textContent='×';del.title='Eliminar resolución';del.onclick=()=>{chosenWidths.delete(n);resolutions.splice(i,1);drawRes()};row.append(check,input,unit,del);box.append(row)});updateExportHint()}
 const standardWidths=[320,480,640,768,960,1024,1280,1440,1600,1920,2048,2560,2880,3200,3840,4096,5120,5760,7680,8192,10240,11520,15360,16384,20480,25600];
-function updateExportHint(){const selected=resolutions.filter(x=>chosenWidths.has(x)).sort((a,b)=>a-b);const usable=layers.length?selected.filter(w=>layers.some(l=>l.w>=w)):selected;
-$('resolutionSummary').textContent=`${selected.length} seleccionadas de ${resolutions.length} disponibles · ${layers.length ? usable.length+" aplicables a las imágenes cargadas" : "agregue una imagen para validar tamaños"}`;
-$('exportHint').textContent=selected.length?`Anchos seleccionados: ${selected.join(', ')} px. Los originales se conservan sin modificar.`:'No ha seleccionado resoluciones. Elija al menos una para exportar.';
-$('export').disabled=exportBusy||!selected.length;
+function calculateExportPlan(){
+ const chosen=[...chosenWidths].filter(n=>resolutions.includes(n)).sort((a,b)=>a-b);
+ const jobs=layers.flatMap((layer,index)=>chosen.filter(width=>width<=layer.w).map(width=>({layer,index,width,height:Math.max(1,Math.round(layer.h*width/layer.w))})));
+ const originals=layers.length;
+ const variants=Math.ceil(jobs.length/2);
+ const project=layers.length?1:0;
+ return {chosen,jobs,originals,variants,project,total:originals+variants+project};
 }
+function updateExportHint(){
+ const plan=calculateExportPlan();
+ const usable=layers.length?plan.chosen.filter(w=>layers.some(l=>l.w>=w)):[];
+ $('resolutionSummary').textContent=`${plan.chosen.length} seleccionadas de ${resolutions.length} disponibles · ${usable.length} aplicables`;
+ if(!exportBusy && !exportSession) $('status').textContent='';
+ $('exportHint').textContent=plan.chosen.length?`Anchos: ${plan.chosen.join(', ')} px.`:'Sin variantes WebP. Se exportarán solamente los originales y el proyecto.';
+ $('packageEstimate').textContent=layers.length
+  ?`Plan: ${plan.total} paquetes · originales: ${plan.originals} · variantes: ${plan.variants} · proyecto: 1. Conversiones previstas: ${plan.jobs.length}.`
+  :'Agregue una imagen para calcular los paquetes.';
+ const btn=$('export');
+ if(exportBusy){btn.disabled=true;return}
+ if(exportSession?.done){btn.disabled=false;btn.textContent='↻ Nueva exportación'}
+ else if(exportSession){btn.disabled=false;btn.textContent=`↓ Descargar siguiente paquete (${Math.max(1,exportSession.plannedPackages-exportSession.finished)})`}
+ else{btn.disabled=!layers.length;btn.textContent='↓ Preparar y descargar'}
+}
+$('prefix').addEventListener('input',()=>{if(exportSession&&!exportSession.done) $('exportHint').textContent='El prefijo nuevo se aplicará al iniciar otra exportación.'});
 $('selectAll').onclick=()=>{const maxWidth=layers.length?Math.max(...layers.map(l=>l.w)):25600;resolutions=[...new Set([...resolutions,...standardWidths.filter(n=>n<=maxWidth)])].sort((a,b)=>a-b);chosenWidths=new Set(resolutions);drawRes();say(`Seleccionadas ${chosenWidths.size} resoluciones. Revise la lista y desmarque las que no necesite.`)};
 $('selectNone').onclick=()=>{chosenWidths.clear();drawRes()};
 $('selectWeb').onclick=()=>{resolutions=[...new Set([...resolutions,320,480,640,768,960,1280,1600,1920])].sort((a,b)=>a-b);chosenWidths=new Set([320,480,640,768,960,1280,1600,1920]);drawRes()};
@@ -85,21 +156,161 @@ const exportOverlay=document.createElement('div');exportOverlay.id='exportOverla
 const extraStyle=document.createElement('style');extraStyle.textContent='#exportOverlay:not([hidden]){position:fixed;inset:0;z-index:9999;background:#06101bdc;display:grid;place-items:center;padding:20px}.export-card{width:min(440px,92vw);border:1px solid #caa45d;border-radius:20px;background:#14253a;color:#f6f0e7;padding:25px;text-align:center;box-shadow:0 18px 70px #0009}.export-title{font-weight:800;font-size:1.3rem;margin-bottom:12px}.export-current{min-height:3em;color:#c4d1df;margin-bottom:12px;overflow-wrap:anywhere}#exportBar{width:100%;height:18px;accent-color:#e7b65d}#exportPercent{margin:10px}#cancelExport{padding:10px 14px;border-radius:12px;background:#5c3440;color:white;border:1px solid #b87d7d}';document.head.append(extraStyle);
 $('cancelExport').onclick=()=>{exportCancelled=true;$('exportCurrent').textContent='Cancelación solicitada. Terminando la operación actual…'};
 function progressUpdate(n,total,message){$('exportBar').value=Math.round(100*n/Math.max(1,total));$('panelBar').value=$('exportBar').value;$('panelProgressText').textContent=`${n} de ${total} etapas · ${message}`;$('exportPercent').textContent=Math.round(100*n/Math.max(1,total))+' %';$('exportCurrent').textContent=message;$('progress').textContent=message}
-function triggerDownload(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),120000)}
+function triggerDownload(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;
+ document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),90000);
+}
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-async function exportVariant(file,width,height,quality){let bitmap=null,canvas=null;try{bitmap=await createImageBitmap(file,{resizeWidth:width,resizeHeight:height,resizeQuality:'high'});canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;if(canvas.width!==width||canvas.height!==height)throw Error('Canvas no admite esta resolución');const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)throw Error('Sin memoria para Canvas');ctx.drawImage(bitmap,0,0,width,height);return await webpBlob(canvas,quality)}finally{if(canvas)canvas.width=canvas.height=0;bitmap?.close()}}
-let pendingParts=[];async function sendPart(){if(!pendingParts.length)return;const part=pendingParts.shift();triggerDownload(part.blob,part.name);say('Descarga solicitada: '+part.name+'. Restan '+pendingParts.length+' paquetes.');$('export').textContent=pendingParts.length?'↓ Descargar siguiente paquete ('+pendingParts.length+')':'↓ Exportar ZIP';}
-$('export').onclick=async()=>{if(pendingParts.length){await sendPart();return}if(exportBusy)return;if(!layers.length){say('Agregue al menos una imagen.');return}if(!chosenWidths.size){say('Seleccione al menos una resolución.');return}exportBusy=true;exportCancelled=false;const btn=$('export');btn.disabled=true;exportOverlay.hidden=false;$('panelProgress').hidden=false;$('panelBar').value=0;await nextPaint();const quality=Number($('quality').value)/100,metadata=[],prefix=safeName($('prefix').value),parts=[];let completed=0,failed=[];const jobs=layers.flatMap((l,i)=>adaptiveWidths(l.w).map(width=>({l,i,width})));const total=jobs.length+layers.length+1;try{if(!jobs.length)throw Error('Ninguna resolución seleccionada es compatible con las imágenes.');for(let i=0;i<layers.length;i++){if(exportCancelled)break;const l=layers[i];const name=`${prefix}_${String(i+1).padStart(2,'0')}_${safeName(l.name)}.${(l.file.name.split('.').pop()||'bin').replace(/[^a-z0-9]/gi,'').slice(0,8)}`;metadata.push({name:l.name,original:{width:l.w,height:l.h,file:name},x:l.x,y:l.y,scale:l.scale,scaleX:l.scaleX??l.scale,scaleY:l.scaleY??l.scale,visible:l.visible,locked:l.locked,variants:[]});progressUpdate(completed,total,'Preparando original '+(i+1)+'/'+layers.length);await nextPaint();/* No duplicar originales en RAM: se descargan como archivo intacto al solicitar el paquete */parts.push({blob:l.file,name:name});completed++}
-let batch=[],batchBytes=0,batchNo=0;const flush=()=>{if(!batch.length)return;batchNo++;const b=zip(batch);parts.push({blob:b,name:`${prefix}_imagenes_${String(batchNo).padStart(2,'0')}.zip`});batch=[];batchBytes=0};
-for(const job of jobs){if(exportCancelled)break;const {l,i,width}=job,height=Math.max(1,Math.round(l.h*width/l.w));progressUpdate(completed,total,`Capa ${i+1}/${layers.length}: generando ${width} × ${height} px`);await nextPaint();let blob=null;for(let attempt=0;attempt<2;attempt++){try{blob=await exportVariant(l.file,width,height,quality);break}catch(err){if(attempt===1)failed.push(`${l.name}: ${width}px (${err.message})`);await delay(400*(attempt+1))}}if(blob){const name=`images/${prefix}_${String(i+1).padStart(2,'0')}_${safeName(l.name)}_${width}w.webp`;const bytes=new Uint8Array(await blob.arrayBuffer());batch.push([name,bytes]);batchBytes+=bytes.length;metadata[i].variants.push({width,height,file:name});if(batch.length>=3||batchBytes>=32*1024*1024)flush()}completed++;progressUpdate(completed,total,`Completadas ${completed-layers.length} de ${jobs.length} variantes`);await delay(100)}flush();
-if(!metadata.some(m=>m.variants.length))throw Error('No fue posible convertir ninguna imagen.');const files=[];
-// All coordinates are measured in the 200-unit reference coordinate system.
-const css=`/* ScaleSync | Referencia interna = ${REF} unidades. Orientación: ${referenceDirection}.\n   Ajuste --scalesync-factor para cambiar el tamaño de la composición.\n   Ejemplo: 2 duplica el tamaño; 0.5 lo reduce a la mitad.\n   La referencia puede ser horizontal, vertical o en L (X/Y).
-   Las imágenes y desplazamientos comparten el factor global; cada capa puede tener escala X/Y independiente. */\n.scalesync-scene{--scalesync-factor:1;--scalesync-width-factor:1;--scalesync-height-factor:1;position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;}\n.scalesync-origin{position:absolute;left:50%;top:50%;width:0;height:0;transform:scale(calc(var(--scalesync-factor) * var(--scalesync-width-factor)),calc(var(--scalesync-factor) * var(--scalesync-height-factor)));transform-origin:0 0;}\n.scalesync-layer{position:absolute;display:block;max-width:none;height:auto;transform-origin:center;pointer-events:none;}\n`;
-const tags=metadata.map((l,i)=>{const variants=l.variants;const src=variants.at(-1).file;const srcset=variants.map(v=>`${v.file} ${v.width}w`).join(', ');const style=`width:${l.original.width}px;left:${l.x-l.original.width/2}px;top:${l.y-l.original.height*l.scale/2}px;transform:scale(${l.scale});transform-origin:top left;display:${l.visible?'block':'none'};`;/* use explicit width & height scaled via transform to avoid intrinsic layout mismatch */const corrected=`width:${l.original.width}px;height:${l.original.height}px;left:${l.x-l.original.width*l.scaleX/2}px;top:${l.y-l.original.height*l.scaleY/2}px;transform:scale(${l.scaleX},${l.scaleY});transform-origin:top left;display:${l.visible?'block':'none'};`;return `    <img class="scalesync-layer" alt="" src="${escaped(src)}" srcset="${escaped(srcset)}" sizes="100vw" width="${l.original.width}" height="${l.original.height}" style="${corrected}">`}).join('\n');
-const html=`<!doctype html>\n<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScaleSync | Composición exportada</title><link rel="stylesheet" href="scalesync.css"><style>html,body{margin:0;height:100%;background:#111827}main{height:100dvh}</style></head><body><main class="scalesync-scene"><div class="scalesync-origin">\n${tags}\n</div></main></body></html>`;
-files.push(['index.html',html],['scalesync.css',css],['composition.json',JSON.stringify({app:'ScaleSync',referenceLength:REF,referenceOrientation:referenceDirection,scaleMode:referenceDirection==='dual'?'independent-xy':referenceDirection==='vertical'?'uniform-by-height':'uniform-by-width',quality,coordinateSystem:'origin centered on reference line',layers:metadata},null,2)],['README.txt','ScaleSync — Editor visual de imágenes responsivas\n\nAbra index.html para visualizar la composición.\nOrientación de referencia: ${referenceDirection} (200 unidades internas por eje).\nModifique --scalesync-factor en scalesync.css para escalar TODAS las capas respecto a la referencia.\nLa composición se centra en el contenedor .scalesync-scene.\nHorizontal: controle --scalesync-factor usando el ancho deseado dividido por las 200 unidades de referencia.\nVertical: controle --scalesync-factor usando el alto deseado dividido por las 200 unidades de referencia.\nEn L: use --scalesync-width-factor y --scalesync-height-factor de manera independiente.\nEn modos horizontal y vertical deje los factores X/Y en 1.\nLos originales se descargan como archivos independientes. Guárdelos junto a los paquetes.\nTodas las imágenes son WebP. Para mantener alineación, no recorte las variantes.\nEl navegador elige la variante mediante srcset/sizes.\nNota: los navegadores no admiten ocultar completamente el HTML/CSS/JS público.\n']);progressUpdate(total,total,'Preparando documentación y paquetes');parts.unshift({blob:zip(files),name:prefix+'_proyecto.zip'});parts.sort((a,b)=>a.name.includes('_proyecto.zip')?-1:b.name.includes('_proyecto.zip')?1:a.name.includes('_imagenes_')?-1:b.name.includes('_imagenes_')?1:0);pendingParts=parts;exportOverlay.hidden=true;$('panelProgress').hidden=true;say(`Preparados ${parts.length} paquetes. ${failed.length} variantes omitidas. Descargue todos y extraiga los ZIP en una misma carpeta.`);$('exportHint').textContent=`${parts.length} descargas pendientes. Extraiga los ZIP en la misma carpeta, junto con los originales descargados por separado.`;
-if(failed.length)alert('Algunas variantes no se pudieron generar:\n'+failed.slice(0,8).join('\n'));await sendPart();}catch(err){exportOverlay.hidden=true;$('panelProgress').hidden=true;say('Exportación incompleta: '+err.message)}finally{exportBusy=false;btn.disabled=false;exportOverlay.hidden=true;updateExportHint();$('progress').textContent=''}};
+async function exportVariant(file,width,height,quality){
+ let bitmap=null,canvas=null;
+ try{
+  bitmap=await createImageBitmap(file,{resizeWidth:width,resizeHeight:height,resizeQuality:'high'});
+  canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  if(canvas.width!==width||canvas.height!==height)throw Error('Canvas no admite esta resolución');
+  const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)throw Error('Sin memoria disponible para Canvas');
+  ctx.drawImage(bitmap,0,0,width,height);return await webpBlob(canvas,quality);
+ }finally{if(canvas)canvas.width=canvas.height=0;bitmap?.close()}
+}
+function updateProgress(n,total,message){
+ const pct=Math.round(100*n/Math.max(total,1));
+ $('exportBar').value=pct;$('panelBar').value=pct;
+ $('exportPercent').textContent=pct+' %';$('exportCurrent').textContent=message;
+ $('panelProgressText').textContent=`${pct} % · ${message}`;
+ $('panelProgress').hidden=false;
+}
+function safeExtension(f){
+ const ext=f.name.match(/\.([a-zA-Z0-9]{1,8})$/)?.[1]?.toLowerCase();
+ return ext||({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[f.type]||'bin');
+}
+const CHUNK=2*1024*1024,ZIP_SOFT_LIMIT=3.75*1024*1024*1024;
+async function crcBlob(data,onRead){
+ let c=0xffffffff;
+ for(let off=0;off<data.size;off+=CHUNK){
+  if(exportCancelled)throw Error('Operación cancelada');
+  const bytes=new Uint8Array(await data.slice(off,Math.min(off+CHUNK,data.size)).arrayBuffer());
+  for(const b of bytes)c=crcTable[(c^b)&255]^(c>>>8);
+  if(onRead)onRead(Math.min(off+CHUNK,data.size),data.size);
+  // Dar oportunidad al navegador de dibujar el avance sin retener la imagen completa.
+  if(off%(CHUNK*8)===0)await nextPaint();
+ }
+ return(c^0xffffffff)>>>0;
+}
+async function zipFilesOfBlobs(entries,onRead){
+ const local=[],central=[];let offset=0,counter=0;
+ for(const [name,data] of entries){
+  if(!(data instanceof Blob))throw Error('Archivo no disponible para empaquetar');
+  const path=enc.encode(name),size=data.size;
+  if(size>ZIP_SOFT_LIMIT||offset+30+path.length+size>ZIP_SOFT_LIMIT)throw Error('Archivo demasiado grande para ZIP clásico');
+  const crc=await crcBlob(data,onRead);
+  const head=new Uint8Array(30+path.length),h=new DataView(head.buffer);
+  h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint32(14,crc,true);
+  h.setUint32(18,size,true);h.setUint32(22,size,true);h.setUint16(26,path.length,true);head.set(path,30);
+  const ch=new Uint8Array(46+path.length),v=new DataView(ch.buffer);
+  v.setUint32(0,0x02014b50,true);v.setUint16(4,20,true);v.setUint16(6,20,true);v.setUint32(16,crc,true);
+  v.setUint32(20,size,true);v.setUint32(24,size,true);v.setUint16(28,path.length,true);v.setUint32(42,offset,true);ch.set(path,46);
+  local.push(head,data);central.push(ch);offset+=head.length+size;counter++;
+ }
+ const csize=central.reduce((n,x)=>n+x.length,0);
+ if(offset+csize+22>0xffffffff||counter>65535)throw Error('ZIP mayor de 4 GB');
+ const foot=new Uint8Array(22),end=new DataView(foot.buffer);
+ end.setUint32(0,0x06054b50,true);end.setUint16(8,counter,true);end.setUint16(10,counter,true);
+ end.setUint32(12,csize,true);end.setUint32(16,offset,true);
+ return new Blob([...local,...central,foot],{type:'application/zip'});
+}
+function makeExportSession(){
+ const plan=calculateExportPlan(),prefix=safeName($('prefix').value);
+ const records=layers.map((l,index)=>{
+  const original=`originales/${prefix}_${String(index+1).padStart(2,'0')}_${safeName(l.name)}.${safeExtension(l.file)}`;
+  return {name:l.name,original:{width:l.w,height:l.h,file:original,type:l.file.type},
+   x:l.x,y:l.y,scale:l.scale,scaleX:l.scaleX??l.scale,scaleY:l.scaleY??l.scale,visible:l.visible,locked:l.locked,variants:[]};
+ });
+ return {plan,prefix,records,stage:'original',originalIndex:0,jobIndex:0,failed:[],finished:0,
+   plannedPackages:plan.total,done:false,quality:Number($('quality').value)/100,
+   referenceDirection};
+}
+function makeProject(s){
+ const metadata=s.records;
+ const css=`/* ScaleSync Gold 4.10 | Referencia interna ${REF} unidades.\n   Ajuste el factor global y, para referencia en L, sus factores X/Y. */\n.scalesync-scene{--scalesync-factor:1;--scalesync-width-factor:1;--scalesync-height-factor:1;position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}\n.scalesync-origin{position:absolute;left:50%;top:50%;width:0;height:0;transform:scale(calc(var(--scalesync-factor) * var(--scalesync-width-factor)),calc(var(--scalesync-factor) * var(--scalesync-height-factor)));transform-origin:0 0}\n.scalesync-layer{position:absolute;max-width:none;display:block;transform-origin:top left;pointer-events:none}\n`;
+ const tags=metadata.map(l=>{
+  const variants=l.variants,source=variants.at(-1)?.file||l.original.file;
+  const srcset=variants.map(v=>`${v.file} ${v.width}w`).join(', ');
+  const style=`width:${l.original.width}px;height:${l.original.height}px;left:${l.x-l.original.width*(l.scaleX)/2}px;top:${l.y-l.original.height*(l.scaleY)/2}px;transform:scale(${l.scaleX},${l.scaleY});display:${l.visible?'block':'none'};`;
+  return `<img class="scalesync-layer" alt="" src="${escaped(source)}" ${srcset?'srcset="'+escaped(srcset)+'" sizes="100vw"':''} width="${l.original.width}" height="${l.original.height}" style="${style}">`;
+ }).join('\n');
+ const html=`<!doctype html>\n<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScaleSync | Composición</title><link rel="stylesheet" href="scalesync.css"><style>html,body{margin:0;height:100%;background:#111827}main{height:100dvh}</style></head><body><main class="scalesync-scene"><div class="scalesync-origin">\n${tags}\n</div></main></body></html>`;
+ const info={app:'ScaleSync Gold',version:'4.10',referenceLength:REF,referenceOrientation:s.referenceDirection,
+   scaleMode:s.referenceDirection==='dual'?'independent-xy':s.referenceDirection==='vertical'?'uniform-by-height':'uniform-by-width',
+   quality:s.quality,layers:metadata,selectedWidths:s.plan.chosen,skipped:s.failed};
+ const readme=`ScaleSync Gold 4.10\n\nAbra index.html. Extraiga TODOS los ZIP del mismo prefijo en una carpeta.\n\nOrientación de referencia: ${s.referenceDirection}. La referencia contiene ${REF} unidades internas.\nFactor X/Y: se puede cambiar en scalesync.css; en Horizontal y Vertical los factores X/Y deben ser 1.\nLos originales se incluyen sin conversión en originales/.\nLas variantes WebP se incluyen en images/.\nLos archivos originales mantienen sus bytes; únicamente reciben el prefijo elegido.\nSe registran las variantes no procesadas en composition.json.\n\nDiseño: Arley Zarate\nDesarrollo: NOVA (IA)\n`;
+ return zip([['index.html',html],['scalesync.css',css],['composition.json',JSON.stringify(info,null,2)],['README.txt',readme]]);
+}
+let exportSession=null;
+function lockExportSettings(locked){
+ for(const id of ['prefix','selectAll','selectNone','selectWeb','addRes','defaultRes','quality'])$(id).disabled=locked;
+ $('resolutions').querySelectorAll('input,button').forEach(node=>node.disabled=locked);
+}
+$('cancelExport').onclick=()=>{exportCancelled=true;$('exportCurrent').textContent='Cancelando al terminar la operación actual…'};
+$('export').onclick=async()=>{
+ if(exportBusy)return;
+ if(exportSession?.done){exportSession=null;lockExportSettings(false);updateExportHint();say('Lista una nueva exportación. Revise el prefijo y las resoluciones.');return}
+ if(!layers.length){say('Agregue al menos una imagen.');return}
+ if(!exportSession){exportSession=makeExportSession();lockExportSettings(true);}
+ const s=exportSession;exportBusy=true;exportCancelled=false;
+ $('export').disabled=true;$('panelProgress').hidden=false;exportOverlay.hidden=false;
+ const steps=s.plan.originals+s.plan.jobs.length+1;
+ let name='',blob=null;
+ try{
+  if(s.stage==='original'){
+    const i=s.originalIndex,l=layers[i],fileName=s.records[i].original.file;
+    updateProgress(i,steps,`Preparando original ${i+1} de ${layers.length}: ${l.file.name}`);await nextPaint();
+    if(l.file.size>ZIP_SOFT_LIMIT){blob=l.file;name=fileName.split('/').pop();}
+    else{
+      blob=await zipFilesOfBlobs([[fileName,l.file]],(read,total)=>{
+       // Se muestra la lectura real de bytes mientras se calcula el CRC del archivo original.
+       const frac=total?read/total:1, pct=Math.round(100*frac);
+       updateProgress(i+frac,steps,`Original ${i+1}/${layers.length}: lectura ${pct} %`);
+      });
+      name=`${s.prefix}_original_${String(i+1).padStart(2,'0')}.zip`;
+    }
+    s.originalIndex++;if(s.originalIndex>=layers.length)s.stage=s.plan.jobs.length?'variants':'project';
+  }else if(s.stage==='variants'){
+    const files=[];
+    let attempts=0;
+    while(attempts<2&&s.jobIndex<s.plan.jobs.length){
+      if(exportCancelled)throw Error('Exportación cancelada');
+      const job=s.plan.jobs[s.jobIndex++],{layer,index,width,height}=job;
+      attempts++;
+      const processed=s.jobIndex;
+      updateProgress(s.plan.originals+processed-1,steps,`Capa ${index+1}/${layers.length}: creando ${width} × ${height} px`);
+      await nextPaint();
+      try{
+       const output=await exportVariant(layer.file,width,height,s.quality);
+       const path=`images/${s.prefix}_${String(index+1).padStart(2,'0')}_${safeName(layer.name)}_${width}w.webp`;
+       files.push([path,output]);s.records[index].variants.push({width,height,file:path});
+      }catch(err){s.failed.push(`${layer.name} ${width} px: ${err.message}`)}
+      // Dejar tiempo para que el navegador limpie superficies entre conversiones.
+      await delay(100);
+    }
+    if(files.length){
+      blob=await zipFilesOfBlobs(files);
+      name=`${s.prefix}_variantes_${String(Math.ceil(s.jobIndex/2)).padStart(2,'0')}.zip`;
+    }
+    if(s.jobIndex>=s.plan.jobs.length)s.stage='project';
+  }else if(s.stage==='project'){
+    updateProgress(steps-1,steps,'Generando HTML, CSS y metadatos');await nextPaint();
+    blob=makeProject(s);name=`${s.prefix}_proyecto.zip`;s.stage='done';s.done=true;
+  }
+  if(exportCancelled)throw Error('Exportación cancelada');
+  if(blob){triggerDownload(blob,name);s.finished++}
+  updateProgress(Math.min(steps,s.originalIndex+s.jobIndex+(s.done?1:0)),steps,
+    s.done?'Exportación terminada. Descargas solicitadas.':`Paquete ${s.finished}/${s.plannedPackages}: ${name||'sin variantes compatibles'}`);
+  if(s.done){lockExportSettings(false);say(`Exportación completada: ${s.finished} paquetes solicitados. ${s.failed.length} variantes omitidas.`);
+    if(s.failed.length)$('exportHint').textContent='Algunas variantes no se pudieron convertir: '+s.failed.slice(0,3).join('; ');
+  }else{say(`Paquete ${s.finished} de ${s.plannedPackages} preparado. Pulse de nuevo para continuar.`)}
+ }catch(err){say('No se completó el paquete: '+err.message);if(exportCancelled){exportSession=null;lockExportSettings(false)}}
+ finally{exportBusy=false;exportOverlay.hidden=true;updateExportHint()}
+};
+
 $('intentBtn').onclick=()=>{$('infoDetail').textContent='Alinear imágenes por referencia geométrica y exportarlas para distintas pantallas.'};$('helpBtn').onclick=()=>{$('infoDetail').textContent='Agregue imágenes, ajuste posición y escala, elija referencia X, Y o X/Y y exporte el ZIP con prefijo propio.'};$('legalBtn').onclick=async()=>{const target='./aviso-legal.html';window.open(target,'_blank','noopener');$('infoDetail').textContent='Se intentó abrir el aviso legal común. Compruebe que aviso-legal.html esté publicado junto al archivo.'};drawRes();updateReference();render();
 (function playIntro(){const logo=document.querySelector('.brand-mark'),trail=document.querySelector('.gold-trail');if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.body.classList.add('intro-done');return}const r=logo.getBoundingClientRect(),sx=innerWidth-25,sy=innerHeight-30,tx=r.left+r.width/2,ty=r.top+r.height/2,dx=tx-sx,dy=ty-sy;trail.style.setProperty('--sx',sx+'px');trail.style.setProperty('--sy',sy+'px');trail.style.setProperty('--dx',dx+'px');trail.style.setProperty('--dy',dy+'px');trail.style.setProperty('--dist',Math.hypot(dx,dy)+'px');trail.style.setProperty('--angle',Math.atan2(dy,dx)+'rad');document.body.classList.add('intro-play');setTimeout(()=>{document.body.classList.remove('intro-play');document.body.classList.add('intro-done')},3100)})();
 
