@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.24.2 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.24.3 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.24.2 | Diagramador de nodos</title>
+<title>NodoLibre 5.24.3 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -949,7 +949,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:430px){.toolbar{gap:3px!important;padding:6px 4px!important}.toolbar .btn{min-width:34px;width:34px!important;padding:5px}.nl-tab{max-width:128px;min-width:75px;height:34px}.nl-tab-name{font-size:11px;padding-left:6px}.nl-tab-close{width:23px}.bottom #redo{min-width:33px;width:33px;padding:4px}}
 
 /* NL/5.24.1 · Menú de documentos y selector de formatos sin ventana del sistema. */
-/* NL/5.24.2 · Recepción portable confirmada; comunicación protegida por token. */
+/* NL/5.24.3 · Recepción portable confirmada; comunicación protegida por token. */
 .nl-new-menu{width:222px;gap:3px;padding:7px}
 .nl-new-menu button{min-height:43px;gap:12px;padding:9px 12px;font-size:14px}
 .nl-new-menu button:last-child{border-top-color:var(--panel-border)}
@@ -987,7 +987,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes y documentos PDF, y guardar proyectos editables en formato .nodolibre o HTML, y exportar imágenes PNG o documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.24.2 (71)</dd>
+    <dt>Versión</dt><dd>5.24.3 (72)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -2604,7 +2604,7 @@ function tableConnectionError(a,b,excludedLinkId=null){
  return '';
 }
 // Celda: toque doble para editar, arrastre para cambiar la columna de su vínculo.
-let nlCellDrag=null,tableTap=null,tableHeaderPress=null,tableHeaderTap=null;
+let nlCellDrag=null,tableTap=null,tableHeaderTap=null;
 function editTableCell(n,r,col){
  const values=tableCellsFor(n,r)[col]||[],linked=values.find(v=>v.link!==null),initial=linked?linked.mode==='literal'?linked.text:linked.expression:(n.tableOverrides?.[r.id+':'+col]||'');
  openDialog(`Celda · fila ${n.rows.indexOf(r)}, columna ${col+1}`,`<label class="field">Valor de la celda<input id="tableCellEntry" autocomplete="off" value="${esc(initial)}" aria-label="Valor de la celda"></label><p>Use = para mostrar el valor del bloque de origen. En la tabla se muestra únicamente el resultado.</p>`,[
@@ -2618,47 +2618,57 @@ function editTableCell(n,r,col){
 function processTableCellTap(cell,x,y){
  const n=box(+cell.dataset.tableCell),r=rr(n,+cell.dataset.tableRow),col=+cell.dataset.col;if(!n||!r)return;
  const now=Date.now(),last=tableTap;
- if(last&&last.node===n.id&&last.row===r.id&&last.col===col&&now-last.at<440&&Math.hypot(x-last.x,y-last.y)<35){tableTap=null;editTableCell(n,r,col);}else tableTap={node:n.id,row:r.id,col,at:now,x,y};
+ if(last&&last.node===n.id&&last.row===r.id&&last.col===col&&now-last.at<440&&Math.hypot(x-last.x,y-last.y)<35){tableTap=null;editTableCell(n,r,col);return true;}else{tableTap={node:n.id,row:r.id,col,at:now,x,y};return false;}
 }
 nodesEl.addEventListener('pointerdown',e=>{
  // En Android el navegador puede asignar el toque a la celda grande aunque
  // la coordenada esté sobre el encabezado estrecho. Usar la posición real.
- const header=document.elementFromPoint(e.clientX,e.clientY)?.closest('.table-main-title,.table-col-head');
- if(header){const table=header.closest('.table-node');if(table){tableHeaderPress={pointer:e.pointerId,node:+table.dataset.node,x:e.clientX,y:e.clientY};e.preventDefault();e.stopPropagation();return;}}
+ // Los encabezados y celdas vacías son asas de movimiento del bloque.
+ // Solo capturamos una celda vinculada para conservar la reubicación horizontal de su enlace.
  const cell=e.target.closest('.table-cell');if(!cell)return;
  const span=e.target.closest('[data-cell-link]')||cell.querySelector('[data-cell-link]');
  const n=box(+cell.dataset.tableCell),r=rr(n,+cell.dataset.tableRow);if(!n||!r)return;
- nlCellDrag={pointer:e.pointerId,node:n.id,row:r.id,col:+cell.dataset.col,link:span?.dataset.cellLink?Number(span.dataset.cellLink):null,x:e.clientX,y:e.clientY,moved:false};
+ const link=span?.dataset.cellLink?Number(span.dataset.cellLink):null;
+ if(!link)return;
+ nlCellDrag={pointer:e.pointerId,node:n.id,row:r.id,col:+cell.dataset.col,link,x:e.clientX,y:e.clientY,moved:false,action:null,saved:false,nx:n.x,ny:n.y};
  cell.setPointerCapture(e.pointerId);e.preventDefault();e.stopPropagation();
 },{capture:true});
 nodesEl.addEventListener('pointermove',e=>{
  if(!nlCellDrag||nlCellDrag.pointer!==e.pointerId)return;
- const d=nlCellDrag;if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>9)d.moved=true;
- const el=nodesEl.querySelector(`.table-node[data-node="${d.node}"] .row[data-row="${d.row}"] .table-cells`);
- if(el&&d.moved&&d.link){const b=el.getBoundingClientRect(),cols=tableCapacity(box(d.node));
-  const at=clamp(Math.floor((e.clientX-b.left)/Math.max(1,b.width)*cols),0,cols-1);
-  el.querySelectorAll('.table-cell').forEach(x=>x.classList.toggle('target-cell',Number(x.dataset.col)===at));}
+ const d=nlCellDrag,dx=e.clientX-d.x,dy=e.clientY-d.y;
+ if(Math.hypot(dx,dy)>9)d.moved=true;
+ if(d.moved&&!d.action)d.action=Math.abs(dy)>Math.abs(dx)*1.15?'table':'cell';
+ if(d.moved&&d.action==='table'){
+  const n=box(d.node);
+  if(n&&!n.locked){
+   if(!d.saved){snap();d.saved=true}
+   n.x=Math.round(d.nx+dx/zoom);n.y=Math.round(d.ny+dy/zoom);
+   const table=nodesEl.querySelector(`.table-node[data-node="${d.node}"]`);
+   if(table){table.style.left=n.x+'px';table.style.top=n.y+'px'}
+   invalidateDiagramExtent();drawLinks();
+  }
+ }else if(d.moved){
+  const el=nodesEl.querySelector(`.table-node[data-node="${d.node}"] .row[data-row="${d.row}"] .table-cells`);
+  if(el){const b=el.getBoundingClientRect(),cols=tableCapacity(box(d.node));
+   const at=clamp(Math.floor((e.clientX-b.left)/Math.max(1,b.width)*cols),0,cols-1);
+   el.querySelectorAll('.table-cell').forEach(x=>x.classList.toggle('target-cell',Number(x.dataset.col)===at));}
+ }
  e.preventDefault();e.stopPropagation();
 },{capture:true});
 nodesEl.addEventListener('pointerup',e=>{
- if(tableHeaderPress?.pointer===e.pointerId){
-  const d=tableHeaderPress;tableHeaderPress=null;
-  const now=Date.now(),last=tableHeaderTap;
-  if(last?.node===d.node&&now-last.at<480&&Math.hypot(d.x-last.x,d.y-last.y)<38){tableHeaderTap=null;openTableEditor(d.node);}
-  else{tableHeaderTap={node:d.node,at:now,x:d.x,y:d.y};selectedNode=d.node;render();}
-  e.preventDefault();e.stopPropagation();return;
- }
  if(!nlCellDrag||nlCellDrag.pointer!==e.pointerId)return;
  const d=nlCellDrag;nlCellDrag=null;
  const n=box(d.node),r=rr(n,d.row),el=nodesEl.querySelector(`.table-node[data-node="${d.node}"] .row[data-row="${d.row}"] .table-cells`);
- if(n&&r&&el){
+ if(d.moved&&d.action==='table'){
+  if(d.saved){selectedNode=d.node;render();store()}else render();
+ }else if(n&&r&&el){
   if(d.moved&&d.link){const b=el.getBoundingClientRect(),col=clamp(Math.floor((e.clientX-b.left)/Math.max(1,b.width)*tableCapacity(n)),0,tableCapacity(n)-1),values=tableCellsFor(n,r);
    if(d.col!==col&&!values[col].some(v=>v.link!==null)){snap();n.tablePlacements??={};n.tablePlacements[d.link]={...(n.tablePlacements[d.link]||{}),col};render();store();}else render();}
   else processTableCellTap(el.querySelector(`[data-col="${d.col}"]`)||el.firstElementChild,e.clientX,e.clientY);
  }
  e.preventDefault();e.stopPropagation();
 },{capture:true});
-nodesEl.addEventListener('pointercancel',e=>{if(tableHeaderPress?.pointer===e.pointerId)tableHeaderPress=null;if(nlCellDrag?.pointer===e.pointerId){nlCellDrag=null;nodesEl.querySelectorAll('.target-cell,.dragging').forEach(x=>x.classList.remove('target-cell','dragging'));}},{capture:true});
+nodesEl.addEventListener('pointercancel',e=>{if(nlCellDrag?.pointer===e.pointerId){nlCellDrag=null;nodesEl.querySelectorAll('.target-cell,.dragging').forEach(x=>x.classList.remove('target-cell','dragging'));}},{capture:true});
 nodesEl.addEventListener('keydown',e=>{
  const cell=e.target.closest('.table-cell');if(!cell)return;
  const n=box(+cell.dataset.tableCell),r=rr(n,+cell.dataset.tableRow);if(!n||!r)return;
@@ -4175,7 +4185,17 @@ function socketAtRelease(x,y,from,largeTarget=false){
 }
 function beginTap(e){const target=e.target;
  const groupCorner=target.closest('[data-group-corner]');if(groupCorner){const n=box(+groupCorner.dataset.groupNode);if(!n||n.locked)return null;const side=groupCorner.dataset.groupCorner;return{mode:'group-resize',node:n.id,corner:side,start:{x:n.x,y:n.y,w:n.w,h:n.h}}}const handle=target.closest('[data-rewire]');if(handle){const id=+handle.dataset.rewireId,end=handle.dataset.rewire;return {mode:'rewire',wireId:id,end}}
-if(filterMode){const socket=target.closest('.socket');if(!filterFocus&&socket&&!socket.classList.contains('socket-muted'))return{mode:'filter-socket',socket:{node:+socket.dataset.node,row:+socket.dataset.row,side:socket.dataset.side},color:socket.dataset.portColor||null};const row=target.closest('.node:not(.image-node) .row[data-row]');if(!filterFocus&&row)return{mode:'filter-row',node:+row.closest('.node').dataset.node,row:+row.dataset.row};if(target.closest('.node,.socket'))return{mode:'pan'};}const corner=target.closest('[data-scale-corner]');if(corner)return beginCornerScale(corner.dataset.scaleKind,corner.dataset.scaleCorner,+corner.dataset.scaleNode);if(target.closest('[data-scale-center]'))return null;const bgCropHandle=target.closest('[data-bg-crop-handle]');if(bgCropHandle&&bgCropSession)return{mode:'background-crop',side:bgCropHandle.dataset.bgCropHandle,start:{...bgCropSession.relative}};if(bgCropSession)return null;const cropHandle=target.closest('[data-crop-handle]');if(cropHandle&&cropSession)return{mode:'crop',node:cropSession.node,side:cropHandle.dataset.cropHandle,start:{...cropSession.relative}};if(cropSession)return null;if(target.closest('button[data-action],button[data-cap],button[data-split-at],.row-input'))return null;const floating=target.closest('.group-floating-label');if(floating){const gn=box(+floating.dataset.groupFloat);if(gn){activeGroupTitle=gn.id;syncGroupTitles();return{mode:'node',node:gn.id,row:gn.rows.find(r=>r.type==='title')?.id||gn.rows[0]?.id,labelDrag:!gn.locked,connectFrom:null};}}const exactSocket=preciseSocketAt(e.clientX,e.clientY);const centerText=exactSocket?null:centeredTextAt(e.clientX,e.clientY);if(centerText){const id=+centerText.dataset.node,gn=box(id);return{mode:'node',node:id,row:+centerText.closest('.row').dataset.row,labelDrag:gn?.kind==='group'&&!gn.locked&&!!centerText.closest('.row.kind-title'),connectFrom:pending&&pending.node!==id?{...pending}:null};}const sock=exactSocket||target.closest('.socket')||nearbySocketAt(e.clientX,e.clientY);if(sock&&multiMode&&multiFilter==='links'&&!rewireAwait)return null;if(sock){const n=box(+sock.dataset.node);if(n?.kind==='image'&&imageToolNode===n.id&&imageToolMode)return{mode:'image-port',node:n.id,port:+sock.dataset.row};return{mode:'socket',socket:socketValue(sock)};}if(bgEditing&&bgToolMode==='move'&&target.closest('#bgWorld'))return{mode:'background'};if(multiMode&&multiFilter==='links'&&!rewireAwait&&target.closest('.node'))return null;if(imageToolMode&&target.closest('.image-node')&&+target.closest('.image-node').dataset.node===imageToolNode)return{mode:'image-place',node:imageToolNode};const tx=target.closest('.row-text');if(tx){const id=+tx.dataset.node,n=box(id);return{mode:'node',node:id,row:+tx.closest('.row').dataset.row,labelDrag:n?.kind==='group'&&!n.locked&&!!tx.closest('.row.kind-title'),connectFrom:pending&&pending.node!==id?{...pending}:null};}const node=target.closest('.node');if(node)return{mode:'node',node:+node.dataset.node,row:target.closest('.row[data-row]')?+target.closest('.row[data-row]').dataset.row:null,connectFrom:pending&&pending.node!==+node.dataset.node?{...pending}:null};if(target.closest('.wire-hit')||target.closest('#linktools')||target.closest('#colorpop')||target.closest('.empty-add'))return null;return{mode:'pan'}}
+if(filterMode){const socket=target.closest('.socket');if(!filterFocus&&socket&&!socket.classList.contains('socket-muted'))return{mode:'filter-socket',socket:{node:+socket.dataset.node,row:+socket.dataset.row,side:socket.dataset.side},color:socket.dataset.portColor||null};const row=target.closest('.node:not(.image-node) .row[data-row]');if(!filterFocus&&row)return{mode:'filter-row',node:+row.closest('.node').dataset.node,row:+row.dataset.row};if(target.closest('.node,.socket'))return{mode:'pan'};}
+ // Las tablas se mueven desde el encabezado, nombres de columnas y celdas vacías.
+ // La captura especial de celdas vinculadas se ejecuta previamente en nodesEl.
+ const tablePart=(document.elementFromPoint(e.clientX,e.clientY)||target).closest?.('.table-main-title,.table-col-head,.table-cell')||target.closest('.table-main-title,.table-col-head,.table-cell');
+ if(tablePart){const table=tablePart.closest('.table-node'),id=Number(table?.dataset.node);
+  if(table&&box(id)&&!box(id).locked){
+   const cell=tablePart.closest('.table-cell');
+   return {mode:'node',node:id,tableHeader:!cell,tableCell:cell?{node:id,row:Number(cell.dataset.tableRow),col:Number(cell.dataset.col)}:null};
+  }
+ }
+ const corner=target.closest('[data-scale-corner]');if(corner)return beginCornerScale(corner.dataset.scaleKind,corner.dataset.scaleCorner,+corner.dataset.scaleNode);if(target.closest('[data-scale-center]'))return null;const bgCropHandle=target.closest('[data-bg-crop-handle]');if(bgCropHandle&&bgCropSession)return{mode:'background-crop',side:bgCropHandle.dataset.bgCropHandle,start:{...bgCropSession.relative}};if(bgCropSession)return null;const cropHandle=target.closest('[data-crop-handle]');if(cropHandle&&cropSession)return{mode:'crop',node:cropSession.node,side:cropHandle.dataset.cropHandle,start:{...cropSession.relative}};if(cropSession)return null;if(target.closest('button[data-action],button[data-cap],button[data-split-at],.row-input'))return null;const floating=target.closest('.group-floating-label');if(floating){const gn=box(+floating.dataset.groupFloat);if(gn){activeGroupTitle=gn.id;syncGroupTitles();return{mode:'node',node:gn.id,row:gn.rows.find(r=>r.type==='title')?.id||gn.rows[0]?.id,labelDrag:!gn.locked,connectFrom:null};}}const exactSocket=preciseSocketAt(e.clientX,e.clientY);const centerText=exactSocket?null:centeredTextAt(e.clientX,e.clientY);if(centerText){const id=+centerText.dataset.node,gn=box(id);return{mode:'node',node:id,row:+centerText.closest('.row').dataset.row,labelDrag:gn?.kind==='group'&&!gn.locked&&!!centerText.closest('.row.kind-title'),connectFrom:pending&&pending.node!==id?{...pending}:null};}const sock=exactSocket||target.closest('.socket')||nearbySocketAt(e.clientX,e.clientY);if(sock&&multiMode&&multiFilter==='links'&&!rewireAwait)return null;if(sock){const n=box(+sock.dataset.node);if(n?.kind==='image'&&imageToolNode===n.id&&imageToolMode)return{mode:'image-port',node:n.id,port:+sock.dataset.row};return{mode:'socket',socket:socketValue(sock)};}if(bgEditing&&bgToolMode==='move'&&target.closest('#bgWorld'))return{mode:'background'};if(multiMode&&multiFilter==='links'&&!rewireAwait&&target.closest('.node'))return null;if(imageToolMode&&target.closest('.image-node')&&+target.closest('.image-node').dataset.node===imageToolNode)return{mode:'image-place',node:imageToolNode};const tx=target.closest('.row-text');if(tx){const id=+tx.dataset.node,n=box(id);return{mode:'node',node:id,row:+tx.closest('.row').dataset.row,labelDrag:n?.kind==='group'&&!n.locked&&!!tx.closest('.row.kind-title'),connectFrom:pending&&pending.node!==id?{...pending}:null};}const node=target.closest('.node');if(node)return{mode:'node',node:+node.dataset.node,row:target.closest('.row[data-row]')?+target.closest('.row[data-row]').dataset.row:null,connectFrom:pending&&pending.node!==+node.dataset.node?{...pending}:null};if(target.closest('.wire-hit')||target.closest('#linktools')||target.closest('#colorpop')||target.closest('.empty-add'))return null;return{mode:'pan'}}
 board.addEventListener('pointerdown',e=>{if(e.button===2&&e.pointerType==='mouse')return;
  if(rectangleMode&&e.target.closest('#marqueeCancel'))return;if(e.target.closest('[data-insert-wire]'))return;dragWireSource=null;if(!e.target.closest('.wire-end-handle,.socket,[data-scale-corner],[data-group-corner],[data-crop-handle],[data-bg-crop-handle]')&&e.target.closest('button,input,textarea,select,#colorpop,#linktools'))return;if($('#scrim').classList.contains('open'))return;touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(touches.size>=2){activePointer=null;if(rectangleMode)rectangleOverlay(null);dragWireSource=null;drawLinks();const p=[...touches.values()].slice(0,2),dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;pinch={dist:Math.max(1,dist),zoom,world:toWorld(cx,cy)};return}
  if(groupDrawMode){const at=toWorld(e.clientX,e.clientY);activePointer={id:e.pointerId,mode:'draw-group',start:at,sx:e.clientX,sy:e.clientY,moved:false};try{board.setPointerCapture(e.pointerId)}catch{}e.preventDefault();return}
@@ -4238,6 +4258,20 @@ board.addEventListener('pointerup',e=>{touches.delete(e.pointerId);if(pinch){if(
  if(g.mode==='socket'&&rewireAwait){const r=rewireAwait;if(!g.moved){rewireAttach(r.id,r.end,g.socket);return}const source=links.find(x=>x.id===r.id)?.[r.end==='a'?'b':'a'];if(source){const target=socketAtRelease(e.clientX,e.clientY,source,true);rewireAttach(r.id,r.end,target||g.socket);return}}
  if(g.mode==='socket'){dragWireSource=null;if(g.moved){const target=socketAtRelease(e.clientX,e.clientY,g.socket);if(target){pending=null;connect(g.socket,target);return}pending=g.socket;render();toast('Conexión: toque el conector o el texto de destino.')}else selectSocket(g.socket)}
  if(g.mode==='choose'&&!g.moved){selectedNode=g.node;selectedRow=null;selectedLink=null;moveMode=false;render();burstSelectionDust(g.node,e.clientX,e.clientY)}
+ if(g.mode==='node'&&!g.moved&&g.tableHeader){
+  const now=Date.now(),prev=tableHeaderTap;
+  if(prev?.node===g.node&&now-prev.at<480&&Math.hypot(g.sx-prev.x,g.sy-prev.y)<38){tableHeaderTap=null;openTableEditor(g.node)}
+  else{tableHeaderTap={node:g.node,at:now,x:g.sx,y:g.sy};selectedNode=g.node;render()}
+  return;
+ }
+ if(g.mode==='node'&&!g.moved&&g.tableCell){
+  const {node,row,col}=g.tableCell;
+  const cell=nodesEl.querySelector(`.table-cell[data-table-cell="${node}"][data-table-row="${row}"][data-col="${col}"]`);
+  selectedNode=node;
+  const editing=cell?processTableCellTap(cell,e.clientX,e.clientY):false;
+  if(!editing)render();
+  return;
+ }
  if(g.mode==='node'&&g.labelDrag&&g.moved){lastTap=null;selectedNode=g.node;multiSelection=new Set([g.node]);activeGroupTitle=g.node;render();store();return;}
   if(g.mode==='node'&&g.labelDrag&&!g.moved){lastTap=null;selectedNode=g.node;multiSelection=new Set([g.node]);activeGroupTitle=g.node;render();return;}
  if(g.mode==='node'&&rewireAwait&&!g.moved){const r=rewireAwait,source=links.find(x=>x.id===r.id)?.[r.end==='a'?'b':'a'];if(source){const target=socketFromNodeArea(g.node,g.row,source,e.clientX,e.clientY);if(target)rewireAttach(r.id,r.end,target);else toast('Seleccione un conector válido.')}return}
@@ -4272,6 +4306,7 @@ function groupTitleSize(n){return clamp(Number(n.groupLabelSize)||28,16,82)}
 function groupTitleInline(n){const q=groupTitleLocation(n);return `--group-title-x:${q.x*100}%;--group-title-y:${q.y*100}%;--group-title-rotation:${q.edge==='left'||q.edge==='right'?-90:0}deg;--group-title-size:${groupTitleSize(n)}px;--group-title-ink:${groupTitleInk()};--group-title-shadow:${isTextTheme()&&!isWhiteTextTheme()?'#ffffff33':'#041821bb'};`;}
 let activeGroupTitle=null;
 function syncGroupTitles(){
+ if(!nodes.some(n=>n.kind==='group')&&!world.querySelector('#groupTitleLayer [data-group-float]'))return;
  let layer=world.querySelector('#groupTitleLayer');if(!layer){layer=document.createElement('div');layer.id='groupTitleLayer';world.append(layer)}
  const groups=nodes.filter(n=>n.kind==='group');const seen=new Set();
  for(const n of groups){seen.add(String(n.id));let el=layer.querySelector(`[data-group-float="${n.id}"]`);
@@ -4363,7 +4398,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.24.2',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'5.24.3',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
