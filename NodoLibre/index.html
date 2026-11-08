@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.23.0 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.24.0 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,9 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.23.0 | Diagramador de nodos sin conexión</title>
+<title>NodoLibre 5.24.0 | Diagramador de nodos</title>
+<meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
 /* NL/REGLA DE MANTENIMIENTO
    Esta hoja conserva la cascada acumulada para evitar regresiones entre temas.
@@ -899,21 +901,89 @@ body:not(.has-diagram) #insertMenu.open{
 body.sketch .table-node .table-cell,body.sketch .table-node .table-col-head{border-color:#8c8c8c}
 /* Los círculos ahora se tocan visualmente; evitar que sus halos intercepten el puerto vecino. */
 .socket.auto-link-port::after,.socket.table-port::after{inset:0;pointer-events:none}
+
+/* NL/5.23.1 · Identidad y aviso legal según ESTANDAR_DISENO.md 1.24. */
+.nl-about-logo{width:min(100%,335px);margin:2px auto 12px}
+.nl-about-logo svg{display:block;width:100%;height:auto;max-height:105px}
+body.sketch .nl-about-logo .nl-title-a{fill:#26313d}
+body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
+.nl-about-facts{display:grid;grid-template-columns:minmax(95px,max-content) minmax(0,1fr);column-gap:12px;row-gap:9px;margin:12px 0 16px;font-size:13px;align-items:start}
+.nl-about-facts dt{color:var(--sub);font-weight:600}
+.nl-about-facts dd{margin:0;overflow-wrap:anywhere}
+.nl-about-legal{margin:10px 0!important}
+.nl-about-legal a{display:inline-flex;align-items:center;min-height:41px;color:var(--accent);text-underline-offset:4px;font-weight:650}
+.nl-about-legal a:focus-visible,.nl-legal a:focus-visible,.nl-legal button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.nl-help{border-top:1px solid var(--panel-border);padding:10px 0;margin-top:9px}
+.nl-help summary{cursor:pointer;font-weight:650;min-height:36px;padding:7px 2px}
+.nl-help p{margin:10px 0}
+.nl-legal[hidden]{display:none!important}
+.nl-legal{position:fixed;inset:0;z-index:120;background:#01080ed9;display:grid;place-items:center;padding:12px;overscroll-behavior:contain}
+.nl-legal-panel{width:min(760px,100%);height:min(84dvh,720px);min-height:250px;background:var(--panel);color:var(--ink);border:1px solid var(--panel-border);border-radius:15px;box-shadow:0 22px 55px #000b;display:flex;flex-direction:column;overflow:hidden}
+.nl-legal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;background:var(--bar);border-bottom:1px solid var(--panel-border)}
+.nl-legal-head h2{margin:0;font-size:17px}
+.nl-legal-head button{min-height:40px;border-radius:8px;background:var(--base);color:var(--ink);border:1px solid var(--panel-border);padding:6px 12px;cursor:pointer}
+.nl-legal-message{font-size:12px;color:var(--sub);padding:10px 14px;margin:0}
+.nl-legal-frame{border:0;background:#fff;flex:1;min-height:0;width:100%;display:block}
+.nl-legal-frame[hidden],.nl-legal-message[hidden],.nl-legal-footer a[hidden]{display:none!important}
+.nl-legal-footer{display:flex;justify-content:flex-end;padding:7px 14px 11px}
+.nl-legal-footer a{color:var(--accent);font-size:13px;min-height:35px;display:inline-flex;align-items:center}
+@media(max-width:430px){.nl-legal{padding:7px}.nl-legal-panel{height:calc(100dvh - 14px)}.nl-about-facts{grid-template-columns:95px minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.nl-legal,.nl-legal-panel{animation:none!important;transition:none!important}}
+
+/* NL/5.24 · Navegación multidocumento y guardado unificado. */
+.toolbar{justify-content:flex-start!important;gap:5px!important}
+.nl-tabs.single .nl-tab{display:none!important}
+.nl-tabs{display:flex;align-items:center;gap:5px;flex:1;min-width:45px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding:3px 1px;white-space:nowrap}
+.nl-tab{display:flex;align-items:center;max-width:178px;min-width:82px;flex:none;height:35px;background:color-mix(in srgb,var(--panel) 70%,var(--base));border:1px solid var(--panel-border);border-radius:10px;color:var(--sub)}
+.nl-tab[data-active=true]{background:var(--panel);border-color:var(--accent);color:var(--ink)}
+.nl-tab-name{display:block;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:0;background:none;color:inherit;text-align:left;padding:8px 2px 8px 9px;cursor:pointer;font-size:12px}
+.nl-tab-name .nl-dirty{font-weight:700;color:var(--accent);margin-right:3px}
+.nl-tab-close{width:28px;height:30px;flex:none;border:none;background:transparent;color:inherit;font-size:18px;border-radius:8px}
+.nl-tab-close:hover,.nl-tab-close:focus-visible{background:#ffffff16;color:var(--ink)}
+.nl-new-menu{position:fixed;left:8px;top:56px;z-index:32;display:grid;gap:5px;padding:8px;width:190px;max-width:calc(100vw - 16px);background:var(--panel);border:1px solid var(--panel-border);border-radius:12px;box-shadow:var(--shadow)}
+.nl-new-menu[hidden]{display:none!important}.nl-new-menu button{display:flex;gap:9px;align-items:center;padding:9px;border:1px solid var(--panel-border);border-radius:8px;background:var(--base);color:var(--ink);text-align:left;min-height:43px}
+.nl-new-menu svg{width:20px;height:20px;flex:none}.nl-new-menu button:focus-visible{outline:2px solid var(--accent)}
+#board.nl-dropover:after{content:'Suelte el archivo para abrir o insertar';position:absolute;inset:9px;z-index:40;display:grid;place-items:center;pointer-events:none;color:var(--ink);font-size:16px;font-weight:700;border:2px dashed var(--accent);border-radius:15px;background:#172b35b9;text-align:center}
+.nl-save-form{display:grid;gap:9px}.nl-save-form label{font-size:12px;color:var(--sub)}.nl-save-form input,.nl-save-form select{display:block;width:100%;min-height:42px;margin-top:5px;border:1px solid var(--panel-border);background:var(--base);color:var(--ink);border-radius:9px;padding:8px}
+.nl-save-note{margin:3px 0;font-size:11px;color:var(--sub);line-height:1.4}
+@media(max-width:430px){.toolbar{gap:3px!important;padding:6px 4px!important}.toolbar .btn{min-width:34px;width:34px!important;padding:5px}.nl-tab{max-width:128px;min-width:75px;height:34px}.nl-tab-name{font-size:11px;padding-left:6px}.nl-tab-close{width:23px}.bottom #redo{min-width:33px;width:33px;padding:4px}}
 </style>
 </head>
 <body class="intro-active">
+<!-- NL/HTML / Identidad estática legible por el buscador de Recursos. -->
+<section id="recursos-acerca" data-recursos="acerca" hidden aria-labelledby="recursos-acerca-titulo">
+  <h2 id="recursos-acerca-titulo">Acerca de</h2>
+  <div class="nl-about-logo"><svg data-recursos-logo="principal" viewBox="0 0 450 108" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NodoLibre, por Arley Zarate">
+ <defs><linearGradient id="nlBrandFicha" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5ce2c8"/><stop offset=".58" stop-color="#73baf8"/><stop offset="1" stop-color="#b38dfe"/></linearGradient></defs>
+ <path d="M16 38 L47 14 M16 38 L47 66" fill="none" stroke="url(#nlBrandFicha)" stroke-width="5" stroke-linecap="round"/>
+ <circle cx="16" cy="38" r="11" fill="#142c37" stroke="#6ae3d2" stroke-width="4"/>
+ <circle cx="47" cy="14" r="10" fill="#6ae3d2"/><circle cx="47" cy="66" r="10" fill="#b58fff"/>
+ <g class="nl-title-a" fill="#effaff" transform="translate(83,65) scale(0.0322,-0.0322)"><path d="M80 0H496V544C496 604 496 721 491 855C561 726 627 611 669 544L1008 0H1432V1490H1016V944C1016 873 1017 752 1021 631C963 738 902 849 867 905L504 1490H80ZM2134 -24C2478 -24 2710 190 2710 528C2710 865 2478 1080 2134 1080C1791 1080 1558 865 1558 528C1558 189 1791 -24 2134 -24ZM2134 288C2039 288 1962 369 1962 528C1962 687 2039 768 2134 768C2229 768 2306 687 2306 528C2306 369 2229 288 2134 288ZM3258 -24C3398 -24 3505 40 3553 164H3554V0H3950V1490H3550V918H3549C3482 1029 3391 1080 3254 1080C2989 1080 2802 853 2802 530C2802 194 2981 -24 3258 -24ZM3377 290C3268 290 3206 384 3206 530C3206 675 3268 768 3377 768C3486 768 3564 675 3564 530C3564 384 3486 290 3377 290ZM4658 -24C5002 -24 5234 190 5234 528C5234 865 5002 1080 4658 1080C4315 1080 4082 865 4082 528C4082 189 4315 -24 4658 -24ZM4658 288C4563 288 4486 369 4486 528C4486 687 4563 768 4658 768C4753 768 4830 687 4830 528C4830 369 4753 288 4658 288Z"/></g>
+ <g class="nl-title-b" fill="url(#nlBrandFicha)" transform="translate(254.52,65) scale(0.0322,-0.0322)"><path d="M80 0H1138V352H496V1490H80ZM1264 0H1664V1056H1264ZM1463 1126C1588 1126 1676 1206 1676 1319C1676 1431 1588 1510 1463 1510C1338 1510 1250 1431 1250 1319C1250 1206 1338 1126 1463 1126ZM2528 -24C2805 -24 2984 194 2984 530C2984 853 2797 1080 2532 1080C2395 1080 2304 1029 2237 918H2236V1490H1836V0H2232V164H2233C2281 40 2388 -24 2528 -24ZM2409 290C2300 290 2222 384 2222 530C2222 675 2300 768 2409 768C2518 768 2580 675 2580 530C2580 384 2518 290 2409 290ZM3116 0H3516V506C3516 647 3595 736 3720 736H3866V1056H3766C3621 1056 3544 1006 3506 864H3504V1056H3116ZM4489 -24C4767 -24 4991 129 5030 345H4676C4654 288 4590 254 4505 254C4389 254 4319 320 4316 432H5034V539C5034 856 4805 1080 4481 1080C4157 1080 3928 851 3928 528C3928 205 4160 -24 4489 -24ZM4319 656C4333 743 4395 794 4492 794C4589 794 4651 743 4665 656Z"/></g>
+ <path d="M259 78 H422" stroke="url(#nlBrandFicha)" stroke-width="2.3" stroke-linecap="round" opacity=".85"/>
+ <text class="nl-signature" x="85" y="97" font-family="Arial,system-ui,sans-serif" font-weight="700" font-size="17" letter-spacing=".15" fill="#a0e9db">por Arley Zarate</text>
+</svg></div>
+  <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes y documentos PDF, y guardar proyectos en formato .nodolibre o exportar imágenes PNG.</p>
+  <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
+  <dl class="nl-about-facts">
+    <dt>Versión</dt><dd>5.24.0 (69)</dd>
+    <dt>Creación</dt><dd>No documentada</dd>
+    <dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd>
+    <dt>Autor</dt><dd>Arley Zarate</dd>
+  </dl>
+  <p class="nl-about-legal"><a href="../aviso-legal.html" data-legal-link>Aviso legal</a></p>
+</section>
+
 <!-- NL/HTML / 01 · Barra de navegación -->
 <header class="toolbar">
  
- <button class="btn" id="newProject" title="Nuevo diagrama" aria-label="Crear diagrama nuevo" data-ico="filePlus"></button>
+ <button class="btn" id="newProject" title="Nuevo, abrir o insertar" aria-label="Nuevo, abrir o insertar" aria-haspopup="menu" aria-expanded="false" data-ico="filePlus"></button><div id="nlTabs" class="nl-tabs" role="tablist" aria-label="Proyectos abiertos"></div>
  
  <button class="btn" id="theme" title="Capas y apariencia" aria-label="Capas de estilo, ancho, bordes y fondos" data-ico="layers"></button>
  <button class="btn" id="ports" title="Visibilidad de conectores" aria-label="Capas de conectores" data-ico="circles"></button><button class="btn" id="filterToggle" title="Activar o desactivar el filtro de enlaces" aria-label="Activar o desactivar filtro de conexiones" aria-pressed="false" data-ico="filter"></button>
- <button class="btn" id="save" title="Guardar proyecto .nodolibre" aria-label="Guardar proyecto nativo" data-ico="save"></button>
- <button class="btn" id="export" title="Exportar diagrama" aria-label="Exportar imagen" data-ico="export"></button>
- <button class="btn" id="open" title="Abrir proyecto NodoLibre" aria-label="Abrir diagrama" data-ico="folder"></button>
+ <button class="btn" id="save" title="Guardar proyecto" aria-label="Guardar proyecto y exportar" data-ico="usb"></button>
  <button class="btn" id="about" title="Información" aria-label="Información y ayuda" data-ico="info"></button>
-  <input id="file" class="file" type="file" accept=".nodolibre,.arley,.json,application/json"><input id="bgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="imgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="pdfFile" class="file" type="file" accept="application/pdf,.pdf">
+  <input id="file" class="file" type="file" accept=".nodolibre,.arley,.json,.html,application/json,text/html"><input id="bgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="imgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="pdfFile" class="file" type="file" accept="application/pdf,.pdf">
 </header>
 <!-- NL/HTML / 02 · Capas y apariencia -->
 <div id="layersMenu" class="layers-menu" aria-label="Capas y apariencia"><div class="layers-title">Capas del diagrama <button class="btn" id="layersClose" title="Cerrar" data-ico="close"></button></div>
@@ -992,7 +1062,11 @@ body.sketch .table-node .table-cell,body.sketch .table-node .table-col-head{bord
 <label class="project-export-field" for="exportProject"><span>Proyecto (visible solo al exportar)</span><textarea id="exportProject" rows="4" maxlength="800" placeholder="Nombre del proyecto&#10;Descripción o etapa&#10;Referencia"></textarea></label></div>
  <div class="layer-section"><span>Los cambios individuales se ajustan desde el lápiz de cada bloque.</span></div></div>
 <div id="duplicateLineMenu" class="duplicate-line-menu" role="group" aria-label="Enlace entre duplicados"><button type="button" id="duplicateHideLine">Ocultar esta línea</button><button type="button" id="duplicateCloseLine" aria-label="Cerrar">✕</button></div>
-<div id="saveMenu" class="insert-menu" role="menu" aria-label="Exportar"><button id="savePng" data-ico="image" title="Exportar imagen PNG" aria-label="Exportar imagen PNG">Imagen PNG</button></div>
+<div id="newMenu" class="nl-new-menu" role="menu" aria-label="Gestión de proyectos" hidden>
+ <button type="button" role="menuitem" id="nlNew" data-ico="filePlus">Nuevo proyecto</button>
+ <button type="button" role="menuitem" id="nlOpen" data-ico="folder">Abrir proyecto</button>
+ <button type="button" role="menuitem" id="nlInsert" data-ico="plus">Insertar proyecto</button>
+</div>
 
 <!-- NL/HTML / 03 · Conectores -->
 <div id="portmenu" class="port-menu" aria-label="Conectores visibles y ubicación">
@@ -1053,7 +1127,7 @@ body.sketch .table-node .table-cell,body.sketch .table-node .table-col-head{bord
  <div id="colorpop" class="color-pop"><strong id="colorTitle">Color</strong><div id="swatches" class="swatches"></div><div class="color-editor"><input type="color" id="colorPick" aria-label="Seleccionar color"><input type="text" id="colorHex" maxlength="32" placeholder="#RRGGBB o RGB" aria-label="Valor de color"></div><div class="dlg-actions"><button id="colorClose" class="btn" type="button">Cerrar</button><button id="colorApply" class="btn primary" type="button">Aplicar</button></div></div>
 </main>
 <button class="fab recent-add hidden" id="recentAdd" title="Repetir última inserción" aria-label="Repetir última inserción"></button><button class="fab" id="add" title="Agregar bloque" aria-label="Agregar bloque" data-ico="plus"></button>
-<footer class="bottom"><a class="btn" id="home" href="https://arleyzarate.github.io/" title="Regresar al inicio" aria-label="Regresar a Inicio" data-ico="home" rel="noopener noreferrer"></a><span class="hint" id="hint">Toque un conector y luego otro para unirlos.</span><button class="btn" id="undo" title="Deshacer" aria-label="Deshacer" data-ico="undo"></button><button class="btn" id="zoomOut" title="Alejar" aria-label="Alejar" data-ico="zoomOut"></button><button class="btn" id="zoomIn" title="Acercar" aria-label="Acercar" data-ico="zoomIn"></button><button class="btn" id="fit" title="Ajustar vista" aria-label="Ajustar vista" data-ico="fit"></button></footer>
+<footer class="bottom"><a class="btn" id="home" href="https://arleyzarate.github.io/" title="Regresar al inicio" aria-label="Regresar a Inicio" data-ico="home" rel="noopener noreferrer"></a><span class="hint" id="hint">Toque un conector y luego otro para unirlos.</span><button class="btn" id="undo" title="Deshacer" aria-label="Deshacer" data-ico="undo"></button><button class="btn" id="redo" title="Rehacer" aria-label="Rehacer" data-ico="redo"></button><button class="btn" id="zoomOut" title="Alejar" aria-label="Alejar" data-ico="zoomOut"></button><button class="btn" id="zoomIn" title="Acercar" aria-label="Acercar" data-ico="zoomIn"></button><button class="btn" id="fit" title="Ajustar vista" aria-label="Ajustar vista" data-ico="fit"></button></footer>
 
 <!-- NL/HTML / 05 · Editor visual -->
 <div id="visualOverlay" class="visual-overlay" role="presentation" aria-hidden="true">
@@ -1126,6 +1200,15 @@ body.sketch .table-node .table-cell,body.sketch .table-node .table-col-head{bord
  <p class="image-help">Para conectar puntos, cierre esta ventana y use el ícono de conectores. Para escalar, seleccione la imagen y arrastre la esquina inferior derecha.</p></div><div class="edit-actions"><button id="imgEditorDone" class="ok">Cerrar</button></div></section></div>
 <!-- NL/HTML / 08 · Diálogos -->
 <div class="scrim" id="scrim"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><h2 id="dialogTitle" title="Arrastre para mover esta ventana"></h2><div id="dialogBody"></div><div id="dialogActions" class="dlg-actions"></div><button id="dialogResize" type="button" title="Cambiar tamaño de la ventana" aria-label="Arrastre para cambiar el tamaño de la ventana" hidden>⤢</button></section></div>
+<!-- NL/HTML / 09 · Visor del aviso legal, superpuesto sin cerrar el proyecto. -->
+<div class="nl-legal" id="nlLegal" hidden>
+ <section class="nl-legal-panel" role="dialog" aria-modal="true" aria-labelledby="nlLegalTitle" tabindex="-1">
+  <div class="nl-legal-head"><h2 id="nlLegalTitle">Aviso legal</h2><button id="nlLegalClose" type="button" aria-label="Cerrar aviso legal">Cerrar</button></div>
+  <p id="nlLegalMessage" class="nl-legal-message" role="status">Cargando aviso legal…</p>
+  <iframe id="nlLegalFrame" class="nl-legal-frame" title="Documento del aviso legal" sandbox="allow-same-origin" hidden></iframe>
+  <div class="nl-legal-footer"><a id="nlLegalExternal" target="_blank" rel="noopener noreferrer" hidden>Abrir aviso legal</a></div>
+ </section>
+</div>
 <script>
 // NL/JS / 01 · Inicio, iconos y referencias DOM
 (()=>{'use strict';
@@ -1140,6 +1223,7 @@ glyph.caseMixed='<text x="2" y="17" font-size="15" font-weight="700" stroke="non
 glyph.caseUpper='<text x="1" y="17" font-size="14" font-weight="700" stroke="none" fill="currentColor">AA</text>';
 glyph.caseLower='<text x="2" y="17" font-size="16" font-weight="700" stroke="none" fill="currentColor">aa</text>';
 glyph.autoStyle='<path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z"/><path d="M19 18v4m-2-2h4"/>';glyph.shapeCircle='<circle cx="12" cy="12" r="7"/>';glyph.shapeDiamond='<path d="M12 3 21 12 12 21 3 12Z"/>';glyph.shapeVLine='<path d="M12 2v20"/>';glyph.shapeHLine='<path d="M2 12h20"/>';
+glyph.usb='<path d="M7 3h10v5H7zM8 8v6m8-6v6M8 14h8a3 3 0 0 1 3 3v4H5v-4a3 3 0 0 1 3-3Z"/><path d="M10 5h4M12 15v3"/>';glyph.redo='<path d="m15 6 5 5-5 5M20 11H10a6 6 0 0 0-6 6"/>';
 glyph.filePlus='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"/><path d="M13 2v7h7M12 12v7m-3.5-3.5h7"/>';glyph.selectMultiple='<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><path d="M13 6h8M17 3v6M3 17h7m-4-3v6"/>';glyph.image='<rect x=3 y=4 width=18 height=16 rx="2"/><circle cx=8 y=9 r="2"/><path d="m4 18 6-6 4 4 3-3 4 5"/>';glyph.copy='<rect x=7 y=7 width=14 height=14 rx="2"/><path d="M17 7V3H3v14h4"/>';glyph.clipboard='<rect x=5 y=5 width=14 height=17 rx="2"/><path d="M9 5V3h6v2M8 11h8m-8 4h8"/>';glyph.scale='<path d="M4 9V4h5M20 15v5h-5M5 5l6 6M19 19l-6-6"/>';glyph.box='<rect x=4 y=4 width=16 height=16 rx="2"/>';glyph.paint='<path d="m3 13 9-9 9 9-9 9-9-9Z"/><path d="M9 9h.01"/>';glyph.textcolor='<path d="M4 19 10 5h4l6 14M7 14h10M20 19h2"/>';
 glyph.export='<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v4h16v-4"/>';glyph.crop='<path d="M7 2v15a3 3 0 0 0 3 3h12M2 7h15a3 3 0 0 1 3 3v12"/><path d="M4 4l16 16"/>';glyph.check='<path d="m4 12 5 5L20 6"/>';glyph.split='<path d="M3 6h18M3 18h18M3 12h7m4 0h7"/><path d="m9 9 6 6m0-6-6 6"/>';glyph.join='<rect x=2 y=3 width=8 height=7 rx=1/><rect x=14 y=14 width=8 height=7 rx=1/><path d="M10 6h4v11m-4 0h4M11 12h9"/>';
 glyph.mirrorH='<path d="M12 2v20" stroke-dasharray="2 3"/><path d="m10 8-4-4-4 4m4-4v7M14 16l4 4 4-4m-4 4v-7"/>';
@@ -1171,7 +1255,8 @@ glyph.filePdf='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V
 $$('[data-ico]').forEach(b=>b.innerHTML=icon(b.dataset.ico));
 const palette=['#60e1d2','#ffac67','#d5e879','#b6a0ff','#fa84c5','#70bfff','#f2d26b','#ef8792','#8bea9b','#d5a0ff','#ff8560','#9dd9ff'];
 // NL/JS / 02 · Estado de la sesión y persistencia
-let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,colorHistory=[],selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],theme='color',portLayer='all',portColorMode='off',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,wireThickness:3.2,branchSpacing:0,showInputOrder:true,autoPortDistribution:true,portFlowContrast:true,showFlowArrow:true,portHoverHighlight:true,textBorder:false,textFill:false,nodeBg:null,duplicates:{colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[],route:'auto'},blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
+let nlTabsReady=false;let nlTabs=[],nlActiveId=null,nlTabCounter=0,nlSilenceDirty=false;
+let nodes=[],links=[],nextNode=1,nextRow=1,nextLink=1,nextHue=0,colorHistory=[],selectedRow=null,selectedNode=null,selectedLink=null,linkAnchor=null,pending=null,zoom=1,pan={x:0,y:0},undo=[],redo=[],theme='color',portLayer='all',portColorMode='off',layers={width:'auto',border:true,fill:true,text:null,borderColor:'#a7b9d4',borderColorCustom:false,exportDate:true,exportProject:'',socketStyleVersion:1,socketShape:'auto',socketFillOn:true,socketBorderOn:true,socketFillColor:null,socketBorderColor:null,wireVisible:true,wireColor:null,wireThickness:3.2,branchSpacing:0,showInputOrder:true,autoPortDistribution:true,portFlowContrast:true,showFlowArrow:true,portHoverHighlight:true,textBorder:false,textFill:false,nodeBg:null,duplicates:{colorOn:true,connect:false,excludeTitle:false,excludeList:false,baseColor:'#8d69f0',hiddenLinks:[],route:'auto'},blockLayout:{gap:8,pad:12,portPosition:'center',portOffset:10,portScale:100,borderLayout:'both'}},moveMode=true,editorDraft=null,editorNextRow=0,paletteTarget=null;
 let filterMode=null,filterFocus=null; // Sesión visual: no entra en .nodolibre ni en Deshacer.
 let wireShape='bezier',background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480},bgEditing=false,pendingBg=false;
 let imageScaleNode=null,centerScaleSession=null;let splitNodeId=null,splitBusy=false;let multiMode=false,multiFilter='blocks',multiSelection=new Set(),multiLinks=new Set(),cropSession=null,bgCropSession=null,bgToolMode=null;let activePointer=null, touches=new Map(),pinch=null,ignoreClick=false,inlineEdit=null,editingColor=null, imageToolMode=null,imageToolNode=null,portClipboard=null, lastTap=null, pendingImageReplace=null;
@@ -1280,6 +1365,7 @@ function normalizedPortColorMode(value,oldLayer){return ['edge','text','distribu
 function colorPortsActive(){return portColorMode!=='off'}
 function state(){return{nodes,links,nextNode,nextRow,nextLink,nextHue,colorHistory,layers,theme,portLayer,portColorMode,wireShape,background}}
 function snap(){
+ redo=[];$('#redo').disabled=true;
  const v=state();
  // Copiar solo la estructura editable: no duplicar bases PDF ni píxeles en cada Deshacer.
  const clonedNodes=v.nodes.map(n=>{
@@ -1299,7 +1385,7 @@ function persistState(){nlStoreTimer=0;const v=state();try{
 }catch{};
  if(dbHandle){try{dbHandle.transaction('data','readwrite').objectStore('data').put(v,'v1.5')}catch{}}
 }
-function store(){clearTimeout(nlStoreTimer);nlStoreTimer=setTimeout(persistState,450)}
+function store(){if(nlTabsReady&&!nlSilenceDirty)nlMarkDirty();clearTimeout(nlStoreTimer);nlStoreTimer=setTimeout(persistState,450)}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&nlStoreTimer){clearTimeout(nlStoreTimer);persistState()}});
 
 function styleLayers(source){
@@ -4243,20 +4329,23 @@ function resetSelection(){
 }
 $('#nodeCancel').onclick=()=>{cancelAllCommands();resetSelection();render()};
 $('#wireCancel').onclick=()=>{cancelAllCommands();resetSelection();render()};
-$('#newProject').onclick=()=>openDialog('Nuevo diagrama','<p>Se borrarán todos los bloques, imágenes, enlaces y fondo. Esta acción <strong>no se puede deshacer</strong>. ¿Desea crear un espacio vacío?</p>',[['Cancelar',closeDialog],['Nuevo',()=>{closeDialog();clearConnectionFilter(false);resetSelection();nodes=[];links=[];undo=[];nextNode=1;nextRow=1;nextLink=1;nextHue=0;colorHistory=[];recentInsert=null;$('#recentAdd').classList.add('hidden');layers.exportProject='';duplicateSettings().hiddenLinks=[];background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480};bgEditing=false;bgToolMode=null;$('#bgActions').classList.remove('open');$('#bgToggle').classList.remove('active');zoom=1;pan={x:0,y:0};render();store();playMeteorIntro()},'danger']]);
+// NL/5.24: nuevo, abrir e insertar se gestionan desde el menú y las pestañas.
 $('#add').onclick=$('#first').onclick=()=>{insertIntoLink=null;contextInsertPoint=null;imageInsertPoint=null;resetInsertMenuPlacement();showInsertMenu()};
 $('#zoomIn').onclick=()=>{const r=board.getBoundingClientRect();zoomAt(zoom*1.2,r.left+r.width/2,r.top+r.height/2)};
 $('#zoomOut').onclick=()=>{const r=board.getBoundingClientRect();zoomAt(zoom/1.2,r.left+r.width/2,r.top+r.height/2)};
 $('#fit').onclick=fit;
-$('#undo').onclick=()=>{if(inlineEdit)commitInline();if(!undo.length)return toast('No hay cambios para deshacer');const s=undo.pop();({nodes,links,nextNode,nextRow,nextLink,nextHue}=s);colorHistory=Array.isArray(s.colorHistory)?s.colorHistory.slice():links.map(l=>l.color);if(s.layers)layers=styleLayers({...layers,...s.layers,exportDate:s.layers.exportDate!==false,exportProject:String(s.layers.exportProject||'').slice(0,800)});if(s.theme)theme=s.theme;portLayer=normalizedPortLayer(s.portLayer);portColorMode=normalizedPortColorMode(s.portColorMode,s.portLayer);if(s.wireShape)wireShape=s.wireShape;if(s.background){background=s.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}applyThemeClasses();selectedRow=null;selectedNode=null;selectedLink=null;pending=null;multiLinks.clear();multiSelection.clear();render();store()};
+function nlHistoryPoint(){const v=state();return {...v,nodes:v.nodes.map(n=>n.kind==='image'?{...n,ports:copy(n.ports||[])}:copy(n)),links:copy(v.links),layers:copy(v.layers),colorHistory:copy(v.colorHistory),background:copy(v.background)}}
+function nlRestoreHistory(s){({nodes,links,nextNode,nextRow,nextLink,nextHue}=s);colorHistory=Array.isArray(s.colorHistory)?s.colorHistory.slice():links.map(l=>l.color);if(s.layers)layers=styleLayers({...layers,...s.layers});if(s.theme)theme=s.theme;portLayer=normalizedPortLayer(s.portLayer);portColorMode=normalizedPortColorMode(s.portColorMode,s.portLayer);if(s.wireShape)wireShape=s.wireShape;if(s.background)background=s.background;applyThemeClasses();resetSelection();render();store()}
+$('#undo').onclick=()=>{if(inlineEdit)commitInline();if(!undo.length)return toast('No hay cambios para deshacer');redo.push(nlHistoryPoint());if(redo.length>65)redo.shift();nlRestoreHistory(undo.pop());$('#redo').disabled=false;$('#undo').disabled=!undo.length};
+$('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toast('No hay cambios para rehacer');undo.push(nlHistoryPoint());nlRestoreHistory(redo.pop());$('#undo').disabled=false;$('#redo').disabled=!redo.length};
+$('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.23.0',updated:'31 de octubre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'5.24.0',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
-$('#save').onclick=()=>{if(bgCropSession)closeBgCrop(false);downloadBlob(new Blob([JSON.stringify(projectFile())],{type:'application/octet-stream'}),'NodoLibre_proyecto.nodolibre');toast('Proyecto .nodolibre guardado')};
-$('#export').onclick=()=>{$('#saveMenu').classList.toggle('open');$('#insertMenu').classList.remove('open')};
+// Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
-async function exportPng(){branchCache=null;if(!nodes.length&&background.kind!=='image')return toast('Primero cree un diagrama');
+async function exportPng(filename='NodoLibre_diagrama.png',returnBlob=false){branchCache=null;if(!nodes.length&&background.kind!=='image')return toast('Primero cree un diagrama');
  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;const expose=(x,y,w,h)=>{minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x+w);maxY=Math.max(maxY,y+h)};
  for(const n of nodes){const el=nodesEl.querySelector(`.node[data-node="${n.id}"]`);const h=n.kind==='image'?n.h:(el?.offsetHeight||60+n.rows.length*50);expose(n.x-20,n.y-(n.caption&&n.captionPosition==='top'?40:20),nodeWidth(n)+40,h+50)}
  if(background.kind==='image'&&background.src)expose(background.x,background.y,background.w,background.h);
@@ -4456,17 +4545,355 @@ async function exportPng(){branchCache=null;if(!nodes.length&&background.kind!==
    c.restore();
   }
 
-  const blob=await new Promise(resolve=>can.toBlob(resolve,'image/png'));if(!blob)throw Error('No fue posible generar PNG');downloadBlob(blob,'NodoLibre_diagrama.png');toast('Imagen PNG exportada');}
-$('#savePng').onclick=async()=>{$('#saveMenu').classList.remove('open');try{await exportPng()}catch(e){toast('Error al exportar PNG: '+e.message)}};
-
-$('#open').onclick=()=>$('#file').click();document.addEventListener('pointerdown',e=>{if(!e.target.closest('#export,#saveMenu'))$('#saveMenu').classList.remove('open')});
+  const blob=await new Promise(resolve=>can.toBlob(resolve,'image/png'));if(!blob)throw Error('No fue posible generar PNG');if(returnBlob)return blob;downloadBlob(blob,filename);toast('Imagen PNG exportada');}
 // Compatibilidad con archivos exportados por la versión anterior.
 function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nodes.length>3000||d.links.length>15000)throw Error('Estructura no compatible');let ids=new Set(),rids=new Set(),nexR=1;
  const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const pdf=old.mediaType==='pdf';const pdfData=pdf&&typeof old.pdfData==='string'&&/^data:application\/pdf;base64,/i.test(old.pdfData)&&old.pdfData.length<70e6?old.pdfData:null;const src=typeof old.src==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.src)&&old.src.length<30e6?old.src:(pdf&&pdfData?pdfThumbnail():null);const thumbSrc=typeof old.thumbSrc==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.thumbSrc)&&old.thumbSrc.length<3e6?old.thumbSrc:null;if(!src)throw Error('Imagen o PDF no válido');return{id,kind:'image',src,thumbSrc,mediaType:pdf?'pdf':undefined,pdfData,pdfName:pdf?String(old.pdfName||'Documento PDF').slice(0,180):undefined,pdfInline:false,pdfPage:pdf?clamp(Math.round(Number(old.pdfPage)||1),1,100000):undefined,pdfPages:pdf?clamp(Math.round(Number(old.pdfPages)||1),1,100000):undefined,locked:old.locked===true,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',tableLeftCol:Number.isInteger(v.tableLeftCol)?v.tableLeftCol:undefined,tableRightCol:Number.isInteger(v.tableRightCol)?v.tableRightCol:undefined,align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,...(['function','result','group','table'].includes(old.kind)?{kind:old.kind}:{}),locked:old.locked===true,...(old.kind==='group'?{w:clamp(Number(old.w)||300,100,25000),h:clamp(Number(old.h)||200,85,25000),groupLabelPosition:['tl','tc','tr','bl','bc','br'].includes(old.groupLabelPosition)?old.groupLabelPosition:'tc',groupLabelX:Number.isFinite(Number(old.groupLabelX))?clamp(Number(old.groupLabelX),0,1):undefined,groupLabelY:Number.isFinite(Number(old.groupLabelY))?clamp(Number(old.groupLabelY),0,1):undefined,groupLabelEdge:['top','bottom','left','right','free'].includes(old.groupLabelEdge)?old.groupLabelEdge:'free',groupLabelSize:clamp(Number(old.groupLabelSize)||28,16,82),imageOrder:0}:{}),...(old.kind==='table'?{columns:(Array.isArray(old.columns)?old.columns:[]).slice(0,500).map(v=>String(v).slice(0,100)).length>=2?(old.columns||[]).slice(0,500).map(v=>String(v).slice(0,100)):['Columna 1','Columna 2'],tablePlacements:Object.fromEntries(Object.entries(old.tablePlacements||{}).filter(([id,v])=>/^\d+$/.test(id)&&Number.isInteger(v?.col)&&v.col>=0&&v.col<500).map(([id,v])=>[id,{col:v.col,mode:v.mode==='literal'?'literal':'ref',text:String(v.text||'').slice(0,1000)}])),tableOverrides:Object.fromEntries(Object.entries(old.tableOverrides||{}).filter(([id,v])=>/^\d+:\d+$/.test(id)).slice(0,10000).map(([id,v])=>[id,String(v).slice(0,1000)]))}:{}),...(old.kind==='function'?{func:normalizeFunctionConfig(old.func)}:{}),x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.kind==='table'?true:old.top!==false,bottom:old.kind==='table'?true:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
  const keys=new Set(incoming.flatMap(n=>n.kind==='image'?n.ports.map(p=>`${n.id}:${p.id}`):n.rows.map(r=>`${n.id}:${r.id}`)));for(const n of incoming){if(n.kind==='image')continue;if(n.top)keys.add(`${n.id}:-1`);if(n.bottom)keys.add(`${n.id}:-2`)}
  const outgoing=d.links.filter(l=>l.a&&l.b&&keys.has(`${l.a.node}:${l.a.row}`)&&keys.has(`${l.b.node}:${l.b.row}`)&&['left','right','top','bottom','inside'].includes(l.a.side)&&['left','right','top','bottom','inside'].includes(l.b.side)).map(l=>({id:Number(l.id),a:{node:+l.a.node,row:+l.a.row,side:l.a.side,...(Number.isSafeInteger(l.a.slot)&&l.a.slot>=0&&l.a.slot<500?{slot:l.a.slot}:{})},b:{node:+l.b.node,row:+l.b.row,side:l.b.side,...(Number.isSafeInteger(l.b.slot)&&l.b.slot>=0&&l.b.slot<500?{slot:l.b.slot}:{})},color:hex(l.color)||palette[0],colorCustom:!!l.colorCustom,style:['solid','dashed','loop','zigzag'].includes(l.style)?l.style:'solid',start:!!l.start,end:!!l.end,flowReversed:l.flowReversed===true}));return{incoming,outgoing}}
-$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text()),v=normalize(d);snap();clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);migrateLegacyResults();restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=['bezier','orthogonal','branched'].includes(d.wireShape)?d.wireShape:'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,branchSpacing:d.layers?.branchSpacing,showInputOrder:d.layers?.showInputOrder,autoPortDistribution:d.layers?.autoPortDistribution,portFlowContrast:d.layers?.portFlowContrast,showFlowArrow:d.layers?.showFlowArrow,portHoverHighlight:d.layers?.portHoverHighlight,duplicates:d.layers?.duplicates,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();store();toast('Diagrama recuperado')}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value=''}};
-$('#about').onclick=()=>openDialog('Acerca de NodoLibre',`<p><strong>NodoLibre</strong> permite crear mapas conceptuales y diagramas, conectar ideas y organizar información.</p><p><strong>Diseño realizado por:</strong> Arley Zarate<br><strong>Desarrollado por:</strong> Noa<br><strong>Fecha:</strong> 31 de octubre de 2026<br><strong>Versión:</strong> 5.23.0</p><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Selección:</strong> cuatro indicadores triangulares animados señalan las esquinas de los bloques activos. Al tocarlos aparece un destello breve de polvo; con movimiento reducido los indicadores permanecen inmóviles.</p><p><strong>Duplicados:</strong> el grupo de capas Duplicados detecta coincidencias completas sin diferenciar mayúsculas y minúsculas. Cada grupo tiene una sombra de color; el icono de paleta cambia los colores de todos los grupos. Puede conectar coincidencias con líneas punteadas, elegir Bézier u ortogonal de forma independiente de los enlaces normales, ocultar cada línea individual y excluir títulos o listas.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Grupos:</strong> dibuje un rectángulo y arrastre su título libremente. Al llegar a un borde, se centra y cambia a vertical si es izquierdo o derecho. Ajuste el tamaño del título desde el editor. Copie o mueva los bloques que toca o contiene. El candado evita mover o escalar un bloque; si Grupo está bloqueado, seleccionarlo no arrastra ni selecciona sus elementos interiores, pero permite editar sus propiedades. <strong>PDF:</strong> cuando el lector PDF.js está disponible, permite elegir una página del documento y visualizarla como imagen, con escala, recorte y conectores. Para navegar emplea una miniatura comprimida; la página seleccionada y el archivo original se conservan en el proyecto. Las páginas nuevas requieren cargar el motor PDF.js desde internet si no está disponible. Al exportar PNG se usa la imagen rasterizada de la página seleccionada. El editor permite cambiar de página o abrir el archivo original.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan al tema. En Conectores visibles, elija mostrar todos, solo utilizados o ninguno. Elija Automática para asignar un conector distinto a cada enlace en las cuatro caras, aumentar la altura de las filas o el ancho del bloque cuando sea necesario, o conserve los modos al borde, cerca del texto y entre ambas caras. En Capas puede activar Diferenciar origen y destino: origen vacío y destino lleno. La casilla Flecha junto al destino muestra una sola flecha en cada lazo; viene activa en todos los estilos y se puede desactivar independientemente. Esta opción funciona con cualquier distribución. Seleccione un lazo y pulse Invertir flujo para cambiar visualmente el origen y el destino sin alterar las entradas de las funciones. También puede resaltar un enlace al señalar su conector. También puede reflejar horizontalmente los conectores desde Mover o desde las propiedades de cada fila. En Capas, seleccione círculo, rombo o barras y ajuste colores y contornos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para abrir las mismas opciones de inserción de Texto, Imagen y Funciones del botón +. Arrastre con clic sostenido desde un conector para ver un lazo provisional punteado y suéltelo sobre otro conector o bloque de destino. También puede unir con dos clics. Supr o Delete elimina únicamente los bloques seleccionados; si una misma fila tiene un enlace izquierdo y otro derecho sin ramificaciones, sus extremos externos se unen. El ícono de casa regresa a Inicio.</p><p><strong>Filtro:</strong> toque el embudo y seleccione un cable, un conector o una fila para mostrar únicamente sus enlaces directos. Los bloques permanecen visibles. Puede editar cada cable aislado. Vuelva a tocar el embudo para restaurar todo.</p><p><strong>Legibilidad:</strong> los cables se recortan detrás de las palabras, incluso sobre fotografías, sin interrumpir sus conexiones. Los colores automáticos de los enlaces nuevos no se repiten y varían por ángulo y luminosidad; los colores manuales se conservan.</p><p><strong>Enlaces:</strong> desde Capas y apariencia ajuste el espesor de 1 a 18 píxeles. Seleccione recorridos Bézier, ortogonal o ramificado; en Ramificado ajuste la separación entre troncos desde 0 px. Puede mostrar los números de entrada de Unir y modificar su orden arrastrando los textos o abriendo la lista desde un número del enlace. Se retiró el entrelazado para mejorar la fluidez en diagramas grandes.</p><p><strong>Tabla:</strong> desde Agregar → Tabla, cree una tabla con título y dos columnas iniciales. Edite los subtítulos y agregue columnas o filas. Cada fila admite hasta tantas conexiones como columnas, distribuidas entre ambos costados. Arrastre el valor recibido entre columnas. Los datos se actualizan al cambiar su origen. Se aceptan fuentes de Texto y Fórmula; la dirección Tabla → Fórmula queda reservada para el futuro operador Buscar vertical.</p><p><strong>Funciones:</strong> en Agregar → Funciones inserte Campo de texto, Unir, Extraer o Separar. Conecte los datos al lado izquierdo de la función: la operación aparece como título y el resultado directamente debajo. La salida derecha permite encadenar otras operaciones. Doble clic en el operador permite editarlo. En Unir puede elegir Sin separador, Espacio o Personalizado. En Extraer puede escoger posición, extremo o búsqueda literal por aparición contada desde izquierda o derecha, sin distinguir mayúsculas de minúsculas. Los símbolos como espacio, coma y punto tienen indicador visible y accesos directos. Desde Mover puede dibujar un rectángulo de selección; el lienzo muestra el negativo fuera del área y conserva los colores dentro. Los archivos antiguos con Resultado se migran cuando la fuente está identificada inequívocamente.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color o trazo, o invertir el sentido de flujo; las flechas únicas se habilitan desde Capas. Al seleccionar una sola línea, los extremos se desplazan con el lienzo y permiten reasignar la conexión por toque o arrastre; al elegir un extremo solo queda un indicador triangular. El botón central «+» permite insertar Texto, Imagen o Funciones en el medio del enlace, que se divide en dos conservando sus propiedades. Los submenús de inserción usan iconos grandes y los mensajes se muestran discretamente arriba del área de trabajo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde en .nodolibre, abra archivos .nodolibre, .arley o JSON y exporte una imagen PNG. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p>`,[['Cerrar',closeDialog,'ok']]);
+function nlApplyData(d,validated){
+ const v=validated||normalize(d);
+ clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);migrateLegacyResults();restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=['bezier','orthogonal','branched'].includes(d.wireShape)?d.wireShape:'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,branchSpacing:d.layers?.branchSpacing,showInputOrder:d.layers?.showInputOrder,autoPortDistribution:d.layers?.autoPortDistribution,portFlowContrast:d.layers?.portFlowContrast,showFlowArrow:d.layers?.showFlowArrow,portHoverHighlight:d.layers?.portHoverHighlight,duplicates:d.layers?.duplicates,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();
+ store();
+}
+$('#file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{await nlReceiveFile(f,nlChooseMode)}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value='';nlChooseMode='open'}};
+// NL/JS / 15.1 · Pestañas y formatos portables
+// Contrato: una pestaña conserva su estado y el historial, pero no replica PDFs en cada pulsación.
+let nlChooseMode='open';
+function nlCurrentTab(){return nlTabs.find(t=>t.id===nlActiveId)||null}
+function nlCleanName(v){return String(v||'').replace(/[\u0000-\u001f<>:"/\\|?*]/g,' ').replace(/\.(nodolibre|html|png|pdf)$/i,'').trim().replace(/\s+/g,' ').slice(0,100)||'Mi proyecto'}
+function nlStateCapture(){return {nodes,links,nextNode,nextRow,nextLink,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,undo,redo,zoom,pan:{...pan},selectedNode,selectedRow,selectedLink,filterMode,filterFocus,multiSelection:new Set(multiSelection),multiLinks:new Set(multiLinks),recentInsert}}
+function nlStateRestore(s){
+ ({nodes,links,nextNode,nextRow,nextLink,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,undo,redo,zoom,pan,selectedNode,selectedRow,selectedLink,filterMode,filterFocus,recentInsert}=s);
+ multiSelection=new Set(s.multiSelection||[]);multiLinks=new Set(s.multiLinks||[]);
+ selectedNode=nodes.some(n=>n.id===selectedNode)?selectedNode:null;
+ if(selectedLink!==null&&!links.some(l=>l.id===selectedLink))selectedLink=null;
+ pending=null;linkAnchor=null;activePointer=null;touches.clear();pinch=null;inlineEdit=null;
+ applyThemeClasses();render();viewport();drawLinks();
+ $('#undo').disabled=!undo.length;$('#redo').disabled=!redo.length;
+}
+function nlRemember(){const tab=nlCurrentTab();if(tab)tab.snapshot=nlStateCapture()}
+function nlMarkDirty(){const t=nlCurrentTab();if(t&&!t.dirty){t.dirty=true;nlRenderTabs()}}
+function nlRenderTabs(){
+ const bar=$('#nlTabs');if(!bar)return;bar.replaceChildren();
+ for(const t of nlTabs){
+  const item=document.createElement('div');item.className='nl-tab';item.setAttribute('role','presentation');item.dataset.active=String(t.id===nlActiveId);item.dataset.tabId=String(t.id);item.title=t.name+(t.dirty?' (cambios sin guardar)':'');
+  const main=document.createElement('button');main.className='nl-tab-name';main.type='button';main.title=t.name;main.setAttribute('role','tab');main.setAttribute('aria-selected',String(t.id===nlActiveId));main.setAttribute('aria-controls','board');main.tabIndex=t.id===nlActiveId?0:-1;main.setAttribute('aria-label',`Activar ${t.name}`);
+  if(t.dirty){const dot=document.createElement('span');dot.className='nl-dirty';dot.textContent='● ';main.append(dot)}
+  main.append(document.createTextNode(t.name));main.onclick=()=>nlSwitchTab(t.id);
+  const close=document.createElement('button');close.className='nl-tab-close';close.textContent='×';close.type='button';close.title='Cerrar '+t.name;close.setAttribute('aria-label','Cerrar '+t.name);close.onclick=()=>nlRequestClose(t.id);
+  item.append(main,close);bar.append(item);
+ }
+ // Por petición del autor: la tira muestra pestañas solo desde dos documentos.
+ bar.classList.toggle('single',nlTabs.length<2);bar.setAttribute('aria-hidden',String(nlTabs.length<2));
+ const selected=bar.querySelector('.nl-tab-name[aria-selected="true"]');selected?.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+}
+function nlInitTabs(){
+ if(nlTabsReady)return;
+ nlTabCounter=1;nlTabs=[{id:1,name:'Sin título 1',dirty:!!nodes.length,sourceKey:null,snapshot:nlStateCapture()}];nlActiveId=1;nlTabsReady=true;nlRenderTabs();
+}
+function nlPrepareTabChange(){
+ if(inlineEdit)commitInline();
+ if(editorDraft||$('#imgEditOverlay').classList.contains('open')||$('#editOverlay').classList.contains('open')||$('#visualOverlay').classList.contains('open')){toast('Cierre o confirme la edición antes de cambiar de proyecto');return false}
+ closeDialog();closeInsertMenus();nlToggleNewMenu(false);return true;
+}
+function nlSwitchTab(id){
+ if(id===nlActiveId)return;
+ const next=nlTabs.find(t=>t.id===id);if(!next||!nlPrepareTabChange())return;
+ nlRemember();nlActiveId=id;nlSilenceDirty=true;
+ try{nlStateRestore(next.snapshot);nlRenderTabs();store()}finally{nlSilenceDirty=false}
+}
+function nlResetToBlank(){
+ clearConnectionFilter(false);resetSelection();nodes=[];links=[];undo=[];redo=[];
+ nextNode=1;nextRow=1;nextLink=1;nextHue=0;colorHistory=[];recentInsert=null;
+ $('#recentAdd').classList.add('hidden');
+ // El nuevo documento recibe una configuración inicial propia, sin compartir referencias.
+ theme='color';portLayer='all';portColorMode='off';wireShape='bezier';
+ layers=styleLayers({width:'auto',border:true,fill:true,exportDate:true,exportProject:'',autoPortDistribution:true});
+ background={kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32,crop:{left:0,right:0,top:0,bottom:0},naturalW:800,naturalH:480};
+ zoom=1;pan={x:0,y:0};bgEditing=false;bgToolMode=null;bgCropSession=null;
+ $('#bgActions').classList.remove('open');$('#bgToggle').classList.remove('active');
+ applyThemeClasses();render();viewport();$('#undo').disabled=true;$('#redo').disabled=true;
+}
+function nlCreateTab(name,replaceEmpty=false){
+ if(!nlPrepareTabChange())return null;
+ nlRemember();const prev=nlCurrentTab();
+ if(replaceEmpty&&prev&&!prev.dirty&&!nodes.length&&!links.length&&background.kind==='none'&&!prev.sourceKey){
+  nlResetToBlank();prev.name=nlCleanName(name);prev.snapshot=nlStateCapture();prev.dirty=false;nlRenderTabs();return prev;
+ }
+ nlResetToBlank();const id=++nlTabCounter,t={id,name:nlCleanName(name||'Sin título '+id),dirty:false,sourceKey:null,snapshot:nlStateCapture()};nlTabs.push(t);nlActiveId=id;nlRenderTabs();nlSilenceDirty=true;store();nlSilenceDirty=false;return t;
+}
+function nlRequestClose(id){
+ const t=nlTabs.find(v=>v.id===id);if(!t)return;
+ const close=()=>nlCloseTab(id);
+ if(!t.dirty){close();return}
+ openDialog('Cerrar proyecto',`<p>«${esc(t.name)}» tiene cambios sin guardar. ¿Qué desea hacer?</p>`,[
+  ['Cancelar',closeDialog],['Descartar',()=>{closeDialog();close()},'danger'],
+  ['Guardar',()=>{closeDialog();if(id!==nlActiveId){nlSwitchTab(id)}if(nlActiveId===id)nlSaveDialog(close)} ,'ok']
+ ]);
+}
+function nlCloseTab(id){
+ const at=nlTabs.findIndex(v=>v.id===id);if(at<0)return;
+ if(id===nlActiveId&&!nlPrepareTabChange())return;
+ const wasActive=id===nlActiveId;
+ nlTabs.splice(at,1);
+ if(!nlTabs.length){nlResetToBlank();const nextId=++nlTabCounter;nlActiveId=nextId;nlTabs=[{id:nextId,name:'Sin título '+nextId,dirty:false,sourceKey:null,snapshot:nlStateCapture()}];}
+ else if(wasActive){const next=nlTabs[Math.min(at,nlTabs.length-1)];nlActiveId=next.id;nlSilenceDirty=true;nlStateRestore(next.snapshot);nlSilenceDirty=false;}
+ nlRenderTabs();nlSilenceDirty=true;store();nlSilenceDirty=false;
+ $('#nlTabs .nl-tab-name[aria-selected="true"]')?.focus();
+}
+$('#nlTabs').addEventListener('keydown',e=>{
+ if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;
+ const index=nlTabs.findIndex(t=>t.id===nlActiveId);if(index<0)return;
+ const next=e.key==='Home'?0:e.key==='End'?nlTabs.length-1:(index+(e.key==='ArrowRight'?1:-1)+nlTabs.length)%nlTabs.length;
+ e.preventDefault();nlSwitchTab(nlTabs[next].id);$('#nlTabs .nl-tab-name[aria-selected="true"]')?.focus();
+});
+function nlToggleNewMenu(open){const m=$('#newMenu');m.hidden=!open;$('#newProject').setAttribute('aria-expanded',String(open));if(open){$('#layersMenu').classList.remove('open');$('#portmenu').classList.remove('open')}}
+$('#newProject').onclick=()=>nlToggleNewMenu($('#newMenu').hidden);
+$('#nlNew').onclick=()=>{nlToggleNewMenu(false);nlCreateTab('Sin título '+(nlTabCounter+1))};
+$('#nlOpen').onclick=()=>{nlToggleNewMenu(false);nlChooseMode='open';$('#file').click()};
+$('#nlInsert').onclick=()=>{nlToggleNewMenu(false);nlChooseMode='insert';$('#file').click()};
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('#newMenu,#newProject'))nlToggleNewMenu(false)},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#newMenu').hidden){e.preventDefault();e.stopImmediatePropagation();nlToggleNewMenu(false);$('#newProject').focus()}},true);
+
+function nlExtractPortable(text){
+ // Evitamos DOMParser: un HTML no confiable no debe provocar la carga de imágenes o marcos externos.
+ const m=text.match(/<script\b[^>]*\bid\s*=\s*["']nl-portable-project["'][^>]*>([\s\S]*?)<\/script\s*>/i);
+ if(!m||!/\btype\s*=\s*["']application\/json["']/i.test(m[0].split('>')[0]))throw Error('El HTML no contiene datos portables válidos de NodoLibre');
+ return JSON.parse(m[1]);
+}
+function nlCheckProject(d){
+ if(!d||typeof d!=='object'||(d.app&&d.app!=='NodoLibre'))throw Error('No es un proyecto NodoLibre');
+ if(Number(d.schemaVersion||1)>1)throw Error('El proyecto pertenece a una versión de formato posterior');
+ if(!Array.isArray(d.nodes)||!Array.isArray(d.links))throw Error('El documento no contiene datos válidos');
+ return normalize(d);
+}
+async function nlReceiveFile(f,mode='open'){
+ if(f.size>110*1024*1024)throw Error('Archivo mayor de 110 MB; no se cargó');
+ const text=await f.text();const html=/\.html?$/i.test(f.name);
+ const d=html?nlExtractPortable(text):JSON.parse(text);const v=nlCheckProject(d);
+ const sourceKey=f.name+':'+f.size+':'+f.lastModified;
+ if(mode==='open'){
+  const found=nlTabs.find(t=>t.sourceKey===sourceKey);
+  if(found){nlSwitchTab(found.id);toast('El proyecto ya estaba abierto');return}
+  const tab=nlCreateTab(nlCleanName(f.name),true);if(!tab)return;
+  nlSilenceDirty=true;
+  try{nlApplyData(d,v);tab.name=nlCleanName(f.name);tab.sourceKey=sourceKey;tab.dirty=false;tab.snapshot=nlStateCapture();nlRenderTabs()}finally{nlSilenceDirty=false}
+  toast('Proyecto abierto en una pestaña');
+ }else{
+  nlInsertValidated(v);toast('Elementos insertados en el proyecto actual');
+ }
+}
+function nlInsertValidated(v){
+ if(!v.incoming.length)return toast('El proyecto no contiene bloques para insertar');
+ if(nodes.length+v.incoming.length>3000||links.length+v.outgoing.length>15000)throw Error('El proyecto supera los límites de edición');
+ snap();
+ const nodeMap=new Map(),portMap=new Map(),rowMap=new Map(),linkMap=new Map();
+ for(const n of v.incoming){nodeMap.set(n.id,nextNode++);for(const r of n.kind==='image'?(n.ports||[]):n.rows){const next=nextRow++;(n.kind==='image'?portMap:rowMap).set(n.id+':'+r.id,next)}}
+ for(const l of v.outgoing)linkMap.set(l.id,nextLink++);
+ // Separación moderada cuando dos proyectos ocupan el mismo origen.
+ const baseX=nodes.length?Math.max(...nodes.map(n=>n.x))+320:0;
+ const minX=Math.min(...v.incoming.map(n=>n.x));const offset=Math.max(0,baseX-minX);
+ for(const original of v.incoming){
+  const n=copy(original);const oldId=n.id;n.id=nodeMap.get(oldId);n.x=clamp(n.x+offset,-25000,25000);
+  for(const r of n.kind==='image'?(n.ports||[]):n.rows)r.id=(n.kind==='image'?portMap:rowMap).get(oldId+':'+r.id);
+  if(n.kind==='table'){
+   n.tablePlacements=Object.fromEntries(Object.entries(n.tablePlacements||{}).filter(([id])=>linkMap.has(+id)).map(([id,val])=>[linkMap.get(+id),val]));
+   n.tableOverrides=Object.fromEntries(Object.entries(n.tableOverrides||{}).map(([id,val])=>{const [row,col]=id.split(':');return [(rowMap.get(oldId+':'+row)||row)+':'+col,val]}));
+  }
+  nodes.push(n);
+ }
+ for(const original of v.outgoing){
+  const l=copy(original);l.id=linkMap.get(l.id);
+  for(const end of ['a','b']){
+   const p=l[end],oldId=p.node;const n=v.incoming.find(q=>q.id===oldId);
+   p.node=nodeMap.get(oldId);
+   if(p.row>=0)p.row=(n?.kind==='image'?portMap:rowMap).get(oldId+':'+p.row)??p.row;
+  }
+  links.push(l);
+ }
+ restoreUniqueCableColors(colorHistory.concat(v.outgoing.map(l=>l.color)));
+ migrateLegacyResults();resetSelection();render();store();
+}
+// Un solo punto de llegada: selector, arrastre y página HTML portable.
+board.addEventListener('dragover',e=>{if(e.dataTransfer?.types.includes('Files')){e.preventDefault();e.dataTransfer.dropEffect='copy';board.classList.add('nl-dropover')}});
+board.addEventListener('dragleave',e=>{if(!board.contains(e.relatedTarget))board.classList.remove('nl-dropover')});
+board.addEventListener('drop',e=>{
+ if(!e.dataTransfer?.files.length)return;e.preventDefault();board.classList.remove('nl-dropover');const f=e.dataTransfer.files[0];
+ if(!/\.(nodolibre|arley|json|html)$/i.test(f.name)){toast('Use Nuevo → Abrir o Insertar para archivos de proyecto');return}
+ const action=mode=>nlReceiveFile(f,mode).catch(err=>toast('No se pudo cargar: '+err.message));
+ if(nodes.length||links.length){openDialog('Proyecto recibido',`<p>${esc(f.name)}. ¿Desea abrirlo en otra pestaña o insertar sus bloques en el proyecto actual?</p>`,[['Cancelar',closeDialog],['Abrir',()=>{closeDialog();action('open')}],['Insertar',()=>{closeDialog();action('insert')},'ok']]);}
+ else action('open');
+});
+
+function nlSaveDialog(after){
+ const tab=nlCurrentTab();if(!tab)return;
+ openDialog('Guardar',`<div class="nl-save-form"><label for="nlSaveName">Nombre del archivo<input id="nlSaveName" autocomplete="off" maxlength="100" value="${esc(tab.name)}" spellcheck="false"></label><label for="nlSaveFormat">Formato<select id="nlSaveFormat"><option value="nodolibre">Proyecto editable (.nodolibre)</option><option value="html">HTML portable editable (.html)</option><option value="png">Imagen (.png)</option><option value="pdf">Documento (.pdf)</option></select></label><p class="nl-save-note">Los formatos .nodolibre y .html conservan la edición. PNG y PDF son representaciones gráficas.</p></div>`,[
+  ['Cancelar',closeDialog],['Guardar',async()=>{
+   const btn=$('#dialogActions button:last-child');if(btn.disabled)return;
+   const name=nlCleanName($('#nlSaveName').value),format=$('#nlSaveFormat').value;
+   btn.disabled=true;btn.textContent='Guardando…';
+   try{
+    if(bgCropSession)closeBgCrop(false);
+    if(format==='nodolibre')downloadBlob(new Blob([JSON.stringify(projectFile())],{type:'application/octet-stream'}),name+'.nodolibre');
+    else if(format==='html')downloadBlob(new Blob([nlMakePortable(name)],{type:'text/html;charset=utf-8'}),name+'.html');
+    else if(format==='png')await exportPng(name+'.png');
+    else if(format==='pdf')await nlExportPdf(name+'.pdf');
+    if(format==='nodolibre'||format==='html'){
+     tab.name=name;tab.dirty=false;tab.sourceKey=null;nlRenderTabs();
+    }
+    closeDialog();toast('Archivo '+name+'.'+format+' descargado');
+    if(after){if(format==='nodolibre'||format==='html')after();else toast('Guarde el proyecto editable antes de cerrar')}
+   }catch(error){toast('Error al guardar: '+error.message);btn.disabled=false;btn.textContent='Guardar'}
+  },'ok']]);
+ $('#nlSaveName').focus();$('#nlSaveName').select();
+}
+$('#save').onclick=()=>nlSaveDialog();
+window.addEventListener('beforeunload',e=>{if(nlTabs.some(t=>t.dirty)){e.preventDefault();e.returnValue=''}});
+
+// HTML portable autónomo: los datos quedan dentro de un script JSON no ejecutable.
+// Su botón abre la versión publicada y transfiere datos mediante un diálogo entre ventanas.
+function nlMakePortable(name){
+ const data=JSON.stringify(projectFile()).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+ const target='https://arleyzarate.github.io/recursos/NodoLibre/';
+ const client=String.raw`(()=>{'use strict';
+ const target='https://arleyzarate.github.io/recursos/NodoLibre/';
+ const filename=document.title.replace(/ · NodoLibre$/, '');
+ const payload=document.getElementById('nl-portable-project').textContent;
+ const status=document.getElementById('status');let child=null,token=null;
+ document.getElementById('open').onclick=()=>{
+  token=(self.crypto&&crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
+  child=window.open(target+'#nl-portable='+encodeURIComponent(token),'_blank');
+  status.textContent=child?'Abriendo la herramienta y transfiriendo el proyecto…':'El navegador bloqueó la pestaña. Permita las ventanas emergentes o descargue el respaldo.';
+ };
+ document.getElementById('backup').onclick=()=>{
+  const file=new Blob([payload],{type:'application/octet-stream'});const url=URL.createObjectURL(file),a=document.createElement('a');a.download=filename+'.nodolibre';a.href=url;a.click();setTimeout(()=>URL.revokeObjectURL(url),15000);
+ };
+ window.addEventListener('message',e=>{
+  if(!child||e.source!==child||e.origin!==new URL(target).origin||!e.data||e.data.type!=='nodolibre-ready'||e.data.token!==token)return;
+  child.postMessage({type:'nodolibre-project',token,project:payload,filename:filename+'.html'},new URL(target).origin);
+  status.textContent='Proyecto enviado. Revise la pestaña de NodoLibre.';
+ });
+})();`;
+ // Construir cierres de script en tiempo de ejecución para no interrumpir el JS padre.
+ const endScript='</scr'+'ipt>';
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(name)+' · NodoLibre</title><style>body{margin:0;min-height:100dvh;display:grid;place-items:center;background:#111925;color:#eef5fb;font:16px system-ui,sans-serif;padding:16px;box-sizing:border-box}main{max-width:440px;border:1px solid #60708a;border-radius:18px;padding:24px;background:#253345}h1{margin:0 0 8px}p{line-height:1.5;color:#b6c8da}button{display:block;width:100%;min-height:46px;margin:10px 0;border:1px solid #66d9c4;border-radius:9px;background:#236e66;color:#fff;font:inherit;cursor:pointer}button+button{background:#192a38}button:focus-visible{outline:3px solid #7df6d9}</style></head><body><main><h1>NodoLibre</h1><p>Proyecto: '+esc(name)+'</p><p>Abra la versión publicada de NodoLibre para recuperar sus bloques, conexiones, tablas, imágenes y documentos integrados. El archivo conserva sus datos.</p><button id="open" type="button">Abrir en NodoLibre</button><button id="backup" type="button">Descargar respaldo .nodolibre</button><p id="status" role="status">Los datos permanecen en este archivo hasta que usted elija abrirlos.</p></main><script id="nl-portable-project" type="application/json">'+data+endScript+'<script>'+client+endScript+'</body></html>';
+}
+// El token es efímero y viaja solo en el fragmento, nunca en una petición al servidor.
+(function nlPortableReceiver(){
+ const m=location.hash.match(/^#nl-portable=([\w-]{8,100})$/);if(!m)return;
+ const token=m[1];let completed=false;
+ window.addEventListener('message',e=>{
+  if(completed||!window.opener||e.source!==window.opener||!['null',location.origin].includes(e.origin))return;
+  if(!e.data||e.data.type!=='nodolibre-project'||e.data.token!==token||typeof e.data.project!=='string'||e.data.project.length>110*1024*1024)return;
+  try{
+   const d=JSON.parse(e.data.project);const v=nlCheckProject(d);
+   const tab=nlCreateTab(nlCleanName(e.data.filename||'Proyecto recibido'),true);if(!tab)return;
+   nlSilenceDirty=true;nlApplyData(d,v);tab.name=nlCleanName(e.data.filename||'Proyecto recibido');tab.dirty=false;tab.snapshot=nlStateCapture();nlRenderTabs();nlSilenceDirty=false;
+   completed=true;history.replaceState(null,'',location.pathname+location.search);toast('Proyecto HTML recuperado');
+  }catch(error){nlSilenceDirty=false;toast('Error al recuperar HTML: '+error.message)}
+ });
+ const sendReady=()=>{if(completed)return;try{window.opener?.postMessage({type:'nodolibre-ready',token},'*')}catch{}};
+ [0,250,650,1300,2500,4800,8000].forEach(ms=>setTimeout(sendReady,ms));
+})();
+
+// Exportación PDF vector de página, dibujo rasterizado desde el PNG aprobado.
+async function nlExportPdf(filename){
+ const png=await exportPng(null,true);if(!(png instanceof Blob))throw Error('No hay diagrama para exportar');
+ const url=URL.createObjectURL(png);let img;
+ try{img=await loadCanvasImage(url)}finally{URL.revokeObjectURL(url)}
+ const ratio=Math.min(1,3000/Math.max(img.naturalWidth,img.naturalHeight));
+ const can=document.createElement('canvas');can.width=Math.max(1,Math.round(img.naturalWidth*ratio));can.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+ const ctx=can.getContext('2d',{alpha:false});ctx.fillStyle='#ffffff';ctx.fillRect(0,0,can.width,can.height);ctx.drawImage(img,0,0,can.width,can.height);
+ const jpeg=await new Promise(resolve=>can.toBlob(resolve,'image/jpeg',.92));if(!jpeg)throw Error('No se pudo generar la imagen PDF');
+ const pixels=new Uint8Array(await jpeg.arrayBuffer()),encoder=new TextEncoder();
+ let parts=[],size=0,offsets=[0];const write=txt=>{const b=encoder.encode(txt);parts.push(b);size+=b.length};const bytes=b=>{parts.push(b);size+=b.length};
+ const pageW=can.width>can.height?842:595,pageH=can.width>can.height?595:842;
+ const scale=Math.min((pageW-32)/can.width,(pageH-32)/can.height),w=can.width*scale,h=can.height*scale,x=(pageW-w)/2,y=(pageH-h)/2;
+ const content=`q\n${w.toFixed(3)} 0 0 ${h.toFixed(3)} ${x.toFixed(3)} ${y.toFixed(3)} cm\n/Im0 Do\nQ\n`;
+ const objects=[
+  '<< /Type /Catalog /Pages 2 0 R >>',
+  '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+  `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`,
+  null,`<< /Length ${encoder.encode(content).length} >>\nstream\n${content}endstream`
+ ];
+ write('%PDF-1.4\n%NL\n');
+ for(let i=0;i<objects.length;i++){
+  offsets.push(size);write(`${i+1} 0 obj\n`);
+  if(i===3){write(`<< /Type /XObject /Subtype /Image /Width ${can.width} /Height ${can.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${pixels.length} >>\nstream\n`);bytes(pixels);write('\nendstream');}
+  else write(objects[i]);
+  write('\nendobj\n');
+ }
+ const xref=size;write(`xref\n0 ${offsets.length}\n0000000000 65535 f \n`);
+ for(const offset of offsets.slice(1))write(String(offset).padStart(10,'0')+' 00000 n \n');
+ write(`trailer\n<< /Size ${offsets.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+ downloadBlob(new Blob(parts,{type:'application/pdf'}),filename);toast('PDF exportado');
+}
+
+// NL/5.23.1: descripción, metadatos y logotipo provienen del HTML estático.
+$('#about').onclick=()=>{
+ const content=$('#recursos-acerca').cloneNode(true);
+ content.removeAttribute('id');content.removeAttribute('hidden');content.querySelector('h2')?.remove();
+ openDialog('Acerca de',content.innerHTML.replaceAll('nlBrandFicha','nlBrandFichaModal')+`<details class="nl-help"><summary>Instrucciones y herramientas</summary><p><strong>Bloques:</strong> toque uno para seleccionar, arrástrelo directamente para mover y pulse el lápiz para abrir la tabla de edición. Reordene filas, cambie títulos o listas, seleccione colores y use los íconos por fila para alinear el texto o mostrarlo en mayúsculas, minúsculas o forma mixta.</p><p><strong>Estilos de texto:</strong> Texto presenta letras y lazos negros sobre blanco; Texto color conserva las letras negras y muestra los lazos originales en color; Texto color2 asigna un color contrastante a cada fila, compartido por sus dos conectores y sus enlaces, con transición cromática cuando se unen filas diferentes; Texto blanco utiliza letras y lazos blancos sobre negro. Los tres mantienen bloques compactos, sin recuadros iniciales y con conectores al 50 %. Todos admiten personalización individual.</p><p><strong>Selección:</strong> cuatro indicadores triangulares animados señalan las esquinas de los bloques activos. Al tocarlos aparece un destello breve de polvo; con movimiento reducido los indicadores permanecen inmóviles.</p><p><strong>Duplicados:</strong> el grupo de capas Duplicados detecta coincidencias completas sin diferenciar mayúsculas y minúsculas. Cada grupo tiene una sombra de color; el icono de paleta cambia los colores de todos los grupos. Puede conectar coincidencias con líneas punteadas, elegir Bézier u ortogonal de forma independiente de los enlaces normales, ocultar cada línea individual y excluir títulos o listas.</p><p><strong>Capas:</strong> el ícono de capas controla estilo, ancho fijo o automático, bordes, fondos y color general del texto. Dentro de cada editor puede modificar las capas individuales del bloque y de sus filas.</p><p><strong>Grupos:</strong> dibuje un rectángulo y arrastre su título libremente. Al llegar a un borde, se centra y cambia a vertical si es izquierdo o derecho. Ajuste el tamaño del título desde el editor. Copie o mueva los bloques que toca o contiene. El candado evita mover o escalar un bloque; si Grupo está bloqueado, seleccionarlo no arrastra ni selecciona sus elementos interiores, pero permite editar sus propiedades. <strong>PDF:</strong> cuando el lector PDF.js está disponible, permite elegir una página del documento y visualizarla como imagen, con escala, recorte y conectores. Para navegar emplea una miniatura comprimida; la página seleccionada y el archivo original se conservan en el proyecto. Las páginas nuevas requieren cargar el motor PDF.js desde internet si no está disponible. Al exportar PNG se usa la imagen rasterizada de la página seleccionada. El editor permite cambiar de página o abrir el archivo original.</p><p><strong>Imágenes:</strong> inserte JPG o PNG desde el dispositivo o desde el portapapeles. El bloque admite escala proporcional desde cuatro esquinas o con una barra central y conectores interiores o perimetrales. Los conectores tienen herramientas para añadir, mover, copiar y eliminar. Doble toque en cualquier bloque para editar.</p><p><strong>Conectores:</strong> se adaptan al tema. En Conectores visibles, elija mostrar todos, solo utilizados o ninguno. Elija Automática para asignar un conector distinto a cada enlace en las cuatro caras, aumentar la altura de las filas o el ancho del bloque cuando sea necesario, o conserve los modos al borde, cerca del texto y entre ambas caras. En Capas puede activar Diferenciar origen y destino: origen vacío y destino lleno. La casilla Flecha junto al destino muestra una sola flecha en cada lazo; viene activa en todos los estilos y se puede desactivar independientemente. Esta opción funciona con cualquier distribución. Seleccione un lazo y pulse Invertir flujo para cambiar visualmente el origen y el destino sin alterar las entradas de las funciones. También puede resaltar un enlace al señalar su conector. También puede reflejar horizontalmente los conectores desde Mover o desde las propiedades de cada fila. En Capas, seleccione círculo, rombo o barras y ajuste colores y contornos. El ícono de restablecer recupera el aspecto del tema.</p><p><strong>Escritorio:</strong> clic derecho en un espacio vacío para abrir las mismas opciones de inserción de Texto, Imagen y Funciones del botón +. Arrastre con clic sostenido desde un conector para ver un lazo provisional punteado y suéltelo sobre otro conector o bloque de destino. También puede unir con dos clics. Supr o Delete elimina únicamente los bloques seleccionados; si una misma fila tiene un enlace izquierdo y otro derecho sin ramificaciones, sus extremos externos se unen. El ícono de casa regresa a Inicio.</p><p><strong>Filtro:</strong> toque el embudo y seleccione un cable, un conector o una fila para mostrar únicamente sus enlaces directos. Los bloques permanecen visibles. Puede editar cada cable aislado. Vuelva a tocar el embudo para restaurar todo.</p><p><strong>Legibilidad:</strong> los cables se recortan detrás de las palabras, incluso sobre fotografías, sin interrumpir sus conexiones. Los colores automáticos de los enlaces nuevos no se repiten y varían por ángulo y luminosidad; los colores manuales se conservan.</p><p><strong>Enlaces:</strong> desde Capas y apariencia ajuste el espesor de 1 a 18 píxeles. Seleccione recorridos Bézier, ortogonal o ramificado; en Ramificado ajuste la separación entre troncos desde 0 px. Puede mostrar los números de entrada de Unir y modificar su orden arrastrando los textos o abriendo la lista desde un número del enlace. Se retiró el entrelazado para mejorar la fluidez en diagramas grandes.</p><p><strong>Tabla:</strong> desde Agregar → Tabla, cree una tabla con título y dos columnas iniciales. Edite los subtítulos y agregue columnas o filas. Cada fila admite hasta tantas conexiones como columnas, distribuidas entre ambos costados. Arrastre el valor recibido entre columnas. Los datos se actualizan al cambiar su origen. Se aceptan fuentes de Texto y Fórmula; la dirección Tabla → Fórmula queda reservada para el futuro operador Buscar vertical.</p><p><strong>Funciones:</strong> en Agregar → Funciones inserte Campo de texto, Unir, Extraer o Separar. Conecte los datos al lado izquierdo de la función: la operación aparece como título y el resultado directamente debajo. La salida derecha permite encadenar otras operaciones. Doble clic en el operador permite editarlo. En Unir puede elegir Sin separador, Espacio o Personalizado. En Extraer puede escoger posición, extremo o búsqueda literal por aparición contada desde izquierda o derecha, sin distinguir mayúsculas de minúsculas. Los símbolos como espacio, coma y punto tienen indicador visible y accesos directos. Desde Mover puede dibujar un rectángulo de selección; el lienzo muestra el negativo fuera del área y conserva los colores dentro. Los archivos antiguos con Resultado se migran cuando la fuente está identificada inequívocamente.</p><p><strong>Conexiones:</strong> toque dos conectores para unirlos. Toque una línea para cambiar color o trazo, o invertir el sentido de flujo; las flechas únicas se habilitan desde Capas. Al seleccionar una sola línea, los extremos se desplazan con el lienzo y permiten reasignar la conexión por toque o arrastre; al elegir un extremo solo queda un indicador triangular. El botón central «+» permite insertar Texto, Imagen o Funciones en el medio del enlace, que se divide en dos conservando sus propiedades. Los submenús de inserción usan iconos grandes y los mensajes se muestran discretamente arriba del área de trabajo. Zoom con dos dedos en Android o rueda del ratón en PC. Guarde proyectos en .nodolibre o HTML portable y exporte PNG o PDF desde Guardar. Nuevo permite abrir o insertar proyectos en pestañas independientes o en el activo. La fecha del sistema y el texto de Proyecto se muestran solo en el PNG exportado. Puede ocultar la fecha y editar el texto desde Capas.</p></details>`,[['Cerrar',closeDialog,'ok']]);
+};
+
+// NL/5.23.1 · Visor legal independiente. El documento es común al repositorio Recursos.
+let nlLegalPreviousFocus=null,nlLegalAbort=null;
+function nlCloseLegal(){
+ const overlay=$('#nlLegal');if(overlay.hidden)return;
+ overlay.hidden=true;$('#nlLegalFrame').hidden=true;$('#nlLegalFrame').removeAttribute('src');
+ $('#scrim').removeAttribute('inert');
+ if(nlLegalAbort){nlLegalAbort.abort();nlLegalAbort=null}
+ if(nlLegalPreviousFocus?.isConnected)nlLegalPreviousFocus.focus();
+}
+async function nlOpenLegal(link){
+ const overlay=$('#nlLegal'),frame=$('#nlLegalFrame'),status=$('#nlLegalMessage'),fallback=$('#nlLegalExternal');
+ if(!link)return;
+ const url=new URL(link.getAttribute('href'),document.baseURI);
+ nlLegalPreviousFocus=link;
+ overlay.hidden=false;frame.hidden=true;frame.removeAttribute('src');
+ $('#scrim').setAttribute('inert','');
+ status.hidden=false;status.textContent='Cargando aviso legal…';fallback.hidden=true;
+ fallback.href=url.href;$('#nlLegalClose').focus();
+ if(nlLegalAbort)nlLegalAbort.abort();
+ const controller=new AbortController();nlLegalAbort=controller;
+ const failed=()=>{if(overlay.hidden||controller.signal.aborted)return;frame.hidden=true;status.hidden=false;status.textContent='No fue posible cargar el aviso legal.';fallback.hidden=false};
+ if(url.protocol==='file:'){
+   // Algunos navegadores bloquean fetch(file://); el iframe conserva la ruta real.
+   status.textContent='Consultando el archivo local…';fallback.hidden=false;
+   frame.addEventListener('load',()=>{if(!overlay.hidden&&!controller.signal.aborted){status.hidden=true;frame.hidden=false}},{once:true});
+   frame.src=url.href;frame.hidden=false;return;
+ }
+ const timeout=setTimeout(()=>controller.abort(),10000);
+ try{
+   const response=await fetch(url.href,{signal:controller.signal,credentials:'same-origin',cache:'no-store'});
+   if(!response.ok||!response.headers.get('content-type')?.toLowerCase().includes('text/html'))throw Error('Respuesta no válida');
+   // Prevenir páginas 404 devueltas con HTTP 200 por alojamientos con rutas de respaldo.
+   const content=await response.text();
+   if(!/<(?:!doctype\s+html|html|body)\b/i.test(content)||/<title>\s*(?:404|page not found)/i.test(content))throw Error('Documento no válido');
+   if(overlay.hidden||controller.signal.aborted)return;
+   frame.onload=()=>{if(overlay.hidden||controller.signal.aborted)return;status.hidden=true;frame.hidden=false;};
+   frame.src=url.href;
+ }catch(e){if(!overlay.hidden&&nlLegalAbort===controller){frame.hidden=true;status.hidden=false;status.textContent='No fue posible cargar el aviso legal.';fallback.hidden=false}}
+ finally{clearTimeout(timeout)}
+}
+$('#dialogBody').addEventListener('click',e=>{
+ const link=e.target.closest('[data-legal-link]');if(!link)return;
+ e.preventDefault();nlOpenLegal(link);
+});
+$('#nlLegalClose').addEventListener('click',nlCloseLegal);
+$('#nlLegal').addEventListener('pointerdown',e=>{if(e.target.id==='nlLegal')nlCloseLegal()});
+document.addEventListener('keydown',e=>{
+ if($('#nlLegal').hidden)return;
+ if(e.key==='Escape'){e.stopImmediatePropagation();e.preventDefault();nlCloseLegal();return;}
+ if(e.key==='Tab'){
+   const legal=$('#nlLegal'),items=[...legal.querySelectorAll('button:not([disabled]),a:not([hidden]),iframe:not([hidden])')];
+   if(!items.length)return;
+   const first=items[0],last=items[items.length-1];
+   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+ }
+},true);
 $('#scrim').addEventListener('pointerdown',e=>{if(e.target.id==='scrim')closeDialog()});document.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&visualSession){e.preventDefault();e.stopImmediatePropagation();closeVisualEditor();return}
  if((e.key==='Delete'||e.key==='Backspace')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
@@ -4479,12 +4906,13 @@ $('#scrim').addEventListener('pointerdown',e=>{if(e.target.id==='scrim')closeDia
   }
  }
 });
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&!e.altKey&&!e.target.closest?.('input,textarea,select,[contenteditable=true]')&&((e.key.toLowerCase()==='y')||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();e.stopImmediatePropagation();$('#redo').click()}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDuplicateLineMenu();e.preventDefault();if($('#textImportPanel')?.classList.contains('open')){closeTextImport();return}if($('#scrim').classList.contains('open')){closeDialog();return}if(filterMode){clearConnectionFilter();return}if(inlineEdit)commitInline(true);if(editorDraft)closeBlockEditor();if($('#imgEditOverlay')?.classList.contains('open'))$('#imgEditOverlay').classList.remove('open');closeDialog();cancelAllCommands();resetSelection();render();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!e.target.matches('input,textarea,select')){$('#undo').click();e.preventDefault()}});
 nodesEl.addEventListener('keydown',e=>{if(e.target.matches('.row-input')&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();commitInline()}if(e.target.matches('.row-input')&&e.key==='Escape'){e.stopPropagation();commitInline(true)}});nodesEl.addEventListener('focusout',e=>{if(e.target.matches('.row-input')&&inlineEdit){setTimeout(()=>{if(inlineEdit)commitInline()},0)}});
 window.addEventListener('resize',()=>{viewport();requestAnimationFrame(drawLinks)});
 try{const saved=JSON.parse(localStorage.getItem('nodolibre-v1.6')||localStorage.getItem('nodolibre-v1.5')||localStorage.getItem('nodolibre-v1.4')||localStorage.getItem('nodolibre-v1.3')||localStorage.getItem('nodolibre-v1.2')||localStorage.getItem('nodolibre-v1.1')||'null');if(saved?.nodes&&saved?.links){({nodes,links,nextNode,nextRow,nextLink,nextHue}=saved);theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(saved.theme)?saved.theme:'color';portLayer=normalizedPortLayer(saved.portLayer);portColorMode=normalizedPortColorMode(saved.portColorMode,saved.portLayer);if(['bezier','orthogonal','branched'].includes(saved.wireShape))wireShape=saved.wireShape;migrateLegacyResults();if(saved.background){background=saved.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}restoreUniqueCableColors(saved.colorHistory);if(saved.layers)layers=styleLayers({width:saved.layers.width==='auto'?'auto':'fixed',border:saved.layers.border!==false,fill:saved.layers.fill!==false,text:hex(saved.layers.text),borderColor:hex(saved.layers.borderColor)||'#a7b9d4',borderColorCustom:!!saved.layers.borderColorCustom||!!(saved.layers.borderColor&&saved.layers.borderColor!=='#a7b9d4'),exportDate:saved.layers.exportDate!==false,exportProject:String(saved.layers.exportProject||'').slice(0,800),textBorder:saved.layers.textBorder,textFill:saved.layers.textFill,socketStyleVersion:saved.layers.socketStyleVersion,socketShape:saved.layers.socketShape,socketFillOn:saved.layers.socketFillOn,socketBorderOn:saved.layers.socketBorderOn,socketFillColor:saved.layers.socketFillColor,socketBorderColor:saved.layers.socketBorderColor,wireVisible:saved.layers.wireVisible,wireColor:saved.layers.wireColor,wireProfile:saved.layers.wireProfile,wireThickness:saved.layers.wireThickness,nodeBg:saved.layers.nodeBg,branchSpacing:saved.layers.branchSpacing,showInputOrder:saved.layers.showInputOrder,autoPortDistribution:saved.layers.autoPortDistribution,portFlowContrast:saved.layers.portFlowContrast,showFlowArrow:saved.layers.showFlowArrow,portHoverHighlight:saved.layers.portHoverHighlight,duplicates:saved.layers.duplicates,blockLayout:saved.layers.blockLayout}) }else{const prev=JSON.parse(localStorage.getItem('local-nodos-v1')||'null');if(prev?.nodes&&prev?.links){const old=normalize(prev);nodes=old.incoming;links=old.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));store()}}}catch{}
 // Si antes se trabajó con la versión original, se conserva una copia recuperable mediante JSON.
-applyThemeClasses();render();if(nodes.length)requestAnimationFrame(fit);
+applyThemeClasses();render();if(nodes.length)requestAnimationFrame(fit);nlInitTabs();
 // NodoLibre v2.8: apertura cinematográfica sin recursos externos.
 // El meteoro cruza desde debajo de la pantalla hasta el símbolo del logo.
 // Solo se animan transformaciones y opacidad: no modifica ni reconstruye los diagramas.
