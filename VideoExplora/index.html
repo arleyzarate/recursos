@@ -467,7 +467,7 @@ body.dual-layout .dock-right .dock-gallery{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){.stage-history,.stage-capture{backdrop-filter:none}}
 
-/* VideoExplora 1.12 (13): visor despejado y navegación móvil a ancho completo. */
+/* VideoExplora 1.13: visor despejado y navegación móvil a ancho completo. */
 .studiohead{display:none!important}
 .studio{min-height:0}
 .stagewrap{cursor:default;isolation:isolate}
@@ -578,6 +578,69 @@ body.dual-layout .dual-preview{min-height:110px}
 }
 @media(prefers-reduced-motion:reduce){.center-play,.intro-icon::after{animation:none!important}}
 
+
+/* VideoExplora 1.13: pestañas flotantes y agrupación compacta de proyectos en móvil. */
+#dockSwitch{display:none!important}
+.dock-right .dock-top.dock-tabs-row{display:none!important}
+.stage-view-tabs{position:absolute;left:10px;top:10px;z-index:31;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #34586d;background:#0d2030d9;border-radius:13px;backdrop-filter:blur(5px);box-shadow:0 4px 16px #0006;max-width:calc(100% - 156px)}
+.stage-view-tabs .tabgroup{display:flex;gap:4px;align-items:center;min-width:0}
+.stage-view-tabs .viewtab{min-height:34px;padding:6px 11px;display:inline-flex;align-items:center;gap:6px;background:transparent;border:1px solid transparent;border-radius:9px;color:#d9f1fb;max-width:100%}
+.stage-view-tabs .viewtab .tab-label{display:inline-block;white-space:nowrap}
+.stage-view-tabs .viewtab[aria-selected=true]{background:#17394a;border-color:#63c5e5;color:#b8f0ff}
+.stage-view-tabs .viewtab.hidden{display:none!important}
+#tabFrame .tab-preview{display:none;position:relative;align-items:center;justify-content:center;min-width:22px;height:22px;margin-left:2px}
+#tabFrame.has-preview .tab-preview{display:inline-flex}
+#tabFrame .tab-preview img{width:22px;height:22px;display:block;object-fit:cover;border-radius:5px;border:1px solid #6fcde9;background:#10212f}
+#tabFrame .tab-preview .count{position:absolute;right:-6px;bottom:-5px;min-width:14px;height:14px;padding:0 4px;border-radius:999px;background:#f1b77e;color:#102333;font-size:9px;font-weight:800;line-height:14px;box-shadow:0 1px 4px #0008}
+.stage-floats{padding:4px 5px;gap:4px;max-width:calc(100% - 175px)}
+.stage-floats #recentToggle{display:none!important}
+.stage-history{top:53px;left:10px}
+@media(min-width:721px){.mobile-tabs-trigger,.mobile-tabs-sheet{display:none!important}}
+.mobile-tabs-trigger{display:none;align-items:center;gap:7px;min-height:33px;padding:6px 10px;border:1px solid #406171;border-radius:10px;background:#132735;color:#dff6ff;min-width:0;max-width:calc(100vw - 135px)}
+.mobile-tabs-trigger .dot{width:8px;height:8px;border-radius:50%;background:#71d8f2;flex:none;box-shadow:0 0 10px #66d6f380}
+.mobile-tabs-trigger[data-dirty="true"] .dot{background:#f1b77e;box-shadow:0 0 10px #f1b77e90}
+.mobile-tabs-trigger .index{font-size:11px;color:#9fd7e8;flex:none}
+.mobile-tabs-trigger .name{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:100%}
+.mobile-tabs-trigger svg{width:15px;height:15px;flex:none}
+.mobile-tabs-sheet{position:fixed;inset:0;z-index:95;background:#0008;display:none;align-items:flex-end;justify-content:center}
+.mobile-tabs-sheet.open{display:flex}
+.mobile-tabs-sheet .sheet-panel{width:min(100vw,520px);background:#132130;border-top:1px solid #45657a;border-radius:18px 18px 0 0;box-shadow:0 -16px 36px #000a;padding:14px 12px calc(12px + env(safe-area-inset-bottom));display:grid;gap:10px;max-height:min(78vh,520px)}
+.mobile-tabs-sheet .sheet-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mobile-tabs-sheet .sheet-head strong{font-size:14px}
+.mobile-tabs-sheet .sheet-head .hint{font-size:11px}
+.mobile-tabs-sheet .sheet-list{display:grid;gap:7px;overflow:auto;padding-right:2px}
+.mobile-tabs-sheet .sheet-item{display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #345062;border-radius:12px;background:#172736;color:inherit;text-align:left}
+.mobile-tabs-sheet .sheet-item.active{border-color:#6ad2ef;background:#193545}
+.mobile-tabs-sheet .sheet-item-main{flex:1;min-width:0;background:transparent;border:0;padding:0;color:inherit;text-align:left}
+.mobile-tabs-sheet .sheet-item .item-main{display:grid;gap:2px;min-width:0;flex:1}
+.mobile-tabs-sheet .sheet-item .item-main strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-tabs-sheet .sheet-item .item-main span{font-size:10px;color:#9bb6c6}
+.mobile-tabs-sheet .sheet-item .mini-close{min-width:30px;min-height:30px;padding:4px;border-radius:9px}
+.mobile-tabs-sheet .sheet-add{display:flex;justify-content:flex-end}
+@media(max-width:720px){
+ .barrow{gap:5px;align-items:center}
+ .barrow .status{display:none!important}
+ .file-tabs{width:100%}
+ #docTabs{display:none!important}
+ .mobile-tabs-trigger{display:inline-flex}
+ .tab-plus{height:33px;width:33px;min-height:33px}
+ .stage-view-tabs{left:7px;top:7px;max-width:calc(100% - 118px)}
+ .stage-view-tabs .viewtab{min-height:31px;padding:5px 9px;font-size:11px}
+ .stage-floats{top:7px;right:7px;padding:3px 4px;max-width:none}
+ .stage-floats #fileTag{display:none!important}
+ .stage-floats .iconbtn{min-width:30px;width:30px;height:31px;min-height:31px;padding:5px}
+ .stage-history{top:46px;left:7px;padding:2px}
+ .stage-history .toolbtn{width:31px!important;min-width:31px!important;height:31px!important;min-height:31px!important;padding:5px!important}
+}
+@media(max-width:420px){
+ .mobile-tabs-trigger{max-width:calc(100vw - 116px);padding:5px 8px;gap:6px}
+ .mobile-tabs-trigger .name{font-size:10px}
+ .stage-view-tabs .viewtab{padding:4px 8px;font-size:10px}
+ .stage-view-tabs .viewtab .tab-label{max-width:65px;overflow:hidden;text-overflow:ellipsis}
+ #tabFrame .tab-preview img{width:20px;height:20px}
+ .stage-history{top:43px;left:5px}
+}
+
 </style></head>
 <body><div id="introFilm" class="introfilm" aria-label="Presentación inicial"><button id="skipIntro" type="button">Omitir</button><div class="introcore"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="reelring" cx="60" cy="60" r="43"/><circle cx="60" cy="60" r="29" fill="none" stroke="#447e98" stroke-width="3"/><path class="reelplay" d="M49 36 L87 60 L49 84 Z"/></svg><div class="introtitle">Video<span>Explora</span></div><div class="introline"></div></div></div><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <symbol id="i-open" viewBox="0 0 24 24"><path d="M3 7h7l2 3h9v10H3zM3 7V4h7l2 3"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M4 3h14l3 3v15H3V3zM7 3v7h10V3M7 21v-8h10v8"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 20h16"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="m7 4 14 8-14 8z"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16"/></symbol><symbol id="i-reverse" viewBox="0 0 24 24"><path d="M12 6V2L4 10l8 8v-4c5-.4 8 1.5 9 5-.1-8-3.5-12.5-9-13z"/></symbol><symbol id="i-first" viewBox="0 0 24 24"><path d="M5 4v16M19 4 8 12l11 8"/></symbol><symbol id="i-last" viewBox="0 0 24 24"><path d="M19 4v16M5 4l11 8-11 8"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="m14 4-8 8 8 8M20 4l-8 8 8 8"/></symbol><symbol id="i-forward" viewBox="0 0 24 24"><path d="m10 4 8 8-8 8M4 4l8 8-8 8"/></symbol><symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="m17 10 4-3v10l-4-3M7 9h5"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="9" r="2"/><path d="m3 18 6-6 4 4 3-3 5 5"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v6m0-10v1"/></symbol><symbol id="i-caption" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 11h5m-5 4h12m-4-4h4"/></symbol><symbol id="i-crop" viewBox="0 0 24 24"><path d="M5 2v15h15M2 5h15v15"/></symbol><symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/></symbol><symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 17 17 4l3 3L7 20H4zM13 8l3 3"/></symbol><symbol id="i-poly" viewBox="0 0 24 24"><path d="m4 6 12-3 5 10-10 8-8-6z"/><circle cx="4" cy="6" r="1"/><circle cx="21" cy="13" r="1"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol><symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 7 4 12l5 5M4 12h10a6 6 0 0 1 0 12"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 7 5 5-5 5M20 12H10a6 6 0 0 0 0 12"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></symbol><symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 10h4l5-5v14l-5-5H4zM17 8q5 4 0 8"/></symbol><symbol id="i-muted" viewBox="0 0 24 24"><path d="M4 10h4l5-5v14l-5-5H4zM17 9l5 6m0-6-5 6"/></symbol><symbol id="i-time" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2zM9 3v16m6-14v16"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol><symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 7 7M7 10h6"/></symbol><symbol id="i-bin" viewBox="0 0 24 24"><path d="M4 6h16M9 6V4h6v2m-9 0 1 15h10l1-15M10 10v8m4-8v8"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="7" y="7" width="13" height="13" rx="2"/><path d="M4 16H3V3h13v1"/></symbol><symbol id="i-gallery" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="14" rx="1.5"/><path d="M7 3h13v13M6 15l3.5-4 3 3 2.5-2.5 2 3"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7h4l2-3h5l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="14" r="3.5"/></symbol><symbol id="i-intervals" viewBox="0 0 24 24"><rect x="2" y="4" width="15" height="16" rx="2"/><path d="M6 8h3m3 0h2M6 12h3m3 0h2M6 16h3"/><circle cx="18.5" cy="17" r="4"/><path d="M18.5 14.5V17l2 1"/></symbol></defs></svg>
@@ -628,7 +691,7 @@ body.dual-layout .dual-preview{min-height:110px}
 <section class="panel transcript"><div class="panelheader"><b>Transcripción sincronizada</b><span id="cueCount" class="badge">0 segmentos</span></div><div class="panelbody" id="cueList"><p class="hint" id="cueEmpty">Transcriba el audio del video con un modelo local de reconocimiento de voz. Puede corregir el resultado y exportarlo como subtítulos.</p></div><div class="panelbody" style="padding-top:0"><div class="panelinput"><button class="btn sm primary" id="transcribeBtn">Transcribir audio</button><button class="btn sm hidden" id="cancelASR" type="button">Detener</button><button class="btn sm hidden" id="saveCaptions" title="Exportar texto SRT, VTT o TXT">Exportar texto</button><button class="btn sm" id="captionsToggle" aria-label="Subtítulos activados; pulsar para desactivar" aria-pressed="true" title="Activar o desactivar subtítulos"><svg><use href="#i-caption"/></svg><span>Subtítulos</span></button><button class="btn sm hidden" id="addCue">+ Texto</button></div></div><div class="asr-options"><label for="asrMode">Reconocimiento</label><select id="asrMode" aria-label="Modo de reconocimiento"><option value="voice">Voz · rápido</option><option value="song">Canción · mayor precisión</option></select></div><div class="asrprogress" id="asrProgress" role="status" aria-live="polite">Al transcribir, se prepara el modelo de voz. El video se analiza en este dispositivo.</div></section></aside></section>
 <section class="timeline" aria-label="Línea de tiempo"><div class="sectionhead"><h2>Línea de tiempo <span style="color:var(--cyan)">/</span> navegación</h2><span class="small" id="timeHelp">Seleccione cualquier instante para explorarlo.</span></div><div id="timelineBase" class="timelinebase" role="slider" tabindex="0" aria-label="Navegación temporal" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><div class="ruler" id="ruler"></div><div class="soundline" aria-hidden="true"></div><div class="markers" id="markers"></div><div class="playhead" id="playhead" style="left:0%"></div></div></section>
 <section class="explorer" aria-label="Explorador de fotogramas"><div class="sectionhead"><h2>Explorador de fotogramas</h2><div class="interval"><label for="interval">Intervalo (segundos)</label><input id="interval" type="number" min="0.001" step="any" value="5" inputmode="decimal"><button id="regenBtn" class="btn sm">Generar</button><button id="prevPage" class="btn sm" disabled aria-label="Página anterior de fotogramas">◀</button><span id="pageInfo" class="hint">0/0</span><button id="nextPage" class="btn sm" disabled aria-label="Página siguiente de fotogramas">▶</button></div></div><div class="progress"><div id="thumbProgress"></div></div><div class="thumbgrid" id="thumbGrid"><span class="emptyexplore">Capture un fotograma desde Video o genere intervalos cuando lo necesite.</span></div><p class="footnote" id="thumbNote">Cada fotograma conserva sus recortes y ajustes. Los tiempos mostrados se aproximan al fotograma decodificable más cercano.</p></section>
-<footer class="barrow"><span class="footnote">VideoExplora 1.12 (13) · Procesamiento local, sin subir archivos al proyecto.</span><span class="footnote" id="memNotice">El proyecto guarda las ediciones y las imágenes importadas; los videos originales se vinculan por separado.</span></footer></main>
+<footer class="barrow"><span class="footnote">VideoExplora 1.13 · Procesamiento local, sin subir archivos al proyecto.</span><span class="footnote" id="memNotice">El proyecto guarda las ediciones y las imágenes importadas; los videos originales se vinculan por separado.</span></footer></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div><div id="thumbContext" class="hidden" role="menu" aria-label="Acciones del fotograma"><button type="button" id="ctxExport" role="menuitem"><svg><use href="#i-download"/></svg> Exportar fotograma</button><button type="button" id="ctxDelete" class="danger" role="menuitem"><svg><use href="#i-bin"/></svg> Eliminar fotograma</button></div>
 <input id="videoInput" type="file" accept="video/*,image/*,.jpg,.jpeg,.png,.webp,.avif,.bmp,.gif,.tif,.tiff,.mp4,.m4v,.mov,.webm,.ogv,.mkv,.avi,.mts,.m2ts,.mxf,.3gp,.mpeg,.mpg,.videoexplora" hidden><input id="projectInput" type="file" accept=".videoexplora,application/json" hidden><input id="subsInput" type="file" accept=".srt,.vtt,text/vtt,text/plain" hidden>
 <dialog id="menuDlg"><div class="dialoghead"><h2>Acerca de</h2><button class="iconbtn" data-close="menuDlg" aria-label="Cerrar"><svg><use href="#i-close"/></svg></button></div><div class="dialogbody"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="aboutSwitch">Acerca de</button><button class="btn sm" id="intentSwitch">Intención</button><button class="btn sm" id="howSwitch">Instrucciones</button></div><section id="aboutSection"><div class="aboutlogoline"><svg data-recursos-logo="principal" viewBox="0 0 64 64" aria-label="Logotipo de VideoExplora" role="img"><rect width="64" height="64" rx="17" fill="#132936"/><circle cx="32" cy="32" r="23" stroke="#69d8f5" stroke-width="3.4" fill="none" stroke-dasharray="7 4"/><circle cx="32" cy="32" r="16" stroke="#48869d" stroke-width="2" fill="none"/><path d="M27 21 46 32 27 43Z" fill="#f3bb83"/><circle cx="13" cy="13" r="3" fill="#70dff9"/></svg><b>VideoExplora</b></div><p>Explorador y editor de fotogramas de video. Reproduce el material audiovisual original con sonido y permite extraer imágenes, aplicar recortes y ajustes no destructivos, consultar propiedades básicas e incorporar subtítulos sincronizados.</p><p>Permite exportar imágenes PNG, WebP o JPEG, un informe PDF y el proyecto nativo editable. La mejora temporal es experimental y no utiliza un modelo neuronal de reconstrucción de detalle. La transcripción de voz necesita descargar un modelo opcional y se ejecuta en el navegador.</p><div class="aboutfacts"><span>Versión</span><strong>1.12 (13)</strong><span>Creación</span><time datetime="2026-11-07">7 nov. 2026</time><span>Actualización</span><time datetime="2026-11-07">7 nov. 2026</time><span>Autor</span><strong>Arley Zarate</strong></div><a href="../aviso-legal.html" id="legalLink">Aviso legal</a></section><section id="intentSection" class="hidden"><p>Examinar videos por instantes, documentar el contenido visual y auditivo y obtener fotogramas con controles de fidelidad y calidad. Los archivos permanecen en el equipo del usuario.</p></section><section id="howSection" class="hidden"><p>Abra o arrastre un video compatible. Use «+» para crear otra pestaña; al elegir un archivo puede abrirlo aparte o insertarlo al final del proyecto existente. Reproduzca con la línea de tiempo. Defina el intervalo y seleccione una miniatura, o use Capturar para trabajar en un instante concreto.</p><p>En Fotograma, use la barra flotante: Seleccionar permite modo individual o múltiple, y Recortar despliega rectángulo, círculo, libre y polígono. Puede conservar el interior o exterior y confirmar o cancelar. En Calidad configure escala, nitidez, ruido y, opcionalmente, fusión temporal. Exporte la imagen, un PDF o guarde el proyecto nativo.</p><p>La transcripción automática de voz es experimental. La primera ejecución obtiene un modelo opcional. Puede revisar los segmentos y exportarlos. La superresolución neuronal no está incluida.</p></section></div></dialog>
@@ -652,7 +715,7 @@ body.dual-layout .dual-preview{min-height:110px}
 <script>(() => {
 'use strict';
 const $=id=>document.getElementById(id); const qsa=(s)=>[...document.querySelectorAll(s)];
-const VERSION='1.12';const SCHEMA=1;const MAX_THUMBS=55;
+const VERSION='1.13';const SCHEMA=1;const MAX_THUMBS=55;
 const defaults=()=>({scale:1,sharp:0,denoise:0,contrast:0,fusion:0,neural:0});
 let docs=[],current=null,serial=0,thumbnailToken=0,frameToken=0,activeCueIndex=-1,cropDraft=null,pointerState=null,frameLoadedAt=null,previewZoom=1,busy=false,metaToken=0,transientURL=null;
 let mainSourceURL=null;const thumbVideo=document.createElement('video'); const analysisVideo=document.createElement('video');for(const v of [thumbVideo,analysisVideo]){v.muted=true;v.preload='auto';v.playsInline=true;v.style.display='none';document.body.appendChild(v)}
@@ -672,11 +735,20 @@ let asrWorker=null,asrAudioToken=0,toolbarLevel='main',galleryScrollRequested=fa
  $('playBtn').addEventListener('click',ev=>ev.stopPropagation());
  // Las pestañas se trasladan al extremo izquierdo, justo encima de la regleta.
  const dockHeader=document.createElement('div');dockHeader.className='dock-top dock-tabs-row';dockHeader.id='dockViewTabs';dock.querySelector('.dock-right').prepend(dockHeader);
- const tabs=document.querySelector('.studiohead .tabgroup');dockHeader.append(tabs);
- dockHeader.append($('dockSwitch'));$('dockSwitch').classList.add('explore-shortcut','intro-icon');$('dockSwitch').dataset.hint='Explorar fotogramas';$('dockSwitch').innerHTML=icon('gallery');
- // Propiedades, transcripción y capturas recientes quedan flotantes a la derecha.
+ const tabs=document.querySelector('.studiohead .tabgroup');
+ const stageViewTabs=document.createElement('div');stageViewTabs.id='stageViewTabs';stageViewTabs.className='stage-view-tabs';$('stagewrap').append(stageViewTabs);stageViewTabs.append(tabs);
+ const videoLabel=$('tabVideo').textContent.trim(),frameLabel=$('tabFrame').textContent.trim();
+ $('tabVideo').innerHTML='<span class="tab-label">'+videoLabel+'</span>';
+ $('tabFrame').innerHTML='<span class="tab-label">'+frameLabel+'</span><span class="tab-preview hidden" id="tabFramePreview" aria-hidden="true"><img id="tabFramePreviewImg" alt=""><span class="count" id="tabFramePreviewCount">0</span></span>';
+ $('dockSwitch').classList.add('explore-shortcut','intro-icon','hidden');$('dockSwitch').dataset.hint='Explorar fotogramas';$('dockSwitch').innerHTML=icon('gallery');dockHeader.append($('dockSwitch'));
+ // Propiedades y transcripción quedan flotantes a la derecha; la miniatura reciente se integra al botón Fotograma.
  const floating=document.querySelector('.studiohead .headpills');floating.classList.add('stage-floats');$('stagewrap').append(floating);
  $('stagewrap').append($('recentPopover'));
+ // Proyectos abiertos: en móvil se agrupan en un selector compacto desplegable.
+ const fileTabs=document.querySelector('.file-tabs');
+ const mobileTabsTrigger=document.createElement('button');mobileTabsTrigger.type='button';mobileTabsTrigger.id='mobileTabsTrigger';mobileTabsTrigger.className='mobile-tabs-trigger';mobileTabsTrigger.setAttribute('aria-expanded','false');mobileTabsTrigger.setAttribute('aria-label','Abrir proyectos');fileTabs.prepend(mobileTabsTrigger);
+ const mobileTabsSheet=document.createElement('div');mobileTabsSheet.id='mobileTabsSheet';mobileTabsSheet.className='mobile-tabs-sheet';mobileTabsSheet.innerHTML='<div class="sheet-panel"><div class="sheet-head"><div><strong>Proyectos abiertos</strong><div class="hint">Toque una pestaña para activarla.</div></div><button type="button" class="iconbtn" id="mobileTabsClose" aria-label="Cerrar selector">'+icon('close')+'</button></div><div id="mobileTabsList" class="sheet-list"></div><div class="sheet-add"><button type="button" class="btn primary" id="mobileTabsAdd">'+icon('plus')+'Nuevo proyecto</button></div></div>';
+ document.body.append(mobileTabsSheet);
  // Al tocar el vídeo se alterna reproducir/pausar; la interacción del editor no se altera.
  $('stagewrap').addEventListener('click',ev=>{
    if(!current?.url||$('videoStage').classList.contains('hidden'))return;
@@ -714,7 +786,7 @@ let asrWorker=null,asrAudioToken=0,toolbarLevel='main',galleryScrollRequested=fa
  $('toolsToggle').addEventListener('click',()=>{const a=document.querySelector('.actions'),open=!a.classList.contains('open');a.classList.toggle('open',open);$('toolsToggle').setAttribute('aria-expanded',String(open))});
  document.querySelector('.actions').addEventListener('click',e=>{if(e.target.closest('button,a')){document.querySelector('.actions').classList.remove('open');$('toolsToggle').setAttribute('aria-expanded','false')}});
  document.addEventListener('click',e=>{if(!e.target.closest('.compactbar')){document.querySelector('.actions').classList.remove('open');$('toolsToggle').setAttribute('aria-expanded','false')}});
- $('quickSave').addEventListener('click',()=>$('saveBtn').click());$('plusProject').addEventListener('click',()=>{createDoc('Sin título '+(serial+1));status('Nueva pestaña. Seleccione o arrastre un archivo.');$('emptyState').focus({preventScroll:true})});
+ $('quickSave').addEventListener('click',()=>$('saveBtn').click());$('plusProject').addEventListener('click',()=>{createDoc('Sin título '+(serial+1));status('Nueva pestaña. Seleccione o arrastre un archivo.');$('emptyState').focus({preventScroll:true})});$('mobileTabsTrigger')?.addEventListener('click',()=>toggleMobileTabs());$('mobileTabsClose')?.addEventListener('click',()=>toggleMobileTabs(false));$('mobileTabsAdd')?.addEventListener('click',()=>{$('plusProject').click();toggleMobileTabs(false)});$('mobileTabsSheet')?.addEventListener('click',e=>{if(e.target===$('mobileTabsSheet'))toggleMobileTabs(false)});
  $('dockSwitch').addEventListener('click',()=>{if(!current?.url)return;if(current.view==='video')$('tabFrame').click();else $('tabVideo').click()});
  $('floatExportBtn').addEventListener('click',()=>$('exportBtn').click());
  $('editToolsBtn').addEventListener('click',()=>setToolbarLevel('edit'));$('editBack').addEventListener('click',()=>setToolbarLevel('main'));
@@ -810,7 +882,10 @@ function status(t){$('status').textContent=t}function updateExportProgress(n,mes
 function markDirty(){if(!current)return;current.dirty=true;drawTabs()}
 function project(name='Sin título'){return {id:++serial,name,rawName:'',source:null,url:null,descriptor:null,duration:0,width:0,height:0,interval:5,intervalEnabled:false,intervalSeries:[],page:0,frames:{},history:[],redo:[],activeTime:null,view:'video',capturedTimes:[],excludedTimes:[],selectedTimes:[],multiSelect:false,photos:[],segments:[],activeSegIndex:0,cues:[],dirty:false,gps:null,gpsSource:null,info:null,lastSaved:null}}
 function createDoc(name='Sin título'){const p=project(name);docs.push(p);activate(p);return p}
-function drawTabs(){const root=$('docTabs');root.replaceChildren();for(const d of docs){const b=document.createElement('button');b.className='docpill'+(d===current?' active':'');b.setAttribute('role','tab');b.setAttribute('aria-selected',String(d===current));b.title=d.name;b.textContent=(d.dirty?'● ':'')+d.name;b.addEventListener('click',()=>activate(d));const x=document.createElement('span');x.className='close';x.textContent='×';x.setAttribute('aria-label','Cerrar proyecto');x.addEventListener('click',e=>{e.stopPropagation();closeDoc(d)});b.append(x);root.append(b)}}
+function shortDocName(d,i){const raw=String(d?.name||('Proyecto '+(i+1))).replace(/\.[^/.]+$/,'').trim();return raw.length>18?raw.slice(0,16)+'…':raw||('Proyecto '+(i+1))}
+function renderMobileTabs(){const trigger=$('mobileTabsTrigger'),sheet=$('mobileTabsSheet'),list=$('mobileTabsList');if(!trigger||!sheet||!list)return;const activeIndex=Math.max(0,docs.indexOf(current));const active=docs[activeIndex]||docs[0];trigger.dataset.dirty=String(!!active?.dirty);trigger.innerHTML='<span class="dot" aria-hidden="true"></span><span class="index">'+(docs.length?((activeIndex+1)+'/'+docs.length):'0/0')+'</span><span class="name">'+shortDocName(active,activeIndex)+'</span>'+icon('menu');list.replaceChildren();docs.forEach((d,i)=>{const row=document.createElement('div');row.className='sheet-item'+(d===current?' active':'');const main=document.createElement('button');main.type='button';main.className='sheet-item-main';main.innerHTML='<div class="item-main"><strong>'+(d.dirty?'● ':'')+shortDocName(d,i)+'</strong><span>Pestaña '+(i+1)+(d===current?' · actual':'')+'</span></div>';main.addEventListener('click',()=>{toggleMobileTabs(false);activate(d)});row.append(main);if(docs.length>1){const close=document.createElement('button');close.type='button';close.className='iconbtn mini-close';close.title='Cerrar proyecto';close.setAttribute('aria-label','Cerrar proyecto');close.innerHTML=icon('close');close.addEventListener('click',async e=>{e.stopPropagation();toggleMobileTabs(false);await closeDoc(d);renderMobileTabs()});row.append(close)}list.append(row)});}
+function toggleMobileTabs(open){const sheet=$('mobileTabsSheet'),trigger=$('mobileTabsTrigger');if(!sheet||!trigger)return;const state=(open===undefined)?!sheet.classList.contains('open'):!!open;sheet.classList.toggle('open',state);trigger.setAttribute('aria-expanded',String(state));document.body.classList.toggle('tabs-sheet-open',state);}
+function drawTabs(){const root=$('docTabs');root.replaceChildren();for(const d of docs){const b=document.createElement('button');b.className='docpill'+(d===current?' active':'');b.setAttribute('role','tab');b.setAttribute('aria-selected',String(d===current));b.title=d.name;b.textContent=(d.dirty?'● ':'')+d.name;b.addEventListener('click',()=>activate(d));const x=document.createElement('span');x.className='close';x.textContent='×';x.setAttribute('aria-label','Cerrar proyecto');x.addEventListener('click',e=>{e.stopPropagation();closeDoc(d)});b.append(x);root.append(b)}renderMobileTabs()}
 function closeProjectQuestion(d){return new Promise(resolve=>{const dlg=$('closeProjectDlg');$('closeProjectMessage').textContent=`«${d.name}» tiene cambios sin guardar. ¿Qué desea hacer?`;let choice='cancel';const buttons=[['closeProjectSave','save'],['closeProjectDiscard','discard'],['closeProjectCancel','cancel']];const clean=()=>{for(const [id] of buttons)$(id).removeEventListener('click',clickers[id]);dlg.removeEventListener('close',done)};const done=()=>{clean();resolve(choice)};const clickers={};for(const [id,value] of buttons){clickers[id]=()=>{choice=value;dlg.close()};$(id).addEventListener('click',clickers[id])}dlg.addEventListener('close',done);dlg.showModal()})}
 async function closeDoc(d){if(d.dirty){const choice=await closeProjectQuestion(d);if(choice==='cancel')return;if(choice==='save'){const data=serializeProject(d);dlBlob(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),safeProjectName(d.name)+'.videoexplora');d.dirty=false}}const idx=docs.indexOf(d);if(idx<0)return;thumbnailToken++;frameToken++;docs.splice(idx,1);for(const s of d.segments||[])if(s.url)URL.revokeObjectURL(s.url);if(d.url&&!d.segments?.some(s=>s.url===d.url))URL.revokeObjectURL(d.url);if(current===d){current=null;if(docs.length)activate(docs[Math.max(0,idx-1)]);else createDoc()}else drawTabs()}
 function activate(d){if(!d||current===d)return;if(playingReverse)stopReverse();thumbnailToken++;frameToken++;current=d;frameLoadedAt=null;cropDraft=null;previewZoom=1;$('canvasBox').style.transform='';$('interval').value=d.interval;drawTabs();$('thumbGrid').replaceChildren();syncDock();setToolbarLevel('main');$('thumbProgress').style.width='0%';if(d.url){mainSourceURL=d.url;const seg=(d.segments||[])[d.activeSegIndex]?.url?d.segments[d.activeSegIndex]:d.segments?.[0];d.activeSegIndex=seg?d.segments.indexOf(seg):0;player.src=seg?.url||d.url;player.load();thumbVideo.src=seg?.url||d.url;thumbVideo.load();analysisVideo.src=seg?.url||d.url;analysisVideo.load();$('emptyState').classList.add('hidden');status('Cargando video…')}else if(d.photos?.length){player.pause();player.removeAttribute('src');player.load();$('emptyState').classList.add('hidden');d.view='frame';status('Imágenes importadas');setView('frame');generateThumbs();requestAnimationFrame(()=>captureAt(photoFor(d,d.activeTime)?.t||d.photos[0].t));}else{player.pause();player.removeAttribute('src');player.load();$('emptyState').classList.remove('hidden');$('fileTag').textContent=d.descriptor?.name?'Revincule el video':'Sin archivo';$('thumbGrid').textContent=d.descriptor?'Proyecto abierto. Seleccione su video original para recuperar los fotogramas.':'Capture fotogramas o genere intervalos cuando lo necesite.';status(d.descriptor?'Falta el video original':'Proyecto nuevo');setView('video');}
@@ -882,7 +957,7 @@ function dualIsActive(){return document.body.classList.contains('dual-layout')}
 function syncResponsiveLayout(){
  const captures=hasFrameCollection(current);
  $('tabFrame').classList.toggle('hidden',!captures);
- $('recentToggle').classList.toggle('hidden',!captures);
+ $('recentToggle').classList.add('hidden');
  const dual=(window.innerWidth>=1024||(window.innerWidth>window.innerHeight&&window.innerWidth>=560))&&captures&&!!current?.url;
  document.body.classList.toggle('dual-layout',dual);
  if(dual){
@@ -903,14 +978,15 @@ function syncResponsiveLayout(){
 }
 function recentEntries(){if(!current)return[];const entries=timelineEntries(current)||[];const recorded=(current.capturedTimes||[]).map(Number);const chosen=(current.recentCaptureKeys?.length?current.recentCaptureKeys.map(Number):recorded.length?recorded:entries.filter(x=>!x.photo).map(x=>x.t));return chosen.filter(t=>finite(t)&&entries.some(e=>Math.abs(e.t-t)<.002)).slice(-3).reverse()}
 function renderRecent(){
- const times=recentEntries();$('recentCount').textContent=String(times.length);if(!times.length){$('recentPopover').classList.add('hidden');$('recentToggle').classList.add('hidden');return;}
+ const times=recentEntries(),preview=$('tabFramePreview'),previewImg=$('tabFramePreviewImg'),previewCount=$('tabFramePreviewCount');$('recentCount').textContent=String(times.length);if(previewCount)previewCount.textContent=String(times.length);if(!times.length){$('recentPopover').classList.add('hidden');$('recentToggle').classList.add('hidden');$('tabFrame')?.classList.remove('has-preview');preview?.classList.add('hidden');return;}
  const root=$('recentList');root.replaceChildren();let cover=null;
  for(const t of times){const key=editKey(t);const tile=qsa('#thumbGrid .thumb').find(x=>editKey(Number(x.dataset.time))===key);const src=tile?.querySelector('img')?.src||current.recentPreviewImgs?.[key]||null;if(!cover&&src)cover=src;
   const btn=document.createElement('button');btn.className='recent-item';btn.type='button';btn.setAttribute('aria-label','Abrir fotograma del segundo '+t.toFixed(3));
   const im=document.createElement('img');im.alt='';if(src)im.src=src;else im.classList.add('waiting');
   const text=document.createElement('span');text.textContent='F'+frameNumber(t)+' · '+fmtMillis(t);btn.append(im,text);btn.addEventListener('click',()=>{closeRecent();showFrameFromTimeline(t)});root.append(btn);}
- if(cover)$('recentCover').src=cover;
- $('recentToggle').classList.remove('hidden');
+ if(cover){$('recentCover').src=cover;if(previewImg)previewImg.src=cover;}
+ $('recentToggle').classList.add('hidden');
+ if(preview){$('tabFrame').classList.add('has-preview');preview.classList.remove('hidden');}
 }
 function closeRecent(){$('recentPopover').classList.add('hidden');$('recentToggle').setAttribute('aria-expanded','false')}
 $('recentToggle').addEventListener('click',e=>{e.stopPropagation();const open=$('recentPopover').classList.toggle('hidden')===false;$('recentToggle').setAttribute('aria-expanded',String(open));if(open)renderRecent()});
@@ -919,7 +995,7 @@ document.addEventListener('pointerdown',e=>{if(!e.target.closest('#recentPopover
 window.addEventListener('resize',()=>requestAnimationFrame(syncResponsiveLayout));
 if(window.matchMedia)window.matchMedia('(orientation: landscape)').addEventListener('change',()=>requestAnimationFrame(syncResponsiveLayout));
 new ResizeObserver(()=>{if(dualIsActive())requestAnimationFrame(fitFrameToStage)}).observe($('dualView'));
-function animateRecentCapture(t){if(!current)return;const target=$('recentToggle'),rect=target.getBoundingClientRect();if(rect.width===0)return;
+function animateRecentCapture(t){if(!current)return;const target=$('tabFramePreview')?.classList.contains('hidden')?$('tabFrame'):$('tabFramePreview');const rect=target?.getBoundingClientRect?.();if(!rect||rect.width===0)return;
  const el=document.createElement('div');el.className='capture-fly';const picture=current?.recentPreviewImgs?.[editKey(t)];if(picture){const im=document.createElement('img');im.src=picture;im.alt='';el.append(im)}else el.innerHTML=icon('image');const start=$('stagewrap').getBoundingClientRect();el.style.left=(start.left+start.width*.56)+'px';el.style.top=(start.top+start.height*.54)+'px';document.body.append(el);
  const dx=rect.left+rect.width/2-(start.left+start.width*.56),dy=rect.top+rect.height/2-(start.top+start.height*.54);
  if(matchMedia('(prefers-reduced-motion: reduce)').matches){el.remove();return}
