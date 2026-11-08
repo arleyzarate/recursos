@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.24.0 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.24.1 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.24.0 | Diagramador de nodos</title>
+<title>NodoLibre 5.24.1 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -947,6 +947,26 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 .nl-save-form{display:grid;gap:9px}.nl-save-form label{font-size:12px;color:var(--sub)}.nl-save-form input,.nl-save-form select{display:block;width:100%;min-height:42px;margin-top:5px;border:1px solid var(--panel-border);background:var(--base);color:var(--ink);border-radius:9px;padding:8px}
 .nl-save-note{margin:3px 0;font-size:11px;color:var(--sub);line-height:1.4}
 @media(max-width:430px){.toolbar{gap:3px!important;padding:6px 4px!important}.toolbar .btn{min-width:34px;width:34px!important;padding:5px}.nl-tab{max-width:128px;min-width:75px;height:34px}.nl-tab-name{font-size:11px;padding-left:6px}.nl-tab-close{width:23px}.bottom #redo{min-width:33px;width:33px;padding:4px}}
+
+/* NL/5.24.1 · Menú de documentos y selector de formatos sin ventana del sistema. */
+.nl-new-menu{width:222px;gap:3px;padding:7px}
+.nl-new-menu button{min-height:43px;gap:12px;padding:9px 12px;font-size:14px}
+.nl-new-menu button:last-child{border-top-color:var(--panel-border)}
+.nl-new-menu button svg{width:21px;height:21px;color:var(--accent)}
+.nl-legal-caption{display:block;color:var(--sub);font-size:11px;margin-top:6px;line-height:1.35}
+#scrim.nl-save-open{align-items:flex-start;padding:clamp(62px,9dvh,100px) 9px 9px}
+#scrim.nl-save-open .dialog{width:min(460px,100%);max-height:calc(100dvh - 105px);overscroll-behavior:contain}
+.nl-format-field{display:grid;gap:5px;position:relative}
+.nl-format-field label{font-size:12px;color:var(--sub)}
+#nlSaveFormatButton{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:43px;width:100%;border:1px solid var(--panel-border);border-radius:9px;padding:9px 12px;background:var(--base);color:var(--ink);text-align:left}
+#nlSaveFormatButton[aria-expanded=true]{border-color:var(--accent)}
+#nlSaveOptions{border:1px solid var(--panel-border);background:var(--base);border-radius:10px;padding:5px;display:grid;gap:3px;max-height:min(250px,43dvh);overflow-y:auto}
+#nlSaveOptions[hidden]{display:none!important}
+.nl-format-choice{width:100%;min-height:39px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;border:1px solid transparent;border-radius:7px;padding:8px 11px;background:transparent;color:var(--ink);font-size:13px}
+.nl-format-choice.selected::after{content:"✓";color:var(--accent);font-weight:700}
+.nl-format-choice.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,var(--base))}
+.nl-format-choice:hover,.nl-format-choice:focus-visible{border-color:var(--accent)}
+@media(max-width:430px){#scrim.nl-save-open{padding-top:max(62px,env(safe-area-inset-top) + 62px)}#scrim.nl-save-open .dialog{max-height:calc(100dvh - 78px)}}
 </style>
 </head>
 <body class="intro-active">
@@ -963,25 +983,24 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
  <path d="M259 78 H422" stroke="url(#nlBrandFicha)" stroke-width="2.3" stroke-linecap="round" opacity=".85"/>
  <text class="nl-signature" x="85" y="97" font-family="Arial,system-ui,sans-serif" font-weight="700" font-size="17" letter-spacing=".15" fill="#a0e9db">por Arley Zarate</text>
 </svg></div>
-  <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes y documentos PDF, y guardar proyectos en formato .nodolibre o exportar imágenes PNG.</p>
+  <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes y documentos PDF, y guardar proyectos editables en formato .nodolibre o HTML, y exportar imágenes PNG o documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.24.0 (69)</dd>
-    <dt>Creación</dt><dd>No documentada</dd>
+    <dt>Versión</dt><dd>5.24.1 (70)</dd>
+    <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
   </dl>
-  <p class="nl-about-legal"><a href="../aviso-legal.html" data-legal-link>Aviso legal</a></p>
+  <p class="nl-about-legal"><a href="../aviso-legal.html" data-legal-link>Aviso legal</a><span class="nl-legal-caption">Condiciones de uso, autoría y licencias de Recursos.</span></p>
 </section>
 
 <!-- NL/HTML / 01 · Barra de navegación -->
 <header class="toolbar">
  
- <button class="btn" id="newProject" title="Nuevo, abrir o insertar" aria-label="Nuevo, abrir o insertar" aria-haspopup="menu" aria-expanded="false" data-ico="filePlus"></button><div id="nlTabs" class="nl-tabs" role="tablist" aria-label="Proyectos abiertos"></div>
+ <button class="btn" id="newProject" title="Proyectos: nuevo, abrir, insertar, guardar y cerrar" aria-label="Gestión de proyectos" aria-haspopup="menu" aria-expanded="false" data-ico="filePlus"></button><div id="nlTabs" class="nl-tabs" role="tablist" aria-label="Proyectos abiertos"></div>
  
  <button class="btn" id="theme" title="Capas y apariencia" aria-label="Capas de estilo, ancho, bordes y fondos" data-ico="layers"></button>
  <button class="btn" id="ports" title="Visibilidad de conectores" aria-label="Capas de conectores" data-ico="circles"></button><button class="btn" id="filterToggle" title="Activar o desactivar el filtro de enlaces" aria-label="Activar o desactivar filtro de conexiones" aria-pressed="false" data-ico="filter"></button>
- <button class="btn" id="save" title="Guardar proyecto" aria-label="Guardar proyecto y exportar" data-ico="usb"></button>
  <button class="btn" id="about" title="Información" aria-label="Información y ayuda" data-ico="info"></button>
   <input id="file" class="file" type="file" accept=".nodolibre,.arley,.json,.html,application/json,text/html"><input id="bgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="imgFile" class="file" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png"><input id="pdfFile" class="file" type="file" accept="application/pdf,.pdf">
 </header>
@@ -1063,9 +1082,11 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
  <div class="layer-section"><span>Los cambios individuales se ajustan desde el lápiz de cada bloque.</span></div></div>
 <div id="duplicateLineMenu" class="duplicate-line-menu" role="group" aria-label="Enlace entre duplicados"><button type="button" id="duplicateHideLine">Ocultar esta línea</button><button type="button" id="duplicateCloseLine" aria-label="Cerrar">✕</button></div>
 <div id="newMenu" class="nl-new-menu" role="menu" aria-label="Gestión de proyectos" hidden>
- <button type="button" role="menuitem" id="nlNew" data-ico="filePlus">Nuevo proyecto</button>
- <button type="button" role="menuitem" id="nlOpen" data-ico="folder">Abrir proyecto</button>
- <button type="button" role="menuitem" id="nlInsert" data-ico="plus">Insertar proyecto</button>
+ <button type="button" role="menuitem" id="nlNew" data-ico="filePlus"><span>Nuevo</span></button>
+ <button type="button" role="menuitem" id="nlOpen" data-ico="folder"><span>Abrir</span></button>
+ <button type="button" role="menuitem" id="nlInsert" data-ico="plus"><span>Insertar</span></button>
+ <button type="button" role="menuitem" id="nlSave" data-ico="usb"><span>Guardar</span></button>
+ <button type="button" role="menuitem" id="nlClose" data-ico="close"><span>Cerrar</span></button>
 </div>
 
 <!-- NL/HTML / 03 · Conectores -->
@@ -1223,7 +1244,7 @@ glyph.caseMixed='<text x="2" y="17" font-size="15" font-weight="700" stroke="non
 glyph.caseUpper='<text x="1" y="17" font-size="14" font-weight="700" stroke="none" fill="currentColor">AA</text>';
 glyph.caseLower='<text x="2" y="17" font-size="16" font-weight="700" stroke="none" fill="currentColor">aa</text>';
 glyph.autoStyle='<path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z"/><path d="M19 18v4m-2-2h4"/>';glyph.shapeCircle='<circle cx="12" cy="12" r="7"/>';glyph.shapeDiamond='<path d="M12 3 21 12 12 21 3 12Z"/>';glyph.shapeVLine='<path d="M12 2v20"/>';glyph.shapeHLine='<path d="M2 12h20"/>';
-glyph.usb='<path d="M7 3h10v5H7zM8 8v6m8-6v6M8 14h8a3 3 0 0 1 3 3v4H5v-4a3 3 0 0 1 3-3Z"/><path d="M10 5h4M12 15v3"/>';glyph.redo='<path d="m15 6 5 5-5 5M20 11H10a6 6 0 0 0-6 6"/>';
+glyph.usb='<rect x="7" y="9" width="10" height="12" rx="2.5"/><path d="M9 9V3h6v6M9 6h6M11 3v3m2-3v3"/><circle cx="12" cy="17" r="1"/>';glyph.redo='<path d="m15 6 5 5-5 5M20 11H10a6 6 0 0 0-6 6"/>';
 glyph.filePlus='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"/><path d="M13 2v7h7M12 12v7m-3.5-3.5h7"/>';glyph.selectMultiple='<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><path d="M13 6h8M17 3v6M3 17h7m-4-3v6"/>';glyph.image='<rect x=3 y=4 width=18 height=16 rx="2"/><circle cx=8 y=9 r="2"/><path d="m4 18 6-6 4 4 3-3 4 5"/>';glyph.copy='<rect x=7 y=7 width=14 height=14 rx="2"/><path d="M17 7V3H3v14h4"/>';glyph.clipboard='<rect x=5 y=5 width=14 height=17 rx="2"/><path d="M9 5V3h6v2M8 11h8m-8 4h8"/>';glyph.scale='<path d="M4 9V4h5M20 15v5h-5M5 5l6 6M19 19l-6-6"/>';glyph.box='<rect x=4 y=4 width=16 height=16 rx="2"/>';glyph.paint='<path d="m3 13 9-9 9 9-9 9-9-9Z"/><path d="M9 9h.01"/>';glyph.textcolor='<path d="M4 19 10 5h4l6 14M7 14h10M20 19h2"/>';
 glyph.export='<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v4h16v-4"/>';glyph.crop='<path d="M7 2v15a3 3 0 0 0 3 3h12M2 7h15a3 3 0 0 1 3 3v12"/><path d="M4 4l16 16"/>';glyph.check='<path d="m4 12 5 5L20 6"/>';glyph.split='<path d="M3 6h18M3 18h18M3 12h7m4 0h7"/><path d="m9 9 6 6m0-6-6 6"/>';glyph.join='<rect x=2 y=3 width=8 height=7 rx=1/><rect x=14 y=14 width=8 height=7 rx=1/><path d="M10 6h4v11m-4 0h4M11 12h9"/>';
 glyph.mirrorH='<path d="M12 2v20" stroke-dasharray="2 3"/><path d="m10 8-4-4-4 4m4-4v7M14 16l4 4 4-4m-4 4v-7"/>';
@@ -1252,7 +1273,7 @@ glyph.roundWire='<path d="M2 18C7 5 16 19 22 5" stroke-width="3" stroke-linecap=
 glyph.flatWire='<path d="M2 18C7 5 16 19 22 5" stroke-width="7" stroke-linecap="butt"/>';
 glyph.filePdf='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"/><path d="M13 2v7h7M6 17h12"/><text x="6" y="16" font-size="6" stroke="none" fill="currentColor">PDF</text>';glyph.table='<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M3 15h18M12 10v10"/>';glyph.groupBox='<rect x="3" y="4" width="18" height="16" rx="1" stroke-dasharray="3 2"/><path d="M8 9h8M8 13h5"/>';glyph.lock='<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3">';glyph.unlock='<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0M8 7a4 4 0 0 1 8 0"/>';glyph.home='<path d="m3 11 9-8 9 8v10h-7v-7h-4v7H3z"/>';glyph.wire='<path d="M2 17C10 17 9 7 22 7"/><circle cx=2 cy=17 r=1.5/><circle cx=22 cy=7 r=1.5/>';
  const icon=(k,c='')=>`<svg class="icon ${c}" viewBox="0 0 24 24" aria-hidden="true">${glyph[k]||glyph.info}</svg>`;
-$$('[data-ico]').forEach(b=>b.innerHTML=icon(b.dataset.ico));
+$$('[data-ico]').forEach(b=>{if(b.closest('#newMenu'))b.insertAdjacentHTML('afterbegin',icon(b.dataset.ico));else b.innerHTML=icon(b.dataset.ico)});
 const palette=['#60e1d2','#ffac67','#d5e879','#b6a0ff','#fa84c5','#70bfff','#f2d26b','#ef8792','#8bea9b','#d5a0ff','#ff8560','#9dd9ff'];
 // NL/JS / 02 · Estado de la sesión y persistencia
 let nlTabsReady=false;let nlTabs=[],nlActiveId=null,nlTabCounter=0,nlSilenceDirty=false;
@@ -3944,8 +3965,8 @@ for(const [selector,kind] of [['#editHandle','move'],['#editResize','resize']]){
   else{dlg.style.height=clamp(g.h+e.clientY-g.startY,220,Math.max(220,H-g.y-8))+'px'}
  });el.addEventListener('pointerup',()=>editorGesture=null);el.addEventListener('pointercancel',()=>editorGesture=null)
 }
-function openDialog(title,body,buttons){$('#colorpop').classList.remove('open');$('#dialogTitle').textContent=title;$('#dialogBody').innerHTML=body;const d=$('#dialogActions');$('#scrim').classList.remove('dialog-free');$('#scrim .dialog').setAttribute('aria-modal','true');$('#scrim .dialog').removeAttribute('style');$('#dialogResize').hidden=true;d.innerHTML='';buttons.forEach(([label,fun,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'';b.onclick=fun;d.append(b)});$('#scrim').classList.add('open')}
-function closeDialog(){const o=$('#scrim');o.classList.remove('open','dialog-free');o.querySelector('.dialog')?.removeAttribute('style');$('#dialogResize').hidden=true}
+function openDialog(title,body,buttons){$('#scrim').classList.remove('nl-save-open');$('#colorpop').classList.remove('open');$('#dialogTitle').textContent=title;$('#dialogBody').innerHTML=body;const d=$('#dialogActions');$('#scrim').classList.remove('dialog-free');$('#scrim .dialog').setAttribute('aria-modal','true');$('#scrim .dialog').removeAttribute('style');$('#dialogResize').hidden=true;d.innerHTML='';buttons.forEach(([label,fun,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'';b.onclick=fun;d.append(b)});$('#scrim').classList.add('open')}
+function closeDialog(){const o=$('#scrim');o.classList.remove('open','dialog-free','nl-save-open');o.querySelector('.dialog')?.removeAttribute('style');$('#dialogResize').hidden=true}
 function enableFloatingDialog(){
  const o=$('#scrim'),d=o.querySelector('.dialog');
  o.classList.add('dialog-free');d.setAttribute('aria-modal','false');
@@ -4341,7 +4362,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.24.0',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'5.24.1',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4623,11 +4644,12 @@ function nlCreateTab(name,replaceEmpty=false){
  }
  nlResetToBlank();const id=++nlTabCounter,t={id,name:nlCleanName(name||'Sin título '+id),dirty:false,sourceKey:null,snapshot:nlStateCapture()};nlTabs.push(t);nlActiveId=id;nlRenderTabs();nlSilenceDirty=true;store();nlSilenceDirty=false;return t;
 }
-function nlRequestClose(id){
+function nlRequestClose(id,forcePrompt=false){
  const t=nlTabs.find(v=>v.id===id);if(!t)return;
  const close=()=>nlCloseTab(id);
- if(!t.dirty){close();return}
- openDialog('Cerrar proyecto',`<p>«${esc(t.name)}» tiene cambios sin guardar. ¿Qué desea hacer?</p>`,[
+ if(!t.dirty&&!forcePrompt){close();return}
+ const message=t.dirty?`«${esc(t.name)}» tiene cambios sin guardar. ¿Qué desea hacer?`:`¿Desea guardar «${esc(t.name)}» antes de cerrar el proyecto?`;
+ openDialog('Cerrar proyecto',`<p>${message}</p>`,[
   ['Cancelar',closeDialog],['Descartar',()=>{closeDialog();close()},'danger'],
   ['Guardar',()=>{closeDialog();if(id!==nlActiveId){nlSwitchTab(id)}if(nlActiveId===id)nlSaveDialog(close)} ,'ok']
  ]);
@@ -4726,12 +4748,40 @@ board.addEventListener('drop',e=>{
  else action('open');
 });
 
+function nlSetupSaveFormats(){
+ const trigger=$('#nlSaveFormatButton'), list=$('#nlSaveOptions');
+ const opts=[...list.querySelectorAll('[data-format]')];
+ const set=(button)=>{
+  trigger.dataset.value=button.dataset.format;
+  $('#nlSaveChosen').textContent=button.querySelector('.nl-format-label').textContent;
+  opts.forEach(b=>{b.setAttribute('aria-selected',String(b===button));b.classList.toggle('selected',b===button)});
+  list.hidden=true;trigger.setAttribute('aria-expanded','false');trigger.focus();
+ };
+ const toggle=(open)=>{list.hidden=!open;trigger.setAttribute('aria-expanded',String(open));if(open)opts.find(b=>b.dataset.format===trigger.dataset.value)?.focus()};
+ trigger.onclick=()=>toggle(list.hidden);
+ opts.forEach((b,i)=>{
+  b.onclick=()=>set(b);
+  b.addEventListener('keydown',e=>{
+   if(e.key==='Escape'){e.preventDefault();toggle(false);trigger.focus()}
+   if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();opts[(i+(e.key==='ArrowDown'?1:-1)+opts.length)%opts.length].focus()}
+   if(e.key==='Home'||e.key==='End'){e.preventDefault();opts[e.key==='Home'?0:opts.length-1].focus()}
+  });
+ });
+ trigger.addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','Enter',' '].includes(e.key)){e.preventDefault();toggle(true)}});
+}
 function nlSaveDialog(after){
  const tab=nlCurrentTab();if(!tab)return;
- openDialog('Guardar',`<div class="nl-save-form"><label for="nlSaveName">Nombre del archivo<input id="nlSaveName" autocomplete="off" maxlength="100" value="${esc(tab.name)}" spellcheck="false"></label><label for="nlSaveFormat">Formato<select id="nlSaveFormat"><option value="nodolibre">Proyecto editable (.nodolibre)</option><option value="html">HTML portable editable (.html)</option><option value="png">Imagen (.png)</option><option value="pdf">Documento (.pdf)</option></select></label><p class="nl-save-note">Los formatos .nodolibre y .html conservan la edición. PNG y PDF son representaciones gráficas.</p></div>`,[
+ const choices=[
+  ['nodolibre','Proyecto editable (.nodolibre)'],
+  ['html','HTML portable editable (.html)'],
+  ['png','Imagen (.png)'],
+  ['pdf','Documento (.pdf)']
+ ];
+ const list=choices.map(([format,label],i)=>`<button type="button" role="option" tabindex="-1" class="nl-format-choice${i===0?' selected':''}" data-format="${format}" aria-selected="${i===0}"><span class="nl-format-label">${label}</span></button>`).join('');
+ openDialog('Guardar',`<div class="nl-save-form"><label for="nlSaveName">Nombre del archivo<input id="nlSaveName" autocomplete="off" maxlength="100" value="${esc(tab.name)}" spellcheck="false"></label><div class="nl-format-field"><label id="nlSaveFormatLabel" for="nlSaveFormatButton">Formato</label><button id="nlSaveFormatButton" type="button" aria-haspopup="listbox" aria-controls="nlSaveOptions" aria-expanded="false" aria-labelledby="nlSaveFormatLabel nlSaveChosen" data-value="nodolibre"><span id="nlSaveChosen">${choices[0][1]}</span><span aria-hidden="true">⌄</span></button><div id="nlSaveOptions" role="listbox" aria-label="Formatos de guardado" hidden>${list}</div></div><p class="nl-save-note">.nodolibre y .html conservan la edición. PNG y PDF son representaciones gráficas.</p></div>`,[
   ['Cancelar',closeDialog],['Guardar',async()=>{
    const btn=$('#dialogActions button:last-child');if(btn.disabled)return;
-   const name=nlCleanName($('#nlSaveName').value),format=$('#nlSaveFormat').value;
+   const name=nlCleanName($('#nlSaveName').value),format=$('#nlSaveFormatButton').dataset.value;
    btn.disabled=true;btn.textContent='Guardando…';
    try{
     if(bgCropSession)closeBgCrop(false);
@@ -4746,55 +4796,113 @@ function nlSaveDialog(after){
     if(after){if(format==='nodolibre'||format==='html')after();else toast('Guarde el proyecto editable antes de cerrar')}
    }catch(error){toast('Error al guardar: '+error.message);btn.disabled=false;btn.textContent='Guardar'}
   },'ok']]);
+ $('#scrim').classList.add('nl-save-open');nlSetupSaveFormats();
+ // El móvil muestra la lista en el diálogo, nunca en un selector nativo externo.
  $('#nlSaveName').focus();$('#nlSaveName').select();
 }
-$('#save').onclick=()=>nlSaveDialog();
+$('#nlSave').onclick=()=>{nlToggleNewMenu(false);nlSaveDialog()};
+$('#nlClose').onclick=()=>{nlToggleNewMenu(false);nlRequestClose(nlActiveId,true)};
 window.addEventListener('beforeunload',e=>{if(nlTabs.some(t=>t.dirty)){e.preventDefault();e.returnValue=''}});
 
 // HTML portable autónomo: los datos quedan dentro de un script JSON no ejecutable.
-// Su botón abre la versión publicada y transfiere datos mediante un diálogo entre ventanas.
+// Un iniciador mínimo abre automáticamente la aplicación publicada; no incluye el código del editor.
 function nlMakePortable(name){
  const data=JSON.stringify(projectFile()).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
  const target='https://arleyzarate.github.io/recursos/NodoLibre/';
  const client=String.raw`(()=>{'use strict';
  const target='https://arleyzarate.github.io/recursos/NodoLibre/';
- const filename=document.title.replace(/ · NodoLibre$/, '');
+ const origin=new URL(target).origin;
  const payload=document.getElementById('nl-portable-project').textContent;
- const status=document.getElementById('status');let child=null,token=null;
- document.getElementById('open').onclick=()=>{
-  token=(self.crypto&&crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
-  child=window.open(target+'#nl-portable='+encodeURIComponent(token),'_blank');
-  status.textContent=child?'Abriendo la herramienta y transfiriendo el proyecto…':'El navegador bloqueó la pestaña. Permita las ventanas emergentes o descargue el respaldo.';
+ const notice=document.getElementById('nl-wait');
+ const fail=(reason)=>{
+  document.body.classList.remove('nl-embedded');
+  const remote=document.getElementById('nl-remote');if(remote)remote.style.visibility='hidden';
+  notice.hidden=false;notice.textContent=reason+' Abra NodoLibre y seleccione Nuevo → Abrir para cargar este HTML.';
+  document.getElementById('nl-retry').hidden=false;
+  document.getElementById('nl-web-link').hidden=false;
  };
- document.getElementById('backup').onclick=()=>{
-  const file=new Blob([payload],{type:'application/octet-stream'});const url=URL.createObjectURL(file),a=document.createElement('a');a.download=filename+'.nodolibre';a.href=url;a.click();setTimeout(()=>URL.revokeObjectURL(url),15000);
+ const bytes=new TextEncoder().encode(payload);
+ const inline=()=>{
+  let binary='';const size=16384;
+  for(let i=0;i<bytes.length;i+=size)binary+=String.fromCharCode(...bytes.subarray(i,i+size));
+  return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
  };
+ // Navegación directa de una sola pestaña para proyectos pequeños. El fragmento no se envía al servidor.
+ if(bytes.length<=24000){
+  try{location.replace(target+'#nl-document='+inline());return}catch(error){console.warn('No fue posible la navegación directa',error)}
+ }
+ // Para proyectos con imágenes/PDF se evita el límite de longitud de URL.
+ // El HTML no contiene el editor; el editor se carga desde su URL actual en un marco de pantalla completa.
+ const random=new Uint8Array(16);crypto.getRandomValues(random);
+ const token=Array.from(random,b=>b.toString(16).padStart(2,'0')).join('');
+ const frame=document.createElement('iframe');frame.title='NodoLibre, versión web actual';
+ frame.setAttribute('allow','clipboard-write; fullscreen');
+ frame.src=target+'#nl-portable='+token;
+ frame.id='nl-remote';frame.style.visibility='hidden';
+ let complete=false;
  window.addEventListener('message',e=>{
-  if(!child||e.source!==child||e.origin!==new URL(target).origin||!e.data||e.data.type!=='nodolibre-ready'||e.data.token!==token)return;
-  child.postMessage({type:'nodolibre-project',token,project:payload,filename:filename+'.html'},new URL(target).origin);
-  status.textContent='Proyecto enviado. Revise la pestaña de NodoLibre.';
+  if(e.source!==frame.contentWindow||e.origin!==origin||!e.data||e.data.token!==token)return;
+  if(e.data.type==='nodolibre-ready'){
+   frame.contentWindow.postMessage({type:'nodolibre-project',token,project:payload,filename:document.title.replace(/ · NodoLibre$/,'')+'.html'},origin);
+  }else if(e.data.type==='nodolibre-imported'){
+   complete=true;frame.style.visibility='visible';document.body.classList.add('nl-embedded');notice.hidden=true;
+  }else if(e.data.type==='nodolibre-failed')fail('No se pudo recuperar el proyecto automáticamente.');
  });
+ frame.addEventListener('error',()=>fail('No fue posible cargar la aplicación web.'));
+ document.body.append(frame);
+ setTimeout(()=>{if(!complete)fail('No se confirmó la transferencia automática del proyecto.')},14000);
+ document.getElementById('nl-retry').onclick=()=>location.reload();
 })();`;
- // Construir cierres de script en tiempo de ejecución para no interrumpir el JS padre.
- const endScript='</scr'+'ipt>';
- return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(name)+' · NodoLibre</title><style>body{margin:0;min-height:100dvh;display:grid;place-items:center;background:#111925;color:#eef5fb;font:16px system-ui,sans-serif;padding:16px;box-sizing:border-box}main{max-width:440px;border:1px solid #60708a;border-radius:18px;padding:24px;background:#253345}h1{margin:0 0 8px}p{line-height:1.5;color:#b6c8da}button{display:block;width:100%;min-height:46px;margin:10px 0;border:1px solid #66d9c4;border-radius:9px;background:#236e66;color:#fff;font:inherit;cursor:pointer}button+button{background:#192a38}button:focus-visible{outline:3px solid #7df6d9}</style></head><body><main><h1>NodoLibre</h1><p>Proyecto: '+esc(name)+'</p><p>Abra la versión publicada de NodoLibre para recuperar sus bloques, conexiones, tablas, imágenes y documentos integrados. El archivo conserva sus datos.</p><button id="open" type="button">Abrir en NodoLibre</button><button id="backup" type="button">Descargar respaldo .nodolibre</button><p id="status" role="status">Los datos permanecen en este archivo hasta que usted elija abrirlos.</p></main><script id="nl-portable-project" type="application/json">'+data+endScript+'<script>'+client+endScript+'</body></html>';
+ const end='</scr'+'ipt>';
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>'+esc(name)+' · NodoLibre</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111925;color:#eef5fb;font:15px system-ui,sans-serif}#nl-wait{box-sizing:border-box;padding:28px;position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:12px}#nl-web-link{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);color:#78e9d9}#nl-retry{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);min-height:42px;border:1px solid #6ae2cf;color:#fff;background:#236e66;border-radius:9px;padding:8px 16px}#nl-remote{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111925}.nl-embedded #nl-remote{display:block}#nl-remote[hidden],#nl-wait[hidden],[hidden]{display:none!important}</style></head><body><main id="nl-wait" role="status">Abriendo '+esc(name)+' en NodoLibre…</main><button type="button" id="nl-retry" hidden>Reintentar</button><a id="nl-web-link" href="'+target+'" hidden>Ir a NodoLibre</a><script id="nl-portable-project" type="application/json">'+data+end+'<script>'+client+end+'</body></html>';
 }
-// El token es efímero y viaja solo en el fragmento, nunca en una petición al servidor.
+// Receptor sin duplicar el motor de NodoLibre dentro del proyecto portable.
 (function nlPortableReceiver(){
- const m=location.hash.match(/^#nl-portable=([\w-]{8,100})$/);if(!m)return;
+ const fragment=location.hash;
+ const apply=(d,filename)=>{
+  const v=nlCheckProject(d);
+  const tab=nlCreateTab(nlCleanName(filename||'Proyecto recibido'),true);if(!tab)return false;
+  nlSilenceDirty=true;
+  try{
+   nlApplyData(d,v);
+   tab.name=nlCleanName(filename||'Proyecto recibido');tab.dirty=false;
+   tab.snapshot=nlStateCapture();nlRenderTabs();
+  }finally{nlSilenceDirty=false}
+  toast('Proyecto HTML recuperado');return true;
+ };
+ if(fragment.startsWith('#nl-document=')){
+  // El fragmento se elimina inmediatamente del historial antes de decodificar el documento.
+  const encoded=fragment.slice('#nl-document='.length);
+  try{history.replaceState(null,'',location.pathname+location.search)}catch{}
+  try{
+   if(encoded.length>55000||!/^[A-Za-z0-9_-]+$/.test(encoded))throw Error('Datos portables fuera de límite');
+   const b64=encoded.replace(/-/g,'+').replace(/_/g,'/');
+   const decoded=atob(b64+'='.repeat((4-b64.length%4)%4));
+   const bytes=Uint8Array.from(decoded,c=>c.charCodeAt(0));
+   const d=JSON.parse(new TextDecoder().decode(bytes));
+   apply(d,'Proyecto HTML');
+  }catch(err){toast('No fue posible abrir el HTML portable: '+err.message)}
+  return;
+ }
+ const m=fragment.match(/^#nl-portable=([\w-]{8,100})$/);if(!m)return;
  const token=m[1];let completed=false;
+ const sender=window.opener&&window.opener!==window?window.opener:(window.parent!==window?window.parent:null);
+ if(!sender)return;
  window.addEventListener('message',e=>{
-  if(completed||!window.opener||e.source!==window.opener||!['null',location.origin].includes(e.origin))return;
+  if(completed||e.source!==sender||!(e.origin==='null'||e.origin===location.origin||e.origin.startsWith('file://')||e.origin.startsWith('content://')))return;
   if(!e.data||e.data.type!=='nodolibre-project'||e.data.token!==token||typeof e.data.project!=='string'||e.data.project.length>110*1024*1024)return;
   try{
-   const d=JSON.parse(e.data.project);const v=nlCheckProject(d);
-   const tab=nlCreateTab(nlCleanName(e.data.filename||'Proyecto recibido'),true);if(!tab)return;
-   nlSilenceDirty=true;nlApplyData(d,v);tab.name=nlCleanName(e.data.filename||'Proyecto recibido');tab.dirty=false;tab.snapshot=nlStateCapture();nlRenderTabs();nlSilenceDirty=false;
-   completed=true;history.replaceState(null,'',location.pathname+location.search);toast('Proyecto HTML recuperado');
-  }catch(error){nlSilenceDirty=false;toast('Error al recuperar HTML: '+error.message)}
+   const d=JSON.parse(e.data.project);
+   if(!apply(d,e.data.filename))throw Error('No fue posible abrir la pestaña');
+   completed=true;try{history.replaceState(null,'',location.pathname+location.search)}catch{}
+   sender.postMessage({type:'nodolibre-imported',token},e.origin==='null'?'*':e.origin);
+  }catch(error){
+   nlSilenceDirty=false;toast('Error al recuperar HTML: '+error.message);
+   sender.postMessage({type:'nodolibre-failed',token},e.origin==='null'?'*':e.origin);
+  }
  });
- const sendReady=()=>{if(completed)return;try{window.opener?.postMessage({type:'nodolibre-ready',token},'*')}catch{}};
- [0,250,650,1300,2500,4800,8000].forEach(ms=>setTimeout(sendReady,ms));
+ const ready=()=>{if(completed)return;try{sender.postMessage({type:'nodolibre-ready',token},'*')}catch{}};
+ [0,250,700,1500,3000,5200,8500].forEach(ms=>setTimeout(ready,ms));
 })();
 
 // Exportación PDF vector de página, dibujo rasterizado desde el PNG aprobado.
@@ -4849,7 +4957,7 @@ function nlCloseLegal(){
 async function nlOpenLegal(link){
  const overlay=$('#nlLegal'),frame=$('#nlLegalFrame'),status=$('#nlLegalMessage'),fallback=$('#nlLegalExternal');
  if(!link)return;
- const url=new URL(link.getAttribute('href'),document.baseURI);
+ const url=/^(file|content|about|data):$/.test(location.protocol)?new URL('https://arleyzarate.github.io/recursos/aviso-legal.html'):new URL(link.getAttribute('href'),document.baseURI);
  nlLegalPreviousFocus=link;
  overlay.hidden=false;frame.hidden=true;frame.removeAttribute('src');
  $('#scrim').setAttribute('inert','');
