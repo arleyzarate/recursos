@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.24.1 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.24.2 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.24.1 | Diagramador de nodos</title>
+<title>NodoLibre 5.24.2 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -949,6 +949,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:430px){.toolbar{gap:3px!important;padding:6px 4px!important}.toolbar .btn{min-width:34px;width:34px!important;padding:5px}.nl-tab{max-width:128px;min-width:75px;height:34px}.nl-tab-name{font-size:11px;padding-left:6px}.nl-tab-close{width:23px}.bottom #redo{min-width:33px;width:33px;padding:4px}}
 
 /* NL/5.24.1 · Menú de documentos y selector de formatos sin ventana del sistema. */
+/* NL/5.24.2 · Recepción portable confirmada; comunicación protegida por token. */
 .nl-new-menu{width:222px;gap:3px;padding:7px}
 .nl-new-menu button{min-height:43px;gap:12px;padding:9px 12px;font-size:14px}
 .nl-new-menu button:last-child{border-top-color:var(--panel-border)}
@@ -986,7 +987,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes y documentos PDF, y guardar proyectos editables en formato .nodolibre o HTML, y exportar imágenes PNG o documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.24.1 (70)</dd>
+    <dt>Versión</dt><dd>5.24.2 (71)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -4362,7 +4363,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.24.1',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
+function projectFile(){return{app:'NodoLibre',version:'5.24.2',schemaVersion:1,updated:'8 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4812,52 +4813,81 @@ function nlMakePortable(name){
  const client=String.raw`(()=>{'use strict';
  const target='https://arleyzarate.github.io/recursos/NodoLibre/';
  const origin=new URL(target).origin;
- const payload=document.getElementById('nl-portable-project').textContent;
+ const dataElement=document.getElementById('nl-portable-project');
+ const payload=dataElement?.textContent||'';
  const notice=document.getElementById('nl-wait');
- const fail=(reason)=>{
-  document.body.classList.remove('nl-embedded');
-  const remote=document.getElementById('nl-remote');if(remote)remote.style.visibility='hidden';
-  notice.hidden=false;notice.textContent=reason+' Abra NodoLibre y seleccione Nuevo → Abrir para cargar este HTML.';
-  document.getElementById('nl-retry').hidden=false;
-  document.getElementById('nl-web-link').hidden=false;
- };
- const bytes=new TextEncoder().encode(payload);
- const inline=()=>{
-  let binary='';const size=16384;
-  for(let i=0;i<bytes.length;i+=size)binary+=String.fromCharCode(...bytes.subarray(i,i+size));
-  return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
- };
- // Navegación directa de una sola pestaña para proyectos pequeños. El fragmento no se envía al servidor.
- if(bytes.length<=24000){
-  try{location.replace(target+'#nl-document='+inline());return}catch(error){console.warn('No fue posible la navegación directa',error)}
+ const retry=document.getElementById('nl-retry');
+ const webLink=document.getElementById('nl-web-link');
+ const fileName=document.title.replace(/ · NodoLibre$/,'')+'.html';
+ let expected;
+ try{
+  expected=JSON.parse(payload);
+  if(expected.app!=='NodoLibre'||!Array.isArray(expected.nodes)||!Array.isArray(expected.links))throw Error('No es un proyecto de NodoLibre');
+ }catch(error){
+  notice.textContent='Los datos del proyecto no son válidos: '+error.message;
+  webLink.hidden=false;return;
  }
- // Para proyectos con imágenes/PDF se evita el límite de longitud de URL.
- // El HTML no contiene el editor; el editor se carga desde su URL actual en un marco de pantalla completa.
- const random=new Uint8Array(16);crypto.getRandomValues(random);
- const token=Array.from(random,b=>b.toString(16).padStart(2,'0')).join('');
- const frame=document.createElement('iframe');frame.title='NodoLibre, versión web actual';
+ let completed=false;
+ const fail=(message)=>{
+  if(completed)return;
+  notice.hidden=false;
+  notice.textContent=message+' El archivo conserva sus datos. También puede abrirlo desde Nuevo → Abrir en NodoLibre.';
+  retry.hidden=false;webLink.hidden=false;
+  const f=document.getElementById('nl-remote');if(f)f.style.visibility='hidden';
+ };
+ retry.onclick=()=>location.reload();
+ // Usamos comunicación entre ventanas para todos los tamaños de proyecto.
+ // No introducimos imágenes, PDF ni contenido privado en la dirección web.
+ // Un fragmento de URL largo puede perderse al abrir un content:// en Android.
+ let token;
+ try{
+  const random=new Uint8Array(16);crypto.getRandomValues(random);
+  token=Array.from(random,b=>b.toString(16).padStart(2,'0')).join('');
+ }catch(error){fail('El navegador no permite iniciar la transferencia segura.');return}
+ const frame=document.createElement('iframe');
+ frame.title='NodoLibre, versión web actual';
+ frame.id='nl-remote';
  frame.setAttribute('allow','clipboard-write; fullscreen');
- frame.src=target+'#nl-portable='+token;
- frame.id='nl-remote';frame.style.visibility='hidden';
- let complete=false;
- window.addEventListener('message',e=>{
-  if(e.source!==frame.contentWindow||e.origin!==origin||!e.data||e.data.token!==token)return;
-  if(e.data.type==='nodolibre-ready'){
-   frame.contentWindow.postMessage({type:'nodolibre-project',token,project:payload,filename:document.title.replace(/ · NodoLibre$/,'')+'.html'},origin);
-  }else if(e.data.type==='nodolibre-imported'){
-   complete=true;frame.style.visibility='visible';document.body.classList.add('nl-embedded');notice.hidden=true;
-  }else if(e.data.type==='nodolibre-failed')fail('No se pudo recuperar el proyecto automáticamente.');
+ frame.referrerPolicy='no-referrer';
+ frame.style.visibility='hidden';
+ // Una URL de sesión distinta reduce el riesgo de cargar un editor antiguo en caché.
+ // El token no contiene datos del proyecto.
+ frame.src=target+'?nl-open=1&session='+token+'#nl-portable='+token;
+ const send=()=>{
+  if(completed)return;
+  notice.textContent='Transfiriendo el proyecto a NodoLibre…';
+  try{frame.contentWindow.postMessage({type:'nodolibre-project',token,project:payload,filename:fileName},origin)}
+  catch(error){fail('No se pudo enviar el proyecto al navegador.')}
+ };
+ window.addEventListener('message',event=>{
+  if(completed||event.source!==frame.contentWindow||event.origin!==origin)return;
+  const msg=event.data;
+  if(!msg||msg.token!==token)return;
+  if(msg.type==='nodolibre-ready'){
+   send();
+  }else if(msg.type==='nodolibre-imported'){
+   if(msg.nodes!==expected.nodes.length||msg.links!==expected.links.length){
+    fail('La herramienta no confirmó todos los bloques y conexiones.');return;
+   }
+   completed=true;
+   frame.style.visibility='visible';
+   document.body.classList.add('nl-embedded');
+   notice.hidden=true;retry.hidden=true;webLink.hidden=true;
+  }else if(msg.type==='nodolibre-failed'){
+   fail('NodoLibre rechazó la importación.');
+  }
  });
- frame.addEventListener('error',()=>fail('No fue posible cargar la aplicación web.'));
+ frame.addEventListener('error',()=>fail('No fue posible cargar NodoLibre desde Internet.'));
  document.body.append(frame);
- setTimeout(()=>{if(!complete)fail('No se confirmó la transferencia automática del proyecto.')},14000);
- document.getElementById('nl-retry').onclick=()=>location.reload();
+ // No damos por exitosa la apertura porque una página cargó: exigimos confirmación de importación.
+ setTimeout(()=>{if(!completed)fail('No se confirmó la apertura automática en el navegador.')},30000);
 })();`;
+
  const end='</scr'+'ipt>';
  return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>'+esc(name)+' · NodoLibre</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111925;color:#eef5fb;font:15px system-ui,sans-serif}#nl-wait{box-sizing:border-box;padding:28px;position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:12px}#nl-web-link{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);color:#78e9d9}#nl-retry{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);min-height:42px;border:1px solid #6ae2cf;color:#fff;background:#236e66;border-radius:9px;padding:8px 16px}#nl-remote{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111925}.nl-embedded #nl-remote{display:block}#nl-remote[hidden],#nl-wait[hidden],[hidden]{display:none!important}</style></head><body><main id="nl-wait" role="status">Abriendo '+esc(name)+' en NodoLibre…</main><button type="button" id="nl-retry" hidden>Reintentar</button><a id="nl-web-link" href="'+target+'" hidden>Ir a NodoLibre</a><script id="nl-portable-project" type="application/json">'+data+end+'<script>'+client+end+'</body></html>';
 }
 // Receptor sin duplicar el motor de NodoLibre dentro del proyecto portable.
-(function nlPortableReceiver(){
+function nlPortableReceiver(){
  const fragment=location.hash;
  const apply=(d,filename)=>{
   const v=nlCheckProject(d);
@@ -4895,7 +4925,7 @@ function nlMakePortable(name){
    const d=JSON.parse(e.data.project);
    if(!apply(d,e.data.filename))throw Error('No fue posible abrir la pestaña');
    completed=true;try{history.replaceState(null,'',location.pathname+location.search)}catch{}
-   sender.postMessage({type:'nodolibre-imported',token},e.origin==='null'?'*':e.origin);
+   sender.postMessage({type:'nodolibre-imported',token,nodes:nodes.length,links:links.length},e.origin==='null'?'*':e.origin);
   }catch(error){
    nlSilenceDirty=false;toast('Error al recuperar HTML: '+error.message);
    sender.postMessage({type:'nodolibre-failed',token},e.origin==='null'?'*':e.origin);
@@ -4903,7 +4933,7 @@ function nlMakePortable(name){
  });
  const ready=()=>{if(completed)return;try{sender.postMessage({type:'nodolibre-ready',token},'*')}catch{}};
  [0,250,700,1500,3000,5200,8500].forEach(ms=>setTimeout(ready,ms));
-})();
+}
 
 // Exportación PDF vector de página, dibujo rasterizado desde el PNG aprobado.
 async function nlExportPdf(filename){
@@ -5020,7 +5050,7 @@ nodesEl.addEventListener('keydown',e=>{if(e.target.matches('.row-input')&&e.key=
 window.addEventListener('resize',()=>{viewport();requestAnimationFrame(drawLinks)});
 try{const saved=JSON.parse(localStorage.getItem('nodolibre-v1.6')||localStorage.getItem('nodolibre-v1.5')||localStorage.getItem('nodolibre-v1.4')||localStorage.getItem('nodolibre-v1.3')||localStorage.getItem('nodolibre-v1.2')||localStorage.getItem('nodolibre-v1.1')||'null');if(saved?.nodes&&saved?.links){({nodes,links,nextNode,nextRow,nextLink,nextHue}=saved);theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(saved.theme)?saved.theme:'color';portLayer=normalizedPortLayer(saved.portLayer);portColorMode=normalizedPortColorMode(saved.portColorMode,saved.portLayer);if(['bezier','orthogonal','branched'].includes(saved.wireShape))wireShape=saved.wireShape;migrateLegacyResults();if(saved.background){background=saved.background;background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;}restoreUniqueCableColors(saved.colorHistory);if(saved.layers)layers=styleLayers({width:saved.layers.width==='auto'?'auto':'fixed',border:saved.layers.border!==false,fill:saved.layers.fill!==false,text:hex(saved.layers.text),borderColor:hex(saved.layers.borderColor)||'#a7b9d4',borderColorCustom:!!saved.layers.borderColorCustom||!!(saved.layers.borderColor&&saved.layers.borderColor!=='#a7b9d4'),exportDate:saved.layers.exportDate!==false,exportProject:String(saved.layers.exportProject||'').slice(0,800),textBorder:saved.layers.textBorder,textFill:saved.layers.textFill,socketStyleVersion:saved.layers.socketStyleVersion,socketShape:saved.layers.socketShape,socketFillOn:saved.layers.socketFillOn,socketBorderOn:saved.layers.socketBorderOn,socketFillColor:saved.layers.socketFillColor,socketBorderColor:saved.layers.socketBorderColor,wireVisible:saved.layers.wireVisible,wireColor:saved.layers.wireColor,wireProfile:saved.layers.wireProfile,wireThickness:saved.layers.wireThickness,nodeBg:saved.layers.nodeBg,branchSpacing:saved.layers.branchSpacing,showInputOrder:saved.layers.showInputOrder,autoPortDistribution:saved.layers.autoPortDistribution,portFlowContrast:saved.layers.portFlowContrast,showFlowArrow:saved.layers.showFlowArrow,portHoverHighlight:saved.layers.portHoverHighlight,duplicates:saved.layers.duplicates,blockLayout:saved.layers.blockLayout}) }else{const prev=JSON.parse(localStorage.getItem('local-nodos-v1')||'null');if(prev?.nodes&&prev?.links){const old=normalize(prev);nodes=old.incoming;links=old.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));store()}}}catch{}
 // Si antes se trabajó con la versión original, se conserva una copia recuperable mediante JSON.
-applyThemeClasses();render();if(nodes.length)requestAnimationFrame(fit);nlInitTabs();
+applyThemeClasses();render();if(nodes.length)requestAnimationFrame(fit);nlInitTabs();nlPortableReceiver();
 // NodoLibre v2.8: apertura cinematográfica sin recursos externos.
 // El meteoro cruza desde debajo de la pantalla hasta el símbolo del logo.
 // Solo se animan transformaciones y opacidad: no modifica ni reconstruye los diagramas.
