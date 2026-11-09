@@ -4399,6 +4399,169 @@ body.info-dialog-open { overscroll-behavior: none; }
     border-color:var(--border-strong) !important;
     box-shadow:none !important;
   }
+
+  /* v2.44 · Paletas compactas: un solo cierre inferior, sin recuadro interior.
+     Se mantienen zonas táctiles >= 44 px y acciones Confirmar/Cancelar. */
+  #toolPanel.compact-open {
+    width:max-content !important;
+    min-width:0 !important;
+    max-width:calc(100vw - 22px) !important;
+    padding:10px !important;
+  }
+  #toolPanel.compact-open > .tool-panel-close {display:none !important;}
+  #toolPanel.compact-open .compact-tool-panel,
+  #toolPanel.compact-open .compact-tool-panel .tool-grid {
+    min-width:0 !important;
+    width:max-content !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    outline:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+  #toolPanel.compact-open .compact-tool-panel .tool-grid {gap:6px !important;}
+  #toolPanel.palette-open .color-swatch-grid {
+    display:grid !important;
+    grid-template-columns:repeat(4,44px) !important;
+    gap:5px !important;
+    width:max-content !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    outline:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+  }
+  #toolPanel.palette-open .color-swatch {
+    width:44px !important;
+    height:44px !important;
+    border-radius:12px !important;
+    margin:0 !important;
+    padding:0 !important;
+    flex:none !important;
+  }
+  #toolPanel.compact-open .tool-actions-row {
+    gap:6px !important;
+    margin-top:6px !important;
+    padding:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+  }
+  #toolPanel.compact-open .tool-actions-row .mini-btn {
+    width:44px !important;
+    min-width:44px !important;
+    height:44px !important;
+    padding:0 !important;
+  }
+  #toolPanel.compact-open .compact-stepper {gap:6px;}
+
+  /* Textura editorial: trama ortogonal muy tenue SOLO en superficies externas.
+     No se aplica al campo original ni a la hoja del texto organizado. */
+  :root,html[data-theme="light"] {--v244-gridline:rgba(49,94,78,.052);}
+  html[data-theme="dark"] {--v244-gridline:rgba(236,221,253,.052);}
+  html[data-theme="light"] body,html[data-theme="dark"] body,
+  html[data-theme="light"] .topbar,html[data-theme="dark"] .topbar,
+  html[data-theme="light"] .mobile-bottom-nav,html[data-theme="dark"] .mobile-bottom-nav {
+    background-color:var(--neo-ground) !important;
+    background-image:linear-gradient(to right,var(--v244-gridline) 1px,transparent 1px),
+      linear-gradient(to bottom,var(--v244-gridline) 1px,transparent 1px) !important;
+    background-size:48px 48px !important;
+  }
+  /* Las superficies de edición siguen lisas y legibles. */
+  .editor-card textarea,.output-viewport,.output-sheet,.result-card,
+  .input-shell,.input-mirror {background-image:none !important;}
+  @media (prefers-reduced-motion:reduce) {
+    #toolPanel.compact-open .color-swatch {transition:none !important;}
+  }
+
+
+
+  /* v2.44 · Referencia visual completa: menta, amarillo, rojo, azul, violeta.
+     Los colores vivos se reservan para acciones y estados; los editores
+     mantienen superficies lisas y contraste de lectura. */
+  :root,html[data-theme="light"] {
+    --v244-mint:#B5E8D5; --v244-mint-ink:#205F49;
+    --v244-gold:#AB741D; --v244-gold-soft:#FFF0BD;
+    --v244-red:#AF3B51; --v244-red-soft:#FDE8E9;
+    --v244-success:#276A4B; --v244-success-soft:#DCF4E1;
+    --v244-focus-blue:#3275A4; --v244-focus-ring:#68B5DD;
+    --v244-violet:#785A9F;
+    --palette-gold:#805A0E; --palette-red:#A33249;
+    --palette-mint:#1C694E; --palette-blue:#28618E;
+  }
+  html[data-theme="dark"] {
+    --v244-mint:#BCEFD5; --v244-mint-ink:#203E32;
+    --v244-gold:#FFD38C; --v244-gold-soft:#554568;
+    --v244-red:#FFA2B2; --v244-red-soft:#5E3B61;
+    --v244-success:#BDECC9; --v244-success-soft:#415C58;
+    --v244-focus-blue:#B4DAFF; --v244-focus-ring:#B4ABF0;
+    --v244-violet:#DCC2FF;
+    --palette-gold:#FFE09C; --palette-red:#FFADB8;
+    --palette-mint:#B8F1D5; --palette-blue:#B8DDFC;
+  }
+
+  /* Copiar identifica la acción principal sin desplazar otras herramientas. */
+  .result-card #copyBtn,html[data-theme="dark"] .result-card #copyBtn {
+    background:var(--v244-mint) !important;
+    color:var(--v244-mint-ink) !important;
+    border:1px solid color-mix(in srgb,var(--v244-mint-ink) 27%,transparent) !important;
+    border-radius:50% !important;
+    box-shadow:0 3px 10px color-mix(in srgb,var(--v244-mint-ink) 15%,transparent) !important;
+  }
+  .result-card #copyBtn:hover,.result-card #copyBtn:focus-visible {
+    background:var(--v244-mint) !important;
+    color:var(--v244-mint-ink) !important;
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--v244-mint) 32%,transparent),
+      0 4px 12px color-mix(in srgb,var(--v244-mint-ink) 20%,transparent) !important;
+  }
+  .result-card #copyBtn svg {stroke:currentColor !important;}
+  /* Sangría: amarillo ocre con marcador visible, sin agregar una barra de color. */
+  .result-card #formatIndentBtn,.result-card #rulerIndentHandle,
+  html[data-theme="dark"] .result-card #rulerIndentHandle {
+    color:var(--v244-gold) !important;
+  }
+  .result-card #formatIndentBtn:hover,.result-card #formatIndentBtn:focus-visible {
+    color:var(--v244-gold) !important;
+    background:color-mix(in srgb,var(--v244-gold-soft) 45%,transparent) !important;
+  }
+  #rulerIndentHandle svg {stroke:var(--v244-gold) !important;fill:var(--v244-gold-soft) !important;}
+  #rulerIndentHandle:hover,#rulerIndentHandle:focus-visible,#rulerIndentHandle.is-dragging {
+    color:var(--v244-gold) !important;
+    filter:drop-shadow(0 0 3px color-mix(in srgb,var(--v244-gold) 34%,transparent));
+  }
+  #rulerIndentHandle:focus-visible {outline:2px solid var(--v244-focus-ring) !important;outline-offset:1px;}
+
+  /* Confirmar en verde y cancelar en rojo. Sin segundo botón superior. */
+  #toolPanel.compact-open .tool-actions-row .mini-btn[id^="confirm"] {
+    color:var(--v244-success) !important;
+    background:var(--v244-success-soft) !important;
+    border:1px solid color-mix(in srgb,var(--v244-success) 35%,transparent) !important;
+  }
+  #toolPanel.compact-open .tool-actions-row .mini-btn[id^="close"] {
+    color:var(--v244-red) !important;
+    background:var(--v244-red-soft) !important;
+    border:1px solid color-mix(in srgb,var(--v244-red) 35%,transparent) !important;
+  }
+  #toolPanel.palette-open .color-swatch.is-active {
+    border-color:var(--v244-focus-ring) !important;
+    box-shadow:0 0 0 2px color-mix(in srgb,var(--v244-focus-ring) 75%,transparent),
+      0 2px 7px rgba(25,35,40,.18) !important;
+  }
+  #toolPanel.palette-open .color-swatch:focus-visible {
+    outline:2px solid var(--v244-focus-ring) !important;outline-offset:2px;
+  }
+  /* Las opciones nuevas se pintan con tonos accesibles en los dos temas. */
+  #toolPanel.palette-open .color-swatch {box-shadow:inset 0 1px 0 rgba(255,255,255,.22) !important;}
+  @media(prefers-reduced-motion:reduce) {
+    .result-card #copyBtn,.result-card #copyBtn::before {animation:none !important;transition:none !important;}
+  }
+
 </style>
 </head>
 <body class="intro-running">
@@ -4730,6 +4893,10 @@ body.info-dialog-open { overscroll-behavior: none; }
         <button class="color-swatch" type="button" data-color="#3d3d58" style="background:#3d3d58" aria-label="Color gris oscuro"></button>
         <button class="color-swatch" type="button" data-color="#1d7a79" style="background:#1d7a79" aria-label="Color turquesa"></button>
         <button class="color-swatch" type="button" data-color="#0f6d95" style="background:#0f6d95" aria-label="Color cian oscuro"></button>
+        <button class="color-swatch" type="button" data-color="var(--palette-gold)" style="background:var(--palette-gold)" aria-label="Amarillo ocre de lectura" title="Amarillo ocre"></button>
+        <button class="color-swatch" type="button" data-color="var(--palette-red)" style="background:var(--palette-red)" aria-label="Rojo de lectura" title="Rojo"></button>
+        <button class="color-swatch" type="button" data-color="var(--palette-mint)" style="background:var(--palette-mint)" aria-label="Verde menta de lectura" title="Verde menta"></button>
+        <button class="color-swatch" type="button" data-color="var(--palette-blue)" style="background:var(--palette-blue)" aria-label="Azul de lectura" title="Azul"></button>
       </div>
       <div class="tool-actions-row">
         <button id="confirmTextColorBtn" class="mini-btn icon-mini-btn" type="button" aria-label="Confirmar color del texto" title="Confirmar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></button>
@@ -4752,6 +4919,10 @@ body.info-dialog-open { overscroll-behavior: none; }
         <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-softblue)" style="background:var(--source-softblue)" aria-label="Cian"></button>
         <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-pink)" style="background:var(--source-pink)" aria-label="Rosado"></button>
         <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--source-slate)" style="background:var(--source-slate)" aria-label="Gris"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--palette-gold)" style="background:var(--palette-gold)" aria-label="Amarillo ocre" title="Amarillo ocre"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--palette-red)" style="background:var(--palette-red)" aria-label="Rojo" title="Rojo"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--palette-mint)" style="background:var(--palette-mint)" aria-label="Verde menta" title="Verde menta"></button>
+        <button class="color-swatch source-color-swatch" type="button" data-source-color="var(--palette-blue)" style="background:var(--palette-blue)" aria-label="Azul" title="Azul"></button>
       </div>
       <div class="tool-actions-row">
         <button id="confirmSourceColorBtn" class="mini-btn icon-mini-btn" type="button" aria-label="Confirmar color original" title="Confirmar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></button>
@@ -4781,7 +4952,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   <h2 class="source-about-heading">Acerca de</h2>
   <div class="about-identity"><div class="about-mark"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Emblema del Organizador de texto"><path d="M19 11.5h18.5l8.5 8.5V44a6 6 0 0 1-6 6H19a6 6 0 0 1-6-6V17.5a6 6 0 0 1 6-6Z" fill="#edf4ff" stroke="#386e9c" stroke-width="2.5"/><path d="M37.5 11.5V20a2 2 0 0 0 2 2H48" fill="none" stroke="#386e9c" stroke-width="2.5"/><path d="M21 23.5h14.5M21 31h11.5M21 38.5h14.5" stroke="#386e9c" fill="none" stroke-width="3.4" stroke-linecap="round"/><path d="M42 24.5v14.2m-4.2-3.9L42 39l4.2-4.2" fill="none" stroke="#ba8430" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.7" cy="14.4" r="2.5" fill="#386e9c"/><circle cx="48" cy="44.5" r="2.6" fill="#ba8430"/></svg></div><p>Organizador de texto técnico con ajuste automático de párrafos numerados, ancho, sangría y edición sincronizada.</p></div>
   <dl class="about-data">
-    <div><dt>Versión</dt><dd>2.43 (8)</dd></div>
+    <div><dt>Versión</dt><dd>2.44 (11)</dd></div>
     <div><dt>Creación</dt><dd><time datetime="2026-10-15">15 oct. 2026</time></dd></div>
     <div><dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd></div>
     <div><dt>Autor</dt><dd>Arley Zarate</dd></div>
@@ -4813,7 +4984,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.43";
+  const APP_VERSION = "2.44";
   const OFFICIAL_URL = "https://arleyzarate.github.io/recursos/organizadortexto/";
   const PROJECT_APP = "OrganizadorDeTexto";
   const PROJECT_SCHEMA = 1;
@@ -5264,7 +5435,7 @@ body.info-dialog-open { overscroll-behavior: none; }
     outputMeasure.style.fontFamily = fontFamily;
     outputPreview.style.fontWeight = fontWeight;
     outputMeasure.style.fontWeight = fontWeight;
-    outputPreview.style.color = previewTextColor;
+    outputPreview.style.setProperty('color', previewTextColor, 'important');
     outputPreview.style.transform = 'scaleX(' + widthFactor.toFixed(2) + ')';
   }
 
@@ -7268,6 +7439,9 @@ begin();})();`;
       btn.classList.toggle("is-active", btn === button);
     });
 
+    // Los paneles compactos usan exclusivamente los botones inferiores.
+    toolPanel.classList.toggle('compact-open', ['textcolor', 'sourcecolor', 'textwidth'].includes(name));
+    toolPanel.classList.toggle('palette-open', ['textcolor', 'sourcecolor'].includes(name));
     toolPanel.classList.add("open");
     toolPanel.setAttribute("aria-hidden", "false");
     if (widthFactorBtn) widthFactorBtn.setAttribute('aria-expanded', name === 'textwidth' ? 'true' : 'false');
@@ -7306,7 +7480,7 @@ begin();})();`;
   function closeToolPanel() {
     activeTool = "";
     activeToolButton = null;
-    toolPanel.classList.remove("open");
+    toolPanel.classList.remove("open", "compact-open", "palette-open");
     toolPanel.setAttribute("aria-hidden", "true");
     if (widthFactorBtn) widthFactorBtn.setAttribute('aria-expanded', 'false');
     if (textColorBtn) textColorBtn.setAttribute('aria-expanded', 'false');
