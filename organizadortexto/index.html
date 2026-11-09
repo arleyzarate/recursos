@@ -4122,6 +4122,59 @@ body.info-dialog-open { overscroll-behavior: none; }
   }
   @media(prefers-reduced-motion:reduce){.document-tab,.document-tab-close{transition:none !important;}}
 
+
+  /* v2.42 · Gestión documental común: un único Nuevo superior y ventanas accesibles. */
+  .mobile-bottom-nav.document-nav-four {grid-template-columns:repeat(4,minmax(0,1fr));}
+  .topbar {position:relative;z-index:80;}
+  .topbar .doc-menu-anchor {position:relative;flex:0 0 auto;margin-left:auto;z-index:51;}
+  .document-launch {display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;min-width:46px;padding:7px 10px;border-radius:14px;border:1px solid var(--border);background:var(--neo-raised,var(--surface-strong));color:var(--text);font-weight:720;cursor:pointer;transition:transform .16s ease,background-color .16s ease,border-color .16s ease;}
+  .document-launch svg,.document-menu svg {width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+  .document-launch:hover,.document-launch[aria-expanded="true"] {background:var(--surface-strong);border-color:var(--neo-bright,var(--accent));transform:translateY(-1px);}
+  .document-menu[hidden],.document-dialog-layer[hidden],.document-save-fields[hidden] {display:none !important;}
+  .document-menu {position:absolute;right:0;top:calc(100% + 8px);width:min(256px,calc(100vw - 20px));padding:7px;background:var(--surface-strong);border:1px solid var(--border-strong);box-shadow:var(--shadow);border-radius:17px;display:grid;gap:3px;z-index:100;}
+  .document-menu button {border:0;border-radius:11px;background:transparent;color:var(--text);display:flex;align-items:center;gap:13px;min-height:48px;width:100%;padding:9px 12px;text-align:left;cursor:pointer;font-weight:690;}
+  .document-menu button:hover,.document-menu button:focus-visible {background:color-mix(in srgb,var(--accent) 11%,var(--surface-strong));}
+  .document-menu svg {color:var(--accent);}
+  .document-dialog-layer {position:fixed;inset:0;z-index:160;display:grid;place-items:start center;padding:clamp(14px,11dvh,80px) 12px max(14px,env(safe-area-inset-bottom));overflow-y:auto;background:rgba(13,22,37,.42);backdrop-filter:blur(6px);}
+  .document-dialog {width:min(440px,100%);max-height:min(79dvh,620px);overflow-y:auto;overscroll-behavior:contain;border-radius:21px;border:1px solid var(--border-strong);background:var(--surface-strong);color:var(--text);box-shadow:0 18px 50px rgba(12,22,37,.25);padding:18px;}
+  .document-dialog header {position:sticky;top:-18px;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--surface-strong);padding:2px 0 10px;}
+  .document-dialog h2 {font-size:1.14rem;margin:0;}
+  .document-dialog-close {border:1px solid var(--border);border-radius:11px;background:transparent;color:var(--text);font-size:26px;min-width:40px;min-height:40px;cursor:pointer;}
+  .document-dialog-message {font-size:.86rem;line-height:1.45;margin:6px 0 12px;}
+  .document-save-fields {display:grid;gap:9px;}
+  .document-save-fields label:not(.document-format-options label),.document-dialog-label {font-size:.86rem;font-weight:700;margin:0;}
+  .document-save-fields input[type="text"] {width:100%;min-height:44px;background:var(--surface-soft);color:var(--text);border:1px solid var(--border-strong);border-radius:10px;padding:9px 10px;}
+  .document-format-options {display:grid;gap:6px;}
+  .document-format-options label {display:flex;gap:9px;align-items:center;min-height:44px;padding:9px 10px;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:.88rem;}
+  .document-format-options label:has(input:checked) {border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);}
+  .document-dialog-buttons {display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:18px;}
+  .document-dialog-buttons button {min-height:44px;border:1px solid var(--border-strong);border-radius:11px;padding:9px 15px;color:var(--text);background:var(--surface-soft);font-weight:700;cursor:pointer;}
+  .document-dialog-buttons .document-dialog-primary {background:var(--accent);color:white;border-color:var(--accent);}
+  .document-tab-item.is-dirty .document-tab::after {content:' •';color:var(--danger);}
+  @media(max-width:980px) {
+    .topbar .doc-menu-anchor {margin-left:auto;}
+    .document-launch {min-width:44px;min-height:44px;padding:8px;}
+    .document-launch-label {display:none;}
+    .document-menu {width:min(250px,calc(100vw - 24px));}
+  }
+  @media(max-width:680px) {
+    .topbar {overflow:visible;}
+    .document-dialog-layer {padding-top:18px;}
+    .document-dialog {max-height:min(74dvh,620px);}
+  }
+  @media(max-width:360px) {
+    .topbar .brand {flex:1 1 0;min-width:0;gap:5px;}
+    .topbar .brand-mark {width:40px;height:40px;flex:0 0 40px;}
+    .topbar .brand-mark svg {width:38px!important;height:38px!important;}
+    .topbar .brand-copy {min-width:0;}
+    .topbar .brand-copy h1 {display:flex;flex-direction:column!important;flex-wrap:nowrap!important;align-items:flex-start;gap:1px!important;line-height:1.1;}
+    .topbar .brand-copy h1 .brand-title-main,
+    .topbar .brand-copy h1 .brand-title-accent {font-size:12.5px!important;white-space:nowrap;}
+    .topbar .brand-signature {font-size:7px;letter-spacing:.04em;}
+  }
+  .workspace.is-drop-target {outline:2px dashed var(--accent);outline-offset:-4px;border-radius:20px;background:color-mix(in srgb,var(--accent) 6%,transparent);}
+  @media(prefers-reduced-motion:reduce){.document-launch{transition:none!important;}}
+
 </style>
 </head>
 <body class="intro-running">
@@ -4187,10 +4240,19 @@ body.info-dialog-open { overscroll-behavior: none; }
         <div class="brand-signature">por Arley Zarate</div>
       </div>
     </div>
+    <div id="docMenuAnchor" class="doc-menu-anchor">
+      <button id="newBtn" class="document-launch" type="button" aria-label="Documentos: Nuevo, Abrir, Insertar, Guardar o Cerrar" aria-expanded="false" aria-controls="documentMenu" title="Documentos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7zM14 3v5h5M12 11v6M9 14h6"/></svg><span class="document-launch-label">Nuevo</span>
+      </button>
+      <div id="documentMenu" class="document-menu" role="menu" aria-label="Documentos" hidden>
+        <button type="button" role="menuitem" data-document-action="new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7zM14 3v5h5M12 11v6M9 14h6"/></svg>Nuevo</button>
+        <button type="button" role="menuitem" data-document-action="open"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h7l2 2h9v13H3z"/></svg>Abrir</button>
+        <button type="button" role="menuitem" data-document-action="insert"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16M12 6v12M6 12h12"/></svg>Insertar</button>
+        <button type="button" role="menuitem" data-document-action="save"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l3 4v14H5V3h3zM9 3v6h6V3M8 20v-8h8v8"/></svg>Guardar</button>
+        <button type="button" role="menuitem" data-document-action="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>Cerrar</button>
+      </div>
+    </div>
 <nav class="info-dock" aria-label="Información y navegación">
-  <button id="newBtn" class="dock-btn" type="button" data-tooltip="Nuevo" aria-label="Nuevo documento">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></svg><span class="desktop-nav-label">Nuevo</span>
-  </button>
   <button class="dock-btn info-trigger" type="button" data-panel="about" data-tooltip="Acerca de" aria-label="Acerca de">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg><span class="desktop-nav-label">Acerca de</span>
   </button>
@@ -4355,13 +4417,34 @@ body.info-dialog-open { overscroll-behavior: none; }
 
 
 
-<nav class="mobile-bottom-nav" aria-label="Navegación móvil">
+<nav class="mobile-bottom-nav document-nav-four" aria-label="Navegación móvil">
   <a href="https://arleyzarate.github.io/" aria-label="Inicio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-6h6v6"/></svg><span>Inicio</span></a>
-  <button id="mobileNewBtn" type="button" aria-label="Nuevo documento"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7zM14 3v5h5M12 11v6M9 14h6"/></svg><span>Nuevo</span></button>
   <button id="mobileUndoBtn" type="button" aria-label="Deshacer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6M3 13a8.5 8.5 0 1 1 4 6.9"/></svg><span>Deshacer</span></button>
   <button id="mobileRedoBtn" type="button" aria-label="Rehacer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 7v6h-6M21 13a8.5 8.5 0 1 0-4 6.9"/></svg><span>Rehacer</span></button>
   <button id="mobileHelpBtn" type="button" aria-label="Instrucciones"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4a2 2 0 0 1 2-2h13v18H7a2 2 0 0 0-2 2zM5 4v18M10 7h6M10 11h5"/></svg><span>Ayuda</span></button>
 </nav>
+
+
+<input id="projectFileInput" type="file" accept=".html,.organizadortexto,.txt,text/html,application/json,text/plain" hidden aria-label="Seleccionar documento para abrir o insertar">
+<div id="documentDialogLayer" class="document-dialog-layer" hidden>
+  <section id="documentDialog" class="document-dialog" role="dialog" aria-modal="true" aria-labelledby="documentDialogTitle" aria-describedby="documentDialogMessage" tabindex="-1">
+    <header><h2 id="documentDialogTitle">Guardar</h2><button type="button" id="documentDialogClose" class="document-dialog-close" aria-label="Cerrar ventana">×</button></header>
+    <div id="documentDialogMessage" class="document-dialog-message" aria-live="polite"></div>
+    <div id="documentSaveFields" class="document-save-fields">
+      <label for="documentFileName">Nombre del archivo</label><input id="documentFileName" type="text" maxlength="100" autocomplete="off" spellcheck="false">
+      <p class="document-dialog-label">Formato</p>
+      <div class="document-format-options" role="radiogroup" aria-label="Formato de guardado">
+        <label><input type="radio" name="documentExportFormat" value="html" checked> HTML portable editable (.html)</label>
+        <label><input type="radio" name="documentExportFormat" value="native"> Proyecto editable (.organizadortexto)</label>
+      </div>
+    </div>
+    <div id="documentDialogButtons" class="document-dialog-buttons">
+      <button type="button" id="documentDialogCancel">Cancelar</button>
+      <button type="button" id="documentDialogDiscard" hidden>Descartar</button>
+      <button type="button" id="documentDialogConfirm" class="document-dialog-primary">Guardar</button>
+    </div>
+  </section>
+</div>
 
 <div id="toolPanel" class="tool-panel" aria-hidden="true">
   <button id="closeToolPanelBtn" class="tool-panel-close" type="button" aria-label="Cerrar configuración" title="Cerrar configuración"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg><span>Cerrar</span></button>
@@ -4475,16 +4558,17 @@ body.info-dialog-open { overscroll-behavior: none; }
 <!-- Ficha canónica estática: el portal puede leerla sin ejecutar JavaScript. -->
 <section id="aboutStaticContent" class="about-static-source" hidden aria-label="Acerca de Organizador de texto">
   <h2 class="source-about-heading">Acerca de</h2>
-  <div class="about-identity"><div class="about-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Emblema del Organizador de texto"><path d="M19 11.5h18.5l8.5 8.5V44a6 6 0 0 1-6 6H19a6 6 0 0 1-6-6V17.5a6 6 0 0 1 6-6Z" fill="#edf4ff" stroke="#386e9c" stroke-width="2.5"/><path d="M37.5 11.5V20a2 2 0 0 0 2 2H48" fill="none" stroke="#386e9c" stroke-width="2.5"/><path d="M21 23.5h14.5M21 31h11.5M21 38.5h14.5" stroke="#386e9c" fill="none" stroke-width="3.4" stroke-linecap="round"/><path d="M42 24.5v14.2m-4.2-3.9L42 39l4.2-4.2" fill="none" stroke="#ba8430" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.7" cy="14.4" r="2.5" fill="#386e9c"/><circle cx="48" cy="44.5" r="2.6" fill="#ba8430"/></svg></div><p>Organizador de texto técnico con ajuste automático de párrafos numerados, ancho, sangría y edición sincronizada.</p></div>
+  <div class="about-identity"><div class="about-mark"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Emblema del Organizador de texto"><path d="M19 11.5h18.5l8.5 8.5V44a6 6 0 0 1-6 6H19a6 6 0 0 1-6-6V17.5a6 6 0 0 1 6-6Z" fill="#edf4ff" stroke="#386e9c" stroke-width="2.5"/><path d="M37.5 11.5V20a2 2 0 0 0 2 2H48" fill="none" stroke="#386e9c" stroke-width="2.5"/><path d="M21 23.5h14.5M21 31h11.5M21 38.5h14.5" stroke="#386e9c" fill="none" stroke-width="3.4" stroke-linecap="round"/><path d="M42 24.5v14.2m-4.2-3.9L42 39l4.2-4.2" fill="none" stroke="#ba8430" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.7" cy="14.4" r="2.5" fill="#386e9c"/><circle cx="48" cy="44.5" r="2.6" fill="#ba8430"/></svg></div><p>Organizador de texto técnico con ajuste automático de párrafos numerados, ancho, sangría y edición sincronizada.</p></div>
   <dl class="about-data">
-    <div><dt>Versión</dt><dd>2.41</dd></div>
+    <div><dt>Versión</dt><dd>2.42 (6)</dd></div>
     <div><dt>Creación</dt><dd><time datetime="2026-10-15">15 oct. 2026</time></dd></div>
-    <div><dt>Actualización</dt><dd><time datetime="2026-11-05">5 nov. 2026</time></dd></div>
+    <div><dt>Actualización</dt><dd><time datetime="2026-11-08">8 nov. 2026</time></dd></div>
     <div><dt>Autor</dt><dd>Arley Zarate</dd></div>
   </dl>
   <h3>Intención</h3>
   <p>Organizar listados y textos técnicos para que cada línea respete el ancho configurado, conservando palabras, códigos y referencias.</p>
   <p>El texto original y el resultado se sincronizan al escribir. El ancho, la sangría y la revisión ortográfica facilitan preparar el contenido para otras herramientas.</p>
+  <button type="button" id="legalLinkBtn" class="info-link-button">Aviso legal</button>
 </section>
 
 <div id="infoBackdrop" class="info-backdrop" aria-hidden="true"></div>
@@ -4508,8 +4592,11 @@ body.info-dialog-open { overscroll-behavior: none; }
   const DEFAULT_WIDTH = 104;
   const DEFAULT_INDENT = 3;
   const DEFAULT_TEXT_WIDTH_FACTOR = 0.80;
-  const APP_VERSION = "2.41";
-  const APP_DATE = "5 nov. 2026";
+  const APP_VERSION = "2.42";
+  const OFFICIAL_URL = "https://arleyzarate.github.io/recursos/organizadortexto/";
+  const PROJECT_APP = "OrganizadorDeTexto";
+  const PROJECT_SCHEMA = 1;
+  const APP_DATE = "8 nov. 2026";
   const HOME_URL = "https://arleyzarate.github.io/";
 
   const $ = (id) => document.getElementById(id);
@@ -6178,12 +6265,23 @@ body.info-dialog-open { overscroll-behavior: none; }
     inputText.focus();
   }
 
-  // v2.41 · Pestañas de documentos independientes, con historial y ajustes
-  // por documento. La barra se oculta mientras haya un único documento.
-  const documentTabStrip = $("documentTabStrip");
+  // v2.42 · Gestión documental en pestañas, guardado y recuperación portable.
+  const documentTabStrip = $('documentTabStrip');
+  const documentMenu = $('documentMenu');
+  const documentMenuAnchor = $('docMenuAnchor');
+  const documentDialogLayer = $('documentDialogLayer');
+  const documentDialog = $('documentDialog');
+  const projectFileInput = $('projectFileInput');
   let nextDocumentId = 2;
   let activeDocumentId = 1;
   const openDocuments = new Map();
+  let fileIntent = 'open';
+  let pendingDroppedDocument = null;
+  let dialogMode = '';
+  let closingDocumentId = null;
+  let focusBeforeDocumentDialog = null;
+  const MAX_IMPORT_BYTES = 5*1024*1024;
+
   function captureCurrentDocument() {
     return {
       text: inputText.value,
@@ -6205,83 +6303,353 @@ body.info-dialog-open { overscroll-behavior: none; }
       sourceColor:'var(--source-ink)',hidden:false,zoomMode:'width',zoomRatio:1,
       scrollInput:0, scrollOutput:0, undo:[],redo:[],historySource:'',historyCaret:null,lastUndoEdit:null};
   }
+  function persistentState(state) {
+    return {text:state.text, width:Number(state.width), indent:Number(state.indent),
+      corrections:!!state.corrections,reference:state.reference||'',bold:!!state.bold,
+      caseMode:state.caseMode,blankLineBetweenItems:!!state.blankLineBetweenItems,
+      widthFactor:Number(state.widthFactor),textColor:state.textColor,
+      sourceColor:state.sourceColor,hidden:!!state.hidden,
+      zoomMode:state.zoomMode,zoomRatio:Number(state.zoomRatio)};
+  }
+  function fingerprint(state) {return JSON.stringify(persistentState(state));}
+  function createDocumentEntry(id,name,state) {
+    return {id,name,state,savedFingerprint:fingerprint(state)};
+  }
+  function isDocumentDirty(doc) {
+    if(!doc)return false;
+    const state=doc.id===activeDocumentId ? captureCurrentDocument():doc.state;
+    return fingerprint(state)!==doc.savedFingerprint;
+  }
   function saveActiveDocument() {
-    const current = openDocuments.get(activeDocumentId);
-    if (current) current.state = captureCurrentDocument();
+    const doc=openDocuments.get(activeDocumentId);
+    if(doc) doc.state=captureCurrentDocument();
   }
   function renderDocumentTabs() {
     documentTabStrip.replaceChildren();
-    documentTabStrip.hidden = openDocuments.size < 2;
-    if (documentTabStrip.hidden) return;
-    for (const doc of openDocuments.values()) {
-      const wrap=document.createElement('span');
-      wrap.className='document-tab-item';
-      const tab=document.createElement('button');
-      tab.type='button'; tab.className='document-tab'; tab.role='tab';
-      tab.setAttribute('aria-selected', String(doc.id===activeDocumentId));
-      tab.title=doc.name; tab.textContent=doc.name;
-      tab.addEventListener('click', () => activateDocument(doc.id));
-      const close=document.createElement('button');
-      close.type='button'; close.className='document-tab-close';
-      close.textContent='×'; close.setAttribute('aria-label', 'Cerrar '+doc.name);
-      close.addEventListener('click', () => closeDocument(doc.id));
-      wrap.append(tab,close);documentTabStrip.append(wrap);
+    documentTabStrip.hidden=openDocuments.size<2;
+    for(const doc of openDocuments.values()) {
+      const item=document.createElement('span'); item.className='document-tab-item';
+      if(isDocumentDirty(doc))item.classList.add('is-dirty');
+      const tab=document.createElement('button');tab.className='document-tab';tab.type='button';tab.role='tab';
+      tab.setAttribute('aria-selected',String(doc.id===activeDocumentId));
+      tab.setAttribute('title',doc.name+(isDocumentDirty(doc)?' (cambios sin guardar)':''));
+      tab.textContent=doc.name;tab.addEventListener('click',()=>activateDocument(doc.id));
+      const close=document.createElement('button');close.className='document-tab-close';close.type='button';
+      close.textContent='×';close.setAttribute('aria-label','Cerrar '+doc.name);
+      close.addEventListener('click',()=>requestCloseDocument(doc.id));
+      item.append(tab,close);documentTabStrip.append(item);
     }
   }
   function activateDocument(id) {
-    if (id===activeDocumentId || !openDocuments.has(id)) return;
-    saveActiveDocument();
-    activeDocumentId=id;
+    if(id===activeDocumentId||!openDocuments.has(id))return;
+    saveActiveDocument();activeDocumentId=id;
     const data=openDocuments.get(id).state;
     historySuspended=true;
     inputText.value=data.text;
-    maxWidth.value=data.width; indentSize.value=data.indent;
-    basicCorrections.checked=data.corrections; referenceLine.value=data.reference;
+    maxWidth.value=data.width;indentSize.value=data.indent;
+    basicCorrections.checked=data.corrections;referenceLine.value=data.reference;
     previewBold=data.bold;caseMode=data.caseMode;blankLineBetweenItems=data.blankLineBetweenItems;
     previewZoomMode=data.zoomMode;previewZoomRatio=data.zoomRatio;
-    setTextWidthFactor(data.widthFactor);
-    setPreviewTextColor(data.textColor);
-    setSourceTextColor(data.sourceColor);
+    setTextWidthFactor(data.widthFactor);setPreviewTextColor(data.textColor);setSourceTextColor(data.sourceColor);
     actualizarControlTipoLetra();updateBlankLineButton();updateReferenceCount();
-    setOriginalVisible(!data.hidden);
-    updateInputOverlayState();organizeText();
+    setOriginalVisible(!data.hidden);updateInputOverlayState();organizeText();
     undoStack.splice(0,undoStack.length,...data.undo.map(x=>({...x})));
     redoStack.splice(0,redoStack.length,...data.redo.map(x=>({...x})));
-    historySource=data.historySource;historyCaret=data.historyCaret;
-    lastUndoEdit=data.lastUndoEdit;
+    historySource=data.historySource;historyCaret=data.historyCaret;lastUndoEdit=data.lastUndoEdit;
     historySuspended=false;
     hideDuplicateNumberBubble();previousDuplicateSignature='';
     updateMobileTabs();updateFormatStrip();renderDocumentTabs();
-    requestAnimationFrame(()=>{
-      inputText.scrollTop=data.scrollInput;
-      outputViewport.scrollTop=data.scrollOutput;
-      fitOutputPreview();
-    });
+    requestAnimationFrame(()=>{inputText.scrollTop=data.scrollInput;outputViewport.scrollTop=data.scrollOutput;fitOutputPreview();});
   }
-  function closeDocument(id) {
-    const doc=openDocuments.get(id);
-    if (!doc) return;
-    if (id===activeDocumentId) saveActiveDocument();
-    if (doc.state.text.trim() && !window.confirm('¿Cerrar «'+doc.name+'»? Los cambios de esta pestaña que no haya copiado se perderán.')) return;
+  function removeDocument(id) {
+    if(!openDocuments.has(id))return;
+    if(id===activeDocumentId)saveActiveDocument();
     openDocuments.delete(id);
-    if (!openDocuments.size) {
-      const newId=nextDocumentId++;
-      openDocuments.set(newId,{id:newId,name:'Sin título '+newId,state:freshDocument()});
-    }
-    if (id===activeDocumentId) {
-      const next=[...openDocuments.keys()][0];
-      activeDocumentId=-1;activateDocument(next);
-    } else renderDocumentTabs();
+    if(!openDocuments.size){const freshId=nextDocumentId++;openDocuments.set(freshId,createDocumentEntry(freshId,'Sin título '+freshId,freshDocument()));}
+    if(id===activeDocumentId) {const next=[...openDocuments.keys()][0];activeDocumentId=-1;activateDocument(next);}
+    else renderDocumentTabs();
   }
-  openDocuments.set(1,{id:1,name:'Sin título 1',state:freshDocument()});
+  function requestCloseDocument(id) {
+    const doc=openDocuments.get(id);if(!doc)return;
+    if(!isDocumentDirty(doc)){removeDocument(id);return;}
+    closingDocumentId=id;
+    showDocumentDialog('close', 'Cambios sin guardar en «'+doc.name+'». Puede guardarlos antes de cerrar, descartarlos o continuar editando.');
+  }
   function createNewDocument() {
     closeInfo();closeToolPanel();saveActiveDocument();
     const id=nextDocumentId++;
-    openDocuments.set(id,{id,name:'Sin título '+id,state:freshDocument()});
-    activeDocumentId=-1;
-    activateDocument(id);
+    openDocuments.set(id,createDocumentEntry(id,'Sin título '+id,freshDocument()));
+    activeDocumentId=-1;activateDocument(id);
     inputText.focus({preventScroll:true});
-    playIntroSequence();
+    // Nuevo no repite la portada: la animación corresponde al inicio de aplicación.
+  }
+  openDocuments.set(1,createDocumentEntry(1,'Sin título 1',freshDocument()));
+
+  function sanitizedBaseName(name) {
+    return String(name||'').replace(/\.(?:html|organizadortexto|txt)$/i,'')
+      .replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/g,'').trim().slice(0,95)||'Documento';
+  }
+  function validatedData(raw) {
+    if(!raw || typeof raw!=='object' || raw.app!==PROJECT_APP || raw.schemaVersion!==PROJECT_SCHEMA)throw Error('Formato o versión de proyecto no compatible.');
+    if(!raw.document || typeof raw.document!=='object')throw Error('El proyecto no contiene un documento válido.');
+    const d=raw.document;
+    if(typeof d.text!=='string'||d.text.length>2000000)throw Error('Texto demasiado extenso o inválido.');
+    const num=(value,def,min,max)=>{const v=Number(value);return Number.isFinite(v)?Math.max(min,Math.min(max,v)):def;};
+    const stringChoice=(value,choices,fallback)=>choices.includes(value)?value:fallback;
+    const allowedColor=(value,fallback)=>typeof value==='string'&&value.length<80&&/^var\(--[\w-]+\)$/.test(value)?value:fallback;
+    const state=freshDocument();
+    state.text=d.text;
+    state.width=String(Math.round(num(d.width,DEFAULT_WIDTH,10,1000)));
+    state.indent=String(Math.round(num(d.indent,DEFAULT_INDENT,0,30)));
+    state.corrections=!!d.corrections;
+    state.reference=typeof d.reference==='string'?d.reference.slice(0,500):'';
+    state.bold=!!d.bold;
+    state.caseMode=stringChoice(d.caseMode,['original','lower','upper','sentence'],'original');
+    state.blankLineBetweenItems=!!d.blankLineBetweenItems;
+    state.widthFactor=num(d.widthFactor,DEFAULT_TEXT_WIDTH_FACTOR,.4,1);
+    state.textColor=allowedColor(d.textColor,'var(--result)');
+    state.sourceColor=allowedColor(d.sourceColor,'var(--source-ink)');
+    state.hidden=!!d.hidden;
+    state.zoomMode=stringChoice(d.zoomMode,['width','height','manual'],'width');
+    state.zoomRatio=num(d.zoomRatio,1,.2,6);
+    return {name:sanitizedBaseName(raw.name),state};
+  }
+  function documentPayload(doc) {
+    const state=doc.id===activeDocumentId?captureCurrentDocument():doc.state;
+    return {app:PROJECT_APP,schemaVersion:PROJECT_SCHEMA,version:APP_VERSION,name:sanitizedBaseName(doc.name),document:persistentState(state)};
+  }
+  function safeEmbeddedJson(payload) {
+    return JSON.stringify(payload).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+  }
+  function portableHtml(payload) {
+    const data=safeEmbeddedJson(payload);
+    // El iniciador NO contiene copias del editor. El respaldo es también JSON recuperable manualmente.
+    const initializer=String.raw`(()=>{'use strict';
+const dataTag=document.getElementById('organizador-documento');
+const frame=document.getElementById('organizador-marco');
+const msg=document.getElementById('organizador-estado');
+const retry=document.getElementById('reintentar');
+const backup=document.getElementById('respaldo');
+const URL='${OFFICIAL_URL}';
+const ORIGIN=new URL(URL).origin;
+let project;
+try{project=JSON.parse(dataTag.textContent)}catch(_){msg.textContent='No se pudo leer el documento. Conserve este archivo.';return;}
+let token='';let acknowledged=false;let timer=0;
+const makeToken=()=>{const bits=new Uint32Array(4);crypto.getRandomValues(bits);return Array.from(bits,x=>x.toString(16).padStart(8,'0')).join('')};
+function begin(){clearTimeout(timer);token=makeToken();acknowledged=false;retry.hidden=true;msg.textContent='Conectando con el Organizador de texto…';
+const url=new URL(URL);url.searchParams.set('ot_transfer',token);url.searchParams.set('ot_revision',Date.now().toString(36));frame.src=url.href;
+timer=setTimeout(()=>{if(!acknowledged){msg.textContent='No se confirmó la recuperación. Verifique la conexión o use Nuevo → Abrir con este mismo HTML desde la herramienta web.';retry.hidden=false;}},17000);
+}
+window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==ORIGIN||!e.data||e.data.token!==token)return;
+if(e.data.kind==='ot-ready'){frame.contentWindow.postMessage({kind:'ot-import',token,project},ORIGIN);}
+if(e.data.kind==='ot-ack'){if(e.data.ok===true){acknowledged=true;clearTimeout(timer);msg.textContent='Documento abierto en el Organizador de texto.';document.body.classList.add('ok');}else{clearTimeout(timer);msg.textContent='El Organizador no pudo abrir este documento. Puede reintentar o importarlo manualmente.';retry.hidden=false;}}
+});
+retry.addEventListener('click',begin);
+backup.addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(project,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=(project.name||'Documento')+'.organizadortexto';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)});
+begin();})();`;
+    // Note initializer has a local URL name: use window.URL for createObjectURL, not URL constant.
+    const launcher=initializer.replace('const URL=', 'const TOOL_URL=').replaceAll('new URL(URL)','new URL(TOOL_URL)').replaceAll('URL.createObjectURL','window.URL.createObjectURL').replaceAll('URL.revokeObjectURL','window.URL.revokeObjectURL');
+    const endScript='<'+'/script>';
+    return '<!doctype html>\n<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="organizador-portable" content="1"><title>'+escapeHtml(sanitizedBaseName(payload.name))+' | Organizador de texto</title><style>body{margin:0;font:16px system-ui,sans-serif;background:#edf0f5;color:#1d293c}header{background:white;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 1px 6px #abb5c444}h1{font-size:1.05rem;margin:0}p{margin:0;font-size:.85rem}button,a{border:1px solid #aab7c8;border-radius:9px;padding:8px 12px;background:white;color:#1d293c;font:inherit;cursor:pointer}iframe{width:100%;border:0;height:calc(100dvh - 85px);background:white}.ok header{background:#f3fff8}#respaldo{margin-left:auto}</style></head><body><header><div><h1>'+escapeHtml(payload.name)+'</h1><p id="organizador-estado">Iniciando Organizador de texto…</p></div><button id="reintentar" hidden>Reintentar</button><button id="respaldo">Descargar respaldo</button><a href="'+OFFICIAL_URL+'" target="_blank" rel="noopener">Abrir la herramienta</a></header><iframe id="organizador-marco" title="Organizador de texto" referrerpolicy="no-referrer"></iframe><script type="application/json" id="organizador-documento">'+data+endScript+'<script>'+launcher+endScript+'</body></html>';
+  }
+  function escapeHtml(input) {return String(input).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+  function startDownload(content,name,type) {
+    const url=URL.createObjectURL(new Blob([content],{type}));
+    const link=document.createElement('a');link.download=name;link.href=url;
+    document.body.append(link);
+    try{link.click();return true;}catch(_){return false;}finally{link.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);}
+  }
+  function closeDocumentMenu(focus=false) {
+    documentMenu.hidden=true;$('newBtn').setAttribute('aria-expanded','false');
+    if(focus)$('newBtn').focus({preventScroll:true});
+  }
+  function openDocumentMenu() {
+    closeInfo();closeToolPanel();documentMenu.hidden=false;
+    $('newBtn').setAttribute('aria-expanded','true');
+    documentMenu.querySelector('button')?.focus({preventScroll:true});
+  }
+  function showDocumentDialog(mode,message='') {
+    dialogMode=mode;focusBeforeDocumentDialog=document.activeElement;
+    const closeMode=mode==='close';
+    const dropMode=mode==='drop';
+    $('documentDialogTitle').textContent=closeMode?'Cerrar documento':dropMode?'Archivo recibido':'Guardar documento';
+    $('documentDialogMessage').textContent=message;
+    $('documentSaveFields').hidden=closeMode||dropMode;
+    $('documentDialogDiscard').hidden=!(closeMode||dropMode);
+    $('documentDialogDiscard').textContent=dropMode?'Insertar':'Descartar';
+    $('documentDialogConfirm').textContent=closeMode?'Guardar':dropMode?'Abrir':'Guardar archivo';
+    if(!closeMode&&!dropMode){
+      const doc=openDocuments.get(closingDocumentId||activeDocumentId);
+      $('documentFileName').value=sanitizedBaseName(doc?.name||'Documento');
+      document.querySelector('input[name="documentExportFormat"][value="html"]').checked=true;
+    }
+    documentDialogLayer.hidden=false;
+    ((closeMode||dropMode)?$('documentDialogCancel'):$('documentFileName')).focus({preventScroll:true});
+  }
+  function dismissDocumentDialog() {
+    documentDialogLayer.hidden=true;dialogMode='';closingDocumentId=null;pendingDroppedDocument=null;
+    if(focusBeforeDocumentDialog?.isConnected)focusBeforeDocumentDialog.focus({preventScroll:true});
+  }
+  function saveDocument(id=activeDocumentId) {
+    const doc=openDocuments.get(id);if(!doc)return false;
+    const name=sanitizedBaseName($('documentFileName').value);
+    const format=document.querySelector('input[name="documentExportFormat"]:checked')?.value||'html';
+    const payload=documentPayload(doc);payload.name=name;
+    const content=format==='native'?JSON.stringify(payload,null,2):portableHtml(payload);
+    const extension=format==='native'?'organizadortexto':'html';
+    const ok=startDownload(content,name+'.'+extension,format==='native'?'application/json;charset=utf-8':'text/html;charset=utf-8');
+    if(ok){doc.name=name;doc.savedFingerprint=fingerprint(doc.id===activeDocumentId?captureCurrentDocument():doc.state);renderDocumentTabs();setStatus('Descarga de «'+name+'.'+extension+'» iniciada.');}
+    return ok;
+  }
+  function parseImportedText(content,filename) {
+    let raw;
+    if(/\.txt$/i.test(filename)){
+      if(content.length>2000000)throw Error('El texto supera el tamaño permitido.');
+      return {name:sanitizedBaseName(filename),state:{...freshDocument(),text:content}};
+    }
+    if(/\.html?$/i.test(filename)){
+      const html=new DOMParser().parseFromString(content,'text/html');
+      if(html.querySelector('meta[name="organizador-portable"]')?.content!=='1')throw Error('No es un HTML portable del Organizador.');
+      const tag=html.getElementById('organizador-documento');
+      if(!tag||tag.type!=='application/json')throw Error('Faltan los datos del documento HTML.');
+      raw=JSON.parse(tag.textContent);
+    } else if(/\.organizadortexto$/i.test(filename)) { raw=JSON.parse(content); }
+    else throw Error('Extensión de archivo no compatible.');
+    return validatedData(raw);
+  }
+  function receiveImportedDocument(incoming,mode='open') {
+    if(mode==='insert') {
+      const a=inputText.value.trimEnd(),b=incoming.state.text.trim();
+      if(!b)return;
+      inputText.value=a?(a+'\n'+b):b;
+      inputText.dispatchEvent(new Event('input',{bubbles:true}));
+      updateInputOverlayState();organizeText();recordTextHistory();
+      setStatus('Texto insertado en «'+openDocuments.get(activeDocumentId).name+'».');
+      return;
+    }
+    saveActiveDocument();
+    const existing=[...openDocuments.values()].find(doc=>
+      doc.name===incoming.name && fingerprint(doc.state)===fingerprint(incoming.state));
+    if(existing){
+      if(existing.id!==activeDocumentId)activateDocument(existing.id);
+      setStatus('«'+incoming.name+'» ya estaba abierto. Se recuperó su pestaña.');
+      return;
+    }
+    const id=nextDocumentId++;
+    const doc=createDocumentEntry(id,incoming.name,incoming.state);
+    openDocuments.set(id,doc);activeDocumentId=-1;activateDocument(id);
+    setStatus('Documento «'+doc.name+'» abierto en una pestaña.');
+  }
+  function handleFileSelection(file,fromDrop=false) {
+    if(!file)return;
+    if(file.size>MAX_IMPORT_BYTES){setStatus('El archivo supera 5 MB.');return;}
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const incoming=parseImportedText(String(reader.result),file.name);
+        if(fromDrop && inputText.value.trim()) {
+          pendingDroppedDocument=incoming;
+          showDocumentDialog('drop','¿Desea abrir «'+incoming.name+'» en otra pestaña o insertar su contenido en el documento actual?');
+        } else receiveImportedDocument(incoming,fromDrop?'open':fileIntent);
+      }catch(error){setStatus('No se abrió el archivo: '+error.message);}
+    };
+    reader.onerror=()=>setStatus('No se pudo leer el archivo seleccionado.');
+    reader.readAsText(file,'UTF-8');
+  }
+  projectFileInput.addEventListener('change',()=>{const file=projectFileInput.files?.[0];handleFileSelection(file);projectFileInput.value='';});
+  // Arrastrar y soltar no sustituye silenciosamente el proyecto activo.
+  const documentWorkspace=document.querySelector('.workspace');
+  documentWorkspace?.addEventListener('dragover',event=>{
+    if(!event.dataTransfer?.types?.includes('Files'))return;
+    event.preventDefault();event.dataTransfer.dropEffect='copy';documentWorkspace.classList.add('is-drop-target');
+  });
+  documentWorkspace?.addEventListener('dragleave',event=>{
+    if(!documentWorkspace.contains(event.relatedTarget))documentWorkspace.classList.remove('is-drop-target');
+  });
+  documentWorkspace?.addEventListener('drop',event=>{
+    if(!event.dataTransfer?.files?.length)return;
+    event.preventDefault();documentWorkspace.classList.remove('is-drop-target');
+    handleFileSelection(event.dataTransfer.files[0],true);
+  });
+
+  $('newBtn').addEventListener('click',()=>documentMenu.hidden?openDocumentMenu():closeDocumentMenu());
+  documentMenu.addEventListener('click',event=>{
+    const btn=event.target.closest('[data-document-action]');if(!btn)return;
+    const action=btn.dataset.documentAction;closeDocumentMenu();
+    if(action==='new')createNewDocument();
+    else if(action==='open'||action==='insert'){fileIntent=action;projectFileInput.click();}
+    else if(action==='save'){closingDocumentId=null;showDocumentDialog('save');}
+    else if(action==='close')requestCloseDocument(activeDocumentId);
+  });
+  document.addEventListener('pointerdown',event=>{
+    if(!documentMenu.hidden&&!documentMenuAnchor.contains(event.target))closeDocumentMenu();
+  });
+  documentMenu.addEventListener('keydown',event=>{
+    if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+      event.preventDefault();const buttons=[...documentMenu.querySelectorAll('button')];
+      const idx=buttons.indexOf(document.activeElement);buttons[(idx+(event.key==='ArrowDown'?1:buttons.length-1))%buttons.length]?.focus();
+    }
+  });
+  $('documentDialogClose').addEventListener('click',dismissDocumentDialog);
+  $('documentDialogCancel').addEventListener('click',dismissDocumentDialog);
+  documentDialogLayer.addEventListener('click',event=>{if(event.target===documentDialogLayer)dismissDocumentDialog();});
+  $('documentDialogDiscard').addEventListener('click',()=>{
+    if(dialogMode==='drop'){
+      const data=pendingDroppedDocument;dismissDocumentDialog();if(data)receiveImportedDocument(data,'insert');
+    } else {
+      const id=closingDocumentId;dismissDocumentDialog();if(id!==null)removeDocument(id);
+    }
+  });
+  $('documentDialogConfirm').addEventListener('click',()=>{
+    if(dialogMode==='drop'){const data=pendingDroppedDocument;dismissDocumentDialog();if(data)receiveImportedDocument(data,'open');}
+    else if(dialogMode==='close'){
+      const target=closingDocumentId;
+      const doc=openDocuments.get(target);if(!doc)return;
+      // Guardar un documento inactivo no cambia el proyecto seleccionado.
+      const pending=target;
+      dismissDocumentDialog();closingDocumentId=pending;showDocumentDialog('save');
+    } else if(dialogMode==='save'){
+      const target=closingDocumentId||activeDocumentId;
+      const shouldClose=closingDocumentId!==null;
+      if(saveDocument(target)){
+        dismissDocumentDialog();
+        if(shouldClose)removeDocument(target);
+      } else $('documentDialogMessage').textContent='No fue posible iniciar la descarga. El documento continúa abierto.';
+    }
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){
+      if(!documentDialogLayer.hidden){event.preventDefault();dismissDocumentDialog();}
+      else if(!documentMenu.hidden){event.preventDefault();closeDocumentMenu(true);}
+    }
+    if(!documentDialogLayer.hidden&&event.key==='Tab'){
+      const controls=[...documentDialog.querySelectorAll('button:not([hidden]),input:not([hidden])')].filter(el=>el.offsetParent!==null);
+      const index=controls.indexOf(document.activeElement);
+      if(event.shiftKey&&index===0){event.preventDefault();controls[controls.length-1].focus();}
+      else if(!event.shiftKey&&index===controls.length-1){event.preventDefault();controls[0].focus();}
+    }
+  },true);
+  // Señal de cambios sin guardar; no modifica el motor de edición.
+  let dirtyFrame=0;
+  const queueDirtyRender=()=>{clearTimeout(dirtyFrame);dirtyFrame=setTimeout(renderDocumentTabs,160);};
+  [inputText,outputPreview,maxWidth,indentSize,basicCorrections,referenceLine,textWidthFactor].forEach(el=>el?.addEventListener('input',queueDirtyRender));
+  [boldToggleBtn,caseToggleBtn,blankLineToggleBtn,sourceColorBtn,textColorBtn].forEach(el=>el?.addEventListener('click',()=>setTimeout(queueDirtyRender,0)));
+  // Receptor de HTML portable. Se valida origen lógico mediante iframe padre,
+  // token aleatorio de sesión, datos y tamaño; nunca se ejecuta código importado.
+  const transferToken=new URLSearchParams(location.search).get('ot_transfer');
+  if(transferToken&&/^[0-9a-f]{32}$/.test(transferToken)&&window.parent!==window){
+    const trustedParent=window.parent;
+    window.addEventListener('message',event=>{
+      if(event.source!==trustedParent||!event.data||event.data.kind!=='ot-import'||event.data.token!==transferToken)return;
+      let ok=false;
+      try{
+        if(JSON.stringify(event.data.project).length>MAX_IMPORT_BYTES)throw Error('Proyecto demasiado grande.');
+        const incoming=validatedData(event.data.project);
+        receiveImportedDocument(incoming,'open');stopIntroOverlay(true);ok=true;
+      }catch(_) {ok=false;}
+      trustedParent.postMessage({kind:'ot-ack',token:transferToken,ok},event.origin==='null'?'*':event.origin);
+    });
+    setTimeout(()=>trustedParent.postMessage({kind:'ot-ready',token:transferToken},'*'),150);
   }
 
   function restoreDefaults() {
@@ -6575,6 +6943,22 @@ body.info-dialog-open { overscroll-behavior: none; }
       infoBody.replaceChildren(aboutSource);
     } else {
       infoBody.innerHTML = item.html;
+    }
+    if (key === 'about') {
+      $('legalLinkBtn')?.addEventListener('click', () => {
+        infoTitle.textContent='Aviso legal';
+        if(aboutStaticContent?.isConnected) {
+          aboutStaticContent.hidden=true;
+          document.body.appendChild(aboutStaticContent);
+        }
+        infoBody.replaceChildren();
+        const viewer=document.createElement('div');viewer.className='legal-viewer';
+        const frame=document.createElement('iframe');
+        frame.title='Aviso legal de Recursos';frame.src='../aviso-legal.html';frame.loading='lazy';
+        viewer.append(frame);
+        const info=document.createElement('p');info.textContent='Si el aviso no carga, compruebe que aviso-legal.html esté publicado en Recursos.';
+        infoBody.append(viewer,info);
+      },{once:true});
     }
     infoBody.scrollTop = 0;
     infoPanel.inert = false;
@@ -6982,7 +7366,6 @@ body.info-dialog-open { overscroll-behavior: none; }
     setTextWidthFactor((safeFloat(textWidthFactor?.value, previewWidthFactorValue, 0.4, 1) + delta).toFixed(2));
   }));
   document.querySelectorAll('.color-swatch[data-color]').forEach(btn => btn.addEventListener('click', () => setPreviewTextColor(btn.dataset.color)));
-  newBtn?.addEventListener('click', createNewDocument);
 
   skipIntroBtn?.addEventListener('click', () => stopIntroOverlay(true));
   indentGuide?.addEventListener('pointerdown', onGuidePointerDown);
@@ -7368,7 +7751,6 @@ body.info-dialog-open { overscroll-behavior: none; }
   $('formatCaseBtn')?.addEventListener('click', () => { caseToggleBtn?.click(); updateFormatStrip(); });
   $('formatSpacingBtn')?.addEventListener('click', () => { blankLineToggleBtn?.click(); updateFormatStrip(); });
 
-  $('mobileNewBtn')?.addEventListener('click', () => {newBtn?.click(); previousSetMobileView();});
   $('mobileUndoBtn')?.addEventListener('click', () => {navigateTextHistory(-1);previousSetMobileView();});
   $('mobileRedoBtn')?.addEventListener('click', () => {navigateTextHistory(1);previousSetMobileView();});
   $('mobileHelpBtn')?.addEventListener('click', () => document.querySelector('.info-trigger[data-panel="help"]')?.click());
@@ -7454,7 +7836,7 @@ body.info-dialog-open { overscroll-behavior: none; }
   updateSourceColorSwatches();
   renderOutputPreview("", DEFAULT_WIDTH);
   updateStatsAndValidation([], DEFAULT_WIDTH);
-  requestAnimationFrame(() => playIntroSequence());
+  if(transferToken){stopIntroOverlay(true);} else requestAnimationFrame(() => playIntroSequence());
 
   inicializarDiccionarioColombiano();
 
