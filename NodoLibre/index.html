@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.25.0 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.25.1 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.25.0 | Diagramador de nodos</title>
+<title>NodoLibre 5.25.1 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -974,6 +974,29 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 .nl-excel-card{display:flex;align-items:center;justify-content:center;min-width:118px!important;min-height:112px!important;padding:0!important;touch-action:none;cursor:grab}
 .nl-excel-card .nl-excel-emblem{display:grid;place-items:center;width:100%;height:100%;pointer-events:none}
 .nl-excel-card.active{outline:2px solid #60e8ba;outline-offset:3px}
+
+.nl-excel-card{height:122px!important;display:flex!important;flex-direction:column;gap:1px;justify-content:center!important;align-items:center!important;overflow:visible}
+.nl-excel-card .nl-excel-emblem{height:82px!important;min-height:82px!important}
+.nl-excel-filename{display:block;max-width:108px;width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;font-size:11px;font-weight:650;color:var(--ink);padding:0 2px;pointer-events:none}
+.nl-excel-card .socket[data-side=left],.nl-excel-card .socket[data-side=right]{top:50%!important}
+.nl-excel-card .socket[data-side=left]{left:-17px!important}.nl-excel-card .socket[data-side=right]{right:-17px!important}
+.nl-excel-name-edit{display:grid;gap:7px}.nl-excel-name-edit label,.nl-excel-builder>label{font-weight:700;font-size:13px;color:var(--ink)}
+.nl-excel-name-edit>div{display:flex;gap:7px;flex-wrap:wrap}.nl-excel-name-edit input,.nl-excel-drop,.nl-excel-manual textarea{flex:1;min-width:0;min-height:39px;border:1px solid var(--panel-border);border-radius:8px;background:var(--base);color:var(--ink);padding:9px;font:inherit}
+.nl-excel-name-edit button,.nl-sheet-paging button{background:var(--base);border:1px solid var(--panel-border);color:var(--ink);border-radius:7px;padding:8px}.nl-excel-name-edit small{color:var(--sub)}
+.nl-sheet-tabs{display:flex;overflow-x:auto;gap:2px;margin:16px 0 7px;border-bottom:1px solid var(--panel-border);touch-action:pan-x}
+.nl-sheet-tabs button{flex:none;min-width:78px;padding:10px 12px;border:0;border-radius:8px 8px 0 0;background:var(--base);color:var(--ink)}.nl-sheet-tabs button.active{background:#ffffff18;box-shadow:inset 0 -3px #5dd7b3;font-weight:700}
+.nl-sheet-hidden{color:#55d7bd!important;background:#1d4e4a!important}.nl-sheet-note{font-size:12px;color:var(--sub);margin:8px 0}.nl-sheet-grid{width:100%;max-height:46dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--panel-border);border-radius:6px}
+.nl-sheet-grid table{border-collapse:collapse;min-width:100%;width:max-content;font-size:12px}.nl-sheet-grid th,.nl-sheet-grid td{min-width:83px;height:28px;padding:4px 8px;border:1px solid var(--panel-border);color:var(--ink);text-align:left;white-space:pre-wrap;max-width:270px;overflow-wrap:anywhere}.nl-sheet-grid thead th{position:sticky;top:0;text-align:center;background:var(--panel);z-index:2}.nl-sheet-grid tbody th{position:sticky;left:0;min-width:44px;background:var(--panel);text-align:right;z-index:1}.nl-sheet-grid th.nl-sheet-corner{left:0;min-width:44px;z-index:3}
+.nl-sheet-paging{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:9px 0;font-size:11px}.nl-sheet-paging button:disabled{opacity:.4}.nl-sheet-paging span{color:var(--sub)}
+.nl-excel-builder{display:grid;gap:8px}.nl-excel-lead{margin:0 0 5px!important}.nl-excel-drop{width:100%}.nl-excel-drop-target{outline:2px dashed #5dd7b3!important;background:#5dd7b320!important}
+.nl-excel-chipline{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding:2px 0 6px;scrollbar-width:thin;touch-action:pan-x}.nl-excel-chip{flex:none;max-width:200px;overflow:hidden;text-overflow:ellipsis;border:1px solid #5ecfb6;background:#123c36;color:#d7fff5;border-radius:8px;padding:8px 11px;font-size:12px;cursor:grab}.nl-excel-chip:active{cursor:grabbing;background:#20564c}body.sketch .nl-excel-chip,body.text .nl-excel-chip,body.text-color .nl-excel-chip,body.text-color2 .nl-excel-chip{background:#e5fff7;color:#174f42;border-color:#27816d}.nl-excel-muted{font-size:12px;color:var(--sub)}
+.nl-excel-manual{border-top:1px solid var(--panel-border);padding-top:8px}.nl-excel-manual summary{cursor:pointer;color:var(--sub);font-size:12px}.nl-excel-manual textarea{display:block;margin-top:7px;width:100%;min-height:80px;resize:vertical;font-family:monospace}
+.nl-excel-preview{border-top:1px solid var(--panel-border);margin-top:6px;padding-top:7px}.nl-excel-preview h3{margin:2px 0 6px;font-size:14px}.nl-excel-preview p{margin:4px 0!important}.nl-excel-inline-results{max-height:28dvh!important}.nl-excel-error{color:#ffc4c4!important}
+#scrim:has(.nl-excel-builder) .dialog,#scrim:has(.nl-excel-name-edit) .dialog{width:min(760px,100%);max-height:calc(100dvh - 25px)}
+#scrim:has(.nl-excel-builder) .dlg-actions,#scrim:has(.nl-excel-name-edit) .dlg-actions{position:sticky;bottom:-16px;padding:9px 0 2px;background:var(--panel);z-index:5}
+#scrim:has(.nl-excel-builder),#scrim:has(.nl-excel-name-edit){align-items:flex-start;padding-top:max(12px,env(safe-area-inset-top))}
+@media(max-width:480px){.nl-excel-builder{gap:6px}.nl-excel-chip{padding:7px 9px}#scrim:has(.nl-excel-builder) .dialog{padding:12px}.nl-sheet-grid{max-height:43dvh}}
+
 .nl-excel-node .row:first-of-type{background:#19634e!important}.nl-excel-node .nl-excel-summary{font-size:12px;opacity:.85;padding:4px 10px}.nl-excel-max{border:1px solid #5dd7b3;background:#17463d;color:#f4fffb;border-radius:7px;min-height:30px;cursor:pointer}.nl-excel-results{max-height:50dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--panel-border);border-radius:9px}.nl-excel-results table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}.nl-excel-results th,.nl-excel-results td{border:1px solid var(--panel-border);padding:6px 9px;text-align:left;white-space:nowrap}.nl-excel-results th{position:sticky;top:0;background:var(--panel);z-index:2}.nl-excel-results td{background:var(--base)}
 </style>
 </head>
@@ -994,7 +1017,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes, documentos PDF y libros Excel para analizar columnas conectadas y exportar resultados XLSX. Los proyectos se guardan como .nodolibre o HTML editable; también exporta imágenes PNG y documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.25.0 (77)</dd>
+    <dt>Versión</dt><dd>5.25.1 (82)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-13">13 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -1111,8 +1134,8 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <label class="port-choice"><input type="checkbox" name="colorPosition" value="distribute"><span>Distribuir entre ambas caras</span></label>
  </fieldset>
 </div>
-<input id="nlExcelInput" type="file" accept=".xlsx,.xls" hidden aria-label="Seleccionar libro Excel"><div id="insertMenu" class="insert-menu" role="menu" aria-label="Insertar bloque"><button id="addText" title="Bloque de texto" aria-label="Agregar texto" data-ico="type"></button><button id="addImage" title="Bloque de imagen" aria-label="Agregar imagen" data-ico="image"></button><button id="addFunctions" title="Insertar funciones de texto" aria-label="Agregar funciones" data-ico="function"></button><button id="addPdf" title="Insertar documento PDF" aria-label="Agregar PDF" data-ico="filePdf"></button><button id="addGroup" title="Dibujar grupo" aria-label="Dibujar grupo" data-ico="groupBox"></button><button id="addTable" title="Insertar tabla" aria-label="Agregar tabla" data-ico="table"></button><button id="addExcel" type="button" title="Importar Excel" aria-label="Importar bloque Excel">▦</button><button id="addExcelResult" type="button" title="Resultado de Excel" aria-label="Agregar análisis Excel">Σ</button></div>
-<div id="functionsMenu" class="insert-menu" role="menu" aria-label="Bloques y operadores de texto"><button data-fnew="field" data-ico="type" title="Campo de texto" aria-label="Insertar campo de texto"> Campo de texto</button><button data-fnew="join" aria-label="Insertar función Unir" data-ico="mergeBlocks" title="Unir textos"> Unir</button><button data-fnew="extract" aria-label="Insertar función Extraer" data-ico="crop" title="Extraer caracteres"> Extraer</button><button data-fnew="split" aria-label="Insertar función Separar" data-ico="split" title="Separar por delimitador"> Separar</button></div>
+<input id="nlExcelInput" type="file" accept=".xlsx,.xls" hidden aria-label="Seleccionar libro Excel"><div id="insertMenu" class="insert-menu" role="menu" aria-label="Insertar bloque"><button id="addText" title="Bloque de texto" aria-label="Agregar texto" data-ico="type"></button><button id="addImage" title="Bloque de imagen" aria-label="Agregar imagen" data-ico="image"></button><button id="addFunctions" title="Insertar funciones de texto" aria-label="Agregar funciones" data-ico="function"></button><button id="addPdf" title="Insertar documento PDF" aria-label="Agregar PDF" data-ico="filePdf"></button><button id="addGroup" title="Dibujar grupo" aria-label="Dibujar grupo" data-ico="groupBox"></button><button id="addTable" title="Insertar tabla" aria-label="Agregar tabla" data-ico="table"></button><button id="addExcel" type="button" data-ico="excel" title="Insertar Excel" aria-label="Insertar archivo Excel"></button></div>
+<div id="functionsMenu" class="insert-menu" role="menu" aria-label="Bloques y operadores de texto"><button data-fnew="field" data-ico="type" title="Campo de texto" aria-label="Insertar campo de texto"> Campo de texto</button><button data-fnew="join" aria-label="Insertar función Unir" data-ico="mergeBlocks" title="Unir textos"> Unir</button><button data-fnew="extract" aria-label="Insertar función Extraer" data-ico="crop" title="Extraer caracteres"> Extraer</button><button data-fnew="split" aria-label="Insertar función Separar" data-ico="split" title="Separar por delimitador"> Separar</button><button data-fnew="excel" data-ico="excelAnalyze" aria-label="Insertar función Excel" title="Analizar archivos Excel conectados"> Excel</button></div>
 <div id="imgMenu" class="insert-menu" role="menu" aria-label="Importar imagen"><button id="imgPaste" title="Pegar imagen" aria-label="Pegar imagen" data-ico="clipboard"> Pegar</button><button id="imgChoose" title="Abrir archivo de imagen" aria-label="Abrir archivo de imagen" data-ico="folder"> Archivo</button></div>
 <div id="scaleSliderBar" class="scale-slider-bar" aria-label="Escala desde el centro"><input id="scaleSlider" type="range" min="20" max="400" value="100" step="1" aria-label="Escala porcentual desde el centro"><span id="scaleValue" class="scale-value">100 %</span><button id="scaleSliderClose" title="Terminar escala" aria-label="Cerrar escala" data-ico="close"></button></div>
 <div id="imageTools" class="image-tools" aria-label="Herramientas de conectores"><button data-imgtool="add" title="Agregar conector" aria-label="Agregar conector" data-ico="plus"></button><button data-imgtool="move" title="Mover conector" aria-label="Mover conector" data-ico="move"></button><button data-imgtool="copy" title="Copiar conector" aria-label="Copiar conector" data-ico="copy"></button><button data-imgtool="delete" title="Eliminar conector" aria-label="Eliminar conector" data-ico="trash"></button><button id="imgToolClose" title="Cerrar herramientas" data-ico="close"></button></div>
@@ -1253,6 +1276,7 @@ glyph.caseMixed='<text x="2" y="17" font-size="15" font-weight="700" stroke="non
 glyph.caseUpper='<text x="1" y="17" font-size="14" font-weight="700" stroke="none" fill="currentColor">AA</text>';
 glyph.caseLower='<text x="2" y="17" font-size="16" font-weight="700" stroke="none" fill="currentColor">aa</text>';
 glyph.autoStyle='<path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z"/><path d="M19 18v4m-2-2h4"/>';glyph.shapeCircle='<circle cx="12" cy="12" r="7"/>';glyph.shapeDiamond='<path d="M12 3 21 12 12 21 3 12Z"/>';glyph.shapeVLine='<path d="M12 2v20"/>';glyph.shapeHLine='<path d="M2 12h20"/>';
+glyph.excel='<path d="M4 3h12l4 4v14H4z"/><path d="M16 3v5h5M8 11l7 7m0-7-7 7M7 7h5"/>';glyph.excelAnalyze='<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/><text x=13.5 y=18 font-size=8 text-anchor=middle stroke="none" fill="currentColor">Σ</text>';
 glyph.usb='<rect x="7" y="9" width="10" height="12" rx="2.5"/><path d="M9 9V3h6v6M9 6h6M11 3v3m2-3v3"/><circle cx="12" cy="17" r="1"/>';glyph.redo='<path d="m15 6 5 5-5 5M20 11H10a6 6 0 0 0-6 6"/>';
 glyph.filePlus='<path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"/><path d="M13 2v7h7M12 12v7m-3.5-3.5h7"/>';glyph.selectMultiple='<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><path d="M13 6h8M17 3v6M3 17h7m-4-3v6"/>';glyph.image='<rect x=3 y=4 width=18 height=16 rx="2"/><circle cx=8 y=9 r="2"/><path d="m4 18 6-6 4 4 3-3 4 5"/>';glyph.copy='<rect x=7 y=7 width=14 height=14 rx="2"/><path d="M17 7V3H3v14h4"/>';glyph.clipboard='<rect x=5 y=5 width=14 height=17 rx="2"/><path d="M9 5V3h6v2M8 11h8m-8 4h8"/>';glyph.scale='<path d="M4 9V4h5M20 15v5h-5M5 5l6 6M19 19l-6-6"/>';glyph.box='<rect x=4 y=4 width=16 height=16 rx="2"/>';glyph.paint='<path d="m3 13 9-9 9 9-9 9-9-9Z"/><path d="M9 9h.01"/>';glyph.textcolor='<path d="M4 19 10 5h4l6 14M7 14h10M20 19h2"/>';
 glyph.export='<path d="M12 3v12m-5-5 5 5 5-5"/><path d="M4 17v4h16v-4"/>';glyph.crop='<path d="M7 2v15a3 3 0 0 0 3 3h12M2 7h15a3 3 0 0 1 3 3v12"/><path d="M4 4l16 16"/>';glyph.check='<path d="m4 12 5 5L20 6"/>';glyph.split='<path d="M3 6h18M3 18h18M3 12h7m4 0h7"/><path d="m9 9 6 6m0-6-6 6"/>';glyph.join='<rect x=2 y=3 width=8 height=7 rx=1/><rect x=14 y=14 width=8 height=7 rx=1/><path d="M10 6h4v11m-4 0h4M11 12h9"/>';
@@ -1670,10 +1694,10 @@ function extractValue(text,config){
  return src.slice(Math.max(0,until-len),until);
 }
 let recentInsert=null;
-const recentGlyph={table:'table',pdf:'filePdf',group:'groupBox',text:'type',image:'image',field:'type',join:'mergeBlocks',extract:'crop',split:'split'};
-const recentTitles={table:'Tabla',pdf:'PDF',group:'Grupo',text:'Texto',image:'Imagen',field:'Campo de texto',join:'Unir',extract:'Extraer',split:'Separar'};
+const recentGlyph={table:'table',pdf:'filePdf',group:'groupBox',text:'type',image:'image',field:'type',join:'mergeBlocks',extract:'crop',split:'split',excel:'excel',excelResult:'excelAnalyze'};
+const recentTitles={table:'Tabla',pdf:'PDF',group:'Grupo',text:'Texto',image:'Imagen',field:'Campo de texto',join:'Unir',extract:'Extraer',split:'Separar',excel:'Excel',excelResult:'Análisis de Excel'};
 function setRecentInsert(kind){if(!recentGlyph[kind])return;recentInsert=kind;const el=$('#recentAdd');el.classList.remove('hidden');el.innerHTML=icon(recentGlyph[kind]);el.title=`Repetir: ${recentTitles[kind]}`;el.setAttribute('aria-label',el.title)}
-$('#recentAdd').onclick=()=>{if(!recentInsert)return;insertIntoLink=null;contextInsertPoint=null;imageInsertPoint=null;closeInsertMenus();resetInsertMenuPlacement();if(recentInsert==='table')createTable();else if(recentInsert==='text')insertTextNode();else if(recentInsert==='image'){$('#imgFile').click()}else if(recentInsert==='pdf'){$('#pdfFile').click()}else if(recentInsert==='group')startGroupDraw();else createFunctionNode(recentInsert)};
+$('#recentAdd').onclick=()=>{if(!recentInsert)return;insertIntoLink=null;contextInsertPoint=null;imageInsertPoint=null;closeInsertMenus();resetInsertMenuPlacement();if(recentInsert==='table')createTable();else if(recentInsert==='text')insertTextNode();else if(recentInsert==='image'){$('#imgFile').click()}else if(recentInsert==='pdf'){$('#pdfFile').click()}else if(recentInsert==='group')startGroupDraw();else if(recentInsert==='excel')$('#nlExcelInput').click();else if(recentInsert==='excelResult')nlExcelCreateResult();else createFunctionNode(recentInsert)};
 function createFunctionNode(kind){
  if(!['field',...functionKinds].includes(kind))return;
  const at=contextInsertPoint?{x:contextInsertPoint.x-120,y:contextInsertPoint.y-65}:emptySpot(240,130);
@@ -2528,10 +2552,12 @@ function nlBackgroundRanks(){
 }
 // El bloque Excel solo exhibe un distintivo de hoja; sus datos no se dibujan sobre el lienzo.
 function nlExcelMarkup(n){
- const b=nlExcelBooks?.get(n.excelBookId),name=b?.name||'Libro Excel';
- return `<article class="node nl-excel-card ${selectedNode===n.id?'active':''} ${multiSelection.has(n.id)?'multi-selected':''} ${n.locked?'locked-node':''}" data-node="${n.id}" title="${esc(name)}" aria-label="Excel · ${esc(name)}" style="left:${n.x}px;top:${n.y}px;width:118px;height:112px">
- ${socketMarkup(n,-1,'top')}${socketMarkup(n,-2,'bottom')}
- <div class="nl-excel-emblem" aria-hidden="true"><svg viewBox="0 0 80 80" width="70" height="70"><rect x="9" y="5" width="62" height="70" rx="8" fill="#148060" stroke="#7df4c0" stroke-width="2"/><path d="M45 5v21h26" fill="none" stroke="#98ffdf" stroke-width="3"/><path d="M25 35l22 28m0-28L25 63" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg></div>
+ const b=nlExcelBooks?.get(n.excelBookId),name=String(n.excelLabel||b?.name||'Libro Excel');
+ const sideRow=n.rows?.[0]?.id;
+ return `<article class="node nl-excel-card ${selectedNode===n.id?'active':''} ${multiSelection.has(n.id)?'multi-selected':''} ${n.locked?'locked-node':''}" data-node="${n.id}" title="${esc(name)}" aria-label="Excel · ${esc(name)}" style="left:${n.x}px;top:${n.y}px;width:118px;height:122px">
+ ${socketMarkup(n,-1,'top')}${socketMarkup(n,-2,'bottom')}${sideRow?socketMarkup(n,sideRow,'left')+socketMarkup(n,sideRow,'right'):''}
+ <div class="nl-excel-emblem" aria-hidden="true"><svg viewBox="0 0 80 80" width="64" height="64"><rect x="9" y="5" width="62" height="70" rx="8" fill="#148060" stroke="#7df4c0" stroke-width="2"/><path d="M45 5v21h26" fill="none" stroke="#98ffdf" stroke-width="3"/><path d="M25 35l22 28m0-28L25 63" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg></div>
+ <span class="nl-excel-filename">${esc(name)}</span>
  </article>`;
 }
 // Tabla: cada conexión ocupa un puerto físico independiente, por fila y cara.
@@ -3251,6 +3277,15 @@ function updateNodebar(){
  bar.classList.toggle('crop-active',!!cropSession);
  document.body.classList.toggle('has-node-selection',selectedNode!==null&&selectedLink===null);
  bar.classList.toggle('open',selectedNode!==null&&selectedLink===null&&!!box(selectedNode));
+ // Las acciones flotantes no deben tapar el botón «Ampliar tabla» del Resultado Excel.
+ if(picked?.kind==='excelResult'&&selectedLink===null){
+  const nodeEl=nodesEl.querySelector(`.node[data-node="${picked.id}"]`),nr=nodeEl?.getBoundingClientRect(),br=board.getBoundingClientRect();
+  const bh=bar.offsetHeight||58;let y=8;
+  if(nr){const before=nr.top-br.top-bh-14,after=nr.bottom-br.top+14;
+   y=before>=8?before:(after+bh<br.height-8?after:8);
+   y=clamp(y,8,Math.max(8,br.height-bh-8));}
+  bar.style.top=Math.round(y)+'px';bar.style.bottom='auto';
+ }else{bar.style.removeProperty('top');bar.style.removeProperty('bottom')}
  const members=[...multiSelection].map(id=>box(id)).filter(Boolean);
  $('#nodeJoin').disabled=!(group&&members.length>=2&&members.every(n=>!n.kind));
  $('#nodeSplit').disabled=group||!!box(selectedNode)?.kind||(box(selectedNode)?.rows?.length||0)<2;
@@ -3731,7 +3766,7 @@ function closeInsertMenus(){$('#insertMenu').classList.remove('open');$('#imgMen
 function showInsertMenu(){$('#insertMenu').classList.toggle('open');$('#imgMenu').classList.remove('open');$('#functionsMenu').classList.remove('open');if($('#insertMenu').classList.contains('open'))placeContextInsertMenu('insertMenu')}
 $('#addText').onclick=()=>{closeInsertMenus();insertTextNode();resetInsertMenuPlacement()};
 $('#addFunctions').onclick=()=>{$('#insertMenu').classList.remove('open');$('#functionsMenu').classList.toggle('open');placeContextInsertMenu('functionsMenu',true)};
-$('#functionsMenu').addEventListener('click',e=>{const b=e.target.closest('[data-fnew]');if(!b)return;closeInsertMenus();createFunctionNode(b.dataset.fnew);resetInsertMenuPlacement()});
+$('#functionsMenu').addEventListener('click',e=>{const b=e.target.closest('[data-fnew]');if(!b)return;closeInsertMenus();if(b.dataset.fnew==='excel')nlExcelCreateResult();else createFunctionNode(b.dataset.fnew);resetInsertMenuPlacement()});
 $('#addImage').onclick=()=>{imageInsertPoint=contextInsertPoint?{...contextInsertPoint}:null;contextInsertPoint=null;$('#insertMenu').classList.remove('open');$('#imgMenu').classList.add('open');placeContextInsertMenu('imgMenu',true)};
 $('#pdfFile').onchange=async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{await readPdfFile(file)}catch(err){console.error(err);toast('No se pudo abrir el PDF')}};
 $('#imgChoose').onclick=()=>{closeInsertMenus();pendingImageReplace=null;$('#imgFile').click()};
@@ -4389,7 +4424,6 @@ world.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target
 $('#addGroup').onclick=()=>{resetInsertMenuPlacement();startGroupDraw()};
 $('#addTable').onclick=()=>{closeInsertMenus();resetInsertMenuPlacement();createTable()};
 $('#addExcel').onclick=()=>{closeInsertMenus();$('#nlExcelInput').click()};
-$('#addExcelResult').onclick=()=>{closeInsertMenus();nlExcelCreateResult()};
 $('#addPdf').onclick=()=>{closeInsertMenus();resetInsertMenuPlacement();$('#pdfFile').click()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&groupDrawMode){stopGroupDraw();activePointer=null;render()}});
 function insertTextNode(){if(contextInsertPoint){const p=contextInsertPoint;contextInsertPoint=null;addNode({x:p.x-127,y:p.y-45});return;}const c=midWorld(),positions=[[0,0],[0,215],[0,-215],[300,0],[-300,0],[300,240],[-300,-240],[0,450]];let p;for(const [dx,dy] of positions){const x=c.x-127+dx,y=c.y-70+dy;if(nodes.every(n=>Math.abs(n.x-x)>270||Math.abs(n.y-y)>210)){p={x,y};break}}if(!p){const n=nodes.at(-1);p={x:n.x+100,y:n.y+240}}addNode(p)}
@@ -4418,7 +4452,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.25.0',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
+function projectFile(){return{app:'NodoLibre',version:'5.25.1',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4625,7 +4659,7 @@ async function exportPng(filename='NodoLibre_diagrama.png',returnBlob=false){bra
   const blob=await new Promise(resolve=>can.toBlob(resolve,'image/png'));if(!blob)throw Error('No fue posible generar PNG');if(returnBlob)return blob;downloadBlob(blob,filename);toast('Imagen PNG exportada');}
 // Compatibilidad con archivos exportados por la versión anterior.
 function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nodes.length>3000||d.links.length>15000)throw Error('Estructura no compatible');let ids=new Set(),rids=new Set(),nexR=1;
- const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const pdf=old.mediaType==='pdf';const pdfData=pdf&&typeof old.pdfData==='string'&&/^data:application\/pdf;base64,/i.test(old.pdfData)&&old.pdfData.length<70e6?old.pdfData:null;const src=typeof old.src==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.src)&&old.src.length<30e6?old.src:(pdf&&pdfData?pdfThumbnail():null);const thumbSrc=typeof old.thumbSrc==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.thumbSrc)&&old.thumbSrc.length<3e6?old.thumbSrc:null;if(!src)throw Error('Imagen o PDF no válido');return{id,kind:'image',src,thumbSrc,mediaType:pdf?'pdf':undefined,pdfData,pdfName:pdf?String(old.pdfName||'Documento PDF').slice(0,180):undefined,pdfInline:false,pdfPage:pdf?clamp(Math.round(Number(old.pdfPage)||1),1,100000):undefined,pdfPages:pdf?clamp(Math.round(Number(old.pdfPages)||1),1,100000):undefined,locked:old.locked===true,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',tableLeftCol:Number.isInteger(v.tableLeftCol)?v.tableLeftCol:undefined,tableRightCol:Number.isInteger(v.tableRightCol)?v.tableRightCol:undefined,align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,...(['function','result','group','table','excel','excelResult'].includes(old.kind)?{kind:old.kind}:{}),locked:old.locked===true,...(old.kind==='group'?{w:clamp(Number(old.w)||300,100,25000),h:clamp(Number(old.h)||200,85,25000),groupLabelPosition:['tl','tc','tr','bl','bc','br'].includes(old.groupLabelPosition)?old.groupLabelPosition:'tc',groupLabelX:Number.isFinite(Number(old.groupLabelX))?clamp(Number(old.groupLabelX),0,1):undefined,groupLabelY:Number.isFinite(Number(old.groupLabelY))?clamp(Number(old.groupLabelY),0,1):undefined,groupLabelEdge:['top','bottom','left','right','free'].includes(old.groupLabelEdge)?old.groupLabelEdge:'free',groupLabelSize:clamp(Number(old.groupLabelSize)||28,16,82),imageOrder:0}:{}),...(old.kind==='table'?{columns:(Array.isArray(old.columns)?old.columns:[]).slice(0,500).map(v=>String(v).slice(0,100)).length>=2?(old.columns||[]).slice(0,500).map(v=>String(v).slice(0,100)):['Columna 1','Columna 2'],tablePlacements:Object.fromEntries(Object.entries(old.tablePlacements||{}).filter(([id,v])=>/^\d+$/.test(id)&&Number.isInteger(v?.col)&&v.col>=0&&v.col<500).map(([id,v])=>[id,{col:v.col,mode:v.mode==='literal'?'literal':'ref',text:String(v.text||'').slice(0,1000)}])),tableOverrides:Object.fromEntries(Object.entries(old.tableOverrides||{}).filter(([id,v])=>/^\d+:\d+$/.test(id)).slice(0,10000).map(([id,v])=>[id,String(v).slice(0,1000)]))}:{}),...(old.kind==='function'?{func:normalizeFunctionConfig(old.func)}:{}),...(old.kind==='excel'?{excelBookId:typeof old.excelBookId==='string'?old.excelBookId:null}:{}),...(old.kind==='excelResult'?{excelExpression:String(old.excelExpression||'listarcolumna: A\narchivo: ').slice(0,2000),excelCount:Math.max(0,Number(old.excelCount)||0)}:{}),x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.kind==='table'?true:old.top!==false,bottom:old.kind==='table'?true:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
+ const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const pdf=old.mediaType==='pdf';const pdfData=pdf&&typeof old.pdfData==='string'&&/^data:application\/pdf;base64,/i.test(old.pdfData)&&old.pdfData.length<70e6?old.pdfData:null;const src=typeof old.src==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.src)&&old.src.length<30e6?old.src:(pdf&&pdfData?pdfThumbnail():null);const thumbSrc=typeof old.thumbSrc==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.thumbSrc)&&old.thumbSrc.length<3e6?old.thumbSrc:null;if(!src)throw Error('Imagen o PDF no válido');return{id,kind:'image',src,thumbSrc,mediaType:pdf?'pdf':undefined,pdfData,pdfName:pdf?String(old.pdfName||'Documento PDF').slice(0,180):undefined,pdfInline:false,pdfPage:pdf?clamp(Math.round(Number(old.pdfPage)||1),1,100000):undefined,pdfPages:pdf?clamp(Math.round(Number(old.pdfPages)||1),1,100000):undefined,locked:old.locked===true,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',tableLeftCol:Number.isInteger(v.tableLeftCol)?v.tableLeftCol:undefined,tableRightCol:Number.isInteger(v.tableRightCol)?v.tableRightCol:undefined,align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,...(['function','result','group','table','excel','excelResult'].includes(old.kind)?{kind:old.kind}:{}),locked:old.locked===true,...(old.kind==='group'?{w:clamp(Number(old.w)||300,100,25000),h:clamp(Number(old.h)||200,85,25000),groupLabelPosition:['tl','tc','tr','bl','bc','br'].includes(old.groupLabelPosition)?old.groupLabelPosition:'tc',groupLabelX:Number.isFinite(Number(old.groupLabelX))?clamp(Number(old.groupLabelX),0,1):undefined,groupLabelY:Number.isFinite(Number(old.groupLabelY))?clamp(Number(old.groupLabelY),0,1):undefined,groupLabelEdge:['top','bottom','left','right','free'].includes(old.groupLabelEdge)?old.groupLabelEdge:'free',groupLabelSize:clamp(Number(old.groupLabelSize)||28,16,82),imageOrder:0}:{}),...(old.kind==='table'?{columns:(Array.isArray(old.columns)?old.columns:[]).slice(0,500).map(v=>String(v).slice(0,100)).length>=2?(old.columns||[]).slice(0,500).map(v=>String(v).slice(0,100)):['Columna 1','Columna 2'],tablePlacements:Object.fromEntries(Object.entries(old.tablePlacements||{}).filter(([id,v])=>/^\d+$/.test(id)&&Number.isInteger(v?.col)&&v.col>=0&&v.col<500).map(([id,v])=>[id,{col:v.col,mode:v.mode==='literal'?'literal':'ref',text:String(v.text||'').slice(0,1000)}])),tableOverrides:Object.fromEntries(Object.entries(old.tableOverrides||{}).filter(([id,v])=>/^\d+:\d+$/.test(id)).slice(0,10000).map(([id,v])=>[id,String(v).slice(0,1000)]))}:{}),...(old.kind==='function'?{func:normalizeFunctionConfig(old.func)}:{}),...(old.kind==='excel'?{excelBookId:typeof old.excelBookId==='string'?old.excelBookId:null,excelLabel:typeof old.excelLabel==='string'?old.excelLabel.slice(0,120):undefined}:{}),...(old.kind==='excelResult'?{excelExpression:String(old.excelExpression||'listarcolumna: A\narchivo: ').slice(0,2000),excelCount:Math.max(0,Number(old.excelCount)||0)}:{}),x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.kind==='table'?true:old.top!==false,bottom:old.kind==='table'?true:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
  const keys=new Set(incoming.flatMap(n=>n.kind==='image'?n.ports.map(p=>`${n.id}:${p.id}`):n.rows.map(r=>`${n.id}:${r.id}`)));for(const n of incoming){if(n.kind==='image')continue;if(n.top)keys.add(`${n.id}:-1`);if(n.bottom)keys.add(`${n.id}:-2`)}
  const outgoing=d.links.filter(l=>l.a&&l.b&&keys.has(`${l.a.node}:${l.a.row}`)&&keys.has(`${l.b.node}:${l.b.row}`)&&['left','right','top','bottom','inside'].includes(l.a.side)&&['left','right','top','bottom','inside'].includes(l.b.side)).map(l=>({id:Number(l.id),a:{node:+l.a.node,row:+l.a.row,side:l.a.side,...(Number.isSafeInteger(l.a.slot)&&l.a.slot>=0&&l.a.slot<500?{slot:l.a.slot}:{})},b:{node:+l.b.node,row:+l.b.row,side:l.b.side,...(Number.isSafeInteger(l.b.slot)&&l.b.slot>=0&&l.b.slot<500?{slot:l.b.slot}:{})},color:hex(l.color)||palette[0],colorCustom:!!l.colorCustom,style:['solid','dashed','loop','zigzag'].includes(l.style)?l.style:'solid',start:!!l.start,end:!!l.end,flowReversed:l.flowReversed===true}));return{incoming,outgoing}}
 function nlApplyData(d,validated){
@@ -4644,7 +4678,7 @@ function nlExcelNode(kind,label,extra={}){
 }
 $('#nlExcelInput').addEventListener('change',async e=>{
  const targetTab=nlActiveId;const f=e.target.files?.[0];e.target.value='';if(!f)return;
- try{const book=await NLExcel.read(f);if(nlActiveId!==targetTab)return toast('Cambió de proyecto; repita la importación en la pestaña deseada');const n=nlExcelNode('excel','▦ Excel · '+f.name,{excelBookId:'book-'+Date.now()+'-'+Math.random().toString(36).slice(2)});nlExcelBooks=new Map(nlExcelBooks);nlExcelBooks.set(n.excelBookId,book);n.rows[1].text=book.sheets.length+' hojas · '+book.totalCells+' celdas';render();store();toast('Excel importado: '+book.sheets.length+' hojas');}
+ try{const book=await NLExcel.read(f);if(nlActiveId!==targetTab)return toast('Cambió de proyecto; repita la importación en la pestaña deseada');const n=nlExcelNode('excel','Excel · '+f.name,{excelBookId:'book-'+Date.now()+'-'+Math.random().toString(36).slice(2)});nlExcelBooks=new Map(nlExcelBooks);nlExcelBooks.set(n.excelBookId,book);n.rows[1].text=book.sheets.length+' hojas · '+book.totalCells+' celdas';setRecentInsert('excel');render();store();toast('Excel insertado: '+book.sheets.length+' hojas');}
  catch(err){toast('Excel: '+err.message);}
 });
 let nlExcelWorker=null,nlExcelWorkerSeq=0;const nlExcelRequests=new Map();
@@ -4667,11 +4701,108 @@ function nlExcelRun(sources,expression){
   }).catch(error=>{console.warn('Análisis Excel en hilo principal: '+error.message);return NLExcel.analyze(sources,expression)});
  }catch(error){return Promise.resolve().then(()=>NLExcel.analyze(sources,expression))}
 }
-function nlExcelCreateResult(){const n=nlExcelNode('excelResult','Resultado · Excel',{excelExpression:'listarcolumna: A\narchivo: ',excelCount:0});nlExcelAnalyzeDialog(n)}
-function nlExcelSources(n){const connected=new Set(links.filter(l=>l.a.node===n.id||l.b.node===n.id).map(l=>l.a.node===n.id?l.b.node:l.a.node));return nodes.filter(x=>connected.has(x.id)&&x.kind==='excel').map(x=>nlExcelBooks.get(x.excelBookId)).filter(Boolean)}
-function nlExcelInfo(n){const b=nlExcelBooks.get(n.excelBookId);if(!b)return toast('Libro no disponible');const lines=b.sheets.map(s=>`<p>${esc(s.name)} · ${s.visibility==='visible'?'Visible':'Oculta'} · ${s.rows} filas, ${s.columns} columnas · ${s.cells.length} celdas con datos</p>`).join('');openDialog('Excel · '+esc(b.name),`<p>Datos y hojas originales, incluidos valores ocultos. No se interpretan formatos ni fórmulas.</p>${lines}`,[['Cerrar',closeDialog]])}
-function nlExcelAnalyzeDialog(n){const sources=nlExcelSources(n),names=sources.map(b=>b.name);openDialog('Análisis de Excel',`<p>Archivos conectados: ${names.length?names.map(esc).join(', '):'Conecte un bloque Excel mediante sus puertos.'}</p><label>Instrucción<textarea id="nlExcelCommand" rows="4" style="width:100%;min-height:110px;resize:vertical">${esc(n.excelExpression||'listarcolumna: A\narchivo: ')}</textarea></label><p>Ejemplo: listarcolumna: A,B · archivo: 01.xlsx,02.xlsx · hoja: *</p>`,[
- ['Cancelar',closeDialog],['Aceptar',async()=>{const expr=$('#nlExcelCommand').value,tab=nlActiveId;try{const result=await nlExcelRun(sources,expr);if(nlActiveId!==tab||!nodes.includes(n))return toast('Cambió de proyecto durante el análisis');snap();n.excelExpression=expr;n.excelCount=result.rows.length;n.rows[1].text=result.rows.length.toLocaleString('es-CO')+' registros';closeDialog();render();store();nlExcelTableDialog(n,result)}catch(e){toast(e.message)}},'ok']]);}
+function nlExcelCreateResult(){const n=nlExcelNode('excelResult','Resultado · Excel',{excelExpression:'listarcolumna: A\narchivo: ',excelCount:0});setRecentInsert('excelResult');nlExcelAnalyzeDialog(n)}
+function nlExcelSources(n){const connected=new Set(links.filter(l=>l.a.node===n.id||l.b.node===n.id).map(l=>l.a.node===n.id?l.b.node:l.a.node));return nodes.filter(x=>connected.has(x.id)&&x.kind==='excel').map(x=>{const b=nlExcelBooks.get(x.excelBookId);return b?{...b,name:x.excelLabel||b.name}:null}).filter(Boolean)}
+// Visor esparso: solo columnas y filas con valores. Conserva las coordenadas originales.
+function nlExcelInfo(n){
+ const b=nlExcelBooks.get(n.excelBookId);if(!b)return toast('Libro no disponible');
+ let activeSheet=0,page=0,colPage=0;
+ const sheetName=()=>b.sheets[activeSheet];
+ const indexes=b.sheets.map(sh=>({usedRows:[...new Set(sh.cells.map(c=>c[0]))].sort((a,z)=>a-z),usedCols:[...new Set(sh.cells.map(c=>c[1]))].sort((a,z)=>a-z)}));
+ const viewer=()=>{
+  const sh=sheetName();if(!sh)return '<p>Este libro no contiene hojas.</p>';
+  const {usedRows,usedCols}=indexes[activeSheet];
+  const rows=usedRows.slice(page*55,page*55+55),cols=usedCols.slice(colPage*12,colPage*12+12);
+  const rowSet=new Set(rows),colSet=new Set(cols);
+  const map=new Map(sh.cells.filter(([r,c])=>rowSet.has(r)&&colSet.has(c)).map(([r,c,v])=>[r+':'+c,v]));
+  const hiddenRow=new Set(sh.hiddenRows||[]),hiddenCol=c=>(sh.hiddenCols||[]).some(range=>c+1>=range[0]&&c+1<=range[1]);
+  const type=sh.visibility==='veryHidden'?'Muy oculta':sh.visibility==='hidden'?'Oculta':'Visible';
+  return `<div class="nl-sheet-tabs" role="tablist" aria-label="Hojas del libro">${b.sheets.map((x,i)=>`<button type="button" role="tab" aria-selected="${i===activeSheet}" data-excel-sheet="${i}" class="${i===activeSheet?'active':''}">${esc(x.name)}${x.visibility!=='visible'?' · Oculta':''}</button>`).join('')}</div>
+  <div class="nl-sheet-note">${esc(type)} · ${usedRows.length.toLocaleString('es-CO')} filas y ${usedCols.length.toLocaleString('es-CO')} columnas con datos. Las coordenadas originales se conservan.</div>
+  <div class="nl-sheet-grid"><table aria-label="Celdas de ${esc(sh.name)}"><thead><tr><th class="nl-sheet-corner"></th>${cols.map(c=>`<th class="${hiddenCol(c)?'nl-sheet-hidden':''}" title="${hiddenCol(c)?'Columna oculta':'Columna visible'}">${NLExcel.colName(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><th scope="row" class="${hiddenRow.has(r+1)?'nl-sheet-hidden':''}" title="${hiddenRow.has(r+1)?'Fila oculta':'Fila visible'}">${r+1}</th>${cols.map(c=>`<td>${esc(String(map.get(r+':'+c)??''))}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+1}">No hay valores en esta hoja.</td></tr>`}</tbody></table></div>
+  <div class="nl-sheet-paging"><button type="button" data-excel-turn="row-prev" ${page===0?'disabled':''} title="Filas anteriores">← Filas</button><span>${usedRows.length?`${page*55+1}–${Math.min((page+1)*55,usedRows.length)} de ${usedRows.length}`:'0 filas'}</span><button type="button" data-excel-turn="row-next" ${(page+1)*55>=usedRows.length?'disabled':''} title="Filas siguientes">Filas →</button><button type="button" data-excel-turn="col-prev" ${colPage===0?'disabled':''} title="Columnas anteriores">← Columnas</button><span>${usedCols.length?`${colPage*12+1}–${Math.min((colPage+1)*12,usedCols.length)} de ${usedCols.length}`:'0 columnas'}</span><button type="button" data-excel-turn="col-next" ${(colPage+1)*12>=usedCols.length?'disabled':''} title="Columnas siguientes">Columnas →</button></div>`;
+ };
+ openDialog('Excel · contenido',`<div class="nl-excel-name-edit"><label for="nlExcelName">Nombre del bloque</label><div><input id="nlExcelName" maxlength="120" value="${esc(n.excelLabel||b.name)}" aria-label="Nombre del bloque Excel"><button type="button" id="nlExcelRename">Cambiar nombre</button></div><small>Archivo original: ${esc(b.name)}</small><small id="nlExcelRenameStatus" aria-live="polite">Puede cambiar el nombre sin modificar el archivo original.</small></div><div id="nlExcelViewer"></div>`,[['Cerrar',closeDialog]]);
+ const draw=()=>{if(!$('#nlExcelViewer'))return;$('#nlExcelViewer').innerHTML=viewer();};draw();
+ $('#nlExcelViewer').onclick=e=>{
+  const sheet=e.target.closest('[data-excel-sheet]');if(sheet){activeSheet=Number(sheet.dataset.excelSheet);page=0;colPage=0;draw();return}
+  const btn=e.target.closest('[data-excel-turn]');if(!btn)return;const dir=btn.dataset.excelTurn;
+  if(dir==='row-prev')page=Math.max(0,page-1);if(dir==='row-next')page++;
+  if(dir==='col-prev')colPage=Math.max(0,colPage-1);if(dir==='col-next')colPage++;
+  draw();
+ };
+ const rename=()=>{const label=$('#nlExcelName').value.trim();if(!label||label.length>120)return toast('Ingrese un nombre válido');
+  if(nodes.some(x=>x.id!==n.id&&x.kind==='excel'&&(x.excelLabel||nlExcelBooks.get(x.excelBookId)?.name||'').toLocaleLowerCase()===label.toLocaleLowerCase()))return toast('Ese nombre ya está en otro bloque Excel');
+  const previous=n.excelLabel||b.name;
+  if(previous===label)return toast('Nombre sin cambios');snap();n.excelLabel=label;
+  // Las instrucciones ya guardadas que utilizan ese nombre se mantienen vinculadas.
+  for(const target of nodes.filter(x=>x.kind==='excelResult')){
+   const lines=String(target.excelExpression||'').split(/\r?\n/);
+   const ix=lines.findIndex(line=>/^\s*archivo\s*:/i.test(line));if(ix<0)continue;
+   const parts=nlExcelCSVList(lines[ix].slice(lines[ix].indexOf(':')+1));
+   if(parts.some(part=>part.toLocaleLowerCase()===previous.toLocaleLowerCase())){
+    lines[ix]='archivo: '+parts.map(part=>nlExcelQuote(part.toLocaleLowerCase()===previous.toLocaleLowerCase()?label:part)).join(',');target.excelExpression=lines.join('\n');
+   }
+  }
+  const card=nodesEl.querySelector(`.nl-excel-card[data-node="${n.id}"]`);if(card){card.title=label;card.setAttribute('aria-label','Excel · '+label);const name=card.querySelector('.nl-excel-filename');if(name)name.textContent=label;}store();$('#nlExcelRenameStatus').textContent='Nombre actualizado.';
+ };
+ $('#nlExcelRename').onclick=rename;$('#nlExcelName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();rename()}});
+}
+function nlExcelCSVList(s){const out=[];let value='',quote=false;for(let i=0;i<s.length;i++){const c=s[i];if(c==='"'){if(quote&&s[i+1]==='"'){value+='"';i++}else quote=!quote}else if(c===','&&!quote){if(value.trim())out.push(value.trim());value=''}else value+=c}if(value.trim())out.push(value.trim());return out}
+function nlExcelQuote(s){return /[,"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
+function nlExcelCommandParts(command){const fields=String(command||'').split(/\r?\n/),part=k=>{const line=fields.find(x=>new RegExp('^\\s*'+k+'\\s*:','i').test(x));return line?line.slice(line.indexOf(':')+1).trim():''};return{columns:part('listarcolumna'),files:part('archivo'),sheet:part('hoja')}}
+function nlExcelAnalyzeDialog(n){
+ const sources=nlExcelSources(n),names=sources.map(x=>x.name),parts=nlExcelCommandParts(n.excelExpression),tab=nlActiveId;
+ const currentCols=[...new Set(sources.flatMap(x=>x.sheets.flatMap(sh=>sh.cells.map(c=>c[1]))))].sort((a,b)=>a-b).slice(0,40).map(NLExcel.colName);
+ const currentSheets=[...new Set(sources.flatMap(x=>x.sheets.map(sh=>sh.name)))].slice(0,60);
+ const chips=(items,kind)=>items.map(v=>`<button type="button" draggable="true" class="nl-excel-chip" data-excel-kind="${kind}" data-excel-value="${esc(v)}" title="Tocar para añadir. En computador, arrastrar al campo correspondiente.">${esc(v)}</button>`).join('');
+ openDialog('Análisis de Excel',`<div class="nl-excel-builder">
+ <p class="nl-excel-lead">${names.length?`Conectados: ${names.map(esc).join(', ')}`:'Conecte un bloque Excel para analizarlo.'} Seleccione etiquetas o escriba en los campos.</p>
+ <label for="nlExcelColumns">Columnas para listar</label><input id="nlExcelColumns" class="nl-excel-drop" data-accept-chip="column" placeholder="A,B o D" value="${esc(parts.columns)}" autocomplete="off"><div class="nl-excel-chipline" aria-label="Columnas disponibles">${chips(currentCols.length?currentCols:['A','B','C','D'],'column')}</div>
+ <label for="nlExcelFiles">Archivos conectados</label><input id="nlExcelFiles" class="nl-excel-drop" data-accept-chip="file" placeholder="Vacío: todos los conectados" value="${esc(parts.files)}" autocomplete="off"><div class="nl-excel-chipline" aria-label="Archivos conectados">${chips(names,'file')||'<span class="nl-excel-muted">Conecte un bloque Excel desde el lienzo.</span>'}</div>
+ <label for="nlExcelSheet">Hoja</label><input id="nlExcelSheet" class="nl-excel-drop" data-accept-chip="sheet" placeholder="*: todas las hojas, incluso ocultas" value="${esc(parts.sheet)}" autocomplete="off"><div class="nl-excel-chipline" aria-label="Hojas disponibles">${chips(['*',...currentSheets],'sheet')}</div>
+ <details class="nl-excel-manual"><summary>Editar instrucción completa</summary><textarea id="nlExcelCommand" aria-label="Instrucción de Excel" rows="3" spellcheck="false">${esc(n.excelExpression||'listarcolumna: A\narchivo: ')}</textarea></details>
+ <section class="nl-excel-preview" aria-live="polite"><h3>Vista previa del resultado</h3><div id="nlExcelPreview"><p>Preparando datos…</p></div></section>
+ </div>`,[['Cancelar',closeDialog],['Aplicar',apply,'ok']]);
+ const cols=$('#nlExcelColumns'),files=$('#nlExcelFiles'),sheet=$('#nlExcelSheet'),command=$('#nlExcelCommand'),preview=$('#nlExcelPreview');
+ let timer=null,sequence=0,lastResult=null,lastExpression='',lastError=null;
+ const expression=()=>`listarcolumna: ${cols.value.trim()}\narchivo: ${files.value.trim()}\nhoja: ${sheet.value.trim()||'*'}`;
+ const saveText=()=>{command.value=expression()};
+ const previewTable=result=>{
+  const headers=['Archivo','Hoja','Fila',...result.columns];const first=result.rows.slice(0,9);
+  return `<p><strong>${result.rows.length.toLocaleString('es-CO')} registros</strong> · ${first.length} visibles en esta muestra.</p><div class="nl-excel-results nl-excel-inline-results"><table><thead><tr>${headers.map(t=>`<th>${esc(t)}</th>`).join('')}</tr></thead><tbody>${first.map(r=>`<tr>${[r.file,r.hoja,r.fila,...r.values].map(v=>`<td>${esc(String(v??''))}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${headers.length}">No se encontraron valores.</td></tr>`}</tbody></table></div>`;
+ };
+ const update=()=>{
+  const exp=command.value,seq=++sequence;lastResult=null;lastExpression='';lastError=null;
+  if(timer)clearTimeout(timer);
+  if(!cols.value.trim()){preview.innerHTML='<p>Seleccione al menos una columna.</p>';return}
+  if(!sources.length){preview.innerHTML='<p>Conecte uno o varios bloques Excel al bloque Resultado.</p>';return}
+  preview.innerHTML='<p>Analizando…</p>';
+  timer=setTimeout(async()=>{try{const result=await nlExcelRun(sources,exp);if(seq!==sequence||!$('#nlExcelPreview')||!$('#scrim').classList.contains('open')||nlActiveId!==tab)return;lastResult=result;lastExpression=exp;preview.innerHTML=previewTable(result)}catch(error){if(seq!==sequence||!$('#nlExcelPreview'))return;lastError=error.message;preview.innerHTML='<p class="nl-excel-error">'+esc(error.message)+'</p>'}},420);
+ };
+ const add=(kind,value)=>{
+  const input=kind==='column'?cols:kind==='file'?files:sheet;
+  if(kind==='sheet')input.value=value;
+  else {const existing=nlExcelCSVList(input.value);if(!existing.some(x=>x.toLocaleLowerCase()===value.toLocaleLowerCase()))existing.push(value);input.value=existing.map(nlExcelQuote).join(',')}
+  saveText();input.focus();update();
+ };
+ for(const field of [cols,files,sheet]){
+  field.addEventListener('input',()=>{saveText();update()});
+  field.addEventListener('dragover',e=>{e.preventDefault();if(e.dataTransfer.types.includes('application/x-nl-excel-'+field.dataset.acceptChip)){e.dataTransfer.dropEffect='copy';field.classList.add('nl-excel-drop-target')}else{e.dataTransfer.dropEffect='none';field.classList.remove('nl-excel-drop-target')}});
+  field.addEventListener('dragleave',()=>field.classList.remove('nl-excel-drop-target'));
+  field.addEventListener('drop',e=>{e.preventDefault();field.classList.remove('nl-excel-drop-target');let chip;try{chip=JSON.parse(e.dataTransfer.getData('application/x-nl-excel'))}catch{return}if(chip.kind!==field.dataset.acceptChip){toast('La etiqueta no corresponde a este campo.');return}add(chip.kind,chip.value)});
+ }
+ $('#dialogBody').ondragstart=e=>{const chip=e.target.closest('.nl-excel-chip');if(!chip)return;e.dataTransfer.setData('application/x-nl-excel',JSON.stringify({kind:chip.dataset.excelKind,value:chip.dataset.excelValue}));e.dataTransfer.setData('application/x-nl-excel-'+chip.dataset.excelKind,chip.dataset.excelValue);e.dataTransfer.setData('text/plain',chip.dataset.excelValue);e.dataTransfer.effectAllowed='copy'};
+ $('#dialogBody').onclick=e=>{const chip=e.target.closest('.nl-excel-chip');if(chip)add(chip.dataset.excelKind,chip.dataset.excelValue)};
+ command.addEventListener('input',()=>{const q=nlExcelCommandParts(command.value);cols.value=q.columns;files.value=q.files;sheet.value=q.sheet;update()});
+ async function apply(){if(!$('#nlExcelPreview')||nlActiveId!==tab||!nodes.includes(n))return toast('Cambió el proyecto durante el análisis');if(lastError)return toast(lastError);
+  const exp=command.value;if(!cols.value.trim())return toast('Seleccione columnas válidas');
+  try{const result=lastResult&&lastExpression===exp?lastResult:await nlExcelRun(sources,exp);if(!nodes.includes(n)||nlActiveId!==tab)return;
+   snap();n.excelExpression=exp;n.excelCount=result.rows.length;n.rows[1].text=result.rows.length.toLocaleString('es-CO')+' registros';closeDialog();render();store();toast('Resultado actualizado: '+result.rows.length.toLocaleString('es-CO')+' registros')}
+  catch(e){preview.innerHTML='<p class="nl-excel-error">'+esc(e.message)+'</p>';toast(e.message)}
+ }
+ saveText();update();
+}
 async function nlExcelTableDialog(n,precomputed){let result=precomputed;try{result||=await nlExcelRun(nlExcelSources(n),n.excelExpression)}catch(e){return toast(e.message)}
  const limit=150,pageSize=150;let page=0;
  const show=()=>{const from=page*pageSize,part=result.rows.slice(from,from+limit),headers=['Archivo','Hoja','Fila',...result.columns];const html=`<p>Registros: ${result.rows.length.toLocaleString('es-CO')}. Filas ${from+1}-${Math.min(from+limit,result.rows.length)}.</p><div class="nl-excel-results"><table><thead><tr>${headers.map(v=>'<th>'+esc(v)+'</th>').join('')}</tr></thead><tbody>${part.map(r=>'<tr>'+([r.file,r.hoja,r.fila,...r.values].map(v=>'<td>'+esc(String(v??''))+'</td>').join(''))+'</tr>').join('')}</tbody></table></div><div style="display:flex;gap:12px;padding:12px 0"><button type="button" id="nlExcelPrev" ${page===0?'disabled':''}>Anterior</button><button type="button" id="nlExcelNext" ${from+limit>=result.rows.length?'disabled':''}>Siguiente</button></div>`;
