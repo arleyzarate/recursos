@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.25.4 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.25.5 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.25.4 | Diagramador de nodos</title>
+<title>NodoLibre 5.25.5 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -969,7 +969,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 .nl-format-choice:hover,.nl-format-choice:focus-visible{border-color:var(--accent)}
 @media(max-width:430px){#scrim.nl-save-open{padding-top:max(62px,env(safe-area-inset-top) + 62px)}#scrim.nl-save-open .dialog{max-height:calc(100dvh - 78px)}}
 
-/* 5.25.4: editor Excel compacto, cálculo por acción explícita. */
+/* 5.25.5: editor Excel compacto, cálculo por acción explícita. */
 .nl-excel-compact{gap:10px}.nl-excel-function h3,.nl-excel-result-heading h3{font-size:14px;margin:0 0 7px}
 .nl-excel-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .nl-excel-fields>div{min-width:0}.nl-excel-fields label{display:block;font-size:12px;font-weight:650;margin:0 0 5px}
@@ -983,7 +983,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:540px){.nl-excel-fields{grid-template-columns:1fr 1fr}.nl-excel-fields>div:first-child{grid-column:1/-1}.nl-excel-compact .nl-excel-chipline{max-height:33px}}
 @media(max-width:340px){.nl-excel-fields{grid-template-columns:1fr}.nl-excel-fields>div:first-child{grid-column:auto}}
 
-/* 5.25.4 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
+/* 5.25.5 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
 .nl-excel-source-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin:8px 0 4px;font-size:12px}.nl-excel-source-head span{color:var(--sub);font-size:11px}
 .nl-excel-sources{max-height:190px;overflow:auto;border:1px solid var(--panel-border);border-radius:9px;padding:3px 8px;overscroll-behavior:contain}
 .nl-excel-source-row{display:grid;grid-template-columns:minmax(92px,.9fr) minmax(105px,1fr) minmax(125px,1.2fr);gap:5px;align-items:center;border-bottom:1px solid var(--panel-border);padding:5px 0}
@@ -1026,7 +1026,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:480px){.nl-excel-builder{gap:6px}.nl-excel-chip{padding:7px 9px}#scrim:has(.nl-excel-builder) .dialog{padding:12px}.nl-sheet-grid{max-height:43dvh}}
 
 .nl-excel-node .row:first-of-type{background:#19634e!important}.nl-excel-node .nl-excel-summary{font-size:12px;opacity:.85;padding:4px 10px}.nl-excel-max{border:1px solid #5dd7b3;background:#17463d;color:#f4fffb;border-radius:7px;min-height:30px;cursor:pointer}.nl-excel-results{max-height:50dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--panel-border);border-radius:9px}.nl-excel-results table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}.nl-excel-results th,.nl-excel-results td{border:1px solid var(--panel-border);padding:6px 9px;text-align:left;white-space:nowrap}.nl-excel-results th{position:sticky;top:0;background:var(--panel);z-index:2}.nl-excel-results td{background:var(--base)}
-/* 5.25.4: filtros por encabezado del reporte Excel, en vista previa y tabla ampliada. */
+/* 5.25.5: filtros por encabezado del reporte Excel, en vista previa y tabla ampliada. */
 .nl-excel-report-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:68px}
 .nl-excel-report-head>span{overflow:hidden;text-overflow:ellipsis}
 .nl-excel-head-btn{display:grid;place-items:center;width:29px;height:28px;flex:none;border:1px solid transparent;border-radius:6px;color:var(--sub);background:transparent;cursor:pointer;touch-action:manipulation}
@@ -1063,7 +1063,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes, documentos PDF y libros Excel para analizar columnas conectadas y exportar resultados XLSX. Los proyectos se guardan como .nodolibre o HTML editable; también exporta imágenes PNG y documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.25.4 (88)</dd>
+    <dt>Versión</dt><dd>5.25.5 (91)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-13">13 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -1180,7 +1180,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <label class="port-choice"><input type="checkbox" name="colorPosition" value="distribute"><span>Distribuir entre ambas caras</span></label>
  </fieldset>
 </div>
-<input id="nlExcelInput" type="file" accept=".xlsx,.xls" hidden aria-label="Seleccionar libro Excel"><div id="insertMenu" class="insert-menu" role="menu" aria-label="Insertar bloque"><button id="addText" title="Bloque de texto" aria-label="Agregar texto" data-ico="type"></button><button id="addImage" title="Bloque de imagen" aria-label="Agregar imagen" data-ico="image"></button><button id="addFunctions" title="Insertar funciones de texto" aria-label="Agregar funciones" data-ico="function"></button><button id="addPdf" title="Insertar documento PDF" aria-label="Agregar PDF" data-ico="filePdf"></button><button id="addGroup" title="Dibujar grupo" aria-label="Dibujar grupo" data-ico="groupBox"></button><button id="addTable" title="Insertar tabla" aria-label="Agregar tabla" data-ico="table"></button><button id="addExcel" type="button" data-ico="excel" title="Insertar Excel" aria-label="Insertar archivo Excel"></button></div>
+<input id="nlExcelInput" type="file" accept=".xlsx,.xls,.xlsm" hidden aria-label="Seleccionar libro Excel"><div id="insertMenu" class="insert-menu" role="menu" aria-label="Insertar bloque"><button id="addText" title="Bloque de texto" aria-label="Agregar texto" data-ico="type"></button><button id="addImage" title="Bloque de imagen" aria-label="Agregar imagen" data-ico="image"></button><button id="addFunctions" title="Insertar funciones de texto" aria-label="Agregar funciones" data-ico="function"></button><button id="addPdf" title="Insertar documento PDF" aria-label="Agregar PDF" data-ico="filePdf"></button><button id="addGroup" title="Dibujar grupo" aria-label="Dibujar grupo" data-ico="groupBox"></button><button id="addTable" title="Insertar tabla" aria-label="Agregar tabla" data-ico="table"></button><button id="addExcel" type="button" data-ico="excel" title="Insertar Excel" aria-label="Insertar archivo Excel"></button></div>
 <div id="functionsMenu" class="insert-menu" role="menu" aria-label="Bloques y operadores de texto"><button data-fnew="field" data-ico="type" title="Campo de texto" aria-label="Insertar campo de texto"> Campo de texto</button><button data-fnew="join" aria-label="Insertar función Unir" data-ico="mergeBlocks" title="Unir textos"> Unir</button><button data-fnew="extract" aria-label="Insertar función Extraer" data-ico="crop" title="Extraer caracteres"> Extraer</button><button data-fnew="split" aria-label="Insertar función Separar" data-ico="split" title="Separar por delimitador"> Separar</button><button data-fnew="excel" data-ico="excelAnalyze" aria-label="Insertar función Excel" title="Analizar archivos Excel conectados"> Excel</button></div>
 <div id="imgMenu" class="insert-menu" role="menu" aria-label="Importar imagen"><button id="imgPaste" title="Pegar imagen" aria-label="Pegar imagen" data-ico="clipboard"> Pegar</button><button id="imgChoose" title="Abrir archivo de imagen" aria-label="Abrir archivo de imagen" data-ico="folder"> Archivo</button></div>
 <div id="scaleSliderBar" class="scale-slider-bar" aria-label="Escala desde el centro"><input id="scaleSlider" type="range" min="20" max="400" value="100" step="1" aria-label="Escala porcentual desde el centro"><span id="scaleValue" class="scale-value">100 %</span><button id="scaleSliderClose" title="Terminar escala" aria-label="Cerrar escala" data-ico="close"></button></div>
@@ -1292,7 +1292,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   </section>
 </div>
 <!-- NL/HTML / 07 · Editor de imágenes -->
-<div id="imgEditOverlay" class="edit-overlay" aria-hidden="true"><section class="block-editor image-editor" role="dialog" aria-modal="true" aria-labelledby="imageEditorTitle"><div class="edit-handle" id="imgEditHandle"><strong id="imageEditorTitle">Editar imagen</strong><button id="imgEditorClose" data-ico="close" title="Cerrar"></button></div><div class="edit-scroll"><img id="imgPreview" alt="Vista previa" class="img-preview"><label class="field"><span>Etiqueta de imagen (sin conectores)</span><input id="imgCaption" maxlength="200" placeholder="Título o pie de imagen"></label><label class="field"><span>Ubicación de etiqueta</span><select id="imgCaptionPosition"><option value="bottom">Pie</option><option value="top">Título</option></select></label><div class="img-edit-buttons"><button id="imgReplace" data-ico="folder" title="Reemplazar imagen">Reemplazar</button><button id="imgAspectReset" data-ico="fit" title="Restaurar proporción">Proporción</button></div><div class="field"><label for="imgTransparency">Opacidad de la imagen <output id="imgOpacityValue">100%</output></label><input id="imgTransparency" type="range" min="5" max="100" value="100"></div>
+<div id="imgEditOverlay" class="edit-overlay" aria-hidden="true"><section class="block-editor image-editor" role="dialog" aria-modal="true" aria-labelledby="imageEditorTitle"><div class="edit-handle" id="imgEditHandle"><strong id="imageEditorTitle">Editar imagen</strong><button id="imgEditorClose" data-ico="close" title="Cerrar"></button></div><div class="edit-scroll"><img id="imgPreview" alt="Vista previa" class="img-preview"><label class="field"><span>Etiqueta de imagen (sin conectores)</span><input id="imgCaption" maxlength="200" placeholder="Título o pie de imagen"></label><label class="field"><span>Ubicación de etiqueta</span><select id="imgCaptionPosition"><option value="bottom">Pie</option><option value="top">Título</option></select></label><div class="img-edit-buttons"><button id="imgReplace" data-ico="folder" title="Reemplazar contenido de imagen o PDF">Reemplazar contenido</button><button id="imgAspectReset" data-ico="fit" title="Restaurar proporción">Proporción</button></div><div class="field"><label for="imgTransparency">Opacidad de la imagen <output id="imgOpacityValue">100%</output></label><input id="imgTransparency" type="range" min="5" max="100" value="100"></div>
   <p class="image-help">Recorte desde el ícono de recortar que aparece al seleccionar la imagen.</p>
  <div class="field"><label>Orden entre imágenes</label><div class="img-editor-compact"><button id="imgBack" data-ico="below" title="Enviar detrás de otras imágenes">Al fondo</button><button id="imgFront" data-ico="above" title="Colocar delante de otras imágenes">Al frente</button></div></div>
  <p class="image-help">Para conectar puntos, cierre esta ventana y use el ícono de conectores. Para escalar, seleccione la imagen y arrastre la esquina inferior derecha.</p></div><div class="edit-actions"><button id="imgEditorDone" class="ok">Cerrar</button></div></section></div>
@@ -2675,6 +2675,23 @@ function tableMarkup(n){
  ${tablePortMarkup(n,r,'left')}${tablePortMarkup(n,r,'right')}</div>`}).join('')}
  ${socketMarkup(n,-1,'top')}${socketMarkup(n,-2,'bottom')}</article>`;
 }
+// La fuente Excel únicamente alimenta un bloque Resultado Excel.
+// Se conserva el orden logico independientemente del primer conector tocado.
+function nlExcelLinkError(a,b){
+ const na=box(a.node),nb=box(b.node),ka=na?.kind,kb=nb?.kind;
+ // El bloque Resultado de Excel también reserva sus entradas a fuentes Excel.
+ if(['excel','excelResult'].includes(ka)||['excel','excelResult'].includes(kb)){
+  if(!((ka==='excel'&&kb==='excelResult')||(kb==='excel'&&ka==='excelResult')))
+   return 'Excel y Resultado de Excel solo admiten conexiones entre sí.';
+ }
+ return '';
+}
+function nlExcelOrient(a,b){return box(b.node)?.kind==='excel'&&box(a.node)?.kind==='excelResult'?[b,a]:[a,b]}
+function nlExcelNormalizeLegacy(){
+ for(const l of links){if(box(l.b.node)?.kind==='excel'&&box(l.a.node)?.kind==='excelResult'){
+  [l.a,l.b]=[l.b,l.a];l.flowReversed=false;
+ }else if(box(l.a.node)?.kind==='excel'&&box(l.b.node)?.kind==='excelResult')l.flowReversed=false;}
+}
 function tableConnectionError(a,b,excludedLinkId=null){
  const an=box(a.node),bn=box(b.node);
  if(an?.kind!=='table'&&bn?.kind!=='table')return '';
@@ -3066,7 +3083,7 @@ function finishLinkInsertion(nodeId){
  const task=insertIntoLink;insertIntoLink=null;
  const l=links.find(v=>v.id===task.id),n=box(nodeId);
  if(!l||!n)return;
- if(n.kind==='table'){toast('La tabla se inserta sin dividir el enlace: conecte sus entradas por fila.');return;}
+ if(n.kind==='table'||box(l.a.node)?.kind==='excel'||box(l.b.node)?.kind==='excel'||n.kind==='excel'||n.kind==='excelResult'){toast('Los enlaces de Excel solo admiten Excel hacia Resultado; no se pueden dividir.');return;}
  // Un solo campo de datos (fila Lista) enlaza ambas mitades.
  let left,right;
  if(n.kind==='image'){
@@ -3092,11 +3109,11 @@ function rewireAttach(linkId,end,target){
  const l=links.find(x=>x.id===linkId);if(!l||!target)return false;
  const fixed=l[end==='a'?'b':'a'];
  if(target.node===fixed.node){toast('Elija un bloque diferente.');return false}
- const warning=tableConnectionError(end==='a'?target:l.a,end==='b'?target:l.b,l.id);if(warning){toast(warning);return false;}
+ const proposedA=end==='a'?target:l.a,proposedB=end==='b'?target:l.b;const excelWarning=nlExcelLinkError(proposedA,proposedB);if(excelWarning){toast(excelWarning);return false;}const warning=tableConnectionError(proposedA,proposedB,l.id);if(warning){toast(warning);return false;}
  if(!pos(target)){toast('No se encontró el conector.');return false}
  if(key(l[end])===key(target)){rewireStop();render();return true}
  if(links.some(x=>x.id!==l.id&&((key(x.a)===key(fixed)&&key(x.b)===key(target))||(key(x.b)===key(fixed)&&key(x.a)===key(target))))){toast('La conexión ya existe.');return false}
- snap();l[end]={...target};rewireStop();selectedLink=l.id;multiLinks.clear();multiLinks.add(l.id);
+ snap();l[end]={...target};[l.a,l.b]=nlExcelOrient(l.a,l.b);if(box(l.a.node)?.kind==='excel')l.flowReversed=false;rewireStop();selectedLink=l.id;multiLinks.clear();multiLinks.add(l.id);
  render();store();toast('Extremo reubicado. Puede deshacer.');return true;
 }
 function showWireEndControls(){
@@ -3276,7 +3293,7 @@ function restoreUniqueCableColors(savedHistory){
  nextHue=Math.max(nextHue,links.length,colorHistory.length);
 }
 // NL/JS / 12 · Conectar, seleccionar y editar filas
-function connect(a,b){const ta=box(a.node)?.kind==='table',tb=box(b.node)?.kind==='table';if(ta&&!tb&&['left','right'].includes(a.side)){[a,b]=[b,a];}else if(tb&&!ta&&['top','bottom'].includes(b.side)){[a,b]=[b,a];}const warning=tableConnectionError(a,b);if(warning){toast(warning);return;}if(a.node===b.node){toast('Conecte bloques diferentes.');return}if(!pos(a)||!pos(b)){toast('No se encontró el conector.');return}if(links.some(l=>(key(l.a)===key(a)&&key(l.b)===key(b))||(key(l.a)===key(b)&&key(l.b)===key(a)))){toast('Ya existe esa conexión.');return}snap();const color=uniqueCableColor();links.push({id:nextLink++,a,b,color,colorCustom:false,style:'solid',start:false,end:false,flowReversed:false});selectedLink=null;pending=null;render();store()}
+function connect(a,b){const ta=box(a.node)?.kind==='table',tb=box(b.node)?.kind==='table';if(ta&&!tb&&['left','right'].includes(a.side)){[a,b]=[b,a];}else if(tb&&!ta&&['top','bottom'].includes(b.side)){[a,b]=[b,a];}const excelWarning=nlExcelLinkError(a,b);if(excelWarning){toast(excelWarning);return;}[a,b]=nlExcelOrient(a,b);const warning=tableConnectionError(a,b);if(warning){toast(warning);return;}if(a.node===b.node){toast('Conecte bloques diferentes.');return}if(!pos(a)||!pos(b)){toast('No se encontró el conector.');return}if(links.some(l=>(key(l.a)===key(a)&&key(l.b)===key(b))||(key(l.a)===key(b)&&key(l.b)===key(a)))){toast('Ya existe esa conexión.');return}snap();const color=uniqueCableColor();links.push({id:nextLink++,a,b,color,colorCustom:false,style:'solid',start:false,end:false,flowReversed:false});selectedLink=null;pending=null;render();store()}
 function selectSocket(s){if(multiMode)return;if(pending){if(key(pending)===key(s)){pending=null;render();return}const a=pending;pending=null;connect(a,s)}else{pending=s;selectedRow=null;selectedLink=null;render()}}
 function selectRow(id,node){if(inlineEdit)commitInline();selectedRow=+id;selectedNode=+node;selectedLink=null;$('#linktools').classList.remove('open');$('#colorpop').classList.remove('open');render()}
 function removeRow(n,r){snap();n.rows=n.rows.filter(x=>x.id!==r.id);links=links.filter(l=>!(l.a.node===n.id&&l.a.row===r.id)&&!(l.b.node===n.id&&l.b.row===r.id));if(!n.rows.length){nodes=nodes.filter(x=>x.id!==n.id);links=links.filter(l=>l.a.node!==n.id&&l.b.node!==n.id)}selectedRow=null;selectedNode=null;pending=null;render();store()}
@@ -3786,9 +3803,9 @@ function ensureNavigationThumbnails(){
   }).catch(()=>{}).finally(()=>{if(nlThumbsPending.get(nid)===original)nlThumbsPending.delete(nid)});
  }
 }
-async function readImageFile(file){if(!file)return;if(!['image/jpeg','image/png'].includes(file.type)&&!/\.(jpg|jpeg|png)$/i.test(file.name||''))return toast('Solo JPG y PNG');if(file.size>16*1024*1024)return toast('Imagen muy grande (máx. 16 MB)');const src=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file)});const dim=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve({w:img.naturalWidth,h:img.naturalHeight,img});img.onerror=reject;img.src=src});const thumbSrc=makeCanvasThumbnail(dim.img,580);
+async function readImageFile(file){if(!file)return;if(!['image/jpeg','image/png'].includes(file.type)&&!/\.(jpg|jpeg|png)$/i.test(file.name||'')){pendingImageReplace=null;return toast('Solo JPG y PNG');}if(file.size>16*1024*1024){pendingImageReplace=null;return toast('Imagen muy grande (máx. 16 MB)');}const src=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file)});const dim=await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve({w:img.naturalWidth,h:img.naturalHeight,img});img.onerror=reject;img.src=src});const thumbSrc=makeCanvasThumbnail(dim.img,580);
  if(pendingImageReplace!==null){const n=box(pendingImageReplace);pendingImageReplace=null;if(n){snap();n.src=src;n.thumbSrc=thumbSrc;n.naturalW=dim.w;n.naturalH=dim.h;n.crop={left:0,right:0,top:0,bottom:0};n.h=Math.round(n.w*imageRatio(n));$('#imgPreview').src=src;render();store();toast('Imagen reemplazada');return}}const c=midWorld();let w=254,h=Math.max(56,Math.min(320,254*dim.h/dim.w));if(dim.h/dim.w>2.2){h=320;w=Math.max(75,h*dim.w/dim.h)}const location=imageInsertPoint?{x:Math.round(imageInsertPoint.x-w/2),y:Math.round(imageInsertPoint.y-h/2)}:emptySpot(w,h);const wasLinkInsert=!!insertIntoLink;imageInsertPoint=null;snap();const id=nextNode++;nodes.push({id,kind:'image',src,thumbSrc,naturalW:dim.w,naturalH:dim.h,w,h,x:location.x,y:location.y,caption:'',captionPosition:'bottom',opacity:1,crop:{left:0,right:0,top:0,bottom:0},imageOrder:Math.max(0,...nodes.filter(k=>k.kind==='image').map(k=>k.imageOrder||k.id))+1,ports:[]});selectedNode=id;selectedRow=null;selectedLink=null;closeImageTools();finishLinkInsertion(id);render();store();if(!wasLinkInsert)requestAnimationFrame(fit);setRecentInsert('image');toast('Imagen insertada: agregue conectores con el ícono de puntos')}
-$('#imgFile').onchange=async e=>{const file=e.target.files?.[0];e.target.value='';if(!file){imageInsertPoint=null;insertIntoLink=null;return;}try{await readImageFile(file)}catch{imageInsertPoint=null;toast('No se pudo leer la imagen')}};
+$('#imgFile').onchange=async e=>{const file=e.target.files?.[0];e.target.value='';if(!file){pendingImageReplace=null;imageInsertPoint=null;insertIntoLink=null;return;}try{await readImageFile(file)}catch{pendingImageReplace=null;imageInsertPoint=null;toast('No se pudo leer la imagen')}};
 // El clic derecho reutiliza los mismos tres botones del comando +.
 // Su coordenada se conserva hasta elegir Texto, Imagen o una Función.
 let contextInsertPoint=null,contextMenuAt=null,imageInsertPoint=null;
@@ -4101,6 +4118,8 @@ function positionLinkTools(){
  const tb=$('#linktools');if(selectedLink===null){tb.classList.remove('open');$('#wireEndControls').innerHTML='';return}
  const l=links.find(x=>x.id===selectedLink);if(!l){selectedLink=null;tb.classList.remove('open');return}
  const a=pos(l.a,l.id),b=pos(l.b,l.id);if(!a||!b){tb.classList.remove('open');return}
+ $('#wireReverse').disabled=box(l.a.node)?.kind==='excel'||box(l.b.node)?.kind==='excel'||box(l.a.node)?.kind==='table'||box(l.b.node)?.kind==='table';
+ $('#wireReverse').title=$('#wireReverse').disabled?'Sentido fijo de la fuente':'Invertir sentido de flujo';
  $('#wireReverse').classList.toggle('flow-reversed',!!l.flowReversed);
  $('#wireReverse').setAttribute('aria-pressed',String(!!l.flowReversed));
  tb.classList.add('open');$('#linkchip').style.background=l.color;
@@ -4137,7 +4156,7 @@ function editLink(){const l=links.find(x=>x.id===selectedLink);if(!l)return;let 
 function openLinkColors(){const l=links.find(x=>x.id===selectedLink);if(!l)return;editingColor={link:l.id};$('#colorTitle').textContent='Color del enlace';$('#colorPick').value=l.color;$('#colorHex').value=l.color;$('#swatches').innerHTML=palette.map(c=>`<button style="background:${c}" title="${c}" data-swatch="${c}"></button>`).join('');$$('[data-swatch]').forEach(b=>b.onclick=()=>{$('#colorPick').value=b.dataset.swatch;$('#colorHex').value=b.dataset.swatch});$('#colorPick').oninput=e=>$('#colorHex').value=e.target.value;$('#colorHex').oninput=e=>{const v=hex(e.target.value);if(v)$('#colorPick').value=v};$('#colorpop').classList.add('open');positionLinkTools()}
 $('#colorApply').onclick=()=>{if(!editingColor)return;const l=links.find(x=>x.id===editingColor.link),c=hex($('#colorHex').value);if(!l||!c)return toast('Color HEX o RGB no válido');snap();const endpoints=[key(l.a),key(l.b)];const peers=links.filter(v=>endpoints.some(s=>key(v.a)===s||key(v.b)===s));for(const item of (multiMode&&multiFilter==='links'&&multiLinks.size?links.filter(x=>multiLinks.has(x.id)):peers)){item.color=c;item.colorCustom=true;}$('#colorpop').classList.remove('open');render();store()};$('#colorClose').onclick=()=>$('#colorpop').classList.remove('open');
 $('#wireColor').onclick=openLinkColors;$('#wireEdit').onclick=editLink;$('#wireDelete').onclick=removeLink;
-$('#wireReverse').onclick=()=>{const l=links.find(x=>x.id===selectedLink);if(!l)return;if(box(l.a.node)?.kind==='table'||box(l.b.node)?.kind==='table')return toast('El sentido de los enlaces de Tabla se mantiene según su tipo de puerto.');snap();l.flowReversed=!l.flowReversed;render();store();toast(l.flowReversed?'Flujo invertido: origen y destino intercambiados':'Flujo restablecido: origen y destino originales')};
+$('#wireReverse').onclick=()=>{const l=links.find(x=>x.id===selectedLink);if(!l)return;if(box(l.a.node)?.kind==='table'||box(l.b.node)?.kind==='table')return toast('El sentido de los enlaces de Tabla se mantiene según su tipo de puerto.');if(box(l.a.node)?.kind==='excel'||box(l.b.node)?.kind==='excel')return toast('El flujo de Excel es fijo: Excel hacia Resultado.');snap();l.flowReversed=!l.flowReversed;render();store();toast(l.flowReversed?'Flujo invertido: origen y destino intercambiados':'Flujo restablecido: origen y destino originales')};
 // Eventos: separamos el arrastre del texto y de los botones contextuales.
 nodesEl.addEventListener('click',e=>{const guide=e.target.closest('[data-split-at]');if(guide){e.preventDefault();e.stopPropagation();splitSelectedNode(+guide.dataset.splitAt);return}const b=e.target.closest('button[data-action],button[data-cap]');if(!b)return;if(b.dataset.cap)cap(b.dataset.node,b.dataset.cap);else rowAction(b.dataset.action,b.dataset.node,b.dataset.row)});
 svg.addEventListener('click',e=>{
@@ -4496,7 +4515,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.25.4',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
+function projectFile(){return{app:'NodoLibre',version:'5.25.5',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4709,7 +4728,7 @@ function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nod
 function nlApplyData(d,validated){
  const v=validated||normalize(d);
  nlExcelBooks=new Map(Array.isArray(d.excelBooks)?d.excelBooks.filter(x=>Array.isArray(x)&&typeof x[0]==='string'&&x[1]?.format==='NLExcelData'):[]);
- clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);migrateLegacyResults();restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=['bezier','orthogonal','branched'].includes(d.wireShape)?d.wireShape:'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,branchSpacing:d.layers?.branchSpacing,showInputOrder:d.layers?.showInputOrder,autoPortDistribution:d.layers?.autoPortDistribution,portFlowContrast:d.layers?.portFlowContrast,showFlowArrow:d.layers?.showFlowArrow,portHoverHighlight:d.layers?.portHoverHighlight,duplicates:d.layers?.duplicates,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();
+ clearConnectionFilter(false);nodes=v.incoming;links=v.outgoing;nextNode=Math.max(1,...nodes.map(n=>n.id+1));nextRow=Math.max(1,...nodes.flatMap(n=>(n.kind==='image'?n.ports:n.rows).map(r=>r.id+1)));nextLink=Math.max(1,...links.map(l=>l.id+1));nextHue=Math.max(Number(d.nextHue)||0,links.length);migrateLegacyResults();nlExcelNormalizeLegacy();restoreUniqueCableColors(d.colorHistory);resetSelection();inlineEdit=null;theme=['color','text','text-color','text-color2','text-white','sketch','sketch-color','red'].includes(d.theme)?d.theme:'color';portLayer=normalizedPortLayer(d.portLayer);portColorMode=normalizedPortColorMode(d.portColorMode,d.portLayer);wireShape=['bezier','orthogonal','branched'].includes(d.wireShape)?d.wireShape:'bezier';background=d.background?.kind==='image'&&/^data:image\/(png|jpeg);base64,/i.test(d.background.src||'')?{...d.background}:d.background?.kind==='color'?{...d.background}:{kind:'none',color:'#14212e',colorCustom:false,src:null,x:0,y:0,w:800,h:480,opacity:.32};bgEditing=false;bgToolMode=null;bgCropSession=null;updateBgToolButtons();background.colorCustom=background.colorCustom===undefined?background.kind==='color':!!background.colorCustom;if(background.kind==='image'){background.crop=normalizedCrop(background.crop);background.naturalW=Number(background.naturalW)||Number(background.w)||800;background.naturalH=Number(background.naturalH)||Number(background.h)||480}layers=styleLayers({width:d.layers?.width==='auto'?'auto':'fixed',border:d.layers?.border!==false,fill:d.layers?.fill!==false,text:hex(d.layers?.text),borderColor:hex(d.layers?.borderColor)||'#a7b9d4',borderColorCustom:!!d.layers?.borderColorCustom||!!(d.layers?.borderColor&&d.layers.borderColor!=='#a7b9d4'),exportDate:d.layers?.exportDate!==false,exportProject:String(d.layers?.exportProject||'').slice(0,800),textBorder:d.layers?.textBorder,textFill:d.layers?.textFill,socketStyleVersion:d.layers?.socketStyleVersion,socketShape:d.layers?.socketShape,socketFillOn:d.layers?.socketFillOn,socketBorderOn:d.layers?.socketBorderOn,socketFillColor:d.layers?.socketFillColor,socketBorderColor:d.layers?.socketBorderColor,wireVisible:d.layers?.wireVisible,wireColor:d.layers?.wireColor,wireProfile:d.layers?.wireProfile,wireThickness:d.layers?.wireThickness,nodeBg:d.layers?.nodeBg,branchSpacing:d.layers?.branchSpacing,showInputOrder:d.layers?.showInputOrder,autoPortDistribution:d.layers?.autoPortDistribution,portFlowContrast:d.layers?.portFlowContrast,showFlowArrow:d.layers?.showFlowArrow,portHoverHighlight:d.layers?.portHoverHighlight,duplicates:d.layers?.duplicates,blockLayout:d.layers?.blockLayout});applyThemeClasses();render();fit();
  store();
 }
 $('#file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{await nlReceiveFile(f,nlChooseMode)}catch(err){toast('No se pudo abrir: '+err.message)}finally{e.target.value='';nlChooseMode='open'}};
@@ -4717,7 +4736,7 @@ $('#file').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{await
 // Excel: datos separados de la presentación y del historial de movimiento.
 function nlExcelNode(kind,label,extra={}){
  const pos=contextInsertPoint?{...contextInsertPoint}:emptySpot(290,170);contextInsertPoint=null;snap();
- const id=nextNode++;const n={id,kind,x:Math.round(pos.x),y:Math.round(pos.y),top:true,bottom:true,locked:false,visual:{width:'fixed',border:'inherit',fill:'inherit',text:null},rows:[row(label,'title'),row(kind==='excel'?'Libro importado':'0 registros')],...extra};
+ const id=nextNode++;const n={id,kind,x:Math.round(pos.x),y:Math.round(pos.y),top:true,bottom:true,locked:false,visual:{width:'fixed',border:'inherit',fill:'inherit',text:null},rows:[row(label,'title'),row(kind==='excel'?'':'0 registros')],...extra};
  nodes.push(n);selectedNode=id;selectedRow=null;selectedLink=null;pending=null;render();store();return n;
 }
 async function nlExcelInsertFile(f,at=null){
@@ -4727,8 +4746,8 @@ async function nlExcelInsertFile(f,at=null){
  const point=at?{x:Math.round(at.x-59),y:Math.round(at.y-61)}:{};
  const n=nlExcelNode('excel','Excel · '+f.name,{...point,excelBookId:'book-'+Date.now()+'-'+Math.random().toString(36).slice(2)});
  nlExcelBooks=new Map(nlExcelBooks);nlExcelBooks.set(n.excelBookId,book);
- n.rows[1].text=book.sheets.length+' hojas · '+book.totalCells+' celdas';
- setRecentInsert('excel');render();store();toast('Excel insertado: '+book.sheets.length+' hojas');
+ n.rows[1].text='';
+ setRecentInsert('excel');render();store();toast(book.formulasWithoutCachedValue?'Excel insertado. '+book.formulasWithoutCachedValue+' fórmulas sin resultado almacenado no se calcularon.':'Excel insertado: '+book.sheets.length+' hojas');
  return n;
 }
 $('#nlExcelInput').addEventListener('change',async e=>{
@@ -4756,7 +4775,7 @@ function nlExcelRun(sources,expression){
  }catch(error){return Promise.resolve().then(()=>NLExcel.analyze(sources,expression))}
 }
 function nlExcelCreateResult(){const n=nlExcelNode('excelResult','Resultado · Excel',{excelExpression:'listarcolumna: \narchivo: \nhoja: *',excelCount:0});setRecentInsert('excelResult');toast('Bloque Resultado insertado. Conecte un Excel y abra sus propiedades para analizar.');return n}
-function nlExcelSources(n){const connected=new Set(links.filter(l=>l.a.node===n.id||l.b.node===n.id).map(l=>l.a.node===n.id?l.b.node:l.a.node));return nodes.filter(x=>connected.has(x.id)&&x.kind==='excel').map(x=>{const b=nlExcelBooks.get(x.excelBookId);return b?{...b,name:x.excelLabel||b.name}:null}).filter(Boolean)}
+function nlExcelSources(n){const connected=new Set(links.filter(l=>l.b.node===n.id&&box(l.a.node)?.kind==='excel'&&!l.flowReversed).map(l=>l.a.node));return nodes.filter(x=>connected.has(x.id)&&x.kind==='excel').map(x=>{const b=nlExcelBooks.get(x.excelBookId);return b?{...b,name:x.excelLabel||b.name}:null}).filter(Boolean)}
 // Visor esparso: solo columnas y filas con valores. Conserva las coordenadas originales.
 function nlExcelInfo(n){
  const b=nlExcelBooks.get(n.excelBookId);if(!b)return toast('Libro no disponible');
@@ -4769,19 +4788,18 @@ function nlExcelInfo(n){
  }));
  const viewer=()=>{
   const sh=sheetName();if(!sh)return '<p>Este libro no contiene hojas.</p>';
-  const {maxRow,maxCol,countRows,countCols}=indexes[activeSheet];
+  const {maxRow,maxCol}=indexes[activeSheet];
   const rows=Array.from({length:Math.max(0,Math.min(55,maxRow-page*55))},(_,i)=>page*55+i);
   const cols=Array.from({length:Math.max(0,Math.min(12,maxCol-colPage*12))},(_,i)=>colPage*12+i);
   const rowSet=new Set(rows),colSet=new Set(cols);
   const map=new Map(sh.cells.filter(([r,c])=>rowSet.has(r)&&colSet.has(c)).map(([r,c,v])=>[r+':'+c,v]));
   const hiddenRow=new Set(sh.hiddenRows||[]),hiddenCol=c=>(sh.hiddenCols||[]).some(range=>c+1>=range[0]&&c+1<=range[1]);
-  const type=sh.visibility==='veryHidden'?'Muy oculta':sh.visibility==='hidden'?'Oculta':'Visible';
   return `<div class="nl-sheet-tabs" role="tablist" aria-label="Hojas del libro">${b.sheets.map((x,i)=>`<button type="button" role="tab" aria-selected="${i===activeSheet}" data-excel-sheet="${i}" class="${i===activeSheet?'active':''}">${esc(x.name)}${x.visibility!=='visible'?' · Oculta':''}</button>`).join('')}</div>
-  <div class="nl-sheet-note">${esc(type)} · ${countRows.toLocaleString('es-CO')} filas y ${countCols.toLocaleString('es-CO')} columnas con datos. Encabezados originales de Excel, incluidas posiciones vacías.</div>
+
   <div class="nl-sheet-grid"><table aria-label="Celdas de ${esc(sh.name)}"><thead><tr><th class="nl-sheet-corner"></th>${cols.map(c=>`<th class="${hiddenCol(c)?'nl-sheet-hidden':''}" title="${hiddenCol(c)?'Columna oculta':'Columna visible'}">${NLExcel.colName(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><th scope="row" class="${hiddenRow.has(r+1)?'nl-sheet-hidden':''}" title="${hiddenRow.has(r+1)?'Fila oculta':'Fila visible'}">${r+1}</th>${cols.map(c=>`<td>${esc(String(map.get(r+':'+c)??''))}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+1}">No hay valores en esta hoja.</td></tr>`}</tbody></table></div>
   <div class="nl-sheet-paging"><button type="button" data-excel-turn="row-prev" ${page===0?'disabled':''} title="Filas anteriores">← Filas</button><span>${maxRow?`${page*55+1}–${Math.min((page+1)*55,maxRow)} de ${maxRow}`:'0 filas'}</span><button type="button" data-excel-turn="row-next" ${(page+1)*55>=maxRow?'disabled':''} title="Filas siguientes">Filas →</button><button type="button" data-excel-turn="col-prev" ${colPage===0?'disabled':''} title="Columnas anteriores">← Columnas</button><span>${maxCol?`${NLExcel.colName(colPage*12)}–${NLExcel.colName(Math.min((colPage+1)*12,maxCol)-1)} de ${NLExcel.colName(maxCol-1)}`:'0 columnas'}</span><button type="button" data-excel-turn="col-next" ${(colPage+1)*12>=maxCol?'disabled':''} title="Columnas siguientes">Columnas →</button></div>`;
  };
- openDialog('Excel · contenido',`<div class="nl-excel-name-edit"><label for="nlExcelName">Nombre del bloque</label><div><input id="nlExcelName" maxlength="120" value="${esc(n.excelLabel||b.name)}" aria-label="Nombre del bloque Excel"><button type="button" id="nlExcelRename">Cambiar nombre</button></div><small>Archivo original: ${esc(b.name)}</small><small id="nlExcelRenameStatus" aria-live="polite">Puede cambiar el nombre sin modificar el archivo original.</small></div><div id="nlExcelViewer"></div>`,[['Cerrar',closeDialog]]);
+ openDialog('Excel · contenido',`<div class="nl-excel-name-edit"><label for="nlExcelName">Nombre del bloque</label><div><input id="nlExcelName" maxlength="120" value="${esc(n.excelLabel||b.name)}" aria-label="Nombre del bloque Excel"><button type="button" id="nlExcelRename">Cambiar nombre</button></div><small>Archivo original: ${esc(b.name)}</small><div class="nl-excel-replace"><button id="nlExcelReplace" type="button" title="Sustituir el archivo de origen sin mover el bloque">Reemplazar contenido</button><input type="file" id="nlExcelReplaceInput" accept=".xls,.xlsx,.xlsm" hidden aria-label="Elegir libro Excel de reemplazo"></div><small id="nlExcelRenameStatus" aria-live="polite"></small></div><div id="nlExcelViewer"></div>`,[['Cerrar',closeDialog]]);
  const draw=()=>{if(!$('#nlExcelViewer'))return;$('#nlExcelViewer').innerHTML=viewer();};draw();
  $('#nlExcelViewer').onclick=e=>{
   const sheet=e.target.closest('[data-excel-sheet]');if(sheet){activeSheet=Number(sheet.dataset.excelSheet);page=0;colPage=0;draw();return}
@@ -4794,18 +4812,44 @@ function nlExcelInfo(n){
   if(nodes.some(x=>x.id!==n.id&&x.kind==='excel'&&(x.excelLabel||nlExcelBooks.get(x.excelBookId)?.name||'').toLocaleLowerCase()===label.toLocaleLowerCase()))return toast('Ese nombre ya está en otro bloque Excel');
   const previous=n.excelLabel||b.name;
   if(previous===label)return toast('Nombre sin cambios');snap();n.excelLabel=label;
-  // Las instrucciones ya guardadas que utilizan ese nombre se mantienen vinculadas.
-  for(const target of nodes.filter(x=>x.kind==='excelResult')){
-   const lines=String(target.excelExpression||'').split(/\r?\n/);
-   const ix=lines.findIndex(line=>/^\s*archivo\s*:/i.test(line));if(ix<0)continue;
-   const parts=nlExcelCSVList(lines[ix].slice(lines[ix].indexOf(':')+1));
-   if(parts.some(part=>part.toLocaleLowerCase()===previous.toLocaleLowerCase())){
-    lines[ix]='archivo: '+parts.map(part=>nlExcelQuote(part.toLocaleLowerCase()===previous.toLocaleLowerCase()?label:part)).join(',');target.excelExpression=lines.join('\n');
-   }
-  }
+   nlExcelUpdateNameReferences(previous,label);
   const card=nodesEl.querySelector(`.nl-excel-card[data-node="${n.id}"]`);if(card){card.title=label;card.setAttribute('aria-label','Excel · '+label);const name=card.querySelector('.nl-excel-filename');if(name)name.textContent=label;}store();$('#nlExcelRenameStatus').textContent='Nombre actualizado.';
  };
  $('#nlExcelRename').onclick=rename;$('#nlExcelName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();rename()}});
+ $('#nlExcelReplace').onclick=()=>$('#nlExcelReplaceInput').click();
+ $('#nlExcelReplaceInput').onchange=async e=>{
+  const f=e.target.files?.[0];e.target.value='';if(!f)return;
+  const targetTab=nlActiveId,oldBookKey=n.excelBookId,previous=n.excelLabel||b.name;
+  const status=$('#nlExcelRenameStatus');if(status)status.textContent='Leyendo archivo…';
+  try{
+   const imported=await NLExcel.read(f);
+   if(nlActiveId!==targetTab||box(n.id)!==n)throw Error('El proyecto cambió durante la lectura');
+   // Un bloque duplicado puede compartir un libro: reemplazar crea nueva identidad de datos.
+   const proposed=previous===b.name?f.name:previous;
+   if(nodes.some(x=>x.id!==n.id&&x.kind==='excel'&&(x.excelLabel||nlExcelBooks.get(x.excelBookId)?.name||'').toLocaleLowerCase()===proposed.toLocaleLowerCase()))throw Error('Ya existe un Excel con ese nombre. Cambie primero el nombre del bloque.');
+   snap();n.excelBookId='book-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+   nlExcelBooks=new Map(nlExcelBooks);nlExcelBooks.set(n.excelBookId,imported);
+   if(!nodes.some(x=>x.id!==n.id&&x.excelBookId===oldBookKey))nlExcelBooks.delete(oldBookKey);
+   n.excelLabel=proposed;if(n.rows[1])n.rows[1].text='';
+   nlExcelUpdateNameReferences(previous,proposed);
+   closeDialog();render();store();nlExcelInfo(n);
+   toast(imported.formulasWithoutCachedValue?'Contenido reemplazado. '+imported.formulasWithoutCachedValue+' fórmulas sin resultado almacenado no se calcularon.':'Contenido Excel reemplazado. Puede deshacer.');
+  }catch(error){const status=$('#nlExcelRenameStatus');if(status)status.textContent='No se reemplazó el archivo: '+error.message;}
+ };
+
+}
+// Mantener la selección 'archivo:' al cambiar el nombre visible del Excel.
+function nlExcelUpdateNameReferences(previous,label){
+ if(previous===label)return;
+ for(const target of nodes.filter(x=>x.kind==='excelResult')){
+  const lines=String(target.excelExpression||'').split(/\r?\n/);
+  const ix=lines.findIndex(line=>/^\s*archivo\s*:/i.test(line));if(ix<0)continue;
+  const parts=nlExcelCSVList(lines[ix].slice(lines[ix].indexOf(':')+1));
+  if(parts.some(part=>part.toLocaleLowerCase()===previous.toLocaleLowerCase())){
+   lines[ix]='archivo: '+parts.map(part=>nlExcelQuote(part.toLocaleLowerCase()===previous.toLocaleLowerCase()?label:part)).join(',');
+   target.excelExpression=lines.join('\n');
+  }
+ }
 }
 function nlExcelCSVList(s){const out=[];let value='',quote=false;for(let i=0;i<s.length;i++){const c=s[i];if(c==='"'){if(quote&&s[i+1]==='"'){value+='"';i++}else quote=!quote}else if(c===','&&!quote){if(value.trim())out.push(value.trim());value=''}else value+=c}if(value.trim())out.push(value.trim());return out}
 function nlExcelQuote(s){return /[,"\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
@@ -5155,12 +5199,12 @@ function nlInsertValidated(v,d=null){
   links.push(l);
  }
  nlExcelBooks=newBooks;restoreUniqueCableColors(colorHistory.concat(v.outgoing.map(l=>l.color)));
- migrateLegacyResults();resetSelection();render();store();
+ migrateLegacyResults();nlExcelNormalizeLegacy();resetSelection();render();store();
 }
 // Un solo punto de llegada: selector, arrastre y página HTML portable.
 async function nlInsertDroppedFile(file,point){
  const name=file.name||'',targetTab=nlActiveId;
- if(/\.(xls|xlsx)$/i.test(name)){await nlExcelInsertFile(file,point);return}
+ if(/\.(xls|xlsx|xlsm)$/i.test(name)){await nlExcelInsertFile(file,point);return}
  if(/\.(png|jpe?g)$/i.test(name)){
   pendingImageReplace=null;imageInsertPoint=point;await readImageFile(file);return;
  }
