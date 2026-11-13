@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.25.3 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.25.4 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.25.3 | Diagramador de nodos</title>
+<title>NodoLibre 5.25.4 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -969,7 +969,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 .nl-format-choice:hover,.nl-format-choice:focus-visible{border-color:var(--accent)}
 @media(max-width:430px){#scrim.nl-save-open{padding-top:max(62px,env(safe-area-inset-top) + 62px)}#scrim.nl-save-open .dialog{max-height:calc(100dvh - 78px)}}
 
-/* 5.25.3: editor Excel compacto, cálculo por acción explícita. */
+/* 5.25.4: editor Excel compacto, cálculo por acción explícita. */
 .nl-excel-compact{gap:10px}.nl-excel-function h3,.nl-excel-result-heading h3{font-size:14px;margin:0 0 7px}
 .nl-excel-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .nl-excel-fields>div{min-width:0}.nl-excel-fields label{display:block;font-size:12px;font-weight:650;margin:0 0 5px}
@@ -983,7 +983,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:540px){.nl-excel-fields{grid-template-columns:1fr 1fr}.nl-excel-fields>div:first-child{grid-column:1/-1}.nl-excel-compact .nl-excel-chipline{max-height:33px}}
 @media(max-width:340px){.nl-excel-fields{grid-template-columns:1fr}.nl-excel-fields>div:first-child{grid-column:auto}}
 
-/* 5.25.3 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
+/* 5.25.4 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
 .nl-excel-source-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin:8px 0 4px;font-size:12px}.nl-excel-source-head span{color:var(--sub);font-size:11px}
 .nl-excel-sources{max-height:190px;overflow:auto;border:1px solid var(--panel-border);border-radius:9px;padding:3px 8px;overscroll-behavior:contain}
 .nl-excel-source-row{display:grid;grid-template-columns:minmax(92px,.9fr) minmax(105px,1fr) minmax(125px,1.2fr);gap:5px;align-items:center;border-bottom:1px solid var(--panel-border);padding:5px 0}
@@ -1026,6 +1026,24 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:480px){.nl-excel-builder{gap:6px}.nl-excel-chip{padding:7px 9px}#scrim:has(.nl-excel-builder) .dialog{padding:12px}.nl-sheet-grid{max-height:43dvh}}
 
 .nl-excel-node .row:first-of-type{background:#19634e!important}.nl-excel-node .nl-excel-summary{font-size:12px;opacity:.85;padding:4px 10px}.nl-excel-max{border:1px solid #5dd7b3;background:#17463d;color:#f4fffb;border-radius:7px;min-height:30px;cursor:pointer}.nl-excel-results{max-height:50dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--panel-border);border-radius:9px}.nl-excel-results table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}.nl-excel-results th,.nl-excel-results td{border:1px solid var(--panel-border);padding:6px 9px;text-align:left;white-space:nowrap}.nl-excel-results th{position:sticky;top:0;background:var(--panel);z-index:2}.nl-excel-results td{background:var(--base)}
+/* 5.25.4: filtros por encabezado del reporte Excel, en vista previa y tabla ampliada. */
+.nl-excel-report-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:68px}
+.nl-excel-report-head>span{overflow:hidden;text-overflow:ellipsis}
+.nl-excel-head-btn{display:grid;place-items:center;width:29px;height:28px;flex:none;border:1px solid transparent;border-radius:6px;color:var(--sub);background:transparent;cursor:pointer;touch-action:manipulation}
+.nl-excel-head-btn:hover,.nl-excel-head-btn:focus-visible{border-color:var(--accent);color:var(--ink);background:var(--base)}
+.nl-excel-head-btn.active{color:#5bedd0;border-color:#5bedd075;background:#20655744}
+.nl-excel-head-btn svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.nl-excel-head-pop{position:fixed;z-index:55;width:min(290px,calc(100vw - 16px));max-height:min(480px,85dvh);overflow:auto;background:var(--panel);border:1px solid var(--panel-border);color:var(--ink);border-radius:12px;padding:13px;box-shadow:0 18px 38px #000c;display:grid;gap:9px}
+.nl-excel-head-pop h3{font-size:14px;margin:0 0 1px}
+.nl-excel-head-pop label{font-size:12px;font-weight:650;color:var(--ink);display:grid;gap:5px}
+.nl-excel-head-pop input:not([type=checkbox]),.nl-excel-head-pop select{font-size:13px;width:100%;min-width:0;min-height:37px;border-radius:7px;padding:6px 8px;background:var(--base);color:var(--ink);border:1px solid var(--panel-border)}
+.nl-excel-head-pop .nl-excel-unique{display:flex;align-items:center;gap:8px;flex-direction:row;font-weight:500;line-height:1.4}
+.nl-excel-head-pop input[type=checkbox]{width:17px;height:17px;accent-color:#54ceb5}
+.nl-excel-head-pop .nl-excel-head-actions{display:flex;justify-content:flex-end;gap:6px}
+.nl-excel-head-pop .nl-excel-head-actions button{min-height:36px;padding:7px 12px;border:1px solid var(--panel-border);border-radius:7px;background:var(--base);color:var(--ink)}
+.nl-excel-head-pop .nl-excel-head-actions .ok{background:#277a6c;color:#fff;border-color:#61d2ba}
+.nl-excel-report-info{font-size:12px;color:var(--sub);margin:0 0 6px}
+.nl-excel-report-info strong{color:var(--ink)}
 </style>
 </head>
 <body class="intro-active">
@@ -1045,7 +1063,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes, documentos PDF y libros Excel para analizar columnas conectadas y exportar resultados XLSX. Los proyectos se guardan como .nodolibre o HTML editable; también exporta imágenes PNG y documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.25.3 (87)</dd>
+    <dt>Versión</dt><dd>5.25.4 (88)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-13">13 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -4055,8 +4073,8 @@ for(const [selector,kind] of [['#editHandle','move'],['#editResize','resize']]){
   else{dlg.style.height=clamp(g.h+e.clientY-g.startY,220,Math.max(220,H-g.y-8))+'px'}
  });el.addEventListener('pointerup',()=>editorGesture=null);el.addEventListener('pointercancel',()=>editorGesture=null)
 }
-function openDialog(title,body,buttons){$('#scrim').classList.remove('nl-save-open');$('#colorpop').classList.remove('open');$('#dialogTitle').textContent=title;$('#dialogBody').innerHTML=body;const d=$('#dialogActions');$('#scrim').classList.remove('dialog-free');$('#scrim .dialog').setAttribute('aria-modal','true');$('#scrim .dialog').removeAttribute('style');$('#dialogResize').hidden=true;d.innerHTML='';buttons.forEach(([label,fun,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'';b.onclick=fun;d.append(b)});$('#scrim').classList.add('open')}
-function closeDialog(){const o=$('#scrim');o.classList.remove('open','dialog-free','nl-save-open');o.querySelector('.dialog')?.removeAttribute('style');$('#dialogResize').hidden=true}
+function openDialog(title,body,buttons){nlExcelCloseHeadMenu();$('#scrim').classList.remove('nl-save-open');$('#colorpop').classList.remove('open');$('#dialogTitle').textContent=title;$('#dialogBody').innerHTML=body;const d=$('#dialogActions');$('#scrim').classList.remove('dialog-free');$('#scrim .dialog').setAttribute('aria-modal','true');$('#scrim .dialog').removeAttribute('style');$('#dialogResize').hidden=true;d.innerHTML='';buttons.forEach(([label,fun,cls])=>{const b=document.createElement('button');b.textContent=label;b.className=cls||'';b.onclick=fun;d.append(b)});$('#scrim').classList.add('open')}
+function closeDialog(){nlExcelCloseHeadMenu();const o=$('#scrim');o.classList.remove('open','dialog-free','nl-save-open');o.querySelector('.dialog')?.removeAttribute('style');$('#dialogResize').hidden=true}
 function enableFloatingDialog(){
  const o=$('#scrim'),d=o.querySelector('.dialog');
  o.classList.add('dialog-free');d.setAttribute('aria-modal','false');
@@ -4478,7 +4496,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.25.3',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
+function projectFile(){return{app:'NodoLibre',version:'5.25.4',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4685,7 +4703,7 @@ async function exportPng(filename='NodoLibre_diagrama.png',returnBlob=false){bra
   const blob=await new Promise(resolve=>can.toBlob(resolve,'image/png'));if(!blob)throw Error('No fue posible generar PNG');if(returnBlob)return blob;downloadBlob(blob,filename);toast('Imagen PNG exportada');}
 // Compatibilidad con archivos exportados por la versión anterior.
 function normalize(d){if(!Array.isArray(d.nodes)||!Array.isArray(d.links)||d.nodes.length>3000||d.links.length>15000)throw Error('Estructura no compatible');let ids=new Set(),rids=new Set(),nexR=1;
- const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const pdf=old.mediaType==='pdf';const pdfData=pdf&&typeof old.pdfData==='string'&&/^data:application\/pdf;base64,/i.test(old.pdfData)&&old.pdfData.length<70e6?old.pdfData:null;const src=typeof old.src==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.src)&&old.src.length<30e6?old.src:(pdf&&pdfData?pdfThumbnail():null);const thumbSrc=typeof old.thumbSrc==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.thumbSrc)&&old.thumbSrc.length<3e6?old.thumbSrc:null;if(!src)throw Error('Imagen o PDF no válido');return{id,kind:'image',src,thumbSrc,mediaType:pdf?'pdf':undefined,pdfData,pdfName:pdf?String(old.pdfName||'Documento PDF').slice(0,180):undefined,pdfInline:false,pdfPage:pdf?clamp(Math.round(Number(old.pdfPage)||1),1,100000):undefined,pdfPages:pdf?clamp(Math.round(Number(old.pdfPages)||1),1,100000):undefined,locked:old.locked===true,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',tableLeftCol:Number.isInteger(v.tableLeftCol)?v.tableLeftCol:undefined,tableRightCol:Number.isInteger(v.tableRightCol)?v.tableRightCol:undefined,align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,...(['function','result','group','table','excel','excelResult'].includes(old.kind)?{kind:old.kind}:{}),locked:old.locked===true,...(old.kind==='group'?{w:clamp(Number(old.w)||300,100,25000),h:clamp(Number(old.h)||200,85,25000),groupLabelPosition:['tl','tc','tr','bl','bc','br'].includes(old.groupLabelPosition)?old.groupLabelPosition:'tc',groupLabelX:Number.isFinite(Number(old.groupLabelX))?clamp(Number(old.groupLabelX),0,1):undefined,groupLabelY:Number.isFinite(Number(old.groupLabelY))?clamp(Number(old.groupLabelY),0,1):undefined,groupLabelEdge:['top','bottom','left','right','free'].includes(old.groupLabelEdge)?old.groupLabelEdge:'free',groupLabelSize:clamp(Number(old.groupLabelSize)||28,16,82),imageOrder:0}:{}),...(old.kind==='table'?{columns:(Array.isArray(old.columns)?old.columns:[]).slice(0,500).map(v=>String(v).slice(0,100)).length>=2?(old.columns||[]).slice(0,500).map(v=>String(v).slice(0,100)):['Columna 1','Columna 2'],tablePlacements:Object.fromEntries(Object.entries(old.tablePlacements||{}).filter(([id,v])=>/^\d+$/.test(id)&&Number.isInteger(v?.col)&&v.col>=0&&v.col<500).map(([id,v])=>[id,{col:v.col,mode:v.mode==='literal'?'literal':'ref',text:String(v.text||'').slice(0,1000)}])),tableOverrides:Object.fromEntries(Object.entries(old.tableOverrides||{}).filter(([id,v])=>/^\d+:\d+$/.test(id)).slice(0,10000).map(([id,v])=>[id,String(v).slice(0,1000)]))}:{}),...(old.kind==='function'?{func:normalizeFunctionConfig(old.func)}:{}),...(old.kind==='excel'?{excelBookId:typeof old.excelBookId==='string'?old.excelBookId:null,excelLabel:typeof old.excelLabel==='string'?old.excelLabel.slice(0,120):undefined}:{}),...(old.kind==='excelResult'?{excelExpression:String(old.excelExpression||'listarcolumna: \narchivo: \nhoja: *').slice(0,2000),excelCount:Math.max(0,Number(old.excelCount)||0)}:{}),x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.kind==='table'?true:old.top!==false,bottom:old.kind==='table'?true:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
+ const incoming=d.nodes.map(old=>{const id=Number(old.id);if(!Number.isSafeInteger(id)||ids.has(id))throw Error('ID de bloque inválido');ids.add(id);if(old.kind==='image'){const pdf=old.mediaType==='pdf';const pdfData=pdf&&typeof old.pdfData==='string'&&/^data:application\/pdf;base64,/i.test(old.pdfData)&&old.pdfData.length<70e6?old.pdfData:null;const src=typeof old.src==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.src)&&old.src.length<30e6?old.src:(pdf&&pdfData?pdfThumbnail():null);const thumbSrc=typeof old.thumbSrc==='string'&&/^data:image\/(png|jpeg|webp);base64,/i.test(old.thumbSrc)&&old.thumbSrc.length<3e6?old.thumbSrc:null;if(!src)throw Error('Imagen o PDF no válido');return{id,kind:'image',src,thumbSrc,mediaType:pdf?'pdf':undefined,pdfData,pdfName:pdf?String(old.pdfName||'Documento PDF').slice(0,180):undefined,pdfInline:false,pdfPage:pdf?clamp(Math.round(Number(old.pdfPage)||1),1,100000):undefined,pdfPages:pdf?clamp(Math.round(Number(old.pdfPages)||1),1,100000):undefined,locked:old.locked===true,x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),w:clamp(Number(old.w)||254,24,25000),h:clamp(Number(old.h)||((Number(old.w)||254)*(Math.max(1,Number(old.naturalH)||170)/Math.max(1,Number(old.naturalW)||254))),24,25000),caption:String(old.caption||'').slice(0,200),captionPosition:old.captionPosition==='top'?'top':'bottom',opacity:clamp(Number(old.opacity??1),.05,1),crop:old.crop||{left:0,right:0,top:0,bottom:0},imageOrder:Number.isFinite(old.imageOrder)?old.imageOrder:id,naturalW:Math.max(1,Number(old.naturalW)||254),naturalH:Math.max(1,Number(old.naturalH)||170),ports:(Array.isArray(old.ports)?old.ports:[]).slice(0,300).map(port=>({id:Number(port.id),u:clamp(Number(port.u)||0,0,1),v:clamp(Number(port.v)||0,0,1),side:['left','right','top','bottom','inside'].includes(port.side)?port.side:'inside'}))};}let rows=Array.isArray(old.rows)?old.rows:[];if('title' in old){rows=[{id:-id,text:old.title||`Bloque ${id}`,type:'title',bg:old.head,fg:old.headText},...rows]}const parsed=rows.slice(0,200).map(v=>{let rid=Number(v.id);if(!Number.isSafeInteger(rid)||rid<=0||rids.has(rid))rid=1e6+nexR++;rids.add(rid);return{id:rid,text:String(v.text??v.label??'Texto').slice(0,400),type:v.type==='title'?'title':'list',tableLeftCol:Number.isInteger(v.tableLeftCol)?v.tableLeftCol:undefined,tableRightCol:Number.isInteger(v.tableRightCol)?v.tableRightCol:undefined,align:['left','center','right'].includes(v.align)?v.align:'left',letterCase:['mixed','upper','lower'].includes(v.letterCase)?v.letterCase:'mixed',mirrored:!!v.mirrored,bg:hex(v.bg)||(v.type==='title'?'#286a77':'#303c4e'),fg:hex(v.fg)||'#ffffff',fgCustom:!!v.fgCustom,bgCustom:!!v.bgCustom,borderColor:hex(v.borderColor)||'#a7b9d4',borderColorCustom:!!v.borderColorCustom,borderMode:['inherit','on','off'].includes(v.borderMode)?v.borderMode:'inherit',fillMode:['inherit','on','off'].includes(v.fillMode)?v.fillMode:'inherit'}});return{id,...(['function','result','group','table','excel','excelResult'].includes(old.kind)?{kind:old.kind}:{}),locked:old.locked===true,...(old.kind==='group'?{w:clamp(Number(old.w)||300,100,25000),h:clamp(Number(old.h)||200,85,25000),groupLabelPosition:['tl','tc','tr','bl','bc','br'].includes(old.groupLabelPosition)?old.groupLabelPosition:'tc',groupLabelX:Number.isFinite(Number(old.groupLabelX))?clamp(Number(old.groupLabelX),0,1):undefined,groupLabelY:Number.isFinite(Number(old.groupLabelY))?clamp(Number(old.groupLabelY),0,1):undefined,groupLabelEdge:['top','bottom','left','right','free'].includes(old.groupLabelEdge)?old.groupLabelEdge:'free',groupLabelSize:clamp(Number(old.groupLabelSize)||28,16,82),imageOrder:0}:{}),...(old.kind==='table'?{columns:(Array.isArray(old.columns)?old.columns:[]).slice(0,500).map(v=>String(v).slice(0,100)).length>=2?(old.columns||[]).slice(0,500).map(v=>String(v).slice(0,100)):['Columna 1','Columna 2'],tablePlacements:Object.fromEntries(Object.entries(old.tablePlacements||{}).filter(([id,v])=>/^\d+$/.test(id)&&Number.isInteger(v?.col)&&v.col>=0&&v.col<500).map(([id,v])=>[id,{col:v.col,mode:v.mode==='literal'?'literal':'ref',text:String(v.text||'').slice(0,1000)}])),tableOverrides:Object.fromEntries(Object.entries(old.tableOverrides||{}).filter(([id,v])=>/^\d+:\d+$/.test(id)).slice(0,10000).map(([id,v])=>[id,String(v).slice(0,1000)]))}:{}),...(old.kind==='function'?{func:normalizeFunctionConfig(old.func)}:{}),...(old.kind==='excel'?{excelBookId:typeof old.excelBookId==='string'?old.excelBookId:null,excelLabel:typeof old.excelLabel==='string'?old.excelLabel.slice(0,120):undefined}:{}),...(old.kind==='excelResult'?{excelExpression:String(old.excelExpression||'listarcolumna: \narchivo: \nhoja: *').slice(0,2000),excelCount:Math.max(0,Number(old.excelCount)||0),excelReportView:nlExcelNormalizeView(old.excelReportView)}:{}),x:clamp(Number(old.x)||0,-25000,25000),y:clamp(Number(old.y)||0,-25000,25000),top:old.kind==='table'?true:old.top!==false,bottom:old.kind==='table'?true:old.bottom!==false,visual:{width:['auto','fixed'].includes(old.visual?.width)?old.visual.width:'inherit',border:['inherit','on','off'].includes(old.visual?.border)?old.visual.border:'inherit',fill:['inherit','on','off'].includes(old.visual?.fill)?old.visual.fill:'inherit',text:hex(old.visual?.text),borderColor:hex(old.visual?.borderColor),fillColor:hex(old.visual?.fillColor),layout:old.visual?.layout?validBlockLayout(old.visual.layout):null},rows:parsed.length?parsed:[{id:1e6+nexR++,text:'Texto',type:'list',bg:'#303c4e',fg:'#ffffff'}]}});
  const keys=new Set(incoming.flatMap(n=>n.kind==='image'?n.ports.map(p=>`${n.id}:${p.id}`):n.rows.map(r=>`${n.id}:${r.id}`)));for(const n of incoming){if(n.kind==='image')continue;if(n.top)keys.add(`${n.id}:-1`);if(n.bottom)keys.add(`${n.id}:-2`)}
  const outgoing=d.links.filter(l=>l.a&&l.b&&keys.has(`${l.a.node}:${l.a.row}`)&&keys.has(`${l.b.node}:${l.b.row}`)&&['left','right','top','bottom','inside'].includes(l.a.side)&&['left','right','top','bottom','inside'].includes(l.b.side)).map(l=>({id:Number(l.id),a:{node:+l.a.node,row:+l.a.row,side:l.a.side,...(Number.isSafeInteger(l.a.slot)&&l.a.slot>=0&&l.a.slot<500?{slot:l.a.slot}:{})},b:{node:+l.b.node,row:+l.b.row,side:l.b.side,...(Number.isSafeInteger(l.b.slot)&&l.b.slot>=0&&l.b.slot<500?{slot:l.b.slot}:{})},color:hex(l.color)||palette[0],colorCustom:!!l.colorCustom,style:['solid','dashed','loop','zigzag'].includes(l.style)?l.style:'solid',start:!!l.start,end:!!l.end,flowReversed:l.flowReversed===true}));return{incoming,outgoing}}
 function nlApplyData(d,validated){
@@ -4800,6 +4818,82 @@ function nlExcelCommandParts(command){
  }
  return{columns:get('listarcolumna'),files:get('archivo'),sheet:get('hoja'),filters,sorts,dedup:get('duplicados').toLowerCase()==='eliminar'};
 }
+// Los filtros de encabezado operan sobre filas de resultado ya calculadas.
+// No modifican archivos Excel, fórmulas ni la instrucción fuente.
+function nlExcelNormalizeView(raw){
+ const ops=new Set(['igual','noigual','comienza','termina','contiene','nocontiene']);
+ const out={};let count=0;
+ if(!raw||typeof raw!=='object'||Array.isArray(raw))return out;
+ for(const [key,entry] of Object.entries(raw)){
+  if(++count>130)break;
+  if(!/^(?:meta:(?:file|hoja|fila)|col:[A-Z]{1,3})$/.test(key)||!entry||typeof entry!=='object')continue;
+  const op=ops.has(entry.op)?entry.op:'';
+  const sort=['asc','desc'].includes(entry.sort)?entry.sort:'';
+  const value=String(entry.value??'').slice(0,250);
+  const unique=entry.unique===true;
+  if(op||sort||unique)out[key]={op,value,sort,unique};
+ }
+ return out;
+}
+function nlExcelReportCols(result){
+ return [{label:'Archivo',key:'meta:file',get:r=>r.file},{label:'Hoja',key:'meta:hoja',get:r=>r.hoja},{label:'Fila',key:'meta:fila',get:r=>r.fila},...result.columns.map((label,i)=>({label,key:'col:'+label,get:r=>r.values[i]}))];
+}
+function nlExcelReportApply(base,view){
+ if(!base||!Array.isArray(base.rows))return base;
+ const rules=nlExcelNormalizeView(view),cols=nlExcelReportCols(base);
+ const active=cols.filter(c=>rules[c.key]);
+ if(!active.length)return {...base,viewTotal:base.rows.length,viewRemoved:0,viewFiltered:false};
+ const normalize=v=>String(v??'').toLocaleLowerCase('es-CO');
+ let rows=base.rows;
+ for(const c of active){
+  const f=rules[c.key];if(!f.op)continue;
+  const term=normalize(f.value);
+  rows=rows.filter(r=>{const v=normalize(c.get(r));switch(f.op){case 'igual':return v===term;case 'noigual':return v!==term;case 'comienza':return v.startsWith(term);case 'termina':return v.endsWith(term);case 'contiene':return v.includes(term);case 'nocontiene':return !v.includes(term)}return true});
+ }
+ // Solo se conserva la primera aparición por columna, sin alterar el libro.
+ for(const c of active){if(!rules[c.key].unique)continue;const seen=new Set();rows=rows.filter(r=>{const value=String(c.get(r)??'');if(seen.has(value))return false;seen.add(value);return true})}
+ const sortable=active.find(c=>rules[c.key].sort);
+ if(sortable){
+  const dir=rules[sortable.key].sort==='desc'?-1:1;
+  const asInteger=v=>{if(typeof v==='number'&&Number.isSafeInteger(v))return v;const t=String(v??'');return /^-?(?:0|[1-9]\d*)$/.test(t)&&Number.isSafeInteger(+t)?+t:null};
+  rows=rows.slice().sort((a,b)=>{const x=sortable.get(a),y=sortable.get(b),nx=asInteger(x),ny=asInteger(y);return dir*(nx!==null&&ny!==null?Math.sign(nx-ny):String(x??'').localeCompare(String(y??''),'es',{sensitivity:'base'}))});
+ }
+ return {...base,rows,viewTotal:base.rows.length,viewRemoved:base.rows.length-rows.length,viewFiltered:true};
+}
+function nlExcelReportHeaders(result,view){
+ const rules=nlExcelNormalizeView(view);
+ const glyph='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6.6 7.3v5.2l-2.8 1.8v-7z"/></svg>';
+ return nlExcelReportCols(result).map(c=>`<th scope="col"><span class="nl-excel-report-head"><span>${esc(c.label)}</span><button type="button" class="nl-excel-head-btn ${rules[c.key]?'active':''}" data-excel-head="${esc(c.key)}" title="Filtrar y ordenar ${esc(c.label)}" aria-label="Filtrar y ordenar columna ${esc(c.label)}" aria-haspopup="dialog">${glyph}</button></span></th>`).join('');
+}
+let nlExcelHeadCleanup=null;
+function nlExcelCloseHeadMenu(){if(nlExcelHeadCleanup){nlExcelHeadCleanup();nlExcelHeadCleanup=null}document.querySelectorAll('.nl-excel-head-pop').forEach(el=>el.remove())}
+function nlExcelHeaderMenu(button,base,view,onChange){
+ nlExcelCloseHeadMenu();
+ const col=nlExcelReportCols(base).find(c=>c.key===button.dataset.excelHead);if(!col)return;
+ const item=nlExcelNormalizeView(view)[col.key]||{op:'',value:'',sort:'',unique:false};
+ const pop=document.createElement('section');pop.className='nl-excel-head-pop';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Filtro de '+col.label);
+ pop.innerHTML=`<h3>Columna ${esc(col.label)}</h3><label>Filtro<select data-head-op><option value="">Sin filtro</option><option value="igual">Es igual a</option><option value="noigual">No es igual a</option><option value="comienza">Comienza por</option><option value="termina">Termina con</option><option value="contiene">Contiene</option><option value="nocontiene">No contiene</option></select></label><label>Valor<input data-head-value type="text" maxlength="250" placeholder="Escriba un valor" value="${esc(item.value)}" autocomplete="off"></label><label>Ordenar<select data-head-sort><option value="">Sin ordenar</option><option value="asc">A → Z / 0 → 9</option><option value="desc">Z → A / 9 → 0</option></select></label><label class="nl-excel-unique"><input type="checkbox" data-head-unique ${item.unique?'checked':''}>Eliminar duplicados por esta columna</label><div class="nl-excel-head-actions"><button type="button" data-head-clear>Limpiar</button><button type="button" data-head-apply class="ok">Aplicar</button></div>`;
+ const op=pop.querySelector('[data-head-op]'),val=pop.querySelector('[data-head-value]'),sort=pop.querySelector('[data-head-sort]'),unique=pop.querySelector('[data-head-unique]');
+ op.value=item.op;sort.value=item.sort;val.disabled=!item.op;
+ op.onchange=()=>{val.disabled=!op.value;if(op.value)val.focus()};
+ const rect=button.getBoundingClientRect(),height=350;
+ const x=Math.max(8,Math.min(rect.left,window.innerWidth-300));
+ const y=rect.bottom+height+8<window.innerHeight?rect.bottom+6:Math.max(8,rect.top-height-6);
+ pop.style.left=x+'px';pop.style.top=y+'px';
+ document.querySelector('#scrim').append(pop);
+ const away=e=>{if(!pop.contains(e.target)&&e.target!==button&&!button.contains(e.target))nlExcelCloseHeadMenu()};
+ const keydown=e=>{if(e.key==='Escape'){e.stopPropagation();nlExcelCloseHeadMenu();button.focus()}else if(e.key==='Enter'&&e.target===val){e.preventDefault();apply()}};
+ document.addEventListener('pointerdown',away,true);document.addEventListener('keydown',keydown,true);
+ nlExcelHeadCleanup=()=>{document.removeEventListener('pointerdown',away,true);document.removeEventListener('keydown',keydown,true)};
+ const apply=()=>{const next=nlExcelNormalizeView(view);const updated={op:op.value,value:val.value.trim().slice(0,250),sort:sort.value,unique:unique.checked};
+  if(updated.sort)for(const [k,v] of Object.entries(next))if(k!==col.key){v.sort='';if(!v.op&&!v.unique)delete next[k]}
+  if(updated.unique)for(const [k,v] of Object.entries(next))if(k!==col.key){v.unique=false;if(!v.op&&!v.sort)delete next[k]}
+  if(!updated.op&&!updated.sort&&!updated.unique)delete next[col.key];else next[col.key]=updated;
+  nlExcelCloseHeadMenu();onChange(nlExcelNormalizeView(next))};
+ pop.querySelector('[data-head-apply]').onclick=apply;
+ pop.querySelector('[data-head-clear]').onclick=()=>{op.value='';val.value='';val.disabled=true;sort.value='';unique.checked=false;apply()};
+ op.focus();
+}
 function nlExcelAnalyzeDialog(n){
  const sources=nlExcelSources(n),parts=nlExcelCommandParts(n.excelExpression),tab=nlActiveId;
  const availableCols=[...new Set(sources.flatMap(x=>x.sheets.flatMap(sh=>sh.cells.map(c=>c[1]))))].sort((a,b)=>a-b).slice(0,200).map(NLExcel.colName);
@@ -4827,6 +4921,7 @@ function nlExcelAnalyzeDialog(n){
  for(const f of parts.filters)if(f.column)filters.set(f.column,{op:f.op,value:f.value});
  for(const f of parts.sorts)if(f.column)sorts.set(f.column,f.order);
  let sequence=0,lastResult=null,lastExpression='',lastError=null,running=false;
+ let reportView=nlExcelNormalizeView(n.excelReportView);
  const selectedCols=()=>[...new Set(nlExcelCSVList(cols.value).map(x=>x.trim().toUpperCase()).filter(Boolean))];
  const expression=()=>{
   const selected=selectedCols(),lines=[`listarcolumna: ${cols.value.trim()}`,`archivo: ${files.value.trim()}`,`hoja: ${sheet.value.trim()||'*'}`];
@@ -4842,9 +4937,11 @@ function nlExcelAnalyzeDialog(n){
    return `<div class="nl-excel-filter-row" data-col="${esc(col)}"><strong>${esc(col)}</strong><select data-filter-op="${esc(col)}" aria-label="Filtro de columna ${esc(col)}">${options}</select><input type="text" data-filter-value="${esc(col)}" aria-label="Valor de filtro para ${esc(col)}" placeholder="Valor" value="${esc(filter.value||'')}"><select data-sort="${esc(col)}" aria-label="Orden de columna ${esc(col)}"><option value="">Sin ordenar</option><option value="asc">A → Z / 0 → 9</option><option value="desc">Z → A / 9 → 0</option></select></div>`}).join('')||'<p class="nl-excel-muted">Seleccione primero una o varias columnas.</p>';
   for(const col of columns){const op=filtersBody.querySelector('[data-filter-op="'+col+'"]');if(op)op.value=filters.get(col)?.op||'';const sort=filtersBody.querySelector('[data-sort="'+col+'"]');if(sort)sort.value=sorts.get(col)||''}
  };
- const previewTable=result=>{const headers=['Archivo','Hoja','Fila',...result.columns],first=result.rows.slice(0,7);
-  return `<p><strong>${result.rows.length.toLocaleString('es-CO')} registro${result.rows.length===1?'':'s'}</strong>${result.removedDuplicates?' · '+result.removedDuplicates.toLocaleString('es-CO')+' duplicado'+(result.removedDuplicates===1?'':'s')+' excluido'+(result.removedDuplicates===1?'':'s'):''}</p><div class="nl-excel-results nl-excel-inline-results"><table><thead><tr>${headers.map(t=>'<th>'+esc(t)+'</th>').join('')}</tr></thead><tbody>${first.map(r=>'<tr>'+[r.file,r.hoja,r.fila,...r.values].map(v=>'<td>'+esc(String(v??''))+'</td>').join('')+'</tr>').join('')||'<tr><td colspan="'+headers.length+'">No se encontraron valores.</td></tr>'}</tbody></table></div>`;
+ const previewTable=result=>{const visible=nlExcelReportApply(result,reportView),first=visible.rows.slice(0,7);
+  const note=visible.viewFiltered?`${visible.rows.length.toLocaleString('es-CO')} de ${result.rows.length.toLocaleString('es-CO')} registros`:`${result.rows.length.toLocaleString('es-CO')} registros`;
+  return `<p class="nl-excel-report-info"><strong>${note}</strong>${result.removedDuplicates?' · '+result.removedDuplicates.toLocaleString('es-CO')+' duplicados de origen excluidos':''}</p><div class="nl-excel-results nl-excel-inline-results"><table><thead><tr>${nlExcelReportHeaders(result,reportView)}</tr></thead><tbody>${first.map(r=>'<tr>'+[r.file,r.hoja,r.fila,...r.values].map(v=>'<td>'+esc(String(v??''))+'</td>').join('')+'</tr>').join('')||'<tr><td colspan="'+(result.columns.length+3)+'">No se encontraron valores.</td></tr>'}</tbody></table></div>`;
  };
+ preview.onclick=e=>{const head=e.target.closest('[data-excel-head]');if(head&&lastResult)nlExcelHeaderMenu(head,lastResult,reportView,next=>{reportView=next;preview.innerHTML=previewTable(lastResult)})};
  const add=(kind,value)=>{const input=kind==='column'?cols:kind==='file'?files:sheet;
   const existing=nlExcelCSVList(input.value);if(kind==='sheet'&&value==='*')input.value='*';
   else{const list=kind==='sheet'&&existing.includes('*')?[]:existing;if(!list.some(x=>x.toLocaleLowerCase('es-CO')===value.toLocaleLowerCase('es-CO')))list.push(value);input.value=list.map(nlExcelQuote).join(',')}
@@ -4874,17 +4971,29 @@ function nlExcelAnalyzeDialog(n){
  async function apply(){if(!$('#nlExcelPreview')||nlActiveId!==tab||!nodes.includes(n))return toast('Cambió el proyecto durante el análisis');const exp=command.value;
   if(!cols.value.trim())return toast('Seleccione columnas válidas');if(lastError)return toast(lastError);
   if(sources.length&&(!lastResult||lastExpression!==exp))return toast('Presione Ejecutar antes de Aplicar');
-  const count=lastResult?.rows.length||0;snap();n.excelExpression=exp;n.excelCount=count;n.rows[1].text=count.toLocaleString('es-CO')+(count===1?' registro':' registros');closeDialog();render();store();toast(sources.length?'Resultado actualizado: '+count.toLocaleString('es-CO')+(count===1?' registro':' registros'):'Instrucción guardada. Conecte un Excel y ejecute el análisis.');
+  const count=lastResult?nlExcelReportApply(lastResult,reportView).rows.length:0;snap();n.excelExpression=exp;n.excelReportView=nlExcelNormalizeView(reportView);n.excelCount=count;n.rows[1].text=count.toLocaleString('es-CO')+(count===1?' registro':' registros');closeDialog();render();store();toast(sources.length?'Resultado actualizado: '+count.toLocaleString('es-CO')+(count===1?' registro':' registros'):'Instrucción guardada. Conecte un Excel y ejecute el análisis.');
  }
  filterRows();
  // Actualiza el área avanzada en proyectos nuevos, sin ejecutar el análisis.
  if(!command.value.trim())syncText();
 }
-async function nlExcelTableDialog(n,precomputed){let result=precomputed;try{result||=await nlExcelRun(nlExcelSources(n),n.excelExpression)}catch(e){return toast(e.message)}
- const limit=150,pageSize=150;let page=0;
- const show=()=>{const from=page*pageSize,part=result.rows.slice(from,from+limit),headers=['Archivo','Hoja','Fila',...result.columns];const html=`<p>Registros: ${result.rows.length.toLocaleString('es-CO')}. Filas ${from+1}-${Math.min(from+limit,result.rows.length)}.</p><div class="nl-excel-results"><table><thead><tr>${headers.map(v=>'<th>'+esc(v)+'</th>').join('')}</tr></thead><tbody>${part.map(r=>'<tr>'+([r.file,r.hoja,r.fila,...r.values].map(v=>'<td>'+esc(String(v??''))+'</td>').join(''))+'</tr>').join('')}</tbody></table></div><div style="display:flex;gap:12px;padding:12px 0"><button type="button" id="nlExcelPrev" ${page===0?'disabled':''}>Anterior</button><button type="button" id="nlExcelNext" ${from+limit>=result.rows.length?'disabled':''}>Siguiente</button></div>`;
- $('#dialogBody').innerHTML=html;$('#nlExcelPrev').onclick=()=>{page--;show()};$('#nlExcelNext').onclick=()=>{page++;show()};};
- openDialog('Resultado · '+result.rows.length.toLocaleString('es-CO')+' registros','', [['Cerrar',closeDialog],['Exportar XLSX',()=>{downloadBlob(NLExcel.writeResult(result),'Resultado_Excel.xlsx');toast('Resultado XLSX descargado')},'ok']]);show();
+async function nlExcelTableDialog(n,precomputed){let base=precomputed;
+ try{base||=await nlExcelRun(nlExcelSources(n),n.excelExpression)}catch(e){return toast(e.message)}
+ const limit=150;let page=0,view=nlExcelNormalizeView(n.excelReportView),result=nlExcelReportApply(base,view);
+ const show=()=>{
+  result=nlExcelReportApply(base,view);
+  const from=page*limit,part=result.rows.slice(from,from+limit);
+  const info=result.viewFiltered?`${result.rows.length.toLocaleString('es-CO')} de ${base.rows.length.toLocaleString('es-CO')} registros`:`${result.rows.length.toLocaleString('es-CO')} registros`;
+  const html=`<p class="nl-excel-report-info"><strong>${info}</strong> · Filas ${result.rows.length?from+1:0}–${Math.min(from+limit,result.rows.length)}.</p><div class="nl-excel-results"><table><thead><tr>${nlExcelReportHeaders(base,view)}</tr></thead><tbody>${part.map(r=>'<tr>'+([r.file,r.hoja,r.fila,...r.values].map(v=>'<td>'+esc(String(v??''))+'</td>').join(''))+'</tr>').join('')||'<tr><td colspan="'+(base.columns.length+3)+'">No se encontraron valores.</td></tr>'}</tbody></table></div><div style="display:flex;gap:12px;padding:12px 0"><button type="button" id="nlExcelPrev" ${page===0?'disabled':''}>Anterior</button><button type="button" id="nlExcelNext" ${from+limit>=result.rows.length?'disabled':''}>Siguiente</button></div>`;
+  const body=$('#dialogBody');body.innerHTML=html;
+  $('#nlExcelPrev').onclick=()=>{page--;show()};$('#nlExcelNext').onclick=()=>{page++;show()};
+  body.onclick=e=>{const head=e.target.closest('[data-excel-head]');if(head)nlExcelHeaderMenu(head,base,view,next=>{
+   view=next;page=0;result=nlExcelReportApply(base,view);
+   if(nodes.includes(n)){snap();n.excelReportView=nlExcelNormalizeView(view);n.excelCount=result.rows.length;if(n.rows?.[1])n.rows[1].text=result.rows.length.toLocaleString('es-CO')+(result.rows.length===1?' registro':' registros');store();render()}
+   show();
+  })};
+ };
+ openDialog('Resultado · Excel','', [['Cerrar',closeDialog],['Exportar XLSX',()=>{downloadBlob(NLExcel.writeResult(result),'Resultado_Excel.xlsx');toast('Resultado XLSX descargado')},'ok']]);show();
 }
 nodesEl.addEventListener('click',e=>{const b=e.target.closest('[data-excel-max]');if(!b)return;e.stopPropagation();const n=box(Number(b.dataset.excelMax));if(n)nlExcelTableDialog(n)});
 
