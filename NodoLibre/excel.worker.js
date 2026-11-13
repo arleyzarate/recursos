@@ -1,7 +1,7 @@
 /* NodoLibre · análisis separado del hilo de dibujo.
    El trabajador solo recibe datos del libro ya normalizados; no ejecuta fórmulas. */
 'use strict';
-try{importScripts('./excel.js?v=5.25.6')}catch(error){self.postMessage({type:'init-error',error:String(error?.message||error)})}
+try{importScripts('./excel.js?v=5.25.7')}catch(error){self.postMessage({type:'init-error',error:String(error?.message||error)})}
 self.onmessage=event=>{
  const {id,sources,expression}=event.data||{};
  try{

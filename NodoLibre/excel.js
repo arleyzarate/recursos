@@ -199,5 +199,5 @@ function writeResult(result){const headers=['Archivo','Hoja','Fila',...result.co
  ['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'],
  ['xl/worksheets/sheet1.xml',fragments.join('')]
  ])}
-global.NLExcel={read,analyze:connectedAnalysis,writeResult,colNumber,colName,engineVersion:"5.25.6"};
+global.NLExcel={read,analyze:connectedAnalysis,writeResult,colNumber,colName,engineVersion:"5.25.7"};
 })(globalThis);
