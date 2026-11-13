@@ -79,9 +79,58 @@ async function read(file){if(!file||file.size>MAX_BYTES)throw Error('El libro su
   for(const c of tags(doc,'c')){const addr=c.getAttribute('r')||'',match=/^([A-Z]+)(\d+)$/i.exec(addr);if(!match)continue;const row=Number(match[2])-1,col=colNumber(match[1]);if(row<0||row>1048575||col<0||col>16383)throw Error('Coordenada fuera de Excel');const value=cellValue(c,shared);if(value===''||value===null)continue;cells.push([row,col,value]);rowLast=Math.max(rowLast,row+1);colLast=Math.max(colLast,col+1);if(++total>MAX_CELLS)throw Error('El proyecto supera el límite de 300.000 celdas. No se importó parcialmente.')}
   const hiddenRows=tags(doc,'row').filter(r=>r.getAttribute('hidden')==='1').map(r=>Number(r.getAttribute('r'))).filter(Number.isInteger);const hiddenCols=tags(doc,'col').filter(c=>c.getAttribute('hidden')==='1').map(c=>[+c.getAttribute('min'),+c.getAttribute('max')]);sheets.push({name,visibility:s.getAttribute('state')||'visible',rows:rowLast,columns:colLast,hiddenRows,hiddenCols,cells});}
  return{format:'NLExcelData',schemaVersion:1,name:file.name,sheets,totalCells:total};}
-function connectedAnalysis(books,expression){const fields=String(expression||'').split(/\r?\n/),get=k=>{const l=fields.find(x=>new RegExp('^\\s*'+k+'\\s*:','i').test(x));return l?l.slice(l.indexOf(':')+1).trim():''};const columns=get('listarcolumna').split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);if(!columns.length||columns.some(x=>!/^[A-Z]{1,3}$/.test(x)||colNumber(x)>16383))throw Error('Indique columnas válidas, por ejemplo: listarcolumna: A,B');const nameFilter=get('archivo').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean),sheetFilter=get('hoja');let sources=books;if(nameFilter.length){for(const requested of nameFilter){const matches=books.filter(b=>b.name.toLowerCase()===requested);if(matches.length!==1)throw Error(matches.length?'Hay archivos conectados con nombres duplicados: '+requested:'No está conectado el archivo: '+requested)}sources=books.filter(x=>nameFilter.includes(x.name.toLowerCase()))}if(!sources.length)throw Error('Conecte un bloque Excel');const max=MAX_CELLS;let out=[];
- for(const b of sources){for(const sh of b.sheets){if(sheetFilter&&sheetFilter!=='*'&&sh.name.toLowerCase()!==sheetFilter.toLowerCase())continue;const group=new Map(),sel=new Set(columns.map(colNumber));for(const [r,c,v] of sh.cells){if(!sel.has(c))continue;let row=group.get(r);if(!row){row=new Map();group.set(r,row)}row.set(c,v)}for(const [r,row] of group){const vals=columns.map(c=>row.get(colNumber(c))??'');if(vals.every(v=>v===''||v===null))continue;out.push({file:b.name,hoja:sh.name,fila:r+1,values:vals});if(out.length>max)throw Error('El análisis supera 300.000 filas. Acote la selección.')}}}
- return{columns,rows:out};}
+function listValues(text){const out=[];let token='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){token+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){if(token.trim())out.push(token.trim());token=''}else token+=c}if(token.trim())out.push(token.trim());return out}
+function connectedAnalysis(books,expression){
+ const fields=String(expression||'').split(/\r?\n/);
+ const get=k=>{const line=fields.find(x=>new RegExp('^\\s*'+k+'\\s*:','i').test(x));return line?line.slice(line.indexOf(':')+1).trim():''};
+ const validColumn=value=>/^[A-Z]{1,3}$/.test(value)&&colNumber(value)<=16383;
+ const columns=listValues(get('listarcolumna')).map(x=>x.toUpperCase());
+ if(!columns.length||columns.some(x=>!validColumn(x)))throw Error('Seleccione columnas válidas, por ejemplo: A,B');
+ if(new Set(columns).size!==columns.length)throw Error('No repita la misma columna en la selección');
+ const fileNames=listValues(get('archivo')).map(x=>x.toLocaleLowerCase('es-CO'));
+ const sheetNames=listValues(get('hoja')).map(x=>x.toLocaleLowerCase('es-CO'));
+ const anySheet=!sheetNames.length||sheetNames.includes('*');
+ let sources=books;if(fileNames.length){for(const requested of fileNames){const matches=books.filter(b=>b.name.toLocaleLowerCase('es-CO')===requested);if(matches.length!==1)throw Error(matches.length?'Hay archivos conectados con nombres duplicados: '+requested:'No está conectado el archivo: '+requested)}sources=books.filter(x=>fileNames.includes(x.name.toLocaleLowerCase('es-CO')))}
+ if(!sources.length)throw Error('Conecte un bloque Excel');
+ if(!anySheet){for(const name of sheetNames)if(!sources.some(b=>b.sheets.some(s=>s.name.toLocaleLowerCase('es-CO')===name)))throw Error('No existe una hoja conectada llamada: '+name)}
+ const parsedFilters=[],sorts=[];
+ for(const line of fields){
+  if(/^\s*filtro\s*:/i.test(line)){
+   const raw=line.slice(line.indexOf(':')+1).trim(),parts=raw.split('|');const col=(parts.shift()||'').trim().toUpperCase(),op=(parts.shift()||'').trim().toLowerCase(),value=parts.join('|');
+   if(!columns.includes(col))throw Error('El filtro requiere la columna seleccionada '+col);
+   if(!['igual','noigual','comienza','termina','contiene','nocontiene'].includes(op))throw Error('Filtro desconocido para '+col);
+   parsedFilters.push({col,op,value});
+  }
+  if(/^\s*ordenar\s*:/i.test(line)){
+   const raw=line.slice(line.indexOf(':')+1),[col,order]=raw.split('|').map(x=>x.trim().toLowerCase()),upper=col.toUpperCase();
+   if(!columns.includes(upper)||!['asc','desc'].includes(order))throw Error('Orden no válido en la columna '+upper);
+   if(!sorts.some(s=>s.col===upper))sorts.push({col:upper,order});
+  }
+ }
+ const dedupRaw=get('duplicados').toLowerCase();
+ if(dedupRaw&&!['eliminar','conservar'].includes(dedupRaw))throw Error('Use duplicados: eliminar o duplicados: conservar');
+ const dedup=dedupRaw==='eliminar';
+ const text=v=>String(v??'').toLocaleLowerCase('es-CO');
+ const passes=vals=>parsedFilters.every(f=>{const cell=text(vals[columns.indexOf(f.col)]),value=text(f.value);switch(f.op){case 'igual':return cell===value;case 'noigual':return cell!==value;case 'comienza':return cell.startsWith(value);case 'termina':return cell.endsWith(value);case 'contiene':return cell.includes(value);case 'nocontiene':return !cell.includes(value)}return false});
+ let out=[],removedDuplicates=0;const seen=dedup?new Set():null,selected=columns.map(colNumber),lookup=new Set(selected);
+ for(const b of sources)for(const sh of b.sheets){
+  if(!anySheet&&!sheetNames.includes(sh.name.toLocaleLowerCase('es-CO')))continue;
+  const rows=new Map();for(const [r,c,v] of sh.cells){if(!lookup.has(c))continue;let values=rows.get(r);if(!values){values=new Map();rows.set(r,values)}values.set(c,v)}
+  for(const [r,values] of rows){
+   const vals=selected.map(c=>values.get(c)??'');
+   if(vals.every(v=>v===''||v===null)||!passes(vals))continue;
+   if(dedup){const key=JSON.stringify(vals.map(v=>String(v??'')));if(seen.has(key)){removedDuplicates++;continue}seen.add(key)}
+   out.push({file:b.name,hoja:sh.name,fila:r+1,values:vals});
+   if(out.length>MAX_CELLS)throw Error('El resultado supera 300.000 registros. Aplique filtros para reducirlo');
+  }
+ }
+ if(sorts.length){
+  const indexes=sorts.map(s=>({i:columns.indexOf(s.col),direction:s.order==='desc'?-1:1}));
+  const number=v=>{if(typeof v==='number'&&Number.isSafeInteger(v))return v;const s=String(v);return /^-?(?:0|[1-9]\d*)$/.test(s)&&Number.isSafeInteger(Number(s))?Number(s):null};
+  out.sort((a,b)=>{for(const {i,direction} of indexes){const x=a.values[i],y=b.values[i],nx=number(x),ny=number(y);let c;if(nx!==null&&ny!==null)c=Math.sign(nx-ny);else c=String(x??'').localeCompare(String(y??''),'es',{numeric:false,sensitivity:'base'});if(c)return c*direction}return 0});
+ }
+ return{columns,rows:out,removedDuplicates};
+}
 function crc32(bytes){let crc=-1;for(const x of bytes){crc^=x;for(let i=0;i<8;i++)crc=crc>>>1^((crc&1)?0xedb88320:0)}return(crc^-1)>>>0}
 function le16(v){return[v&255,v>>>8&255]};function le32(v){return[v&255,v>>>8&255,v>>>16&255,v>>>24&255]}
 function makeZip(files){const blocks=[],central=[];let offset=0;for(const [name,raw] of files){const nb=encoder.encode(name),data=encoder.encode(raw),crc=crc32(data);const h=new Uint8Array([...le32(0x04034b50),...le16(20),...le16(0),...le16(0),...le16(0),...le16(0),...le32(crc),...le32(data.length),...le32(data.length),...le16(nb.length),...le16(0),...nb]);blocks.push(h,data);central.push(new Uint8Array([...le32(0x02014b50),...le16(20),...le16(20),...le16(0),...le16(0),...le16(0),...le16(0),...le32(crc),...le32(data.length),...le32(data.length),...le16(nb.length),...le16(0),...le16(0),...le16(0),...le16(0),...le32(0),...le32(offset),...nb]));offset+=h.length+data.length}const cs=central.reduce((x,y)=>x+y.length,0);const end=new Uint8Array([...le32(0x06054b50),...le16(0),...le16(0),...le16(central.length),...le16(central.length),...le32(cs),...le32(offset),...le16(0)]);return new Blob([...blocks,...central,end],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})}
