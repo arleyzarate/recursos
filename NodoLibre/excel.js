@@ -74,6 +74,52 @@ function binaryXls(bytes,fileName){
  }
  if(!sheets.length)throw Error('No fue posible extraer hojas del XLS');return{format:'NLExcelData',schemaVersion:1,name:fileName,sheets,totalCells:total};
 }
+// Algunos programas exportan SpreadsheetML 2003 (XML) usando la extensión .xls.
+// Solo se leen valores y coordenadas; no se ejecutan fórmulas ni macros.
+function spreadsheetXml(bytes,fileName){
+ let decoded;
+ if(bytes[0]===0xff&&bytes[1]===0xfe)decoded=new TextDecoder('utf-16le').decode(bytes);
+ else if(bytes[0]===0xfe&&bytes[1]===0xff)decoded=new TextDecoder('utf-16be').decode(bytes);
+ else decoded=decoder.decode(bytes);
+ decoded=decoded.replace(/^\uFEFF/, '').trimStart();
+ if(!/^<(?:\?xml\b|Workbook\b)/i.test(decoded))return null;
+ const doc=xml(decoded),root=doc.documentElement;
+ if(root?.localName!=='Workbook'||!String(root.namespaceURI||'').includes('spreadsheet'))return null;
+ const attr=(el,key)=>el?.getAttributeNS('urn:schemas-microsoft-com:office:spreadsheet',key)||el?.getAttribute('ss:'+key)||el?.getAttribute(key)||'';
+ const children=(parent,name)=>[...(parent?.children||[])].filter(el=>el.localName===name);
+ const sheets=[];let total=0,formulasWithoutCachedValue=0;
+ for(const ws of children(root,'Worksheet')){
+  const name=attr(ws,'Name')||'Hoja',worksheetOptions=children(ws,'WorksheetOptions')[0];
+  let visibility='visible';
+  if(worksheetOptions){const status=String(children(worksheetOptions,'Visible')[0]?.textContent||'').toLowerCase();if(status.includes('veryhidden'))visibility='veryHidden';else if(status.includes('hidden'))visibility='hidden';}
+  const tab=children(ws,'Table')[0],cells=[],hiddenRows=[],hiddenCols=[];
+  let lastRow=0,lastCol=0,row=0;
+  for(const item of children(tab,'Column')){const ix=Math.max(1,Number(attr(item,'Index'))||1);if(attr(item,'Hidden')==='1')hiddenCols.push([ix,ix]);}
+  for(const r of children(tab,'Row')){
+   row=Number(attr(r,'Index'))||row+1;
+   if(!Number.isInteger(row)||row<1||row>1048576)throw Error('Fila XML de Excel fuera de rango');
+   if(attr(r,'Hidden')==='1')hiddenRows.push(row);
+   let col=0;
+   for(const c of children(r,'Cell')){
+    col=Number(attr(c,'Index'))||col+1;
+    if(!Number.isInteger(col)||col<1||col>16384)throw Error('Columna XML de Excel fuera de rango');
+    const data=children(c,'Data')[0],type=attr(data,'Type').toLowerCase();
+    if(attr(c,'Formula')&&!data)formulasWithoutCachedValue++;
+    if(!data)continue;
+    let value=data.textContent??'';
+    if(type==='number'&&value!==''){const n=Number(value);if(Number.isFinite(n)&&Number.isSafeInteger(n))value=n;}
+    else if(type==='boolean')value=value==='1'?'VERDADERO':'FALSO';
+    if(value==='')continue;
+    cells.push([row-1,col-1,value]);
+    lastRow=Math.max(lastRow,row);lastCol=Math.max(lastCol,col);
+    if(++total>MAX_CELLS)throw Error('El XML de Excel supera 300.000 celdas; no se importó parcialmente');
+   }
+  }
+  sheets.push({name,visibility,rows:lastRow,columns:lastCol,hiddenRows,hiddenCols,cells});
+ }
+ if(!sheets.length)throw Error('El XML de Excel no contiene hojas de cálculo');
+ return{format:'NLExcelData',schemaVersion:1,name:fileName,sheets,totalCells:total,formulasWithoutCachedValue};
+}
 async function read(file){
  if(!file||file.size>MAX_BYTES)throw Error('El libro supera 35 MB');
  if(!/\.(?:xls|xlsx|xlsm)$/i.test(file.name||''))throw Error('Seleccione un archivo XLS, XLSX o XLSM');
@@ -82,7 +128,7 @@ async function read(file){
  const ole=bytes[0]===0xd0&&bytes[1]===0xcf&&bytes[2]===0x11&&bytes[3]===0xe0&&bytes[4]===0xa1&&bytes[5]===0xb1&&bytes[6]===0x1a&&bytes[7]===0xe1;
  const zip=bytes[0]===0x50&&bytes[1]===0x4b&&bytes[2]===0x03&&bytes[3]===0x04;
  if(ole)return binaryXls(bytes,file.name);
- if(!zip)throw Error('Formato interno no reconocido: no es XLS binario ni libro XML de Excel');
+ if(!zip){const xmlBook=spreadsheetXml(bytes,file.name);if(xmlBook)return xmlBook;throw Error('Formato interno no reconocido: el archivo no es XLS binario, XLSX/XLSM ni XML 2003 de Excel. Verifique el tipo real del documento.');}
  // Los libros de Smart3D pueden llamarse .xls y contener XLSM.
  // Nunca se ejecuta VBA ni se decodifican entradas .bin.
  const files=await unzip(bytes),w=files.get('xl/workbook.xml');if(!w)throw Error('Falta el libro XLSX');const wd=xml(w),rels=xml(files.get('xl/_rels/workbook.xml.rels')||'<Relationships/>'),relmap=new Map(tags(rels,'Relationship').map(r=>[r.getAttribute('Id'),r.getAttribute('Target')]));const sharedDoc=files.get('xl/sharedStrings.xml');const shared=sharedDoc?tags(xml(sharedDoc),'si').map(s=>tags(s,'t').map(t=>t.textContent).join('')):[];let total=0,formulasWithoutCachedValue=0;const sheets=[];
@@ -153,5 +199,5 @@ function writeResult(result){const headers=['Archivo','Hoja','Fila',...result.co
  ['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'],
  ['xl/worksheets/sheet1.xml',fragments.join('')]
  ])}
-global.NLExcel={read,analyze:connectedAnalysis,writeResult,colNumber,colName};
+global.NLExcel={read,analyze:connectedAnalysis,writeResult,colNumber,colName,engineVersion:"5.25.6"};
 })(globalThis);

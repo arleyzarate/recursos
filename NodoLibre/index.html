@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <!--
- NODOLIBRE 5.25.5 — MAPA DE MANTENIMIENTO
+ NODOLIBRE 5.25.6 — MAPA DE MANTENIMIENTO
  Archivo autónomo: la posición de los estilos y del JS conserva las precedencias históricas.
  HTML: cabecera, capas, conectores, lienzo, controles, editores, diálogos.
  CSS: base; modos y temas; edición; cables; animaciones; adaptación móvil.
@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
-<title>NodoLibre 5.25.5 | Diagramador de nodos</title>
+<title>NodoLibre 5.25.6 | Diagramador de nodos</title>
 <meta name="description" content="NodoLibre: editor multidocumento de diagramas, nodos, tablas y conexiones; guarda proyectos .nodolibre, HTML portable, PDF y PNG.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23142c37%22%2F%3E%3Cpath%20d%3D%22M17%2032%2043%2013M17%2032%2043%2051%22%20stroke%3D%22%2372c7e5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2232%22%20r%3D%2210%22%20fill%3D%22%23142c37%22%20stroke%3D%22%236ae3d2%22%20stroke-width%3D%225%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2213%22%20r%3D%229%22%20fill%3D%22%236ae3d2%22%2F%3E%3Ccircle%20cx%3D%2243%22%20cy%3D%2251%22%20r%3D%229%22%20fill%3D%22%23b58fff%22%2F%3E%3C%2Fsvg%3E">
 <style>
@@ -969,7 +969,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 .nl-format-choice:hover,.nl-format-choice:focus-visible{border-color:var(--accent)}
 @media(max-width:430px){#scrim.nl-save-open{padding-top:max(62px,env(safe-area-inset-top) + 62px)}#scrim.nl-save-open .dialog{max-height:calc(100dvh - 78px)}}
 
-/* 5.25.5: editor Excel compacto, cálculo por acción explícita. */
+/* 5.25.6: editor Excel compacto, cálculo por acción explícita. */
 .nl-excel-compact{gap:10px}.nl-excel-function h3,.nl-excel-result-heading h3{font-size:14px;margin:0 0 7px}
 .nl-excel-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .nl-excel-fields>div{min-width:0}.nl-excel-fields label{display:block;font-size:12px;font-weight:650;margin:0 0 5px}
@@ -983,7 +983,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:540px){.nl-excel-fields{grid-template-columns:1fr 1fr}.nl-excel-fields>div:first-child{grid-column:1/-1}.nl-excel-compact .nl-excel-chipline{max-height:33px}}
 @media(max-width:340px){.nl-excel-fields{grid-template-columns:1fr}.nl-excel-fields>div:first-child{grid-column:auto}}
 
-/* 5.25.5 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
+/* 5.25.6 · Fuentes por libro, filtros y duplicados, sin análisis al escribir */
 .nl-excel-source-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin:8px 0 4px;font-size:12px}.nl-excel-source-head span{color:var(--sub);font-size:11px}
 .nl-excel-sources{max-height:190px;overflow:auto;border:1px solid var(--panel-border);border-radius:9px;padding:3px 8px;overscroll-behavior:contain}
 .nl-excel-source-row{display:grid;grid-template-columns:minmax(92px,.9fr) minmax(105px,1fr) minmax(125px,1.2fr);gap:5px;align-items:center;border-bottom:1px solid var(--panel-border);padding:5px 0}
@@ -1026,7 +1026,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
 @media(max-width:480px){.nl-excel-builder{gap:6px}.nl-excel-chip{padding:7px 9px}#scrim:has(.nl-excel-builder) .dialog{padding:12px}.nl-sheet-grid{max-height:43dvh}}
 
 .nl-excel-node .row:first-of-type{background:#19634e!important}.nl-excel-node .nl-excel-summary{font-size:12px;opacity:.85;padding:4px 10px}.nl-excel-max{border:1px solid #5dd7b3;background:#17463d;color:#f4fffb;border-radius:7px;min-height:30px;cursor:pointer}.nl-excel-results{max-height:50dvh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--panel-border);border-radius:9px}.nl-excel-results table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}.nl-excel-results th,.nl-excel-results td{border:1px solid var(--panel-border);padding:6px 9px;text-align:left;white-space:nowrap}.nl-excel-results th{position:sticky;top:0;background:var(--panel);z-index:2}.nl-excel-results td{background:var(--base)}
-/* 5.25.5: filtros por encabezado del reporte Excel, en vista previa y tabla ampliada. */
+/* 5.25.6: filtros por encabezado del reporte Excel, en vista previa y tabla ampliada. */
 .nl-excel-report-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:68px}
 .nl-excel-report-head>span{overflow:hidden;text-overflow:ellipsis}
 .nl-excel-head-btn{display:grid;place-items:center;width:29px;height:28px;flex:none;border:1px solid transparent;border-radius:6px;color:var(--sub);background:transparent;cursor:pointer;touch-action:manipulation}
@@ -1063,7 +1063,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <p>NodoLibre permite crear y editar mapas conceptuales, diagramas de bloques y tablas; enlazar textos, funciones, imágenes, documentos PDF y libros Excel para analizar columnas conectadas y exportar resultados XLSX. Los proyectos se guardan como .nodolibre o HTML editable; también exporta imágenes PNG y documentos PDF.</p>
   <p>Funciona principalmente en el navegador. Para importar páginas nuevas de PDF necesita disponer del motor PDF.js; si no está cargado, requiere conexión a Internet.</p>
   <dl class="nl-about-facts">
-    <dt>Versión</dt><dd>5.25.5 (91)</dd>
+    <dt>Versión</dt><dd>5.25.6 (92)</dd>
     <dt>Creación</dt><dd><time datetime="2026-10-19">19 oct. 2026</time></dd>
     <dt>Actualización</dt><dd><time datetime="2026-11-13">13 nov. 2026</time></dd>
     <dt>Autor</dt><dd>Arley Zarate</dd>
@@ -1307,7 +1307,7 @@ body.sketch .nl-about-logo .nl-signature{fill:#2e7370}
   <div class="nl-legal-footer"><a id="nlLegalExternal" target="_blank" rel="noopener noreferrer" hidden>Abrir aviso legal</a></div>
  </section>
 </div>
-<script src="./excel.js"></script>
+<script src="./excel.js?v=5.25.6"></script>
 <script>
 // NL/JS / 01 · Inicio, iconos y referencias DOM
 (()=>{'use strict';
@@ -4515,7 +4515,7 @@ $('#redo').onclick=()=>{if(inlineEdit)commitInline();if(!redo.length)return toas
 $('#redo').disabled=true;
 
 // NL/JS / 15 · Formato nativo y exportación
-function projectFile(){return{app:'NodoLibre',version:'5.25.5',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
+function projectFile(){return{app:'NodoLibre',version:'5.25.6',schemaVersion:1,updated:'13 de noviembre de 2026',nodes,links,nextHue,colorHistory,theme,portLayer,portColorMode,layers,wireShape,background,excelBooks:[...nlExcelBooks].filter(([id])=>nodes.some(n=>n.excelBookId===id))}}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
 // Las descargas se administran en un único diálogo; el botón visible representa una memoria USB.
 const loadCanvasImage=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src});
@@ -4741,6 +4741,7 @@ function nlExcelNode(kind,label,extra={}){
 }
 async function nlExcelInsertFile(f,at=null){
  const targetTab=nlActiveId;
+ if(!globalThis.NLExcel || NLExcel.engineVersion!=="5.25.6")throw Error("El motor Excel cargado no corresponde a NodoLibre 5.25.6. Actualice la página sin caché y vuelva a intentarlo.");
  const book=await NLExcel.read(f);
  if(nlActiveId!==targetTab)throw Error('Cambió el proyecto durante la importación');
  const point=at?{x:Math.round(at.x-59),y:Math.round(at.y-61)}:{};
@@ -4757,11 +4758,11 @@ $('#nlExcelInput').addEventListener('change',async e=>{
 let nlExcelWorker=null,nlExcelWorkerSeq=0;const nlExcelRequests=new Map();
 function nlExcelRun(sources,expression){
  // Trabajador del mismo origen para GitHub Pages; respaldo integrado al abrir HTML autónomo.
- const useWorker=typeof Worker==='function'&&location.protocol!=='file:'&&!!document.querySelector('script[src="./excel.js"]');
+ const useWorker=typeof Worker==='function'&&location.protocol!=='file:'&&!!document.querySelector('script[src^="./excel.js?"]');
  if(!useWorker)return Promise.resolve().then(()=>NLExcel.analyze(sources,expression));
  try{
   if(!nlExcelWorker){
-   nlExcelWorker=new Worker(new URL('./excel.worker.js',document.baseURI));
+   nlExcelWorker=new Worker(new URL('./excel.worker.js?v=5.25.6',document.baseURI));
    nlExcelWorker.onmessage=e=>{
     if(e.data?.type==='init-error'){for(const q of nlExcelRequests.values())q.reject(new Error(e.data.error));nlExcelRequests.clear();nlExcelWorker.terminate();nlExcelWorker=null;return}
     const q=nlExcelRequests.get(e.data?.id);if(!q)return;nlExcelRequests.delete(e.data.id);e.data.ok?q.resolve(e.data.result):q.reject(new Error(e.data.error));
@@ -4822,6 +4823,7 @@ function nlExcelInfo(n){
   const targetTab=nlActiveId,oldBookKey=n.excelBookId,previous=n.excelLabel||b.name;
   const status=$('#nlExcelRenameStatus');if(status)status.textContent='Leyendo archivo…';
   try{
+   if(!globalThis.NLExcel || NLExcel.engineVersion!=="5.25.6")throw Error("El motor Excel está desactualizado. Actualice la página sin caché.");
    const imported=await NLExcel.read(f);
    if(nlActiveId!==targetTab||box(n.id)!==n)throw Error('El proyecto cambió durante la lectura');
    // Un bloque duplicado puede compartir un libro: reemplazar crea nueva identidad de datos.
