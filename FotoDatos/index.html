@@ -326,6 +326,35 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
  .float-subrow{max-width:calc(100vw - 8px)!important}
 }
 @media(prefers-reduced-motion:reduce){.float-main-row button,.float-subrow button{transition:none!important}}
+
+/* FotoDatos 0.8.2 (11) · Vista previa fiel y retorno junto a las herramientas. */
+#captureMode .live-template{inset:0;overflow:hidden;pointer-events:none}
+#captureMode .camera-region{bottom:calc(126px + env(safe-area-inset-bottom,0px));height:auto!important}
+#captureMode .camera-visual>video{object-fit:contain!important}
+#captureMode .live-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;display:block}
+#captureMode .live-template .template-mark,#captureMode .live-template .template-bottom{display:none!important}
+#captureMode .live-extra{position:absolute;inset:0!important;overflow:hidden;pointer-events:none}
+#captureMode .live-gps-target{position:absolute;z-index:2;pointer-events:auto;
+ border:1px solid transparent;border-radius:5px;background:transparent;color:transparent;
+ padding:0;min-width:44px;min-height:44px;box-shadow:none}
+#captureMode .live-gps-target:focus-visible{outline:2px solid #b3ffed;outline-offset:1px}
+#editorMode .editor-header #editorBack{display:none!important}
+#editorFloatBar .float-main-row{flex-wrap:nowrap!important;gap:clamp(1px,.5vw,5px)!important}
+#editorFloatBar .float-main-row button{flex:0 0 clamp(42px,10.7vw,48px)!important;
+ width:clamp(42px,10.7vw,48px)!important;min-width:0!important;
+ height:48px!important;min-height:44px!important;padding:0!important;display:inline-flex!important;
+ align-items:center!important;justify-content:center!important}
+#editorFloatBar .float-main-row #toolInsert{flex-basis:clamp(44px,12vw,58px)!important;
+ width:clamp(44px,12vw,58px)!important;height:clamp(48px,13vw,58px)!important;min-width:0!important}
+#editorFloatBar .float-main-row #editorBack{background:#153b49ec!important;
+ border:1px solid #b9e1dc!important;color:#eafbff!important;box-shadow:0 2px 7px #041d284e!important}
+#editorFloatBar .float-main-row #editorBack svg{width:23px;height:23px;margin:auto}
+#editorFloatBar{max-width:calc(100vw - 5px)!important;padding:4px!important}
+@media(max-width:350px){
+ #editorFloatBar .float-main-row{gap:1px!important}
+ #editorFloatBar .float-main-row button{flex-basis:42px!important;width:42px!important;height:44px!important}
+ #editorFloatBar .float-main-row #toolInsert{flex-basis:44px!important;width:44px!important;height:48px!important}
+}
 </style>
 </head>
 <body>
@@ -350,7 +379,8 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
       <div class="camera-region" id="cameraRegion" tabindex="0" aria-label="Vista de cámara. En fotografía, toque para capturar.">
         <div class="camera-visual" id="cameraVisual">
           <video id="cameraVideo" autoplay muted playsinline></video>
-          <div id="liveTemplate" class="live-template" aria-hidden="true">
+          <div id="liveTemplate" class="live-template">
+            <canvas id="liveCanvas" class="live-canvas" aria-hidden="true"></canvas>
             <div class="template-mark"><div class="mini-logo" id="previewLogo"><svg viewBox="0 0 64 64"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg></div><span>FotoDatos</span></div>
             <div id="liveExtra" class="live-extra"></div>
             <div class="template-bottom">
@@ -394,7 +424,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
       <div class="recording-banner" id="recordingBanner" hidden><span class="rec-dot"></span><span id="recordTimer">00:00</span><span id="audioLive">Micrófono activo</span><div class="audio-meter"><div id="audioMeterBar"></div></div></div>
     </div>
     <section class="editor-view" id="editorMode" hidden aria-label="Editor de plantilla">
-      <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorMenuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="editorMenu" title="Menú"><svg class="fd-menu-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253 288" aria-hidden="true" focusable="false"><path d="M39 30 L96 49 M150 49 L208 30" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/><path d="M123 260 L123 180 C121 160 81 137 56 103 C40 81 30 52 28 32 M123 180 C129 157 165 133 188 103 C207 79 216 52 220 32" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 49 A31 19 0 1 0 92 49 A31 19 0 1 0 154 49 Z M133 49 A10 10 0 1 0 113 49 A10 10 0 1 0 133 49 Z M105.2 48 A4.2 4.2 0 1 0 96.8 48 A4.2 4.2 0 1 0 105.2 48 Z M151.2 48 A4.2 4.2 0 1 0 142.8 48 A4.2 4.2 0 1 0 151.2 48 Z" fill="currentColor" fill-rule="evenodd"/></svg><span class="editor-menu-label">Menú</span></button><button id="editorBack" class="primary" type="button" aria-label="Volver a captura" title="Volver a captura">↩</button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
+      <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorMenuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="editorMenu" title="Menú"><svg class="fd-menu-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253 288" aria-hidden="true" focusable="false"><path d="M39 30 L96 49 M150 49 L208 30" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/><path d="M123 260 L123 180 C121 160 81 137 56 103 C40 81 30 52 28 32 M123 180 C129 157 165 133 188 103 C207 79 216 52 220 32" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 49 A31 19 0 1 0 92 49 A31 19 0 1 0 154 49 Z M133 49 A10 10 0 1 0 113 49 A10 10 0 1 0 133 49 Z M105.2 48 A4.2 4.2 0 1 0 96.8 48 A4.2 4.2 0 1 0 105.2 48 Z M151.2 48 A4.2 4.2 0 1 0 142.8 48 A4.2 4.2 0 1 0 151.2 48 Z" fill="currentColor" fill-rule="evenodd"/></svg><span class="editor-menu-label">Menú</span></button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
       <nav id="editorMenu" class="fd-document-menu" aria-label="Menú de documento" hidden>
   <button type="button" id="fdMenuNew">Nuevo</button><button type="button" id="fdMenuOpen">Abrir</button><button type="button" id="fdMenuInsert">Insertar</button><button type="button" id="fdMenuSave">Guardar</button><button type="button" id="fdMenuClose">Cerrar</button>
  </nav><div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
@@ -421,6 +451,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
 </div>
         <div id="editorFloatBar" class="editor-float-bar" role="toolbar" aria-label="Herramientas de edición">
           <div class="float-main-row">
+            <button id="editorBack" type="button" title="Volver al modo captura" aria-label="Volver al modo captura">↩</button>
             <button id="toolUndo" type="button" title="Deshacer" aria-label="Deshacer">↶</button>
             <button id="toolBackground" type="button" aria-expanded="false" title="Fondo" aria-label="Fondo">◩</button>
             <button id="toolInsert" type="button" aria-expanded="false" aria-controls="toolInsertSub" title="Insertar" aria-label="Insertar"><span aria-hidden="true">＋</span><span class="sr-only">Insertar</span></button>
@@ -462,7 +493,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.1 (10)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.2 (11)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
   <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><p id="legalLoading" class="hint" aria-live="polite">Cargando aviso legal…</p><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin" hidden></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal. <a id="legalFallback" href="./aviso-legal.html" target="_blank" rel="noopener">Abrir aviso legal</a></p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
@@ -491,13 +522,13 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
   <input id="backgroundInput" type="file" accept="image/*" hidden>
   <input id="layerImageInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <input id="projectInput" type="file" accept=".fotodatos,application/json" hidden>
-  <script>/* FotoDatos 0.8.0 (9) | 14 nov. 2026 | Edición por niveles, cotas y recortes ajustables */
+  <script>/* FotoDatos 0.8.2 (11) | 14 nov. 2026 | Vista previa fiel y retorno inferior */
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.8.1';
+const VERSION = '0.8.2';
 const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
-const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null};
+const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null,previewOrientationTimer:0};
 // Los rótulos predeterminados son capas editables, no pintura fija.
 function initialDefaults(){return [
  {id:'fd-logo',type:'logo',label:'Logotipo FotoDatos',x:3.2,y:3.2,width:28,rotation:0,order:-5},
@@ -521,7 +552,7 @@ function gpsText(){if(!state.position)return 'GPS no disponible · ajustar';cons
 function northText(){return Number.isFinite(state.heading) ? `N · ${Math.round(state.heading)}° aprox.` : '' ;}
 function toast(msg,bad=false){const el=$('toast');el.textContent=msg;el.style.background=bad?'#62313c':'#13473fe8';el.hidden=false;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>el.hidden=true,4200);}
 function failMessage(err){const x=err?.name||'';if(x==='NotAllowedError'||x==='PermissionDeniedError')return 'Permiso de cámara denegado. Puede habilitarlo en su navegador.';if(x==='NotFoundError'||x==='DevicesNotFoundError')return 'No se encontró una cámara disponible.';if(x==='NotReadableError'||x==='TrackStartError')return 'La cámara está ocupada o no se puede abrir.';if(x==='OverconstrainedError')return 'La cámara no admite la resolución solicitada.';if(!navigator.mediaDevices?.getUserMedia)return 'La cámara requiere HTTPS o un navegador compatible.';return 'No fue posible activar la cámara.';}
-function displayMode(mode){if(mode!=='edit'&&state.cropMode)cancelCrop();if(mode!=='edit'&&state.textEditing)finishTextEdit(true);if(mode!=='edit'){state.placingText=false;$('editorCanvas')?.classList.remove('placing-text');$('editorStageHint').hidden=true;}state.mode=mode;$('app').dataset.mode=mode;$('captureMode').hidden=mode!=='capture';$('editorMode').hidden=mode!=='edit';if(mode==='edit'){closeMenu();renderEditor();}else{updateViewSize();} }
+function displayMode(mode){if(mode!=='edit'&&state.cropMode)cancelCrop();if(mode!=='edit'&&state.textEditing)finishTextEdit(true);if(mode!=='edit'){state.placingText=false;$('editorCanvas')?.classList.remove('placing-text');$('editorStageHint').hidden=true;}state.mode=mode;$('app').dataset.mode=mode;$('captureMode').hidden=mode!=='capture';$('editorMode').hidden=mode!=='edit';if(mode==='edit'){closeMenu();renderEditor();}else{updateViewSize();renderTemplate();} }
 function closeMenu(returnFocus=false){$('menuPanel').hidden=true;$('menuButton').setAttribute('aria-expanded','false');if(returnFocus)$('menuButton').focus();}
 function showMenu(){$('menuPanel').hidden=false;$('menuButton').setAttribute('aria-expanded','true');}
 function openDialog(id){closeMenu();const dialog=$(id);if(dialog.open)return;dialog.showModal();}
@@ -581,21 +612,59 @@ async function enableNorth(){if(typeof DeviceOrientationEvent==='undefined'){toa
   try{if(typeof DeviceOrientationEvent.requestPermission==='function'){const ok=await DeviceOrientationEvent.requestPermission();if(ok!=='granted'){toast('Permiso de orientación denegado.',true);return;}}
     window.addEventListener('deviceorientationabsolute',onOrientation,{passive:true});window.addEventListener('deviceorientation',onOrientation,{passive:true});toast('Brújula solicitada. Su lectura puede requerir calibración.');}
   catch{toast('No se pudo activar la orientación.',true);}}
-function onOrientation(e){let heading=null;if(typeof e.webkitCompassHeading==='number'){heading=e.webkitCompassHeading;}else if(e.absolute===true&&typeof e.alpha==='number'){heading=(360-e.alpha)%360;}if(heading!==null){state.heading=(heading+360)%360;renderTemplate();}}
-function renderTemplate(){
- const c=state.config,live=$('liveExtra');
- // La vista previa utiliza las mismas capas y posiciones del archivo final.
- $('liveTemplate').querySelector('.template-mark').hidden=true;
- $('liveTemplate').querySelector('.template-bottom').hidden=true;
- live.replaceChildren();
- for(const l of orderedLayers(c)){
-  let el;const label=sourceText(l);if(l.type==='image'){el=document.createElement('img');el.src=l.src;el.style.width=`${l.width||25}%`;el.style.transform=`rotate(${Number(l.rotation)||0}deg)`;}
-  else if(l.type==='logo'){
-   el=document.createElement('span');el.className='live-logo';if(c.logoImg){const img=document.createElement('img');img.src=c.logoImg;el.append(img);}else{const ico=document.createElement('span');ico.className='live-logo-icon';ico.innerHTML=logoVector;el.append(ico);}el.append(document.createTextNode(l.text||'FotoDatos'));el.style.width=`${l.width||28}%`;el.style.transform=`rotate(${Number(l.rotation)||0}deg)`;
-  }else{el=document.createElement(l.source==='gps'?'button':'span');if(l.source==='gps'){el.type='button';el.classList.add('gps-hotspot');el.setAttribute('aria-label','Editar coordenadas en el mapa');el.addEventListener('click',e=>{e.stopPropagation();openWorkspace('mapView',state.mode);});}el.textContent=label;el.style.fontSize=`${Number(l.fontPct)||({1:5.5,2:3.9,3:2.8}[l.level]||2.8)}cqw`;el.style.fontFamily=fontFamily(l);el.style.fontWeight=l.bold?'750':'400';el.style.fontStyle=l.italic?'italic':'normal';el.style.color=l.color||'#ffffff';el.style.textAlign=l.align||'left';if(l.bg)el.classList.add('with-bg');if(l.align==='right')el.style.transform='translateX(-100%)';else if(l.align==='center')el.style.transform='translateX(-50%)';}
-  el.classList.add('extra-item');el.style.left=`${l.x}%`;el.style.top=`${l.y}%`;live.append(el);
+function onOrientation(e){
+ let heading=null;
+ if(typeof e.webkitCompassHeading==='number')heading=e.webkitCompassHeading;
+ else if(e.absolute===true&&typeof e.alpha==='number')heading=(360-e.alpha)%360;
+ if(heading===null)return;
+ state.heading=(heading+360)%360;
+ // Los sensores pueden emitir muchos eventos por segundo. Limitar el redibujado
+ // completo de la plantilla evita cargar innecesariamente el móvil.
+ if(!state.previewOrientationTimer){
+  state.previewOrientationTimer=setTimeout(()=>{state.previewOrientationTimer=0;
+   if(state.mode==='capture')renderTemplate();},180);
  }
 }
+function renderTemplate(){
+ // Vista previa y exportación comparten el motor de dibujo. Así se respetan
+ // sourceBox, recortes acumulados, opacidad, rotación, altura y orden de capas.
+ const video=$('cameraVideo'),canvas=$('liveCanvas'),live=$('liveExtra');
+ const w=video.videoWidth||state.editorSize?.[0]||900,h=video.videoHeight||state.editorSize?.[1]||1600;
+ if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;
+ const ctx=canvas.getContext('2d'),hits=[];
+ ctx.clearRect(0,0,w,h);
+ drawElements(ctx,w,h,hits,state.config,{date:new Date(),id:baseName(),gpsLabel:gpsText(),northLabel:northText()});
+ live.replaceChildren();
+ // El rótulo GPS continúa siendo accesible para abrir el mapa, aunque
+ // el dibujo visible lo realiza Canvas igual que en la foto exportada.
+ for(const l of orderedLayers()){
+  if(l.source!=='gps')continue;
+  const box=hits.find(b=>b.id===l.id);if(!box)continue;
+  const btn=document.createElement('button');btn.type='button';btn.className='live-gps-target';
+  btn.setAttribute('aria-label','Editar coordenadas en el mapa');btn.title='Editar coordenadas';
+  btn.addEventListener('click',e=>{e.stopPropagation();openWorkspace('mapView',state.mode);});
+  live.appendChild(btn);btn.dataset.sourceX=box.x;btn.dataset.sourceY=box.y;
+  btn.dataset.sourceW=box.w;btn.dataset.sourceH=box.h;
+ }
+ positionLiveTargets();
+}
+function positionLiveTargets(){
+ const canvas=$('liveCanvas'),visual=$('cameraVisual'),live=$('liveExtra');
+ if(!canvas||!visual||!live)return;
+ const width=visual.clientWidth,height=visual.clientHeight;
+ if(!width||!height)return;
+ // object-fit:contain muestra el encuadre completo que recibirá la exportación.
+ const scale=Math.min(width/canvas.width,height/canvas.height);
+ const dx=(width-canvas.width*scale)/2,dy=(height-canvas.height*scale)/2;
+ for(const button of live.querySelectorAll('.live-gps-target')){
+  const x=Number(button.dataset.sourceX),y=Number(button.dataset.sourceY),
+        w=Number(button.dataset.sourceW),h=Number(button.dataset.sourceH);
+  button.style.left=`${dx+x*scale-5}px`;button.style.top=`${dy+y*scale-5}px`;
+  button.style.width=`${Math.max(44,w*scale+10)}px`;
+  button.style.height=`${Math.max(44,h*scale+10)}px`;
+ }
+}
+
 function nextId(){return `e${Date.now().toString(36)}${Math.round(Math.random()*1e7).toString(36)}`;}
 function loadImage(src){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('No se pudo abrir la imagen.'));image.src=src;});}
 function readDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.readAsDataURL(file);});}
@@ -1339,6 +1408,7 @@ function bind(){
   $('audioTest').addEventListener('click',async()=>{if(state.audioTestStream){state.audioTestStream.getTracks().forEach(t=>t.stop());state.audioTestStream=null;stopLevelMeter();$('audioTest').textContent='Comprobar micrófono';return;}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});const t=s.getAudioTracks()[0];if(!audioChecks(t))throw Error('No hay pista activa.');state.audioTestStream=s;startLevelMeter(s,'test');$('audioTest').textContent='Detener prueba';toast('Hable y observe el medidor. No se escucha ni se guarda el audio de prueba.');}catch{toast('No se pudo activar el micrófono.',true);}});
   $('settingsDialog').addEventListener('close',()=>{if(state.audioTestStream){state.audioTestStream.getTracks().forEach(t=>t.stop());state.audioTestStream=null;stopLevelMeter();$('audioTest').textContent='Comprobar micrófono';}});
   $('previewGps').addEventListener('click',e=>{e.stopPropagation();openWorkspace('mapView',state.mode);});
+  $('cameraVideo').addEventListener('loadedmetadata',renderTemplate);
   $('photoTab').addEventListener('click',()=>setCaptureKind('photo'));$('videoTab').addEventListener('click',()=>setCaptureKind('video'));$('shutter').addEventListener('click',shutter);
   $('cameraRegion').addEventListener('click',e=>{if(e.target.closest('button')||!cameraReady()||state.captureKind!=='photo'||state.record)return;shutter();});
   $('cameraRegion').addEventListener('keydown',e=>{if(e.target===e.currentTarget && (e.key==='Enter'||e.key===' ')){e.preventDefault();if(state.captureKind==='photo')shutter();}});
@@ -1375,7 +1445,7 @@ function bind(){
   for(const field of ['mapLat','mapLon'])$(field).addEventListener('change',()=>{if($('mapLat').value.trim()&&$('mapLon').value.trim())applyManualCoords();});
   const surface=$('mapSurface');surface.addEventListener('pointerdown',mapPointerDown);surface.addEventListener('pointermove',mapPointerMove);surface.addEventListener('pointerup',mapPointerUp);surface.addEventListener('pointercancel',mapPointerUp);
   surface.addEventListener('wheel',e=>{e.preventDefault();zoomMap(e.deltaY<0?0.25:-0.25);},{passive:false});
-  window.addEventListener('resize',()=>{updateViewSize();if(!$('mapView').hidden)queueMapDraw(true);});window.addEventListener('orientationchange',()=>setTimeout(updateViewSize,250));
+  window.addEventListener('resize',()=>{updateViewSize();positionLiveTargets();if(!$('mapView').hidden)queueMapDraw(true);});window.addEventListener('orientationchange',()=>setTimeout(()=>{updateViewSize();positionLiveTargets();},250));
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&state.record)toast('El video sigue grabándose. Evite bloquear la pantalla.');});
   window.addEventListener('beforeunload',(e)=>{if(state.record||state.photoQueue.length||state.photoWorking){e.preventDefault();e.returnValue='';}});
 }
