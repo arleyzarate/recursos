@@ -217,6 +217,36 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
 .fd-zoom button{min-width:33px;min-height:35px;padding:5px 7px;font-size:17px}
 .fd-zoom #fdZoomReset{font-size:11px;min-width:44px}
 @media(max-width:720px){.fd-zoom{right:4px;top:4px;left:auto;bottom:auto;z-index:25}.fd-zoom button{min-height:34px}}
+
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
+/* 0.7.1 · menú inferior glass con botón central y acciones en el mismo punto */
+:root{--glass-bg:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.09));--glass-bg-strong:linear-gradient(180deg,rgba(137,241,224,.32),rgba(87,185,211,.18));--glass-line:rgba(255,255,255,.28);--glass-shadow:0 10px 32px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.22);}
+.capture-middle{gap:12px}
+.capture-tabs{background:transparent!important;padding:0!important;gap:10px;align-items:center;justify-content:center}
+.capture-tabs button{min-width:46px;min-height:46px;width:46px;height:46px;padding:0!important;border-radius:50%!important;border:1px solid var(--glass-line)!important;background:var(--glass-bg)!important;backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);box-shadow:var(--glass-shadow);font-size:20px;line-height:1;color:#f6fffe}.capture-tabs button.is-active,.capture-tabs button[aria-pressed='true']{background:var(--glass-bg-strong)!important;border-color:rgba(142,255,232,.5)!important;color:#031c24;box-shadow:0 12px 32px rgba(14,70,82,.34), inset 0 1px 0 rgba(255,255,255,.35)}
+.capture-tabs button:hover,.capture-tabs button:focus-visible{transform:translateY(-1px)}
+.capture-controls,.editor-float-bar{--dock-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+.round-action,.shutter,.icon-menu,.editor-actions button,.fd-zoom,.fd-zoom button,.fd-text-tools button,.fd-text-tools select,.fd-text-tools input,.float-subrow button,.float-subrow label{backdrop-filter:blur(16px) saturate(1.22);-webkit-backdrop-filter:blur(16px) saturate(1.22);}
+.round-action{background:var(--glass-bg)!important;border:1px solid var(--glass-line)!important;box-shadow:var(--glass-shadow)!important}.round-action svg,.round-action{color:#efffff}
+.shutter{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.68)!important;box-shadow:0 12px 34px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.22)}
+.editor-float-bar{left:50%;bottom:var(--dock-bottom);transform:translateX(-50%);background:transparent!important;border:0!important;box-shadow:none!important;padding:0 2px 6px!important;gap:0!important;align-items:center;overflow:visible}
+.float-main-row{display:flex;align-items:flex-end;justify-content:center;gap:10px;flex-wrap:nowrap;background:transparent!important}
+.float-main-row button{width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;padding:0!important;border-radius:50%!important;border:1px solid var(--glass-line)!important;background:var(--glass-bg)!important;color:#f5fffd!important;box-shadow:var(--glass-shadow)!important;font-size:22px!important;position:relative}
+.float-main-row button[aria-expanded='true']{background:var(--glass-bg-strong)!important;color:#042930!important;border-color:rgba(132,255,236,.48)!important}
+#toolInsert{width:68px!important;height:68px!important;min-width:68px!important;min-height:68px!important;font-size:29px!important;background:var(--glass-bg-strong)!important;color:#052933!important;transform:translateY(-5px);box-shadow:0 16px 36px rgba(5,31,39,.34), inset 0 1px 0 rgba(255,255,255,.35)!important}
+#toolInsert span:last-child{display:none!important}
+.float-subrow{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);border-top:0!important;background:linear-gradient(180deg,rgba(18,51,64,.92),rgba(12,36,45,.88))!important;border:1px solid rgba(180,242,235,.26)!important;border-radius:20px!important;padding:9px!important;box-shadow:0 18px 44px rgba(0,0,0,.34)!important;max-width:min(calc(100vw - 16px),560px);justify-content:center;gap:7px;z-index:23}
+.float-subrow button,.float-subrow label{min-height:44px!important;border-radius:14px!important;border:1px solid rgba(255,255,255,.16)!important;background:var(--glass-bg)!important;color:#f7fffd!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.float-subrow label{padding:4px 10px}
+.float-subrow input[type=color]{width:38px;height:38px;border-radius:10px!important;border:1px solid rgba(255,255,255,.2)!important;background:rgba(255,255,255,.12)!important}
+#toolSelectedBar,#toolInsertSub,#toolBackgroundSub,#toolFileSub,#toolOrderSub,#toolCropSub,#toolCropFinish{display:flex}
+.editor-stage-hint{position:fixed;left:50%;bottom:calc(148px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:24;background:linear-gradient(180deg,rgba(18,51,64,.86),rgba(12,36,45,.82));border:1px solid rgba(177,243,236,.23);border-radius:14px;padding:8px 12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.fd-text-tools{position:fixed!important;left:50%!important;top:auto!important;bottom:calc(168px + env(safe-area-inset-bottom,0px))!important;transform:translateX(-50%)!important;background:linear-gradient(180deg,rgba(18,51,64,.94),rgba(12,36,45,.9))!important;border:1px solid rgba(180,242,235,.26)!important;border-radius:20px!important;padding:8px!important;box-shadow:0 18px 44px rgba(0,0,0,.34)!important;max-width:min(calc(100vw - 16px),620px)}
+.fd-text-tools button,.fd-text-tools select,#fdTextSize{background:var(--glass-bg)!important;border-color:rgba(255,255,255,.17)!important;color:#f8fffe!important;border-radius:12px!important;min-height:40px!important}.fd-text-tools button[aria-pressed='true']{background:var(--glass-bg-strong)!important;color:#042930!important}
+#fdColor{height:40px!important;width:38px!important;border-radius:12px!important}
+.editor-header,.editor-sidebar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#editorSidebar{background:rgba(255,255,255,.92)!important;border:1px solid rgba(190,213,222,.74)!important;border-radius:22px!important}
+@media(max-width:640px){.float-main-row{gap:8px}.float-main-row button{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;font-size:20px!important}#toolInsert{width:62px!important;height:62px!important;min-width:62px!important;min-height:62px!important;font-size:28px!important}.float-subrow,.fd-text-tools{max-width:calc(100vw - 10px)}.float-subrow{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.fd-text-tools{bottom:calc(158px + env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -258,7 +288,7 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
       </div>
       <div class="capture-controls" id="captureControls">
         <button id="switchCamera" class="round-action" title="Cambiar cámara" aria-label="Cambiar cámara" type="button">↻</button>
-        <div class="capture-middle"><div class="capture-tabs" role="group" aria-label="Tipo de captura"><button id="photoTab" class="is-active" type="button" aria-pressed="true">Foto</button><button id="videoTab" type="button" aria-pressed="false">Video</button><button id="filesTab" type="button" aria-label="Ver archivos de la carpeta">Archivos</button></div><button id="shutter" class="shutter" aria-label="Tomar fotografía" type="button"><span></span></button></div>
+        <div class="capture-middle"><div class="capture-tabs" role="group" aria-label="Tipo de captura"><button id="photoTab" class="is-active" type="button" aria-pressed="true" aria-label="Modo foto" title="Modo foto">📷</button><button id="videoTab" type="button" aria-pressed="false" aria-label="Modo video" title="Modo video">●</button><button id="filesTab" type="button" aria-label="Abrir archivos de la carpeta" title="Abrir archivos">🗂</button></div><button id="shutter" class="shutter" aria-label="Tomar fotografía" type="button"><span></span></button></div>
         <button id="quickEditor" class="round-action" title="Editar plantilla" aria-label="Abrir editor de plantilla" type="button"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M15.5 4.5l4 4M4 20l4.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20Z"/></svg></button>
       </div>
       <div id="captureNotice" class="capture-notice" role="status" aria-live="polite" hidden>
@@ -305,12 +335,12 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
 </div>
         <div id="editorFloatBar" class="editor-float-bar" role="toolbar" aria-label="Herramientas de edición">
           <div class="float-main-row">
-            <button id="toolInsert" type="button" aria-expanded="false" aria-controls="toolInsertSub" title="Insertar"><span aria-hidden="true">＋</span><span>Insertar</span></button>
             <button id="toolUndo" type="button" title="Deshacer" aria-label="Deshacer">↶</button>
+            <button id="toolBackground" type="button" aria-expanded="false" title="Fondo" aria-label="Fondo">◩</button>
+            <button id="toolInsert" type="button" aria-expanded="false" aria-controls="toolInsertSub" title="Insertar" aria-label="Insertar"><span aria-hidden="true">＋</span><span class="sr-only">Insertar</span></button>
+            <button id="toolLayers" type="button" aria-expanded="false" title="Capas y propiedades" aria-label="Capas y propiedades">▤</button>
+            <button id="toolFiles" type="button" aria-expanded="false" title="Archivo" aria-label="Archivo">▣</button>
             <button id="toolRedo" type="button" title="Rehacer" aria-label="Rehacer">↷</button>
-            <button id="toolBackground" type="button" aria-expanded="false" title="Fondo">◩</button>
-            <button id="toolLayers" type="button" aria-expanded="false" title="Capas y propiedades">▤</button>
-            <button id="toolFiles" type="button" aria-expanded="false" title="Abrir herramientas de archivo">▣</button>
           </div>
           <div id="toolInsertSub" class="float-subrow" hidden><button id="toolAddImage" type="button">▧ Imagen</button><button id="toolAddText" type="button">T Texto</button><button id="toolInsertClose" type="button" aria-label="Cerrar inserción">×</button></div>
           <div id="toolBackgroundSub" class="float-subrow" hidden><label>Color <input id="editorBgColor" type="color" value="#ffffff" aria-label="Color de fondo"></label><button id="toolLastCamera" type="button">Última vista</button><button id="toolWhite" type="button">Blanco</button></div>
@@ -978,10 +1008,8 @@ function bindEditorPointers(){const c=$('editorCanvas');
  c.addEventListener('pointerup',finish);c.addEventListener('pointercancel',finish);
  c.addEventListener('dblclick',e=>{const l=selectedLayer();if(l?.type==='text')beginTextEdit(l);});
 }
-function positionTextTools(){const tools=$('fdTextTools'),l=selectedLayer(),stage=$('editorMode').querySelector('.edit-stage'),canvas=$('editorCanvas');if(!tools||!l||l.type!=='text'||state.mode!=='edit'||state.cropMode){if(tools)tools.hidden=true;return;}
- const b=state.hitboxes?.find(h=>h.id===l.id);if(!b){tools.hidden=true;return;}const cr=canvas.getBoundingClientRect(),sr=stage.getBoundingClientRect();const scale=cr.width/canvas.width;
- tools.hidden=false;const left=clamp(cr.left-sr.left+(b.x+b.w/2)*scale,tools.clientWidth/2+8,sr.width-tools.clientWidth/2-8);
- const y=cr.top-sr.top+b.y*scale;tools.style.left=left+'px';tools.style.top=Math.max(5,y-tools.offsetHeight-11)+'px';tools.style.transform='translateX(-50%)';
+function positionTextTools(){const tools=$('fdTextTools'),l=selectedLayer();if(!tools||!l||l.type!=='text'||state.mode!=='edit'||state.cropMode){if(tools)tools.hidden=true;return;}
+ tools.hidden=false;tools.style.left='50%';tools.style.top='auto';tools.style.bottom='calc(168px + env(safe-area-inset-bottom,0px))';tools.style.transform='translateX(-50%)';
  $('fdFont').value=l.fontFamily||'sans';$('fdTextSize').value=Number(l.fontPct)||3; $('fdBold').setAttribute('aria-pressed',String(!!l.bold));$('fdItalic').setAttribute('aria-pressed',String(!!l.italic));$('fdColor').value=l.color||'#ffffff';
  for(const a of ['left','center','right'])$('fdAlign'+a).setAttribute('aria-pressed',String((l.align||'left')===a));
  $('fdTextDone').hidden=!state.textEditing;$('fdTextCancel').hidden=!state.textEditing;
