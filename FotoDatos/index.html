@@ -84,6 +84,35 @@
 
 .map-connection{position:absolute;z-index:7;left:8px;bottom:28px;max-width:min(80%,300px);padding:6px 9px;background:#f6f9f3ee;color:#22414a;border-radius:9px;font-size:.74rem;pointer-events:none}.map-connection[hidden]{display:none!important}
 
+/* FotoDatos 0.4.0: exportación por lotes y cartografía progresiva */
+.batch-actions{max-width:840px;margin:0 auto 14px;padding:12px;border-radius:14px;background:#fff;border:1px solid #bfd5d9;display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.batch-summary{flex:1 1 230px;font-size:.81rem;color:#254b56;line-height:1.4}
+.batch-actions button{min-height:43px;background:#16695e;color:white;border:0;border-radius:10px;padding:9px 13px}
+.batch-actions button:disabled{opacity:.55}
+.file-group{grid-template-columns:78px minmax(0,1fr)}
+.file-preview{width:78px;height:78px}
+.file-controls button{background:#254653}
+.file-controls button.delete{background:#724048}
+.file-controls button.file-more{background:#16695e}
+.file-controls[hidden]{display:none!important}
+.file-details summary{cursor:pointer;font-size:.8rem;color:#16695e}
+.map-wrap{background:#e9f3f3}
+.map-underlay{position:absolute;inset:0;pointer-events:none;z-index:0}
+.map-tiles{z-index:1}
+.map-loading{position:absolute;left:10px;top:10px;z-index:6;padding:5px 9px;background:#f9ffffed;border:1px solid #b7d7d3;border-radius:9px;color:#15434d;font-size:.75rem;max-width:calc(100% - 92px)}
+.map-credits{z-index:8}
+.map-surface:focus-visible{outline:3px solid #2b998d;outline-offset:-3px}
+.map-ring{z-index:3}
+.map-cross{z-index:4}
+@media(max-width:400px){.file-group{grid-template-columns:66px minmax(0,1fr)}.file-preview{width:66px;height:66px}.batch-actions{padding:10px}.batch-actions button{flex:1 0 auto}}
+
+/* Avisos fuera de la nota y de los botones del mapa */
+body:has(#mapView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) + 64px);bottom:auto;max-width:min(85vw,390px)}
+body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) + 68px);bottom:auto}
+
+.map-connection{pointer-events:auto!important;max-width:min(85%,360px);display:flex;align-items:center;gap:8px}
+.map-connection button{flex:0 0 auto;min-height:34px;border:0;border-radius:8px;background:#15665d;color:#fff;padding:5px 9px}
+
 </style>
 </head>
 <body>
@@ -153,23 +182,24 @@
     <fieldset><legend>Archivos de cada captura</legend>
       <label class="check"><input id="saveOriginal" type="checkbox" checked> Conservar original sin plantilla</label>
       <label class="check"><input id="saveComposed" type="checkbox" checked> Conservar archivo con plantilla</label>
-      <label class="check"><input id="saveBrowser" type="checkbox" checked> Guardar automáticamente en este navegador</label>
-      <p class="hint">El guardado ocurre automáticamente aquí, sin descargar archivos. «Exportar copia» envía un archivo a Descargas cuando usted lo necesite.</p>
+      <p class="hint">Guardado automático permanente en la biblioteca local. Por defecto se crean ambas versiones. Puede desactivar una versión aquí.</p>
+      <p class="hint">No necesita descargar cada fotografía. Use «Mis capturas» para consultar y exportar una colección completa en paquetes ZIP.</p>
     </fieldset>
     <fieldset class="storage-card"><legend>Destino de almacenamiento</legend>
       <div class="storage-state"><span class="storage-symbol" aria-hidden="true">▣</span><div><strong id="storageRoute">Este dispositivo / Navegador / FotoDatos</strong><small id="storageStatus" aria-live="polite">Preparando biblioteca local…</small></div></div>
-      <div class="storage-buttons"><button id="chooseFolder" type="button">Elegir carpeta para copia automática</button><button id="removeFolder" type="button" hidden>Quitar carpeta adicional</button></div>
-      <p class="hint" id="storageHint">La biblioteca privada del navegador es el destino predeterminado. No equivale a una carpeta visible del administrador de archivos.</p>
+      <div class="storage-buttons"><button id="chooseFolder" type="button">Elegir carpeta de destino</button><button id="removeFolder" type="button" hidden>Quitar carpeta adicional</button></div>
+      <p class="hint" id="storageHint">El navegador almacena las capturas automáticamente. En sistemas compatibles puede autorizar una carpeta como Descargas. En otros, exporte las fotos por lotes ZIP.</p>
     </fieldset>
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.3.0 (3)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>13 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
-  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra Menú y elija «Confirmar: ir a edición» para modificar la plantilla, agregar textos o imágenes y exportar. Si no hay cámara, se abre el editor. Las capturas se guardan en este navegador cuando la opción está activa; también puede descargarlas desde Archivos guardados. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Las capturas se guardan automáticamente en la biblioteca de FotoDatos; desde Configuración puede elegir una carpeta adicional si su navegador lo admite.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.4.0 (4)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>13 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra Menú y elija «Confirmar: ir a edición» para modificar la plantilla, agregar textos o imágenes y exportar. Si no hay cámara, se abre el editor. Las capturas se guardan automáticamente en este navegador. En «Mis capturas» puede exportar un lote ZIP, sin descargar fotografía por fotografía. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Las capturas se guardan automáticamente en la biblioteca de FotoDatos; desde Configuración puede elegir una carpeta de destino si el navegador lo permite.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin"></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal desde la ruta del proyecto. Compruebe que está publicado en el directorio principal de Recursos.</p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
     <header class="workspace-header"><h2>Mis capturas</h2><button id="filesBack" type="button">Volver</button></header>
-    <div class="library-banner"><span id="libraryLocation">FotoDatos · Almacenamiento del navegador</span><small id="librarySummary">Las capturas se conservan aquí sin descargar archivos.</small></div>
+    <div class="library-banner"><span id="libraryLocation">FotoDatos · Almacenamiento del navegador</span><small id="librarySummary">Los originales y las fotografías con plantilla se guardan automáticamente aquí. Para copiarlos a Descargas, use «Exportar lote ZIP».</small></div>
+    <div class="batch-actions"><div class="batch-summary" id="batchSummary" aria-live="polite">Preparando biblioteca…</div><button id="exportBatch" class="primary" type="button">Exportar lote ZIP</button><button id="batchNext" type="button" hidden>Siguiente lote</button></div>
     <div id="filesList" class="files-list" aria-live="polite"></div>
   </section>
   <section id="mapView" class="workspace-view map-view" hidden aria-label="Ajustar coordenadas">
@@ -177,12 +207,12 @@
     <div class="map-info"><span id="mapAccuracy">Precisión GPS no disponible</span><span id="mapZoomInfo">Referencia: radio 100 m</span></div>
     <div class="map-wrap">
       <div id="mapSurface" class="map-surface" role="img" aria-label="Mapa interactivo. Deslice para desplazar, pellizque para acercar y toque para elegir el punto central.">
-        <div id="mapTiles" class="map-tiles"></div>
+        <div id="mapBase" class="map-underlay" aria-hidden="true"></div><div id="mapTiles" class="map-tiles"></div><div id="mapLoading" class="map-loading" role="status">Cargando mapa…</div>
         <div class="map-ring" aria-hidden="true"></div><div class="map-gps-ring" aria-hidden="true" hidden></div>
         <div class="map-cross" aria-hidden="true">+</div>
       </div>
       <div class="map-controls"><button id="mapZoomIn" type="button" aria-label="Acercar mapa">+</button><button id="mapZoomOut" type="button" aria-label="Alejar mapa">−</button></div>
-      <div id="mapConnection" class="map-connection" role="status" hidden>No fue posible cargar el mapa. Puede editar las coordenadas.</div><div class="map-credits">© OpenStreetMap contributors · Mapa de consulta</div>
+      <div id="mapConnection" class="map-connection" role="status" hidden>No se pudo cargar la cartografía. Revise la conexión o ingrese las coordenadas. <button type="button" id="mapRetry">Reintentar</button></div><div class="map-credits">© OpenStreetMap contributors · Mapa de consulta</div>
     </div>
     <div class="map-coords"><label>Latitud<input id="mapLat" type="number" step="any" inputmode="decimal"></label><label>Longitud<input id="mapLon" type="number" step="any" inputmode="decimal"></label></div>
     <div class="map-actions"><button id="mapUseGPS" type="button">Mi ubicación GPS</button><button id="mapConfirm" type="button" class="primary">Usar este punto</button></div>
@@ -197,9 +227,9 @@
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.3.0';
+const VERSION = '0.4.0';
 const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:true,logoImg:null,textLayers:[],imageLayers:[]};
-const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"browser",lastFolderState:"",storageBytes:null};
+const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"browser",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0};
 const months=['ene.','feb.','mar.','abr.','may.','jun.','jul.','ago.','sept.','oct.','nov.','dic.'];
 const logoVector = `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>`;
 function dateText(d=new Date()){return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;}
@@ -215,9 +245,9 @@ function showMenu(){$('menuPanel').hidden=false;$('menuButton').setAttribute('ar
 function openDialog(id){closeMenu();const dialog=$(id);if(dialog.open)return;dialog.showModal();}
 function closeDialog(id){const dialog=$(id);if(dialog.open)dialog.close();}
 function saveLocal(){try{const {logoImg,imageLayers,textLayers,...prefs}=state.config;localStorage.setItem('fotodatos-prefs',JSON.stringify(prefs));}catch{} }
-function restoreLocal(){try{const v=JSON.parse(localStorage.getItem('fotodatos-prefs')||'{}');const keys=['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','saveBrowser'];for(const k of keys)if(typeof v[k]===typeof DEFAULTS[k])state.config[k]=v[k];}catch{} }
-function syncSettings(){for(const k of ['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','saveBrowser'])$(k)[$(k).type==='checkbox'?'checked':'value']=state.config[k];}
-function updateFromSettings(){if(!$('saveOriginal').checked && !$('saveComposed').checked){$('saveComposed').checked=true;toast('Debe conservarse al menos una versión.',true);}for(const k of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','saveBrowser'])state.config[k]=$(k).checked;state.config.prefix=cleanName($('prefix').value)||'fotodatos';state.config.suffix=cleanName($('suffix').value);state.config.counter=Math.min(999999,Math.max(1,Math.floor(Number($('counter').value)||1)));syncSettings();saveLocal();renderTemplate();renderEditor();}
+function restoreLocal(){try{const v=JSON.parse(localStorage.getItem('fotodatos-prefs')||'{}');const keys=['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'];for(const k of keys)if(typeof v[k]===typeof DEFAULTS[k])state.config[k]=v[k];}catch{} }
+function syncSettings(){for(const k of ['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])$(k)[$(k).type==='checkbox'?'checked':'value']=state.config[k];}
+function updateFromSettings(){if(!$('saveOriginal').checked && !$('saveComposed').checked){$('saveComposed').checked=true;toast('Debe conservarse al menos una versión.',true);}for(const k of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])state.config[k]=$(k).checked;state.config.prefix=cleanName($('prefix').value)||'fotodatos';state.config.suffix=cleanName($('suffix').value);state.config.counter=Math.min(999999,Math.max(1,Math.floor(Number($('counter').value)||1)));state.config.saveBrowser=true;syncSettings();saveLocal();renderTemplate();renderEditor();}
 function resetSessionResult(){state.resultUrls.forEach((u)=>URL.revokeObjectURL(u));state.resultUrls=[];}
 function assignCameraStatus(msg){$('cameraStatus').textContent=msg;}
 function cameraReady(){return !!(state.stream?.getVideoTracks().find(t=>t.readyState==='live') && $('cameraVideo').videoWidth>0);}
@@ -279,19 +309,19 @@ function readDataURL(file){return new Promise((resolve,reject)=>{const r=new Fil
 async function cachedImage(src){if(!src)return null;if(state.images.has(src))return state.images.get(src);try{const im=await loadImage(src);state.images.set(src,im);return im;}catch{return null;}}
 function preloadLayers(){const sources=[state.config.logoImg,...state.config.imageLayers.map(l=>l.src),state.background?.src];return Promise.all(sources.filter(Boolean).map(src=>cachedImage(src)));}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-function drawLogo(ctx,w,h,lightBackground=false){const c=state.config;if(!c.showLogo)return;const s=Math.max(30,Math.min(w,h)*.07);const x=w*.033,y=h*.032;ctx.save();ctx.shadowColor='#000a';ctx.shadowBlur=s*.13;const img=c.logoImg?state.images.get(c.logoImg):null;
+function drawLogo(ctx,w,h,lightBackground=false,c=state.config){if(!c.showLogo)return;const s=Math.max(30,Math.min(w,h)*.07);const x=w*.033,y=h*.032;ctx.save();ctx.shadowColor='#000a';ctx.shadowBlur=s*.13;const img=c.logoImg?state.images.get(c.logoImg):null;
   if(img){ctx.drawImage(img,x,y,s,s);}else{
     ctx.fillStyle='#103540c9';roundRect(ctx,x,y,s,s,s*.18);ctx.fill();ctx.strokeStyle='#7ff6d5';ctx.lineWidth=Math.max(2,s*.054);ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x+s*.16,y+s*.38);ctx.lineTo(x+s*.16,y+s*.16);ctx.lineTo(x+s*.38,y+s*.16);ctx.moveTo(x+s*.62,y+s*.16);ctx.lineTo(x+s*.84,y+s*.16);ctx.lineTo(x+s*.84,y+s*.38);ctx.moveTo(x+s*.84,y+s*.62);ctx.lineTo(x+s*.84,y+s*.84);ctx.lineTo(x+s*.62,y+s*.84);ctx.moveTo(x+s*.38,y+s*.84);ctx.lineTo(x+s*.16,y+s*.84);ctx.lineTo(x+s*.16,y+s*.62);ctx.stroke();ctx.beginPath();ctx.arc(x+s*.5,y+s*.5,s*.2,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(x+s*.5,y+s*.5,s*.07,0,Math.PI*2);ctx.fillStyle='#7ff6d5';ctx.fill();}
   ctx.font=`800 ${Math.round(s*.49)}px system-ui, sans-serif`;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle=lightBackground?'#153a42':'white';ctx.fillText('FotoDatos',x+s*1.17,y+s*.52);ctx.restore();}
 function roundRect(ctx,x,y,w,h,r){if(ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}else{ctx.beginPath();ctx.rect(x,y,w,h);}}
-function drawFooter(ctx,w,h,opts={}){const c=state.config;const date=opts.date||new Date();const id=opts.id||baseName();const entries=[];if(c.showDate)entries.push(dateText(date));if(c.showGPS)entries.push(gpsText().replace(" · ajustar",""));if(c.showNorth&&Number.isFinite(state.heading))entries.push(northText());if(c.showID)entries.push(id);if(!entries.length)return;const sz=Math.max(15,Math.round(Math.min(w,h)*.028));const line=sz*1.53;ctx.save();ctx.font=`650 ${sz}px system-ui,sans-serif`;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.shadowBlur=0;entries.forEach((txt,i)=>{const x=w*.964,y=h*.954-(entries.length-1-i)*line;const tw=ctx.measureText(txt).width;ctx.fillStyle='#03212cbc';roundRect(ctx,x-tw-sz*.5,y-sz*1.24,tw+sz*.8,line*.94,sz*.13);ctx.fill();ctx.fillStyle='#ffffff';ctx.fillText(txt,x,y);});ctx.restore();}
+function drawFooter(ctx,w,h,opts={}){const c=opts.config||state.config;const date=opts.date||new Date();const id=opts.id||baseName();const entries=[];if(c.showDate)entries.push(dateText(date));if(c.showGPS)entries.push((opts.gpsLabel||gpsText()).replace(" · ajustar",""));if(c.showNorth&&Number.isFinite(state.heading))entries.push(opts.northLabel||northText());if(c.showID)entries.push(id);if(!entries.length)return;const sz=Math.max(15,Math.round(Math.min(w,h)*.028));const line=sz*1.53;ctx.save();ctx.font=`650 ${sz}px system-ui,sans-serif`;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.shadowBlur=0;entries.forEach((txt,i)=>{const x=w*.964,y=h*.954-(entries.length-1-i)*line;const tw=ctx.measureText(txt).width;ctx.fillStyle='#03212cbc';roundRect(ctx,x-tw-sz*.5,y-sz*1.24,tw+sz*.8,line*.94,sz*.13);ctx.fill();ctx.fillStyle='#ffffff';ctx.fillText(txt,x,y);});ctx.restore();}
 function getDrawElements(){return [...state.config.imageLayers,...state.config.textLayers];}
-function drawElements(ctx,w,h,hitboxes=null){const min=Math.min(w,h);for(const l of getDrawElements()){
+function drawElements(ctx,w,h,hitboxes=null,config=state.config){const min=Math.min(w,h);for(const l of [...config.imageLayers,...config.textLayers]){
   const x=w*l.x/100,y=h*l.y/100;ctx.save();let box=null;
   if(l.type==='image'){const img=state.images.get(l.src);if(img){const iw=w*(l.width||25)/100,ih=iw*img.height/img.width;ctx.drawImage(img,x,y,iw,ih);box={id:l.id,x,y,w:iw,h:ih};}}
   else{const sz=Math.max(12,Math.round(min*({'1':.055,'2':.039,'3':.028}[String(l.level)]||.028)));ctx.font=`${l.level===1?'750':'600'} ${sz}px system-ui,sans-serif`;ctx.textAlign='left';ctx.textBaseline='top';ctx.shadowColor='#0009';ctx.shadowBlur=Math.max(1,sz*.15);ctx.fillStyle=l.color||'#fff';const lines=String(l.text||'').split('\n').slice(0,12);const maxW=Math.max(1,...lines.map(s=>ctx.measureText(s).width));const lh=sz*1.28;lines.forEach((t,i)=>ctx.fillText(t,x,y+i*lh,w-x));box={id:l.id,x,y,w:Math.min(maxW,w-x),h:lines.length*lh};}
   if(box&&hitboxes)hitboxes.push(box);ctx.restore();}}
-function compose(ctx,w,h,source,opts={},hitboxes){ctx.clearRect(0,0,w,h);if(source)ctx.drawImage(source,0,0,w,h);else{ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);}drawLogo(ctx,w,h,!source);drawElements(ctx,w,h,hitboxes);drawFooter(ctx,w,h,opts);}
+function compose(ctx,w,h,source,opts={},hitboxes){ctx.clearRect(0,0,w,h);if(source)ctx.drawImage(source,0,0,w,h);else{ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);}drawLogo(ctx,w,h,!source,opts.config||state.config);drawElements(ctx,w,h,hitboxes,opts.config||state.config);drawFooter(ctx,w,h,opts);}
 function editorDims(){const v=$('editorCanvas');if(state.background?.image){return [state.background.image.naturalWidth,state.background.image.naturalHeight];}return [900,1600];}
 function renderEditor(){const canvas=$('editorCanvas');if(!canvas)return;const [w,h]=editorDims();if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;const ctx=canvas.getContext('2d',{alpha:false});const hits=[];compose(ctx,w,h,state.background?.image||null,{},hits);state.hitboxes=hits;renderLayersListOnly();}
 function renderLayersListOnly(){const list=$('layersList');list.replaceChildren();const layers=getDrawElements();if(!layers.length){const p=document.createElement('p');p.className='hint';p.textContent='Sin elementos adicionales. Utilice + Texto o + Imagen.';list.appendChild(p);}for(const l of layers){const b=document.createElement('button');b.type='button';b.className='layer-entry'+(state.selected===l.id?' selected':'');b.textContent=`${l.type==='image'?'▧':'T'} · ${l.type==='image'?'Imagen':(l.text||'Texto').slice(0,32)}`;b.addEventListener('click',()=>selectLayer(l.id));list.appendChild(b);}
@@ -305,9 +335,9 @@ async function importBackground(file){if(!file||!file.type.startsWith('image/'))
 function exportCanvasBlob(canvas,type='image/png',quality=.95){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('El navegador no pudo exportar la imagen.')),type,quality));}
 function getExt(type){if(/png/i.test(type))return 'png';if(/webm/i.test(type))return 'webm';if(/mp4/i.test(type))return 'mp4';if(/webp/i.test(type))return 'webp';return 'jpg';}
 function notice(text){const el=$('captureNotice');$('captureNoticeText').textContent=text;el.hidden=false;clearTimeout(state.noticeTimer);state.noticeTimer=setTimeout(()=>el.hidden=true,6500);}
-function openWorkspace(id,origin){closeMenu();if(state.record){toast('Detenga primero la grabación.',true);return;}if(id==='filesView'){state.fileOrigin=origin||state.mode;renderFiles();}else{state.mapOrigin=origin||state.mode;state.mapLocation=state.position?{...state.position}:null;state.mapCenter=state.mapLocation?{...state.mapLocation}:null;state.mapZoom=17.3;state.mapDirty=false;state.mapTouches.clear();state.mapTileNodes.clear();state.mapLoaded=false;state.mapTileErrors=0;$('mapConnection').hidden=true;$('mapTiles').replaceChildren();}$(id).hidden=false;if(id==='mapView')queueMapDraw(true);}
-function closeWorkspace(id){$(id).hidden=true;if(id==='mapView'){cancelAnimationFrame(state.mapFrame);state.mapFrame=0;state.mapTouches.clear();}}
-function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Almacenamiento no disponible'));const req=indexedDB.open('FotoDatosArchivos',2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('capturas'))db.createObjectStore('capturas',{keyPath:'id'});if(!db.objectStoreNames.contains('preferencias'))db.createObjectStore('preferencias');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function openWorkspace(id,origin){closeMenu();$('toast').hidden=true;clearTimeout(state.toastTimer);if(state.record){toast('Detenga primero la grabación.',true);return;}if(id==='filesView'){state.fileOrigin=origin||state.mode;renderFiles();}else{state.mapOrigin=origin||state.mode;state.mapLocation=state.position?{...state.position}:null;state.mapCenter=state.mapLocation?{...state.mapLocation}:null;state.mapZoom=16.8;state.mapDirty=false;state.mapTouches.clear();state.mapTileNodes.clear();state.mapLoaded=false;state.mapTileErrors=0;state.mapBaseLoaded=0;state.mapDetailLoaded=0;state.mapWantsDetail=false;clearTimeout(state.mapFallbackTimer);state.mapFallbackTimer=setTimeout(()=>{if(!$('mapView').hidden){state.mapWantsDetail=true;queueMapDraw(true);if(!state.mapBaseLoaded&&!state.mapDetailLoaded)$('mapConnection').hidden=false;}},6500);state.mapBaseNodes.clear();$('mapBase').replaceChildren();$('mapLoading').hidden=false;$('mapConnection').hidden=true;$('mapTiles').replaceChildren();}$(id).hidden=false;if(id==='mapView')queueMapDraw(true);}
+function closeWorkspace(id){$(id).hidden=true;if(id==='mapView'){clearTimeout(state.mapFallbackTimer);cancelAnimationFrame(state.mapFrame);state.mapFrame=0;state.mapTouches.clear();}}
+function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Almacenamiento no disponible'));const req=indexedDB.open('FotoDatosArchivos',3);req.onupgradeneeded=()=>{const db=req.result;const hadCapturas=db.objectStoreNames.contains('capturas');if(!hadCapturas)db.createObjectStore('capturas',{keyPath:'id'});if(!db.objectStoreNames.contains('preferencias'))db.createObjectStore('preferencias');if(!db.objectStoreNames.contains('indice')){const idx=db.createObjectStore('indice',{keyPath:'id'});if(hadCapturas){const cur=req.transaction.objectStore('capturas').openCursor();cur.onsuccess=()=>{const c=cur.result;if(c){idx.put(toSummary(c.value));c.continue();}};}}};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 async function getDB(){if(!state.idb)state.idb=await openDB();return state.idb;}
 // La ruta privada del navegador no es una carpeta del sistema operativo.
 function platformLabel(){const ua=navigator.userAgent||'';const os=/Android/i.test(ua)?'Android':/iPhone|iPad|iPod/i.test(ua)?'iOS/iPadOS':/Windows/i.test(ua)?'Windows':/Mac OS X/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'Este dispositivo';const browser=/Edg\//.test(ua)?'Edge':/Firefox\//.test(ua)?'Firefox':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Navegador';return `${os} · ${browser}`;}
@@ -320,16 +350,16 @@ async function refreshStorageView(){
  const copied=!!name && state.folderReady;
  $('storageStatus').textContent=copied?`Guardado local + copia automática en carpeta «${name}»`:state.folderHandle?`Carpeta «${name}» requiere nuevo permiso. Se guarda en FotoDatos.`:'Archivos guardados dentro de este navegador';
  $('removeFolder').hidden=!state.folderHandle;
- $('chooseFolder').textContent=state.folderHandle?'Cambiar carpeta de copia':'Elegir carpeta para copia automática';
+ $('chooseFolder').textContent=state.folderHandle?'Cambiar carpeta de destino':'Elegir carpeta de destino';
  $('chooseFolder').disabled=typeof window.showDirectoryPicker!=='function';
- $('storageHint').textContent=typeof window.showDirectoryPicker==='function'?'La carpeta elegida recibe una copia de cada captura. El navegador puede pedir autorización de nuevo. La biblioteca sigue siendo el destino principal.':'Este navegador no permite elegir una carpeta desde esta página. Use «Exportar copia» en Archivos para guardar en Descargas.';
+ $('storageHint').textContent=typeof window.showDirectoryPicker==='function'?'La carpeta autorizada recibe automáticamente las dos versiones activas. El navegador puede solicitar permiso nuevamente. La biblioteca local es el respaldo principal.':'Este navegador no permite seleccionar Descargas desde una web. Use «Exportar lote ZIP» en Mis capturas para copiar varias fotografías a Descargas de una vez.';
  $('libraryLocation').textContent=copied?`Biblioteca FotoDatos · copia en «${name}»`:'Biblioteca FotoDatos · este navegador';
  let quota='';try{if(navigator.storage?.estimate){const e=await navigator.storage.estimate();if(Number.isFinite(e.usage)&&Number.isFinite(e.quota)){quota=` · ${(e.usage/1048576).toFixed(1)} MB usados de ${(e.quota/1048576).toFixed(0)} MB estimados`;}}}catch{}
- $('librarySummary').textContent=`Guardado dentro de ${platformLabel()}${quota}. Exportar copia es opcional.`;
+ $('librarySummary').textContent=`Guardado dentro de ${platformLabel()}${quota}. El ZIP por lotes permite copiar varios archivos a Descargas.`;
 }
 async function restoreFolder(){try{const h=await getPreference('carpetaCopia');if(h?.kind==='directory'){state.folderHandle=h;state.folderReady=await folderPermission(h);}}catch{}await refreshStorageView();}
 async function chooseFolder(){if(!window.showDirectoryPicker){toast('Este navegador no permite elegir carpeta. La biblioteca de FotoDatos sigue activa.',true);return;}try{
- const options={id:'fotodatos-capturas',mode:'readwrite',startIn:'pictures'};const handle=await window.showDirectoryPicker(options);
+ const options={id:'fotodatos-capturas',mode:'readwrite',startIn:'downloads'};const handle=await window.showDirectoryPicker(options);
  // El selector y la primera autorización pertenecen a esta pulsación; no se elude la seguridad del navegador.
  const authorized=await folderPermission(handle) || (typeof handle.requestPermission==='function' && await handle.requestPermission({mode:'readwrite'})==='granted');
  if(!authorized){toast('No se autorizó la carpeta. Se mantiene el guardado local.',true);return;}
@@ -343,44 +373,86 @@ async function copyToFolder(items){if(!state.folderHandle)return {copied:0,skipp
  for(let i=2;i<1000;i++){try{await state.folderHandle.getFileHandle(filename,{create:false});filename=`${base}_${i}${ext}`;}catch(err){if(err?.name==='NotFoundError')break;throw err;}}
  const file=await state.folderHandle.getFileHandle(filename,{create:true});const writable=await file.createWritable();try{await writable.write(item.blob);await writable.close();}catch(e){try{await writable.abort();}catch{}throw e;}count++;}
  return {copied:count,skipped:false};}catch(e){state.folderReady=false;await refreshStorageView();return {copied:count,skipped:true};}}
-async function saveEntry(entry){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readwrite');tx.objectStore('capturas').put(entry);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
-async function listEntries(){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readonly');const req=tx.objectStore('capturas').getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.created-a.created));req.onerror=()=>reject(req.error);});}
-async function deleteEntry(id){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readwrite');tx.objectStore('capturas').delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
+function toSummary(entry){return {id:entry.id,title:entry.title||'Captura',created:entry.created||0,count:entry.items?.length||0,bytes:(entry.items||[]).reduce((n,x)=>n+(x.blob?.size||0),0),pending:entry.pending===true,kind:entry.kind||'foto',preview:entry.preview||null};}
+async function saveEntry(entry){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction(['capturas','indice'],'readwrite');tx.objectStore('capturas').put(entry);tx.objectStore('indice').put(toSummary(entry));tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
+async function readEntry(id){const db=await getDB();return new Promise((resolve,reject)=>{const req=db.transaction('capturas','readonly').objectStore('capturas').get(id);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function listEntries(){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('indice','readonly');const req=tx.objectStore('indice').getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.created-a.created));req.onerror=()=>reject(req.error);});}
+async function listPendingIds(){const db=await getDB();return new Promise((resolve,reject)=>{const req=db.transaction('indice','readonly').objectStore('indice').getAll();req.onsuccess=()=>resolve(req.result.filter(x=>x.pending).sort((a,b)=>a.created-b.created).map(x=>x.id));req.onerror=()=>reject(req.error);});}
+async function deleteEntry(id){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction(['capturas','indice'],'readwrite');tx.objectStore('capturas').delete(id);tx.objectStore('indice').delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
 async function showResults(title,items,description){
-  const selected=items.filter(i=>i.label.toLowerCase().includes('original')?state.config.saveOriginal:state.config.saveComposed);
-  if(!selected.length){toast('Active al menos una versión en Configuración.',true);return;}
-  state.lastItems=selected;state.lastSaved=false;
-  if(state.config.saveBrowser){try{
-    await saveEntry({id:`${Date.now()}_${selected[0].filename.replace(/[^\w.\-]/g,'')}`,title,created:Date.now(),description,items:selected.map(i=>({label:i.label,filename:i.filename,blob:i.blob}))});
-    state.lastSaved=true;
-  }catch(e){toast('No pudo completarse el guardado en el navegador. Abra Archivos y exporte una copia.',true);}}
-  let copies={copied:0,skipped:false};if(state.folderHandle)copies=await copyToFolder(selected);
-  if(state.lastSaved){notice(copies.copied===selected.length?`${selected.length} archivos guardados · Copias en «${state.folderHandle.name}»`:`${selected.length} archivos guardados en FotoDatos`);}
-  else if(copies.copied===selected.length){notice(`${selected.length} archivos copiados a «${state.folderHandle.name}»`);}
-  else{notice('Captura disponible solo en esta sesión · Exportar copia');}
-  if(copies.skipped)toast('No se pudo escribir en la carpeta adicional. La biblioteca local conserva las capturas si el guardado estaba activo.',true);
-  // El guardado automático no equivale a descargar o compartir un archivo.
+ const selected=items.filter(i=>i.label.toLowerCase().includes('original')?state.config.saveOriginal:state.config.saveComposed);
+ if(!selected.length){toast('Active al menos una versión en Configuración.',true);return;}
+ state.lastItems=selected;state.lastSaved=false;
+ try{await saveEntry({id:`${Date.now()}_${selected[0].filename.replace(/[^\w.\-]/g,'')}`,title,created:Date.now(),description,items:selected,kind:'video'});state.lastSaved=true;notice(`${selected.length} archivos guardados en FotoDatos`);}catch(e){notice('Error de almacenamiento. Capture y exporte antes de cerrar.');toast('Almacenamiento no disponible.',true);}
+ if(state.folderHandle){const copied=await copyToFolder(selected);if(copied.skipped)toast('No se pudo escribir en la carpeta elegida. Su biblioteca permanece disponible.',true);}
 }
-async function renderFiles(){const list=$('filesList');list.replaceChildren();let entries=[];try{entries=await listEntries();}catch{list.textContent='No se pudo consultar la biblioteca local. Exporte las capturas recientes y revise el almacenamiento del navegador.';}
-  if(!entries.length && !state.lastItems.length){list.textContent='Todavía no hay capturas. Se guardarán aquí automáticamente.';return;}
-  const all=[...(!state.lastSaved&&state.lastItems.length?[{id:'reciente',title:'Última captura (sin guardar)',created:Date.now(),items:state.lastItems}]:[]),...entries];
-  for(const e of all){const row=document.createElement('div');row.className='file-group';const first=e.items.find(x=>x.label.includes('plantilla'))||e.items[0];const preview=document.createElement('div');preview.className='file-preview file-preview-placeholder';preview.textContent='▧';row.appendChild(preview);
-    if(first?.blob?.type.startsWith('image/')){const img=document.createElement('img');img.className='file-preview';const u=URL.createObjectURL(first.blob);img.src=u;img.onload=()=>URL.revokeObjectURL(u);img.onerror=()=>URL.revokeObjectURL(u);row.replaceChild(img,preview);}
-    const info=document.createElement('div');info.className='file-details';const name=document.createElement('strong');name.textContent=e.title;info.appendChild(name);const small=document.createElement('small');small.textContent=`${new Date(e.created).toLocaleString('es-CO')} · ${e.items.length} archivo(s)`;info.appendChild(small);const controls=document.createElement('div');controls.className='file-controls';for(const item of e.items){const btn=document.createElement('button');btn.type='button';btn.textContent=`Exportar copia: ${item.label} · ${(item.blob.size/1048576).toFixed(1)} MB`;btn.addEventListener('click',()=>downloadBlob(item.blob,item.filename));controls.appendChild(btn);}
-    if(e.id!=='reciente'){const del=document.createElement('button');del.className='delete';del.textContent='Eliminar';del.addEventListener('click',async()=>{if(del.dataset.confirm!=='true'){del.dataset.confirm='true';del.textContent='Confirmar eliminación';return;}await deleteEntry(e.id);await renderFiles();});controls.appendChild(del);}info.appendChild(controls);row.appendChild(info);list.appendChild(row);
-  }
+// Permite ver cientos de capturas sin leer todos los originales en memoria.
+async function renderFiles(){const list=$('filesList');list.replaceChildren();let entries=[];
+ try{entries=await listEntries();}catch{list.textContent='No se pudo consultar la biblioteca.';}
+ const total=entries.reduce((n,e)=>n+e.count,0);const bytes=entries.reduce((n,e)=>n+e.bytes,0);
+ $('batchSummary').textContent=`${entries.length} capturas · ${total} archivos · ${(bytes/1048576).toFixed(1)} MB conservados en este navegador.`;
+ if(!entries.length){list.textContent='Todavía no hay capturas. Se guardarán automáticamente aquí.';$('exportBatch').disabled=true;$('batchNext').hidden=true;return;}
+ $('exportBatch').disabled=false;
+ buildBatchGroups(entries);
+ for(const e of entries){const row=document.createElement('div');row.className='file-group';const preview=document.createElement('div');preview.className='file-preview file-preview-placeholder';preview.textContent=e.kind==='video'?'▶':'▧';
+ if(e.preview){const img=document.createElement('img');img.className='file-preview';img.alt='Vista previa';const u=URL.createObjectURL(e.preview);img.src=u;img.onload=()=>URL.revokeObjectURL(u);img.onerror=()=>URL.revokeObjectURL(u);row.appendChild(img);}else row.appendChild(preview);
+ const info=document.createElement('div');info.className='file-details';const title=document.createElement('strong');title.textContent=e.kind==='video'?'Video':'Fotografía';info.appendChild(title);const small=document.createElement('small');small.textContent=`${new Date(e.created).toLocaleString('es-CO')} · ${e.pending?'Procesando plantilla…':`${e.count} archivo(s)`}`;info.appendChild(small);
+ const controls=document.createElement('div');controls.className='file-controls';const more=document.createElement('button');more.type='button';more.className='file-more';more.textContent='Ver archivos';controls.appendChild(more);
+ const detail=document.createElement('div');detail.className='file-controls';detail.hidden=true;let loaded=false;
+ more.addEventListener('click',async()=>{detail.hidden=!detail.hidden;if(detail.hidden||loaded)return;more.disabled=true;try{const entry=await readEntry(e.id);for(const it of entry?.items||[]){const b=document.createElement('button');b.type='button';b.textContent=`${it.label} · ${(it.blob.size/1048576).toFixed(1)} MB`;b.addEventListener('click',()=>downloadBlob(it.blob,it.filename));detail.appendChild(b);}loaded=true;}catch{toast('No fue posible leer la captura.',true);}finally{more.disabled=false;}});
+ const del=document.createElement('button');del.type='button';del.className='delete';del.textContent='Eliminar';del.addEventListener('click',async()=>{if(del.dataset.confirm!=='true'){del.dataset.confirm='true';del.textContent='Confirmar eliminación';return;}await deleteEntry(e.id);await renderFiles();});controls.appendChild(del);
+ info.appendChild(controls);info.appendChild(detail);row.appendChild(info);list.appendChild(row);
+ }
 }
+function makeCRC32(){const table=new Uint32Array(256);for(let i=0;i<256;i++){let c=i;for(let j=0;j<8;j++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);table[i]=c>>>0;}return (buffer)=>{let c=0xffffffff;for(const v of new Uint8Array(buffer))c=table[(c^v)&255]^(c>>>8);return(c^0xffffffff)>>>0;};}
+const crc32=makeCRC32();
+function buildBatchGroups(entries){const ordered=entries.filter(e=>!e.pending&&e.count).reverse();const groups=[];let group=[],bytes=0;const LIMIT=145*1048576;
+ for(const e of ordered){if(group.length&&(bytes+e.bytes>LIMIT||group.length>=10)){groups.push(group);group=[];bytes=0;}group.push(e.id);bytes+=e.bytes;if(bytes>LIMIT){groups.push(group);group=[];bytes=0;}}
+ if(group.length)groups.push(group);state.batchGroups=groups;state.batchIndex=clamp(state.batchIndex,0,Math.max(0,groups.length-1));updateBatchLabel();}
+function updateBatchLabel(){const n=state.batchGroups.length;$('exportBatch').textContent=n?`Exportar lote ${state.batchIndex+1} de ${n} · ZIP`:'Sin capturas';$('batchNext').hidden=n<=1;$('batchNext').textContent=`Ir a lote ${((state.batchIndex+1)%n)+1} de ${n}`;}
+function zipDate(date){const d=new Date(date);return {time:((d.getHours()&31)<<11)|((d.getMinutes()&63)<<5)|((Math.floor(d.getSeconds()/2))&31),date:(((d.getFullYear()-1980)&127)<<9)|(((d.getMonth()+1)&15)<<5)|(d.getDate()&31)};}
+async function buildZIPForIds(ids){const enc=new TextEncoder(),pieces=[],central=[];let offset=0,count=0;
+ const push=(part)=>{pieces.push(part);offset+=part.byteLength??part.size;};
+ for(const id of ids){const entry=await readEntry(id);if(!entry)continue;
+ for(const item of entry.items){const filename=enc.encode(item.filename.replace(/[\/]/g,'_'));const dat=await item.blob.arrayBuffer();const size=dat.byteLength;if(size>0xffffffff)throw Error('Archivo demasiado grande para ZIP.');const crc=crc32(dat),t=zipDate(entry.created);const local=new Uint8Array(30+filename.length);const l=new DataView(local.buffer);l.setUint32(0,0x04034b50,true);l.setUint16(4,20,true);l.setUint16(6,0x0800,true);l.setUint16(10,t.time,true);l.setUint16(12,t.date,true);l.setUint32(14,crc,true);l.setUint32(18,size,true);l.setUint32(22,size,true);l.setUint16(26,filename.length,true);local.set(filename,30);
+ const start=offset;push(local);push(item.blob);
+ const cd=new Uint8Array(46+filename.length),v=new DataView(cd.buffer);v.setUint32(0,0x02014b50,true);v.setUint16(4,20,true);v.setUint16(6,20,true);v.setUint16(8,0x0800,true);v.setUint16(12,t.time,true);v.setUint16(14,t.date,true);v.setUint32(16,crc,true);v.setUint32(20,size,true);v.setUint32(24,size,true);v.setUint16(28,filename.length,true);v.setUint32(42,start,true);cd.set(filename,46);central.push(cd);count++;
+ } }
+ const dirStart=offset;for(const cd of central)push(cd);const end=new Uint8Array(22),v=new DataView(end.buffer);v.setUint32(0,0x06054b50,true);v.setUint16(8,count,true);v.setUint16(10,count,true);v.setUint32(12,offset-dirStart,true);v.setUint32(16,dirStart,true);pieces.push(end);
+ return {blob:new Blob(pieces,{type:'application/zip'}),count};}
+async function exportBatch(){const btn=$('exportBatch'),ids=state.batchGroups[state.batchIndex];if(!ids?.length)return;btn.disabled=true;const n=state.batchIndex+1;btn.textContent=`Preparando ZIP ${n}…`;
+ try{const result=await buildZIPForIds(ids);if(!result.count)throw Error('Lote vacío.');downloadBlob(result.blob,`FotoDatos_lote_${String(n).padStart(2,'0')}.zip`);toast(`Lote ${n} preparado: ${result.count} archivos. Compruebe la descarga.`);}catch(e){toast(`No se pudo exportar el lote: ${e.message}`,true);}finally{btn.disabled=false;updateBatchLabel();}}
 function downloadUrl(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob);downloadUrl(url,name);setTimeout(()=>URL.revokeObjectURL(url),60000);}
 async function frameAsBlob(video){const c=document.createElement('canvas');c.width=video.videoWidth;c.height=video.videoHeight;c.getContext('2d').drawImage(video,0,0);return exportCanvasBlob(c,'image/png');}
-async function makePhoto(){if(!cameraReady()||state.record){toast('La cámara no está lista.',true);return;}const name=baseName(),stamp=new Date();$('shutter').disabled=true;try{
-    const track=state.stream.getVideoTracks()[0];let original=null;let originalNote='';if('ImageCapture' in window){try{const ic=new ImageCapture(track);original=await ic.takePhoto();originalNote='Original obtenido mediante ImageCapture.';}catch{}}
-    if(!original){original=await frameAsBlob($('cameraVideo'));originalNote='Original capturado del fotograma de video; puede tener menos resolución que el sensor.';}
-    let image;try{image=await createImageBitmap(original);}catch{const url=URL.createObjectURL(original);try{image=await loadImage(url);}finally{URL.revokeObjectURL(url);}}
-    await preloadLayers();const out=document.createElement('canvas');out.width=image.width||image.naturalWidth;out.height=image.height||image.naturalHeight;compose(out.getContext('2d'),out.width,out.height,image,{date:stamp,id:name});const decorated=await exportCanvasBlob(out,'image/png');if(image.close)image.close();
-    await showResults('Fotografías listas',[{label:'original',blob:original,filename:`${name}_original.${getExt(original.type)}`},{label:'con plantilla',blob:decorated,filename:`${name}_plantilla.png`}],`${originalNote} Resolución de salida: ${out.width} × ${out.height}.`);
-    state.config.counter++;syncSettings();saveLocal();renderTemplate();
-  }catch(e){toast(`No se pudo capturar la fotografía: ${e.message||'error desconocido'}`,true);}finally{$('shutter').disabled=false;}}
+async function makeThumbnail(image){const max=200,scale=Math.min(max/image.width,max/image.height,1),c=document.createElement('canvas');c.width=Math.max(1,Math.round(image.width*scale));c.height=Math.max(1,Math.round(image.height*scale));c.getContext('2d').drawImage(image,0,0,c.width,c.height);return exportCanvasBlob(c,'image/jpeg',.7);}
+async function makePhoto(){if(!cameraReady()||state.record){toast('La cámara no está lista.',true);return;}const name=baseName(),stamp=new Date();$('shutter').disabled=true;
+ try{const track=state.stream.getVideoTracks()[0];let original=null;
+ if('ImageCapture' in window){try{original=await new ImageCapture(track).takePhoto();}catch{}}
+ if(!original)original=await frameAsBlob($('cameraVideo'));
+ const snapshot=JSON.parse(JSON.stringify(state.config));const gpsLabel=gpsText();const northLabel=northText();
+ let preview=null;try{const image=await createImageBitmap(original);preview=await makeThumbnail(image);image.close?.();}catch{}
+ const entry={id:`${Date.now()}_${name}`,title:'Fotografía',kind:'foto',created:stamp.getTime(),description:'Fotografía con plantilla',pending:!!snapshot.saveComposed,items:[],preview,task:null};
+ if(snapshot.saveOriginal)entry.items.push({label:'original',blob:original,filename:`${name}_original.${getExt(original.type)}`});
+ if(snapshot.saveComposed)entry.task={original,config:snapshot,date:stamp.getTime(),gpsLabel,northLabel,name};
+ try{await saveEntry(entry);}catch(err){toast('No se pudo guardar la captura. Revise el espacio de almacenamiento.',true);return;}
+ state.config.counter++;syncSettings();saveLocal();renderTemplate();notice('Fotografía guardada · Preparando plantilla');
+ if(entry.pending){state.photoQueue.push(entry.id);processPhotoQueue();}
+ else if(state.folderHandle){copyToFolder(entry.items).then(r=>{if(r.skipped)toast('Copia en carpeta pendiente; la foto está guardada en FotoDatos.',true);});}
+ }catch(e){toast(`No se pudo capturar: ${e.message}`,true);}finally{$('shutter').disabled=false;}}
+async function processPhotoQueue(){if(state.photoWorking)return;state.photoWorking=true;
+ try{while(state.photoQueue.length){const id=state.photoQueue.shift();let entry;try{entry=await readEntry(id);if(!entry?.pending||!entry.task)continue;
+  const task=entry.task,original=task.original;let image;try{image=await createImageBitmap(original);}catch{const u=URL.createObjectURL(original);try{image=await loadImage(u);}finally{URL.revokeObjectURL(u);}}
+  // Las capas, la fecha y las coordenadas son las de la captura, no las de una edición posterior.
+  for(const src of [task.config.logoImg,...task.config.imageLayers.map(x=>x.src)].filter(Boolean))await cachedImage(src);
+  const out=document.createElement('canvas');out.width=image.width||image.naturalWidth;out.height=image.height||image.naturalHeight;
+  compose(out.getContext('2d',{alpha:false}),out.width,out.height,image,{date:new Date(task.date),id:task.name,config:task.config,gpsLabel:task.gpsLabel,northLabel:task.northLabel});
+  const blob=await exportCanvasBlob(out,'image/png');image.close?.();out.width=out.height=1;
+  entry.items.push({label:'con plantilla',blob,filename:`${task.name}_plantilla.png`});entry.pending=false;entry.task=null;await saveEntry(entry);if(!$('filesView').hidden)renderFiles();
+  if(state.folderHandle){const copy=await copyToFolder(entry.items);if(copy.skipped)toast('No se pudo copiar a la carpeta, pero las fotografías siguen guardadas.',true);}
+  }catch(err){if(entry){entry.pending=false;entry.error=String(err?.message||err);if(!entry.items?.length&&entry.task?.original){entry.items=[{label:'original de recuperación',blob:entry.task.original,filename:`${entry.task.name}_recuperacion.${getExt(entry.task.original.type)}`}];}entry.task=null;await saveEntry(entry).catch(()=>{});}toast('Una fotografía no pudo procesarse. El original quedó guardado cuando estaba habilitado.',true);}
+ } }finally{state.photoWorking=false;}}
+async function restorePendingPhotos(){try{const ids=await listPendingIds();if(ids.length){state.photoQueue.push(...ids);processPhotoQueue();}}catch{}}
 function usableMime(){if(typeof MediaRecorder==='undefined')return null;const types=['video/mp4;codecs="avc1.42E01E,mp4a.40.2"','video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/mp4','video/webm'];return types.find(t=>MediaRecorder.isTypeSupported(t))||null;}
 function getRecorder(stream,mime){const chunks=[];const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond: Math.min(16000000,Math.max(4000000,stream.getVideoTracks()[0]?.getSettings?.().width*6000||6000000)),audioBitsPerSecond:128000});const finish=new Promise((resolve,reject)=>{rec.addEventListener('dataavailable',e=>{if(e.data.size)chunks.push(e.data);});rec.addEventListener('stop',()=>resolve(new Blob(chunks,{type:rec.mimeType||mime})),{once:true});rec.addEventListener('error',e=>reject(e.error||new Error('Error del codificador')),{once:true});});return {rec,finish};}
 function audioChecks(track){return track && track.readyState==='live' && track.enabled && !track.muted;}
@@ -416,10 +488,10 @@ function bumpCounter(){syncSettings();saveLocal();renderTemplate();}
 function projectData(){return {format:'FotoDatos',schemaVersion:1,appVersion:VERSION,config:JSON.parse(JSON.stringify(state.config)),background:state.background?.src||null,backgroundName:state.background?.name||null};}
 function saveProject(){try{const json=JSON.stringify(projectData());downloadBlob(new Blob([json],{type:'application/json'}),`${baseName()}.fotodatos`);toast('Plantilla preparada para descargar.');}catch{toast('No se pudo guardar la plantilla.',true);}}
 async function openProject(file){if(!file)return;let candidate;try{if(file.size>30*1024*1024)throw Error('El proyecto supera 30 MB.');candidate=JSON.parse(await file.text());if(candidate?.format!=='FotoDatos'||candidate?.schemaVersion!==1||typeof candidate.config!=='object')throw Error('Formato de plantilla no reconocido.');const v=candidate.config;
-  for(const key of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','saveBrowser'])if(typeof v[key]!=='boolean')throw Error('Ajustes no válidos.');
+  for(const key of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])if(typeof v[key]!=='boolean')throw Error('Ajustes no válidos.');
   for(const key of ['textLayers','imageLayers'])if(!Array.isArray(v[key])||v[key].length>80)throw Error('Elementos no válidos.');
   for(const l of [...v.textLayers,...v.imageLayers])if(!l||!['text','image'].includes(l.type)||!Number.isFinite(l.x)||!Number.isFinite(l.y)||l.x<0||l.x>100||l.y<0||l.y>100||typeof l.id!=='string'||l.id.length>100|| (l.type==='image' && (typeof l.src!=='string'||!l.src.startsWith('data:image/'))) || (l.type==='text' && (typeof l.text!=='string'||l.text.length>500||typeof l.color!=='string'||!/^(#[0-9a-fA-F]{6})$/.test(l.color))))throw Error('Una capa no es válida.');
-  const cfg={...DEFAULTS,...v,prefix:cleanName(v.prefix),suffix:cleanName(v.suffix),counter:clamp(Math.floor(Number(v.counter)||1),1,999999)};
+  const cfg={...DEFAULTS,...v,saveBrowser:true,prefix:cleanName(v.prefix),suffix:cleanName(v.suffix),counter:clamp(Math.floor(Number(v.counter)||1),1,999999)};
   if(cfg.logoImg && (typeof cfg.logoImg!=='string'||!cfg.logoImg.startsWith('data:image/')))throw Error('Logotipo no válido.');
   if(candidate.background && (typeof candidate.background!=='string'||!candidate.background.startsWith('data:image/')))throw Error('Fondo no válido.');
   const bg=candidate.background?await cachedImage(candidate.background):null;if(candidate.background&&!bg)throw Error('Imagen de fondo no válida.');state.config=cfg;state.background=bg?{src:candidate.background,image:bg,name:candidate.backgroundName||'Imagen'}:null;state.selected=null;await preloadLayers();syncSettings();renderTemplate();renderEditor();saveLocal();displayMode('edit');toast('Plantilla abierta.');
@@ -427,27 +499,28 @@ async function openProject(file){if(!file)return;let candidate;try{if(file.size>
 function mapWorld(lon,lat,z){const n=256*Math.pow(2,z);const safe=clamp(lat,-85.05112878,85.05112878)*Math.PI/180;return {x:(lon+180)/360*n,y:(1-Math.log(Math.tan(safe)+1/Math.cos(safe))/Math.PI)/2*n};}
 function worldMap(x,y,z){const n=256*Math.pow(2,z);const yy=clamp(y,0,n),r=Math.atan(Math.sinh(Math.PI*(1-2*yy/n)));return {latitude:r*180/Math.PI,longitude:((x/n*360+540)%360)-180};}
 function queueMapDraw(force=false){if($('mapView').hidden)return;if(force){cancelAnimationFrame(state.mapFrame);state.mapFrame=0;updateMap();return;}if(!state.mapFrame)state.mapFrame=requestAnimationFrame(()=>{state.mapFrame=0;updateMap();});}
-function updateMap(){if($('mapView').hidden)return;const p=state.mapCenter;const tiles=$('mapTiles');if(!p){tiles.replaceChildren();state.mapTileNodes.clear();$('mapAccuracy').textContent='Sin GPS: ingrese las coordenadas o active ubicación';$('mapZoomInfo').textContent='Mapa en espera de una posición';return;}
- const surface=$('mapSurface'),w=surface.clientWidth||360,h=surface.clientHeight||380;const z=clamp(state.mapZoom,4,19),zi=Math.floor(z),scale=2**(z-zi);const origin=mapWorld(p.longitude,p.latitude,zi),tx0=Math.floor((origin.x-w/(2*scale))/256)-1,tx1=Math.floor((origin.x+w/(2*scale))/256)+1,ty0=Math.floor((origin.y-h/(2*scale))/256)-1,ty1=Math.floor((origin.y+h/(2*scale))/256)+1,n=2**zi;
- const visible=new Set();for(let tx=tx0;tx<=tx1;tx++)for(let ty=ty0;ty<=ty1;ty++){
-   if(ty<0||ty>=n)continue;const key=`${zi}/${((tx%n)+n)%n}/${ty}`;visible.add(key);let im=state.mapTileNodes.get(key);
-   if(!im){im=document.createElement('img');im.alt='';im.decoding='async';im.loading='eager';im.draggable=false;im.referrerPolicy='strict-origin-when-cross-origin';im.addEventListener('load',()=>{state.mapLoaded=true;$('mapConnection').hidden=true;},{once:true});im.addEventListener('error',()=>{state.mapTileErrors++;if(!state.mapLoaded&&state.mapTileErrors>=4)$('mapConnection').hidden=false;},{once:true});im.src=`https://tile.openstreetmap.org/${zi}/${((tx%n)+n)%n}/${ty}.png`;tiles.appendChild(im);state.mapTileNodes.set(key,im);}
-   // El tamaño y la posición cambian con transformaciones CSS, sin reconstruir las imágenes al mover el mapa.
-   const x=w/2+(tx*256-origin.x)*scale,y=h/2+(ty*256-origin.y)*scale;im.style.width=`${256*scale+0.6}px`;im.style.height=`${256*scale+0.6}px`;im.style.transform=`translate3d(${x}px,${y}px,0)`;
+function updateMap(){if($('mapView').hidden)return;const p=state.mapCenter,tiles=$('mapTiles');if(!p){tiles.replaceChildren();state.mapTileNodes.clear();$('mapAccuracy').textContent='Sin GPS: ingrese coordenadas o active ubicación';$('mapZoomInfo').textContent='Sin posición';return;}
+ const surface=$('mapSurface'),w=surface.clientWidth||360,h=surface.clientHeight||380;const z=clamp(state.mapZoom,4,19),zi=Math.floor(z),scale=2**(z-zi);let anyVisible=false;
+ function tileLayer(element,nodes,level,opacity){const factor=2**(z-level),world=mapWorld(p.longitude,p.latitude,level),x0=Math.floor((world.x-w/(2*factor))/256)-1,x1=Math.floor((world.x+w/(2*factor))/256)+1,y0=Math.floor((world.y-h/(2*factor))/256)-1,y1=Math.floor((world.y+h/(2*factor))/256)+1,n=2**level;const visible=new Set();
+ for(let xx=x0;xx<=x1;xx++)for(let yy=y0;yy<=y1;yy++){if(yy<0||yy>=n)continue;const tx=((xx%n)+n)%n,key=`${level}/${tx}/${yy}`;visible.add(key);let img=nodes.get(key);
+ if(!img){img=document.createElement('img');img.alt='';img.draggable=false;img.decoding='async';img.loading='eager';img.referrerPolicy='strict-origin-when-cross-origin';img.dataset.ready='0';img.style.opacity='0';img.addEventListener('load',()=>{img.dataset.ready='1';img.style.opacity=String(opacity);if(element.id==='mapTiles')state.mapDetailLoaded++;else{state.mapBaseLoaded++;if(!state.mapWantsDetail){state.mapWantsDetail=true;queueMapDraw();}}$('mapLoading').hidden=true;$('mapConnection').hidden=true;});img.addEventListener('error',()=>{img.dataset.ready='error';state.mapTileErrors++;if(!state.mapLoaded&&state.mapTileErrors>=4&&state.mapDetailLoaded===0&&state.mapBaseLoaded===0){$('mapConnection').hidden=false;$('mapLoading').hidden=true;}});
+ img.src=`https://tile.openstreetmap.org/${level}/${tx}/${yy}.png`;element.appendChild(img);nodes.set(key,img);}
+ const x=w/2+(xx*256-world.x)*factor,y=h/2+(yy*256-world.y)*factor;img.style.width=`${256*factor+.7}px`;img.style.height=`${256*factor+.7}px`;img.style.transform=`translate3d(${x}px,${y}px,0)`;if(img.dataset.ready==='1'){anyVisible=true;img.style.opacity=String(opacity);}}
+ for(const [key,img] of nodes)if(!visible.has(key)){img.remove();nodes.delete(key);}
  }
- for(const [key,img] of state.mapTileNodes)if(!visible.has(key)){img.remove();state.mapTileNodes.delete(key);}
+ // Primero se solicitan pocas teselas de contexto, con baja resolución. La cartografía de detalle llega encima.
+ const low=Math.max(4,zi-2);tileLayer($('mapBase'),state.mapBaseNodes,low,1);if(state.mapWantsDetail)tileLayer(tiles,state.mapTileNodes,zi,1);
+ if(state.mapBaseLoaded||state.mapDetailLoaded)$('mapLoading').hidden=true;
  const metersPerPx=156543.03392*Math.cos(p.latitude*Math.PI/180)/2**z;const d=Math.max(1,Math.min(1200,200/metersPerPx));const ring=$('mapView').querySelector('.map-ring');ring.style.width=`${d}px`;ring.style.height=`${d}px`;
- const a=$('mapView').querySelector('.map-gps-ring');const accuracy=(!state.mapDirty&&!state.manualPosition&&Number.isFinite(state.position?.accuracy))?state.position.accuracy:null;a.hidden=!Number.isFinite(accuracy);if(Number.isFinite(accuracy)){const r=Math.max(2,Math.min(1400,2*accuracy/metersPerPx));a.style.width=`${r}px`;a.style.height=`${r}px`;}
- // No se mueve la selección del usuario si se está escribiendo la coordenada.
+ const a=$('mapView').querySelector('.map-gps-ring'),accuracy=(!state.mapDirty&&!state.manualPosition&&Number.isFinite(state.position?.accuracy))?state.position.accuracy:null;a.hidden=!Number.isFinite(accuracy);if(Number.isFinite(accuracy)){const r=Math.max(2,Math.min(1400,2*accuracy/metersPerPx));a.style.width=`${r}px`;a.style.height=`${r}px`;}
  if(document.activeElement!==$('mapLat'))$('mapLat').value=p.latitude.toFixed(7);
  if(document.activeElement!==$('mapLon'))$('mapLon').value=p.longitude.toFixed(7);
- $('mapAccuracy').textContent=state.mapDirty?'Ubicación ajustada manualmente':state.manualPosition?'Punto manual':Number.isFinite(accuracy)?`GPS: precisión estimada ± ${Math.round(accuracy)} m`:'GPS sin precisión disponible';
- $('mapZoomInfo').textContent='Círculo: radio 100 m';
+ $('mapAccuracy').textContent=state.mapDirty?'Ubicación ajustada manualmente':state.manualPosition?'Punto manual':Number.isFinite(accuracy)?`GPS: precisión estimada ± ${Math.round(accuracy)} m`:'GPS sin precisión disponible';$('mapZoomInfo').textContent='Referencia: radio 100 m';
 }
-function shiftMap(dx,dy){if(!state.mapCenter||!Number.isFinite(dx)||!Number.isFinite(dy))return;const z=state.mapZoom,v=mapWorld(state.mapCenter.longitude,state.mapCenter.latitude,z);state.mapCenter=worldMap(v.x-dx,v.y-dy,z);state.mapDirty=true;queueMapDraw();}
+function shiftMap(dx,dy){if(!state.mapCenter||!Number.isFinite(dx)||!Number.isFinite(dy))return;if(Math.abs(dx)>$('mapSurface').clientWidth*0.8||Math.abs(dy)>$('mapSurface').clientHeight*0.8)return;const z=state.mapZoom,v=mapWorld(state.mapCenter.longitude,state.mapCenter.latitude,z);state.mapCenter=worldMap(v.x-dx,v.y-dy,z);state.mapDirty=true;queueMapDraw();}
 function zoomMap(delta){if(!state.mapCenter)return;state.mapZoom=clamp(state.mapZoom+delta,4,19);queueMapDraw();}
 function applyManualCoords(){if(!$('mapLat').value.trim()||!$('mapLon').value.trim()){toast('Ingrese latitud y longitud.',true);return false;}const lat=Number($('mapLat').value),lon=Number($('mapLon').value);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat< -85.05112878||lat>85.05112878||lon< -180||lon>180){toast('Ingrese coordenadas válidas.',true);return false;}state.mapCenter={latitude:lat,longitude:lon};state.mapDirty=true;queueMapDraw(true);return true;}
-function mapPointerDown(e){if(e.pointerType==='mouse' && e.button!==0)return;if(!state.mapCenter)return;e.preventDefault();$('mapSurface').setPointerCapture(e.pointerId);state.mapTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false});state.mapPinch=null;}
+function mapPointerDown(e){if(e.pointerType==='mouse' && e.button!==0)return;if(!state.mapCenter)return;e.preventDefault();$('mapSurface').setPointerCapture(e.pointerId);state.mapTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false});if(state.mapTouches.size<2)state.mapPinch=null;}
 function mapPointerMove(e){const t=state.mapTouches.get(e.pointerId);if(!t)return;e.preventDefault();const dx=e.clientX-t.x,dy=e.clientY-t.y;t.x=e.clientX;t.y=e.clientY;if(Math.hypot(e.clientX-t.startX,e.clientY-t.startY)>7)t.moved=true;
  if(state.mapTouches.size===1){shiftMap(dx,dy);return;}
  const pts=[...state.mapTouches.values()];if(pts.length>=2){const dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y),center={x:(pts[0].x+pts[1].x)/2,y:(pts[0].y+pts[1].y)/2};if(state.mapPinch && dist>0 && state.mapPinch.dist>0){const change=Math.log2(dist/state.mapPinch.dist);if(Math.abs(change)>.001){state.mapZoom=clamp(state.mapZoom+change,4,19);state.mapDirty=true;}shiftMap(center.x-state.mapPinch.x,center.y-state.mapPinch.y);}state.mapPinch={dist,x:center.x,y:center.y};queueMapDraw();}}
@@ -462,7 +535,7 @@ function bind(){
   document.querySelectorAll('[data-close-dialog]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.closeDialog)));
   $('legalLink').addEventListener('click',(e)=>{e.preventDefault();openDialog('legalDialog');const url=$('legalLink').getAttribute('href');$('legalFrame').src=url;const err=$('legalError');err.hidden=true;fetch(url,{method:'HEAD'}).then(r=>{if(!r.ok)err.hidden=false;}).catch(()=>{err.hidden=false;});});
   $('settingsDone').addEventListener('click',()=>{updateFromSettings();closeDialog('settingsDialog');});$('chooseFolder').addEventListener('click',chooseFolder);$('removeFolder').addEventListener('click',removeFolder);
-  for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed','saveBrowser'])$(k).addEventListener('change',updateFromSettings);
+  for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed'])$(k).addEventListener('change',updateFromSettings);
   $('logoUpload').addEventListener('change',async(e)=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Seleccione una imagen.',true);try{state.config.logoImg=await readDataURL(file);await cachedImage(state.config.logoImg);renderTemplate();renderEditor();toast('Logotipo personalizado incorporado.');}catch{toast('No se pudo leer el logotipo.',true);}e.target.value='';});
   $('requestGPS').addEventListener('click',()=>getLocation(true,true));$('requestNorth').addEventListener('click',enableNorth);
   $('audioTest').addEventListener('click',async()=>{if(state.audioTestStream){state.audioTestStream.getTracks().forEach(t=>t.stop());state.audioTestStream=null;stopLevelMeter();$('audioTest').textContent='Comprobar micrófono';return;}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});const t=s.getAudioTracks()[0];if(!audioChecks(t))throw Error('No hay pista activa.');state.audioTestStream=s;startLevelMeter(s,'test');$('audioTest').textContent='Detener prueba';toast('Hable y observe el medidor. No se escucha ni se guarda el audio de prueba.');}catch{toast('No se pudo activar el micrófono.',true);}});
@@ -492,12 +565,13 @@ function bind(){
   $('menuPermissions').addEventListener('click',()=>{closeMenu();$('accessPanel').hidden=false;});
   $('accessActivate').addEventListener('click',authorizeAll);
   $('accessSkip').addEventListener('click',()=>{$('accessPanel').hidden=true;displayMode('edit');});
-  $('filesBack').addEventListener('click',()=>closeWorkspace('filesView'));
+  $('filesBack').addEventListener('click',()=>closeWorkspace('filesView'));$('exportBatch').addEventListener('click',exportBatch);$('batchNext').addEventListener('click',()=>{state.batchIndex=(state.batchIndex+1)%Math.max(1,state.batchGroups.length);updateBatchLabel();});
   $('openMapSettings').addEventListener('click',()=>{closeDialog('settingsDialog');openWorkspace('mapView',state.mode);});
   $('mapBack').addEventListener('click',()=>closeWorkspace('mapView'));
   $('mapUseGPS').addEventListener('click',()=>{getLocation(true,true);toast('Actualizando ubicación; observe la precisión.');});
   
   $('mapConfirm').addEventListener('click',()=>{if(!applyManualCoords())return;updateGPSPosition({...state.mapCenter,accuracy:null},true);closeWorkspace('mapView');toast('Ubicación manual aplicada.');});
+  $('mapRetry').addEventListener('click',()=>{state.mapBaseNodes.forEach(img=>img.remove());state.mapTileNodes.forEach(img=>img.remove());state.mapBaseNodes.clear();state.mapTileNodes.clear();state.mapBaseLoaded=0;state.mapDetailLoaded=0;state.mapTileErrors=0;state.mapWantsDetail=false;state.mapLoaded=false;$('mapConnection').hidden=true;$('mapLoading').hidden=false;queueMapDraw(true);});
   $('mapZoomIn').addEventListener('click',()=>{zoomMap(0.65);});
   $('mapZoomOut').addEventListener('click',()=>{zoomMap(-0.65);});
   for(const field of ['mapLat','mapLon'])$(field).addEventListener('change',()=>{if($('mapLat').value.trim()&&$('mapLon').value.trim())applyManualCoords();});
@@ -528,7 +602,7 @@ async function firstStart(){
   try{if(navigator.permissions?.query){const r=await navigator.permissions.query({name:'camera'});if(r.state==='granted')return startCamera();}}catch{}
   $('accessPanel').hidden=false;assignCameraStatus('Dispositivos por autorizar');return false;
 }
-async function init(){restoreLocal();syncSettings();bind();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;restoreFolder().catch(()=>refreshStorageView());await firstStart();}
+async function init(){restoreLocal();syncSettings();bind();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;restoreFolder().catch(()=>refreshStorageView());restorePendingPhotos();await firstStart();}
 init();
 })();
 
