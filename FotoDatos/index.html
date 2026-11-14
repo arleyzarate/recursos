@@ -248,7 +248,7 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
 #editorSidebar{background:rgba(255,255,255,.92)!important;border:1px solid rgba(190,213,222,.74)!important;border-radius:22px!important}
 @media(max-width:640px){.float-main-row{gap:8px}.float-main-row button{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;font-size:20px!important}#toolInsert{width:62px!important;height:62px!important;min-width:62px!important;min-height:62px!important;font-size:28px!important}.float-subrow,.fd-text-tools{max-width:calc(100vw - 10px)}.float-subrow{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.fd-text-tools{bottom:calc(158px + env(safe-area-inset-bottom,0px))}}
 
-/* FotoDatos 0.8.0 (9): acciones SVG, recortes de varios pasos y cotas editables. */
+/* FotoDatos 0.8.1 (10): acciones SVG, recortes de varios pasos y cotas editables. */
 #editorMode .edit-stage{padding-bottom:clamp(126px,17dvh,160px);background:radial-gradient(ellipse at 52% 32%,#ddeaf0,#ccdee6 76%,#c2d3df);}
 #editorMode .edit-stage:after{content:"";position:absolute;bottom:0;left:0;right:0;height:clamp(120px,17dvh,160px);background:linear-gradient(180deg,transparent,#0c263a65 95%);pointer-events:none;z-index:0;}
 .float-main-row button:not(#toolInsert){background:linear-gradient(160deg,#1c4456eb,#113043e8)!important;border-color:#a4d8d4a8!important;box-shadow:0 5px 20px #001b2c64,inset 0 1px 0 #e7fffd3d!important;color:#eafbff!important}
@@ -289,6 +289,43 @@ button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
 @media(max-width:340px){.float-main-row{gap:1px!important}.float-main-row button{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important}.float-main-row #toolInsert{width:55px!important;height:55px!important;min-width:55px!important;min-height:55px!important}}
 @media(prefers-reduced-motion:reduce){.fd-document-menu,.fd-measure-overlay,.fd-crop-sense{animation:none!important;transition:none!important}}
 @media print{#fdMeasureOverlay,#fdTextTools,#fdInlineText,#editorFloatBar,.fd-zoom,#editorMenu,.fd-crop-sense,.editor-stage-hint{display:none!important}}
+
+/* FotoDatos 0.8.1 (10) · Controles sin placas adicionales y ayuda superior. */
+body:has(#editorMode:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) + 121px)!important}
+body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) + 173px)!important}
+.fd-measure-overlay.measure-left .fd-measure-height{left:auto!important;right:calc(100% + 7px)!important}
+.fd-measure-overlay.measure-below .fd-measure-width{top:auto!important;bottom:-48px!important}
+.legal-dialog iframe[hidden],#legalLoading[hidden],#legalError[hidden]{display:none!important}
+#editorMode .edit-stage{background:#d4e2e8!important;padding-bottom:clamp(180px,23dvh,225px)!important}
+#editorMode .edit-stage::after{content:none!important;display:none!important}
+#editorMode .edit-stage canvas{box-shadow:0 4px 13px #15354325}
+.editor-float-bar{background:transparent!important;border:0!important;box-shadow:none!important}
+#editorBack,#editorSettings{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:44px!important;height:44px!important;padding:0!important}
+#editorBack svg,#editorSettings svg{width:22px;height:22px;display:block;margin:auto;stroke:currentColor;stroke-width:1.9;fill:none}
+.float-main-row,.float-subrow,.fd-text-tools{isolation:isolate}
+.float-main-row button,.float-subrow button,.fd-text-tools button,.fd-zoom button{display:inline-flex!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;line-height:1!important;text-align:center!important}
+.float-main-row button svg,.float-subrow button svg,.fd-text-tools button svg,.fd-zoom button svg{display:block!important;margin:auto!important;flex-shrink:0!important;width:23px;height:23px;stroke-width:1.9}
+.float-main-row button:not(#toolInsert){background:#153b49ec!important;border-color:#a8d6d2a0!important;box-shadow:0 2px 7px #041d284e!important}
+.float-main-row #toolInsert{box-shadow:0 3px 10px #0c535347!important}
+.float-subrow{background:transparent!important;border:none!important;box-shadow:none!important;padding:3px 4px!important;gap:5px!important}
+.float-subrow button,.float-subrow label{background:#153b49f2!important;border:1px solid #8ac2beaa!important;box-shadow:0 2px 8px #06212a5e!important;padding:0 10px!important;min-width:44px!important;min-height:46px!important}
+.float-subrow button:focus-visible{outline-offset:3px!important}
+#toolCropSub button,#toolSelectedBar button{padding:0!important}
+.fd-crop-sense{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 69px)!important;bottom:auto!important;left:14px!important;transform:none!important;z-index:29!important;max-width:calc(100vw - 172px)!important}
+.fd-crop-sense button{border:1px solid #9acbc3!important;border-radius:11px!important;background:#163c4df2!important;box-shadow:0 3px 9px #03252c45!important;min-height:42px!important;max-width:100%;padding:7px 10px!important;font-size:11px!important;white-space:normal}
+.editor-stage-hint{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 122px)!important;bottom:auto!important;left:50%!important;transform:translateX(-50%)!important;right:auto!important;z-index:27!important;max-width:min(420px,calc(100vw - 32px))!important;width:max-content!important;text-align:center!important;background:#163b48eb!important;box-shadow:0 3px 12px #05212b40!important;border:1px solid #a3d7d0a8!important;padding:7px 11px!important;font-size:12px!important;line-height:1.35!important;pointer-events:none!important}
+.fd-zoom{box-shadow:none!important;background:transparent!important;border:0!important;gap:3px!important;padding:0!important}
+.fd-zoom button{background:#173d4cf2!important;border:1px solid #91c7c0a1!important;border-radius:11px!important;min-width:43px!important;min-height:44px!important;box-shadow:0 2px 7px #041d282e!important}
+.fd-zoom #fdZoomReset{min-width:62px!important}
+#toolCropFinish{justify-content:center!important}
+@media(max-width:420px){
+ .float-main-row button svg,.float-subrow button svg{width:21px!important;height:21px!important}
+ .fd-crop-sense{top:calc(env(safe-area-inset-top,0px) + 65px)!important;left:9px!important;max-width:calc(100vw - 169px)!important}
+ .fd-crop-sense button{font-size:10px!important;padding:5px 6px!important}
+ .editor-stage-hint{top:calc(env(safe-area-inset-top,0px) + 117px)!important;max-width:calc(100vw - 22px)!important;font-size:11px!important}
+ .float-subrow{max-width:calc(100vw - 8px)!important}
+}
+@media(prefers-reduced-motion:reduce){.float-main-row button,.float-subrow button{transition:none!important}}
 </style>
 </head>
 <body>
@@ -378,6 +415,8 @@ button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
 </div>
 <div id="fdMeasureOverlay" class="fd-measure-overlay" hidden aria-label="Dimensiones del elemento seleccionado"><div class="fd-measure-frame"><button id="fdDimWidth" type="button" class="fd-measure-width" aria-label="Editar ancho"></button><button id="fdDimHeight" type="button" class="fd-measure-height" aria-label="Editar alto"></button></div></div>
 <div class="fd-zoom" role="group" aria-label="Zoom del editor"><button id="fdZoomOut" type="button" aria-label="Alejar">−</button><button id="fdZoomReset" type="button" aria-label="Restablecer escala"><span id="fdZoomValue">100 %</span></button><button id="fdZoomIn" type="button" aria-label="Acercar">+</button></div>
+<div id="toolCropSenseDock" class="fd-crop-sense" hidden><button id="toolCropSense" type="button" aria-pressed="false">Cortar exterior</button></div>
+<div id="editorStageHint" class="editor-stage-hint" role="status" hidden></div>
 <textarea id="fdInlineText" aria-label="Escribir texto de la plantilla" spellcheck="true" rows="2" maxlength="1200" hidden></textarea>
 </div>
         <div id="editorFloatBar" class="editor-float-bar" role="toolbar" aria-label="Herramientas de edición">
@@ -397,9 +436,9 @@ button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
           </div>
           <div id="toolOrderSub" class="float-subrow" hidden><button id="toolBehind" type="button">← Atrás</button><button id="toolAhead" type="button">Adelante →</button><button id="toolOrderClose" type="button">Cerrar</button></div>
           <div id="toolCropSub" class="float-subrow" hidden><button data-crop="rect" type="button" aria-label="Recorte rectangular" title="Rectángulo">▭</button><button data-crop="circle" type="button" aria-label="Recorte circular" title="Círculo">◯</button><button data-crop="free" type="button" aria-label="Recorte a mano alzada" title="Mano alzada">✎</button><button data-crop="poly" type="button" aria-label="Recorte poligonal" title="Polígono">◇</button><button id="toolTrim" type="button" title="Recortar bordes transparentes" aria-label="Ajustar a píxeles visibles">◫</button><button id="toolCropClose" type="button" aria-label="Salir del menú de recorte" title="Cerrar">×</button></div>
-          <div id="toolCropSenseDock" class="fd-crop-sense" hidden><button id="toolCropSense" type="button" aria-pressed="false">Cortar exterior</button></div>
+          
           <div id="toolCropFinish" class="float-subrow" hidden><button id="toolCropClosePoly" type="button" aria-label="Cerrar polígono" title="Cerrar polígono">◇</button><button id="toolCropAccept" type="button" aria-label="Aplicar recorte" title="Aplicar recorte">✓</button><button id="toolCropCancel" type="button" aria-label="Cancelar recorte" title="Cancelar recorte">×</button></div>
-          <div id="editorStageHint" class="editor-stage-hint" role="status" hidden></div>
+          
         </div>
 <div class="canvas-tools" id="editorFileTools"><button id="exportImage" type="button">Exportar PNG</button><button id="exportPDF" type="button">Imprimir / PDF</button><button id="saveProject" type="button">Guardar plantilla</button><button id="loadProject" type="button">Abrir plantilla</button></div></div>
       <aside class="editor-sidebar" id="editorSidebar"><h2>Plantilla</h2><p class="hint">Arrastre un elemento sobre el lienzo o cambie sus propiedades.</p><div class="editor-options"><button id="addText" class="primary" type="button">+ Texto</button><button id="addImage" type="button">+ Imagen</button><button id="clearBackground" type="button">Fondo blanco</button></div><div id="layersList" class="layers-list"></div><div id="layerProperties" class="layer-props" hidden><h3>Propiedades del elemento</h3><label id="textLayerLabel">Texto<textarea id="propText" maxlength="1200" rows="4"></textarea></label><label id="colorLayerLabel">Color<input id="propColor" type="color" value="#ffffff"></label><label id="sizeLayerLabel">Tamaño<select id="propSize"><option value="1">Título</option><option value="2">Subtítulo</option><option value="3">Texto</option></select></label><label>Posición X (%)<input id="propX" type="range" min="0" max="95" step="1"></label><label>Posición Y (%)<input id="propY" type="range" min="0" max="95" step="1"></label><label id="widthLayerLabel">Ancho (%)<input id="propWidth" type="range" min="3" max="95" step="1"></label><label id="opacityLayerLabel">Opacidad (%)<input id="propOpacity" type="range" min="0" max="100" step="1" value="100"></label><div class="prop-actions"><button id="layerUp" type="button">Subir</button><button id="layerDown" type="button">Bajar</button><button id="layerDuplicate" type="button">Duplicar</button><button id="layerDelete" class="danger" type="button">Eliminar</button></div></div><p class="hint">Los archivos PDF como capa y el mapa de Google dentro de la imagen se encuentran pendientes de integración.</p></aside></div>
@@ -423,9 +462,9 @@ button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.0 (9)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.1 (10)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
   <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
-  <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin"></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal desde la ruta del proyecto. Compruebe que está publicado en el directorio principal de Recursos.</p></dialog>
+  <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><p id="legalLoading" class="hint" aria-live="polite">Cargando aviso legal…</p><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin" hidden></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal. <a id="legalFallback" href="./aviso-legal.html" target="_blank" rel="noopener">Abrir aviso legal</a></p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
     <header class="workspace-header"><h2>Mis capturas</h2><button id="filesBack" type="button">Volver</button></header>
     <div class="library-banner"><span id="libraryLocation">FotoDatos · Carpeta del dispositivo</span><small id="librarySummary">Archivos físicos de la carpeta elegida y de «Original».</small></div>
@@ -456,7 +495,7 @@ button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.8.0';
+const VERSION = '0.8.1';
 const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
 const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null};
 // Los rótulos predeterminados son capas editables, no pintura fija.
@@ -571,6 +610,7 @@ function roundRect(ctx,x,y,w,h,r){if(ctx.roundRect){ctx.beginPath();ctx.roundRec
 function drawFooter(ctx,w,h,opts={}){const c=opts.config||state.config;const date=opts.date||new Date();const id=opts.id||baseName();const entries=[];if(c.showDate)entries.push(dateText(date));if(c.showGPS)entries.push((opts.gpsLabel||gpsText()).replace(" · ajustar",""));if(c.showNorth&&Number.isFinite(state.heading))entries.push(opts.northLabel||northText());if(c.showID)entries.push(id);if(!entries.length)return;const sz=Math.max(15,Math.round(Math.min(w,h)*.028));const line=sz*1.53;ctx.save();ctx.font=`650 ${sz}px system-ui,sans-serif`;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.shadowBlur=0;entries.forEach((txt,i)=>{const x=w*.964,y=h*.954-(entries.length-1-i)*line;const tw=ctx.measureText(txt).width;ctx.fillStyle='#03212cbc';roundRect(ctx,x-tw-sz*.5,y-sz*1.24,tw+sz*.8,line*.94,sz*.13);ctx.fill();ctx.fillStyle='#ffffff';ctx.fillText(txt,x,y);});ctx.restore();}
 function orderedLayers(config=state.config){return allEditableLayers(config).map((l,i)=>({layer:l,order:Number.isFinite(l.order)?l.order:i,index:i})).sort((a,b)=>a.order-b.order||a.index-b.index).map(a=>a.layer);}
 function getDrawElements(){return orderedLayers();}
+function validSourceBox(l){const b=l?.sourceBox;return Array.isArray(b)&&b.length===4&&b.every(Number.isFinite)&&b[0]>=0&&b[1]>=0&&b[2]>0&&b[3]>0&&b[0]+b[2]<=1.000001&&b[1]+b[3]<=1.000001?b:[0,0,1,1];}
 function drawElements(ctx,w,h,hitboxes=null,config=state.config,opts={}){
  const min=Math.min(w,h);
  for(const l of orderedLayers(config)){
@@ -582,10 +622,10 @@ function drawElements(ctx,w,h,hitboxes=null,config=state.config,opts={}){
    if(img)ctx.drawImage(img,0,0,iw,iw);else{ctx.fillStyle='#103540ca';roundRect(ctx,0,0,iw,iw,iw*.17);ctx.fill();ctx.strokeStyle='#7ff6d5';ctx.lineWidth=Math.max(2,iw*.05);ctx.strokeRect(iw*.2,iw*.2,iw*.6,iw*.6);ctx.beginPath();ctx.arc(iw*.5,iw*.5,iw*.17,0,Math.PI*2);ctx.stroke();}
    ctx.font=`750 ${iw*.49}px system-ui,sans-serif`;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle='#ffffff';ctx.fillText(txt,iw*1.15,iw*.52);box={id:l.id,x,y,w:iw*1.2+ctx.measureText(txt).width,h:iw,rotation:l.rotation||0};
   }else if(l.type==='image'){
-   const img=state.images.get(l.src);if(img){const iw=w*(l.width||25)/100,ih=Number.isFinite(l.heightPct)&&l.heightPct>0?h*l.heightPct/100:iw*img.height/img.width;
+   const img=state.images.get(l.src);if(img){const source=validSourceBox(l),iw=w*(l.width||25)/100,ih=Number.isFinite(l.heightPct)&&l.heightPct>0?h*l.heightPct/100:iw*img.height*source[3]/(img.width*source[2]);
     ctx.translate(x+iw/2,y+ih/2);ctx.rotate((Number(l.rotation)||0)*Math.PI/180);ctx.translate(-iw/2,-ih/2);ctx.globalAlpha=clamp(Number.isFinite(l.opacity)?l.opacity:1,0,1);
     if(Array.isArray(l.cropSteps))for(const step of l.cropSteps){if(!Array.isArray(step.points)||step.points.length<3)continue;ctx.beginPath();if(step.inverse)ctx.rect(0,0,iw,ih);step.points.forEach((p,i)=>{const a=clamp(+p[0],-3,4)*iw,b=clamp(+p[1],-3,4)*ih;i?ctx.lineTo(a,b):ctx.moveTo(a,b)});ctx.closePath();ctx.clip(step.inverse?'evenodd':'nonzero');}
-    ctx.drawImage(img,0,0,iw,ih);box={id:l.id,x,y,w:iw,h:ih,rotation:l.rotation||0};
+    ctx.drawImage(img,source[0]*img.width,source[1]*img.height,source[2]*img.width,source[3]*img.height,0,0,iw,ih);box={id:l.id,x,y,w:iw,h:ih,rotation:l.rotation||0};
    }
   }else{
    const sz=textFontSize(l,w,h),lh=sz*clamp(Number(l.lineHeight)||1.28,1,2);
@@ -645,44 +685,55 @@ async function getDB(){if(!state.idb)state.idb=await openDB();return state.idb;}
 function platformLabel(){const ua=navigator.userAgent||'';const os=/Android/i.test(ua)?'Android':/iPhone|iPad|iPod/i.test(ua)?'iOS/iPadOS':/Windows/i.test(ua)?'Windows':/Mac OS X/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'Este dispositivo';const browser=/Edg\//.test(ua)?'Edge':/Firefox\//.test(ua)?'Firefox':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Navegador';return `${os} · ${browser}`;}
 async function getPreference(key){const db=await getDB();return new Promise((resolve,reject)=>{const req=db.transaction('preferencias','readonly').objectStore('preferencias').get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 async function putPreference(key,val){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('preferencias','readwrite');tx.objectStore('preferencias').put(val,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
-async function folderPermission(handle){if(!handle)return false;try{return (await handle.queryPermission({mode:'readwrite'}))==='granted';}catch{return false;}}
+async function inspectFolder(handle){if(!handle||handle.kind!=='directory')return 'missing';
+ try{if(typeof handle.queryPermission!=='function')return 'permission';const permission=await handle.queryPermission({mode:'readwrite'});if(permission!=='granted')return 'permission';
+  // Leer la primera entrada comprueba que el directorio realmente sigue disponible.
+  if(typeof handle.entries!=='function')return 'invalid';const cursor=handle.entries();await cursor.next();return 'ready';
+ }catch(e){if(['NotFoundError','TypeMismatchError','InvalidStateError'].includes(e?.name))return 'missing';if(['NotAllowedError','SecurityError','AbortError'].includes(e?.name))return 'permission';return 'invalid';}
+}
+async function folderPermission(handle){return await inspectFolder(handle)==='ready';}
+async function dropStaleFolder(){state.folderHandle=null;state.folderReady=false;await putPreference('carpetaCopia',null).catch(()=>{});}
 async function refreshStorageView(){
  const path=state.folderHandle?`Carpeta elegida: ${state.folderHandle.name}`:'Carpeta por elegir';
  $('storageRoute').textContent=`${platformLabel()} · ${path}`;
- $('storageStatus').textContent=state.folderReady?'Guardado directo autorizado. Las fotos NO se almacenan en el navegador.':state.folderHandle?'Se requiere renovar el permiso de esta carpeta.':'Seleccione una carpeta del dispositivo antes de capturar.';
+ $('storageStatus').textContent=state.folderReady?'Carpeta existente y autorizada para escritura.':state.folderHandle?'El acceso a la carpeta debe autorizarse de nuevo.':'Seleccione una carpeta existente del dispositivo antes de capturar.';
  $('removeFolder').hidden=!state.folderHandle;
  $('chooseFolder').textContent=state.folderHandle?'Cambiar o autorizar carpeta':'Elegir carpeta de destino';
  $('chooseFolder').disabled=typeof window.showDirectoryPicker!=='function'&& !state.folderHandle;
- $('storageHint').textContent=typeof window.showDirectoryPicker==='function'?'Las capturas con plantilla van a esta carpeta; los originales a su subcarpeta «Original». Si el navegador pierde el permiso, debe renovarlo.':'Este navegador no permite guardar automáticamente en una carpeta. Puede editar plantillas y descargar archivos manualmente, pero la captura directa requiere un navegador compatible.';
+ $('storageHint').textContent=typeof window.showDirectoryPicker==='function'?'Las fotos van a esta carpeta y los originales a «Original». Cada inicio verifica su existencia y el permiso.':'Este navegador no permite el acceso directo a carpetas. Puede editar y descargar manualmente.';
  $('libraryLocation').textContent=state.folderHandle?`Carpeta «${state.folderHandle.name}» · Fotos del dispositivo`:'Carpeta no autorizada';
  $('librarySummary').textContent='Solo se listan archivos físicos de la carpeta elegida. Las capturas nuevas no se guardan en la memoria privada del navegador.';
 }
-async function restoreFolder(){try{const h=await getPreference('carpetaCopia');if(h?.kind==='directory'){state.folderHandle=h;state.folderReady=await folderPermission(h);}}catch{}await refreshStorageView();}
+async function restoreFolder(){let result='missing';try{const h=await getPreference('carpetaCopia');if(h?.kind==='directory'){
+  state.folderHandle=h;result=await inspectFolder(h);state.folderReady=result==='ready';
+  if(result==='missing'||result==='invalid')await dropStaleFolder();
+ }}catch{state.folderReady=false;}await refreshStorageView();}
 async function chooseFolder(){
  if(state.folderBusy)return false;
- if(!window.showDirectoryPicker&&!state.folderHandle){toast('Este navegador no admite el acceso directo a carpetas. Pruebe Chrome Android actualizado o Chrome/Edge en computador.',true);return false;}
+ if(!window.showDirectoryPicker&&!state.folderHandle){toast('Este navegador no permite seleccionar carpetas. Use un navegador compatible.',true);return false;}
  state.folderBusy=true;
  try{
-  let handle=state.folderHandle;
-  if(handle&&!await folderPermission(handle)&&typeof handle.requestPermission==='function'){try{if(await handle.requestPermission({mode:'readwrite'})==='granted')state.folderReady=true;}catch{}}
-  if(!handle||!await folderPermission(handle)){
-   // El selector se invoca dentro de una acción humana, sin peticiones previas que consuman la activación.
-   handle=await window.showDirectoryPicker({id:'fotodatos-capturas',mode:'readwrite',startIn:'pictures'});
-  }
-  const authorized=(await folderPermission(handle))||(typeof handle.requestPermission==='function'&&await handle.requestPermission({mode:'readwrite'})==='granted');
-  if(!authorized){toast('La carpeta no recibió autorización de escritura.',true);return false;}
+  // La elección explícita siempre permite cambiar de carpeta. El selector se llama primero para conservar el gesto del usuario.
+  let handle;
+  if(window.showDirectoryPicker)handle=await window.showDirectoryPicker({id:'fotodatos-capturas',mode:'readwrite'});
+  else if(state.folderHandle&&typeof state.folderHandle.requestPermission==='function'){handle=state.folderHandle;await handle.requestPermission({mode:'readwrite'});}
+  const status=await inspectFolder(handle);
+  if(status!=='ready'){if(status==='missing')toast('La carpeta seleccionada ya no existe. Elija otra.',true);else toast('No se pudo confirmar el acceso de escritura a la carpeta.',true);return false;}
   state.folderHandle=handle;state.folderReady=true;state.folderPromptDone=true;
   await putPreference('carpetaCopia',handle).catch(()=>toast('La carpeta estará disponible solo durante esta sesión.',true));
   $('storageSetup').hidden=true;await refreshStorageView();
-  toast(`Guardado directo en «${handle.name}» y subcarpeta «Original».`);
+  toast(`Guardado autorizado en «${handle.name}».`);
   if(!state.stream&&!state.record)await continueStartup();
   if(!$('filesView').hidden)await renderFiles();
   return true;
  }catch(e){if(e?.name!=='AbortError')toast(`No se pudo elegir la carpeta: ${e?.message||'permiso no disponible'}`,true);return false;}
  finally{state.folderBusy=false;}
 }
-async function removeFolder(){state.folderHandle=null;state.folderReady=false;await putPreference('carpetaCopia',null).catch(()=>{});await refreshStorageView();$('storageSetup').hidden=false;toast('Seleccione otra carpeta para volver a capturar.');}
-async function ensureDiskDestination(){if(state.folderHandle&&await folderPermission(state.folderHandle)){state.folderReady=true;return true;}state.folderReady=false;await refreshStorageView();$('storageSetup').hidden=false;return false;}
+async function removeFolder(){await dropStaleFolder();await refreshStorageView();$('storageSetup').hidden=false;toast('Seleccione otra carpeta para volver a capturar.');}
+async function ensureDiskDestination(){const status=await inspectFolder(state.folderHandle);state.folderReady=status==='ready';
+ if(status==='missing'||status==='invalid')await dropStaleFolder();
+ if(!state.folderReady){await refreshStorageView();$('storageSetup').hidden=false;return false;}return true;
+}
 async function writeDisk(blob,filename,original=false){
  if(!state.folderReady||!state.folderHandle)throw Error('La carpeta necesita permiso de escritura.');
  const dir=original?await state.folderHandle.getDirectoryHandle('Original',{create:true}):state.folderHandle;
@@ -910,6 +961,7 @@ async function openProject(file){if(!file)return;let candidate;try{if(file.size>
   for(const l of [...v.textLayers,...v.imageLayers]){
    if(l.order!==undefined&&(!Number.isInteger(l.order)||l.order<0||l.order>200))throw Error('Orden no válido.');
    if(l.rotation!==undefined&&(!Number.isFinite(l.rotation)||Math.abs(l.rotation)>36000))throw Error('Rotación no válida.');
+   if(l.sourceBox!==undefined&&(l.type!=='image'||!Array.isArray(l.sourceBox)||l.sourceBox.length!==4||l.sourceBox.some(n=>!Number.isFinite(n))||l.sourceBox[0]<0||l.sourceBox[1]<0||l.sourceBox[2]<=0||l.sourceBox[3]<=0||l.sourceBox[0]+l.sourceBox[2]>1.000001||l.sourceBox[1]+l.sourceBox[3]>1.000001))throw Error('Origen de imagen inválido.');
    if(l.cropSteps!==undefined){if(l.type!=='image'||!Array.isArray(l.cropSteps)||l.cropSteps.length>20)throw Error('Recortes no válidos.');
     for(const st of l.cropSteps)if(!st||st.kind!=='poly'||typeof st.inverse!=='boolean'||!Array.isArray(st.points)||st.points.length<3||st.points.length>700||st.points.some(q=>!Array.isArray(q)||q.length!==2||q.some(n=>!Number.isFinite(n)||n< -3||n>4)))throw Error('Puntos de recorte no válidos.');
    }
@@ -1020,14 +1072,44 @@ function normalizedCropPoint(x,y){const c=$('editorCanvas');return [clamp(x/c.wi
 function cropObjectPoint(p,b){const x=p[0]*$('editorCanvas').width,y=p[1]*$('editorCanvas').height,cx=b.x+b.w/2,cy=b.y+b.h/2,a=-(b.rotation||0)*Math.PI/180,dx=x-cx,dy=y-cy;return [(cx+dx*Math.cos(a)-dy*Math.sin(a)-b.x)/b.w,(cy+dx*Math.sin(a)+dy*Math.cos(a)-b.y)/b.h];}
 function startCrop(type){const l=selectedLayer();if(!l||l.type!=='image')return;
  state.cropMode=type;state.cropDraft={type,points:[],start:null,closed:false};state.toolbarLevel='crop';$('toolCropSub').hidden=true;$('editorStageHint').hidden=false;
- $('editorStageHint').textContent=(type==='poly'?'Toque los vértices y cierre el polígono.':type==='free'?'Dibuje el contorno con el dedo.':'Arrastre para dibujar en la pantalla.')+' Puede mover el contorno y ajustar sus nodos antes de aceptar.';
+ $('editorStageHint').textContent=type==='poly'?'Marque los vértices, ajuste y cierre el polígono.':type==='free'?'Dibuje y ajuste el contorno antes de aceptar.':'Arrastre y ajuste el contorno antes de aceptar.';
  $('editorMode').querySelector('.edit-stage').classList.add('is-cropping');renderEditor();}
 function closeCropPolygon(){const d=state.cropDraft;if(!d||d.type!=='poly'||d.points.length<3)return;d.closed=true;renderEditor();}
-function acceptCrop(){if(!state.cropMode||!selectedLayer())return;const d=state.cropDraft,pts=d?.points||[];if(pts.length<3||(d.type==='poly'&&!d.closed)){toast('Cierre primero el contorno.',true);return;}
+// Sutherland-Hodgman: intersección geométrica con el marco actual, también para polígonos rotados.
+function clipCropPolygon(points){let pts=points.map(([x,y])=>[x,y]);for(const [axis,value,greater] of [[0,0,true],[0,1,false],[1,0,true],[1,1,false]]){
+ const inside=p=>greater?p[axis]>=value:p[axis]<=value;const next=[];
+ for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length],okA=inside(a),okB=inside(b);
+  if(okA!==okB){const denom=b[axis]-a[axis];if(Math.abs(denom)>1e-12){const t=(value-a[axis])/denom;next.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}
+  if(okB)next.push(b);
+ }pts=next;if(!pts.length)break;
+ }return pts;
+}
+function commitImageCrop(l,points,inverse=false){if(!l||l.type!=='image'||!Array.isArray(points)||points.length<3)return false;
+ const poly=clipCropPolygon(points);if(poly.length<3)return false;
+ const minX=Math.max(0,Math.min(...poly.map(p=>p[0]))),minY=Math.max(0,Math.min(...poly.map(p=>p[1])));
+ const maxX=Math.min(1,Math.max(...poly.map(p=>p[0]))),maxY=Math.min(1,Math.max(...poly.map(p=>p[1])));
+ const bw=maxX-minX,bh=maxY-minY;if(bw<.0005||bh<.0005)return false;
+ pushHistory();const steps=Array.isArray(l.cropSteps)?l.cropSteps:[];
+ if(inverse){l.cropSteps=[...steps,{kind:'poly',inverse:true,points:poly}];return true;}
+ // El exterior recortado deja de formar parte del tamaño del objeto, como en ArleyGI.
+ const b=state.hitboxes.find(h=>h.id===l.id);if(!b)return false;
+ const cx=b.x+b.w/2,cy=b.y+b.h/2,dx=(minX+bw/2-.5)*b.w,dy=(minY+bh/2-.5)*b.h;
+ const a=(Number(l.rotation)||0)*Math.PI/180,rcx=cx+dx*Math.cos(a)-dy*Math.sin(a),rcy=cy+dx*Math.sin(a)+dy*Math.cos(a);
+ const newW=b.w*bw,newH=b.h*bh,can=$('editorCanvas'),prevSource=validSourceBox(l);
+ const reproj=p=>[(p[0]-minX)/bw,(p[1]-minY)/bh];
+ l.cropSteps=[...steps.map(st=>({...st,points:st.points.map(reproj)})),{kind:'poly',inverse:false,points:poly.map(reproj)}];
+ l.sourceBox=[prevSource[0]+minX*prevSource[2],prevSource[1]+minY*prevSource[3],prevSource[2]*bw,prevSource[3]*bh];
+ l.width=newW/can.width*100;l.heightPct=newH/can.height*100;
+ l.x=(rcx-newW/2)/can.width*100;l.y=(rcy-newH/2)/can.height*100;
+ return true;
+}
+function acceptCrop(){if(!state.cropMode||!selectedLayer())return;const d=state.cropDraft,pts=d?.points||[];
+ if(pts.length<3||(d.type==='poly'&&!d.closed)){toast('Cierre primero el contorno.',true);return;}
  const b=state.hitboxes.find(h=>h.id===state.selected);if(!b)return;
- const converted=pts.map(p=>cropObjectPoint(p,b)).map(p=>p.map(v=>clamp(v,-3,4)));
- pushHistory();const l=selectedLayer();if(!Array.isArray(l.cropSteps))l.cropSteps=[];
- l.cropSteps.push({kind:'poly',points:converted,inverse:state.cropInverse});cancelCrop();renderTemplate();renderEditor();toast('Recorte aplicado. Puede deshacerlo.');}
+ const converted=pts.map(p=>cropObjectPoint(p,b));
+ if(!commitImageCrop(selectedLayer(),converted,state.cropInverse)){toast('El contorno no intersecta la imagen.',true);return;}
+ cancelCrop();renderTemplate();renderEditor();toast(state.cropInverse?'Recorte interior aplicado. El tamaño exterior se conserva.':'Recorte exterior aplicado. Dimensiones ajustadas al contorno.');
+}
 function cancelCrop(){state.cropMode=null;state.cropDraft=null;state.pointerStart=null;state.toolbarLevel='';$('toolCropSub').hidden=true;$('toolCropFinish').hidden=true;$('editorStageHint').hidden=true;$('editorMode').querySelector('.edit-stage').classList.remove('is-cropping');renderEditor();}
 function insidePolygon(p,pts){let hit=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))hit=!hit;}return hit;}
 function cropPointerBegin(c,e,x,y){const d=state.cropDraft;if(!d)return;const p=normalizedCropPoint(x,y),rad=19/c.getBoundingClientRect().width,original=d.points.map(v=>v.slice());
@@ -1051,20 +1133,24 @@ function cropPointerUpdate(x,y,op){const d=state.cropDraft;if(!d)return;const p=
  renderEditor();}
 function alphaSample(l,u,v){if(!l?.src||!state.images.has(l.src))return true;if(l.opacity===0)return false;
  let item=state.alphaMasks.get(l.src);if(!item){try{const img=state.images.get(l.src),cv=document.createElement('canvas'),w=clamp(img.naturalWidth||img.width,1,256),h=clamp(img.naturalHeight||img.height,1,256);cv.width=w;cv.height=h;const ctx=cv.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,w,h);item={w,h,data:ctx.getImageData(0,0,w,h).data};state.alphaMasks.set(l.src,item);if(state.alphaMasks.size>25)state.alphaMasks.delete(state.alphaMasks.keys().next().value);}catch{return true;}}
- const i=(Math.min(item.h-1,Math.max(0,Math.floor(v*item.h)))*item.w+Math.min(item.w-1,Math.max(0,Math.floor(u*item.w))))*4;return item.data[i+3]>16;
+ const box=validSourceBox(l),px=box[0]+u*box[2],py=box[1]+v*box[3];const i=(Math.min(item.h-1,Math.max(0,Math.floor(py*item.h)))*item.w+Math.min(item.w-1,Math.max(0,Math.floor(px*item.w))))*4;return item.data[i+3]>16;
 }
+function imageVisibleAt(l,u,v){if(u<0||u>1||v<0||v>1)return false;for(const step of l.cropSteps||[]){const inside=insidePolygon([u,v],step.points);if(step.inverse?inside:!inside)return false;}return alphaSample(l,u,v);}
 function hitAt(x,y,h){const l=getDrawElements().find(v=>v.id===h.id);if(!l)return false;const pt=cropObjectPoint([x/$('editorCanvas').width,y/$('editorCanvas').height],h),[u,v]=pt;
  if(u<0||u>1||v<0||v>1)return false;
- if(l.type==='image'){for(const step of l.cropSteps||[]){const inside=insidePolygon([u,v],step.points);if(step.inverse?inside:!inside)return false;}return alphaSample(l,u,v);}
+ if(l.type==='image')return imageVisibleAt(l,u,v);
  return true;
 }
-function trimImageTransparency(){const l=selectedLayer(),img=l?.type==='image'?state.images.get(l.src):null;if(!img){toast('Seleccione una imagen.',true);return;}try{
- const w=Math.max(1,Math.min(512,img.naturalWidth)),h=Math.max(1,Math.min(512,img.naturalHeight)),c=document.createElement('canvas');c.width=w;c.height=h;const ct=c.getContext('2d',{willReadFrequently:true});ct.drawImage(img,0,0,w,h);const a=ct.getImageData(0,0,w,h).data;let minX=w,minY=h,maxX=-1,maxY=-1;
- for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(a[(y*w+x)*4+3]>12){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
- if(maxX<0){toast('La imagen es completamente transparente.',true);return;}
+function trimImageTransparency(){const l=selectedLayer(),img=l?.type==='image'?state.images.get(l.src):null;if(!img){toast('Seleccione una imagen.',true);return;}
+ const side=validSourceBox(l),w=Math.max(1,Math.round(Math.min(512,img.naturalWidth*side[2]))),h=Math.max(1,Math.round(Math.min(512,img.naturalHeight*side[3])));
+ let minX=w,minY=h,maxX=-1,maxY=-1;
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(imageVisibleAt(l,(x+.5)/w,(y+.5)/h)){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
+ if(maxX<0){toast('No quedan píxeles visibles en esta imagen.',true);return;}
  if(minX===0&&minY===0&&maxX===w-1&&maxY===h-1){toast('No se encontraron bordes transparentes para retirar.');return;}
- pushHistory();(l.cropSteps??=[]).push({kind:'poly',inverse:false,points:shapeRect([minX/w,minY/h],[(maxX+1)/w,(maxY+1)/h])});closeToolbarLevels();renderEditor();renderTemplate();toast('Bordes transparentes recortados sin alterar la imagen original.');
- }catch{toast('No se pudo analizar la transparencia.',true);}}
+ const polygon=shapeRect([minX/w,minY/h],[(maxX+1)/w,(maxY+1)/h]);
+ if(!commitImageCrop(l,polygon,false)){toast('No se pudo ajustar el contorno.',true);return;}
+ closeToolbarLevels();renderEditor();renderTemplate();toast('Dimensiones ajustadas a los píxeles visibles.');
+}
 function getCanvasPoint(c,e){const r=c.getBoundingClientRect();return {x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height,ratio:c.width/r.width};}
 function bindEditorPointers(){const c=$('editorCanvas');
  c.addEventListener('pointerdown',e=>{
@@ -1096,7 +1182,7 @@ function bindEditorPointers(){const c=$('editorCanvas');
   if(op.type.startsWith('crop-')){cropPointerUpdate(x,y,op);return;}
   const l=selectedLayer();if(!l)return;if(Math.abs(x-op.x)+Math.abs(y-op.y)>c.width*.002)op.moved=true;
   if(op.type==='move'){l.x=clamp(op.lx+(x-op.x)/c.width*100,0,99);l.y=clamp(op.ly+(y-op.y)/c.height*100,0,99);}
-  else if(op.type==='scale'){const dx=(x-op.x)/c.width*100,dy=(y-op.y)/c.height*100;const sign=op.corner?.includes('l')?-1:1;l.width=clamp(op.width+sign*dx,3,95);if(op.corner?.includes('l'))l.x=clamp(op.lx+dx,0,99);if(l.type==='image'&&l.lockRatio===false){const sy=op.corner?.includes('t')?-1:1;l.heightPct=clamp(op.heightPct+sy*dy,1,95);if(op.corner?.includes('t'))l.y=clamp(op.ly+dy,0,99);}else if(l.type==='image'){delete l.heightPct;}}
+  else if(op.type==='scale'){const dx=(x-op.x)/c.width*100,dy=(y-op.y)/c.height*100;const sign=op.corner?.includes('l')?-1:1;l.width=clamp(op.width+sign*dx,3,95);if(op.corner?.includes('l'))l.x=clamp(op.lx+dx,0,99);if(l.type==='image'&&l.lockRatio===false){const sy=op.corner?.includes('t')?-1:1;l.heightPct=clamp(op.heightPct+sy*dy,1,95);if(op.corner?.includes('t'))l.y=clamp(op.ly+dy,0,99);}else if(l.type==='image'){l.heightPct=op.heightPct*Math.max(.001,l.width/op.width);}}
   else if(op.type==='rotate')l.rotation=op.rotation+(Math.atan2(y-op.centerY,x-op.centerX)-op.angle)*180/Math.PI;
   renderTemplate();renderEditor();
  });
@@ -1191,7 +1277,7 @@ function renderMeasures(){
  if(!root||state.mode!=='edit'||state.cropMode||state.textEditing||!b||l.type!=='image'){if(root)root.hidden=true;return;}
  const canvas=$('editorCanvas'),r=canvas.getBoundingClientRect(),stage=$('editorMode').querySelector('.edit-stage').getBoundingClientRect(),scaleX=r.width/canvas.width,scaleY=r.height/canvas.height;
  const cx=r.left-stage.left+(b.x+b.w/2)*scaleX,cy=r.top-stage.top+(b.y+b.h/2)*scaleY;
- root.hidden=false;root.style.left=cx+'px';root.style.top=cy+'px';root.style.width=Math.max(2,b.w*scaleX)+'px';root.style.height=Math.max(2,b.h*scaleY)+'px';root.style.setProperty('--measure-angle',(l.rotation||0)+'deg');root.style.setProperty('--measure-inverse',(-(l.rotation||0))+'deg');
+ root.hidden=false;root.style.left=cx+'px';root.style.top=cy+'px';root.style.width=Math.max(2,b.w*scaleX)+'px';root.style.height=Math.max(2,b.h*scaleY)+'px';root.style.setProperty('--measure-angle',(l.rotation||0)+'deg');root.style.setProperty('--measure-inverse',(-(l.rotation||0))+'deg');root.classList.toggle('measure-left',cx+b.w*scaleX/2+115>stage.width);root.classList.toggle('measure-below',cy-b.h*scaleY/2<62);
  $('fdDimWidth').textContent=Math.round(b.w)+' px';$('fdDimHeight').textContent=Math.round(b.h)+' px';
 }
 function bindDimensionEditor(){
@@ -1205,7 +1291,7 @@ function bindDimensionEditor(){
  const close=()=>dialog.close();$('fdDimensionsClose').onclick=close;$('fdMeasureCancel').onclick=close;
  $('fdDimensionsForm').addEventListener('submit',e=>{e.preventDefault();const l=selectedLayer(),b=currentBox(),c=$('editorCanvas');if(!l||!b||!state.dimensionStart||l.id!==state.dimensionStart.id){close();return;}
   const w=+width.value,h=+height.value;if(!(w>=1&&h>=1&&Number.isFinite(w)&&Number.isFinite(h))){toast('Ingrese dimensiones válidas.',true);return;}
-  pushHistory();l.width=clamp(w/c.width*100,1,200);if(l.type==='image'){l.lockRatio=lock.checked;if(!lock.checked)l.heightPct=clamp(h/c.height*100,0.1,200);else delete l.heightPct;}renderTemplate();renderEditor();close();toast('Dimensiones modificadas.');});
+  pushHistory();l.width=clamp(w/c.width*100,1,200);if(l.type==='image'){l.lockRatio=lock.checked;l.heightPct=clamp(h/c.height*100,0.1,200);}renderTemplate();renderEditor();close();toast('Dimensiones modificadas.');});
 }
 async function copySelectedToClipboard(){const l=selectedLayer();if(!l)return;
  try{if(l.type==='text'){if(!navigator.clipboard?.writeText)throw Error('Portapapeles no disponible');await navigator.clipboard.writeText(sourceText(l));toast('Texto copiado al portapapeles.');return;}
@@ -1227,7 +1313,7 @@ function bindDocumentMenu(){const b=$('editorMenuBtn'),nav=$('editorMenu');const
 }
 function setupEditorIcons(){
  const paths={undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 0 1 0 14"/>',redo:'<path d="m15 4 5 5-5 5"/><path d="M20 9h-9a7 7 0 0 0 0 14"/>',image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 6-5 4 3 3-4 5 6"/>',plus:'<path d="M12 4v16M4 12h16"/>',text:'<path d="M4 6V4h16v2M12 4v16m-4 0h8"/>',layers:'<path d="m12 2-9 5 9 5 9-5-9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/>',crop:'<path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/>',order:'<path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/>',duplicate:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',delete:'<path d="M4 6h16M9 6V4h6v2m3 0-1 14H7L6 6M10 10v7m4-7v7"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2m-3-5 1.5-1.5M5.5 18.5 7 17M7 7 5.5 5.5M18.5 18.5 17 17"/>',file:'<path d="M6 2h8l5 5v15H6zM14 2v6h5M9 14h7m-7 4h7"/>',background:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 14 15 3M10 21l11-11"/>',save:'<path d="M4 3h14l3 3v15H3V3h1Zm3 0v7h9V3M7 21v-8h10v8"/>',open:'<path d="M4 4h6l2 3h8v13H4V4Zm0 8h16"/>',export:'<path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"/>',close:'<path d="m5 5 14 14M19 5 5 19"/>',check:'<path d="m4 12 5 5L20 6"/>',circle:'<circle cx="12" cy="12" r="9"/>',rect:'<rect x="4" y="5" width="16" height="14" rx="1"/>',poly:'<path d="M12 3 22 12l-10 9L2 12Z"/>',pen:'<path d="m4 20 5-2 12-12-3-3L6 15l-2 5Z"/>',copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 16H3V3h13v2"/>',back:'<path d="M15 5 8 12l7 7M8 12h13"/>',forward:'<path d="m9 5 7 7-7 7M16 12H3"/>',trim:'<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2"/><path d="M8 8h8v8H8z"/>',minus:'<path d="M4 12h16"/>',alignLeft:'<path d="M4 5h16M4 10h10M4 15h16M4 20h10"/>',alignCenter:'<path d="M4 5h16M7 10h10M4 15h16M7 20h10"/>',alignRight:'<path d="M4 5h16M10 10h10M4 15h16M10 20h10"/>',clipboard:'<rect x="5" y="5" width="14" height="17" rx="2"/><path d="M9 5V3h6v2M9 12h6m-6 4h5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
- const list={toolUndo:'undo',toolRedo:'redo',toolInsert:'plus',toolAddImage:'image',toolAddText:'text',toolBackground:'background',toolBackgroundImport:'image',toolLayers:'layers',toolFiles:'file',toolCrop:'crop',toolOrder:'order',toolDuplicate:'duplicate',toolCopy:'clipboard',toolTextStyle:'text',toolProperties:'settings',toolDelete:'delete',toolBehind:'back',toolAhead:'forward',toolOrderClose:'close',toolCropAccept:'check',toolCropCancel:'close',toolCropClose:'close',toolCropClosePoly:'poly',toolTrim:'trim',toolSave:'save',toolOpen:'open',toolExport:'export',toolPDF:'file',toolWhite:'background',toolLastCamera:'image',toolInsertClose:'close',fdEditText:'pen',fdFormatClose:'close',fdTextDone:'check',fdTextCancel:'close',fdAlignleft:'alignLeft',fdAligncenter:'alignCenter',fdAlignright:'alignRight',fdZoomIn:'plus',fdZoomOut:'minus'};
+ const list={editorBack:'back',editorSettings:'settings',toolUndo:'undo',toolRedo:'redo',toolInsert:'plus',toolAddImage:'image',toolAddText:'text',toolBackground:'background',toolBackgroundImport:'image',toolLayers:'layers',toolFiles:'file',toolCrop:'crop',toolOrder:'order',toolDuplicate:'duplicate',toolCopy:'clipboard',toolTextStyle:'text',toolProperties:'settings',toolDelete:'delete',toolBehind:'back',toolAhead:'forward',toolOrderClose:'close',toolCropAccept:'check',toolCropCancel:'close',toolCropClose:'close',toolCropClosePoly:'poly',toolTrim:'trim',toolSave:'save',toolOpen:'open',toolExport:'export',toolPDF:'file',toolWhite:'background',toolLastCamera:'image',toolInsertClose:'close',fdEditText:'pen',fdFormatClose:'close',fdTextDone:'check',fdTextCancel:'close',fdAlignleft:'alignLeft',fdAligncenter:'alignCenter',fdAlignright:'alignRight',fdZoomIn:'plus',fdZoomOut:'minus'};
  document.querySelectorAll('[data-crop]').forEach(el=>{el.setAttribute('aria-label',el.getAttribute('aria-label')||el.title);el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">${paths[{rect:'rect',circle:'circle',free:'pen',poly:'poly'}[el.dataset.crop]]}</svg>`;});
  for(const [id,key] of Object.entries(list)){const el=$(id);if(!el)continue;if(id==='toolPDF'||id==='toolWhite'||id==='toolLastCamera'||id==='toolAddImage'||id==='toolAddText'){const label=el.textContent.trim();el.setAttribute('aria-label',label);el.title=label;}el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${paths[key]}</svg>`;}
 }
@@ -1236,7 +1322,16 @@ function bind(){
   $('goEdit').addEventListener('click',enterEditorFromCamera);$('goCapture').addEventListener('click',()=>{closeMenu();if(cameraReady())displayMode('capture');else startCamera();});
   for(const [btn,dialog] of [['settingsOpen','settingsDialog'],['editorSettings','settingsDialog'],['aboutOpen','aboutDialog'],['helpOpen','helpDialog']])$(btn).addEventListener('click',()=>openDialog(dialog));
   document.querySelectorAll('[data-close-dialog]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.closeDialog)));
-  $('legalLink').addEventListener('click',(e)=>{e.preventDefault();openDialog('legalDialog');const url=$('legalLink').getAttribute('href');$('legalFrame').src=url;const err=$('legalError');err.hidden=true;fetch(url,{method:'HEAD'}).then(r=>{if(!r.ok)err.hidden=false;}).catch(()=>{err.hidden=false;});});
+  $('legalLink').addEventListener('click',async(e)=>{e.preventDefault();openDialog('legalDialog');
+    const url=new URL($('legalLink').getAttribute('href'),document.baseURI),frame=$('legalFrame'),err=$('legalError'),loading=$('legalLoading');
+    $('legalFallback').href=url.href;frame.hidden=true;frame.removeAttribute('src');err.hidden=true;loading.hidden=false;
+    if(url.protocol==='file:'){loading.hidden=true;frame.src=url.href;frame.hidden=false;return;}
+    try{const r=await fetch(url.href,{method:'GET',cache:'no-store'}),type=r.headers.get('content-type')||'';
+      if(!r.ok||!/(text\/html|application\/xhtml\+xml)/i.test(type))throw Error('Respuesta incorrecta');
+      const body=await r.text();if(!/<html[\s>]/i.test(body)||!/(aviso legal|términos|privacidad|tratamiento de datos)/i.test(body))throw Error('Documento no reconocido');
+      if(!$('legalDialog').open)return;frame.src=url.href;frame.hidden=false;loading.hidden=true;
+    }catch{if($('legalDialog').open){loading.hidden=true;err.hidden=false;}}
+  });
   $('settingsDone').addEventListener('click',()=>{updateFromSettings();closeDialog('settingsDialog');});$('chooseFolder').addEventListener('click',chooseFolder);$('removeFolder').addEventListener('click',removeFolder);
   for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed'])$(k).addEventListener('change',updateFromSettings);
   $('logoUpload').addEventListener('change',async(e)=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Seleccione una imagen.',true);try{state.config.logoImg=await readDataURL(file);await cachedImage(state.config.logoImg);renderTemplate();renderEditor();toast('Logotipo personalizado incorporado.');}catch{toast('No se pudo leer el logotipo.',true);}e.target.value='';});
