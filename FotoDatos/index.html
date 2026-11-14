@@ -258,8 +258,8 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
 .editor-view{position:relative;overflow:hidden}.editor-header{position:relative;z-index:37}
 .fd-document-menu[hidden],.fd-crop-sense[hidden],.fd-measure-overlay[hidden]{display:none!important}
 .fd-document-menu{position:absolute;top:55px;right:58px;z-index:55;display:grid;gap:2px;width:max-content;max-width:calc(100vw - 20px);padding:9px;background:#13343deF;border:1px solid #94c9c8a6;border-radius:15px;box-shadow:0 15px 35px #061c27a6}
-.fd-document-menu button{text-align:left;min-width:150px;min-height:44px;background:transparent;border:0;padding:9px 17px;font-weight:650}
-.fd-document-menu button:hover,.fd-document-menu button:focus-visible{background:#39726d}
+.fd-document-menu button{display:flex;align-items:center;gap:8px;text-align:left;min-width:150px;min-height:44px;background:transparent;border:0;padding:9px 17px;font-weight:650}
+.fd-document-menu button svg{width:19px;height:19px;flex:0 0 19px}.fd-document-menu button:hover,.fd-document-menu button:focus-visible{background:#39726d}
 .editor-header #editorMenuBtn .fd-menu-symbol{width:25px;height:29px;flex:0 0 auto}.editor-header #editorMenuBtn{display:flex;align-items:center;gap:8px;background:var(--glass-bg);border:1px solid var(--glass-line);min-height:44px}
 .editor-header #editorBack{font-size:21px;min-height:44px;min-width:44px;border-radius:13px}
 .editor-float-bar button svg,.fd-text-tools button svg,.fd-zoom button svg{display:block;width:23px;height:23px;flex:none;stroke:currentColor}
@@ -327,7 +327,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
 }
 @media(prefers-reduced-motion:reduce){.float-main-row button,.float-subrow button{transition:none!important}}
 
-/* FotoDatos 0.8.2 (11) · Vista previa fiel y retorno junto a las herramientas. */
+/* FotoDatos 0.8.3 (12) · Vista previa fiel y retorno junto a las herramientas. */
 #captureMode .live-template{inset:0;overflow:hidden;pointer-events:none}
 #captureMode .camera-region{bottom:calc(126px + env(safe-area-inset-bottom,0px));height:auto!important}
 #captureMode .camera-visual>video{object-fit:contain!important}
@@ -355,6 +355,30 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
  #editorFloatBar .float-main-row button{flex-basis:42px!important;width:42px!important;height:44px!important}
  #editorFloatBar .float-main-row #toolInsert{flex-basis:44px!important;width:44px!important;height:48px!important}
 }
+
+/* FotoDatos 0.8.3: aviso breve, herramientas de recorte y editor multidocumento. */
+#captureMode .capture-notice{position:absolute;top:calc(env(safe-area-inset-top,0px) + 72px);bottom:auto;
+ left:auto;right:12px;max-width:min(242px,calc(100% - 24px));width:max-content;min-height:35px;
+ padding:5px 8px;font-size:12px;border-radius:10px;gap:6px;background:#0b3037e8;box-shadow:0 4px 12px #0005}
+#captureMode .capture-notice span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#captureMode .capture-notice #captureNoticeOpen{min-height:30px;padding:3px 7px;font-size:11px}
+#captureMode .capture-notice #captureNoticeClose{width:26px;min-width:26px;font-size:16px}
+@media(min-width:700px){#captureMode .capture-notice{top:calc(env(safe-area-inset-top,0px) + 80px)}}
+.fd-tabs{display:flex;align-items:center;gap:5px;background:#16323c;color:#f0fff9;padding:4px 10px;
+ max-width:100%;min-height:43px;overflow-x:auto;scrollbar-width:thin;white-space:nowrap}
+.fd-tab{display:flex;align-items:center;flex:0 0 auto;border-radius:10px;border:1px solid #799ea0;background:#18343c}
+.fd-tab[aria-selected=true]{background:#376d70;outline:1px solid #bdfff0}
+.fd-tab .fd-tab-activate{border:0;background:transparent;color:inherit;min-height:35px;max-width:165px;
+ font-size:12px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding:5px 8px}
+.fd-tab .fd-tab-close{border:0;background:transparent;color:inherit;min-height:35px;min-width:32px;padding:3px 7px;font-size:17px}
+.fd-tab-add{min-height:35px;min-width:38px;padding:0 8px;border-radius:9px;color:#dbfffa;background:#234d55}
+#fdSaveChoices[hidden]{display:none!important}
+#fdSaveChoices{display:grid;gap:2px;border-top:1px solid #668f9b;padding-top:4px}
+#fdSaveChoices button{padding-left:18px!important;font-size:12px}
+#editorMode .editor-body{min-height:0}
+@media(max-width:420px){.fd-tabs{padding:3px 6px;min-height:42px}.fd-tab .fd-tab-activate{max-width:122px}}
+@media print{.fd-tabs{display:none!important}}
+
 </style>
 </head>
 <body>
@@ -402,7 +426,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
       </div>
       <div id="captureNotice" class="capture-notice" role="status" aria-live="polite" hidden>
         <span id="captureNoticeText">Captura almacenada</span>
-        <button id="captureNoticeOpen" type="button">Ver archivos</button>
+        <button id="captureNoticeOpen" type="button">Archivos</button>
         <button id="captureNoticeClose" type="button" aria-label="Ocultar aviso">×</button>
       </div>
       <div id="storageSetup" class="storage-setup" hidden>
@@ -427,7 +451,8 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
       <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorMenuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="editorMenu" title="Menú"><svg class="fd-menu-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253 288" aria-hidden="true" focusable="false"><path d="M39 30 L96 49 M150 49 L208 30" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/><path d="M123 260 L123 180 C121 160 81 137 56 103 C40 81 30 52 28 32 M123 180 C129 157 165 133 188 103 C207 79 216 52 220 32" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 49 A31 19 0 1 0 92 49 A31 19 0 1 0 154 49 Z M133 49 A10 10 0 1 0 113 49 A10 10 0 1 0 133 49 Z M105.2 48 A4.2 4.2 0 1 0 96.8 48 A4.2 4.2 0 1 0 105.2 48 Z M151.2 48 A4.2 4.2 0 1 0 142.8 48 A4.2 4.2 0 1 0 151.2 48 Z" fill="currentColor" fill-rule="evenodd"/></svg><span class="editor-menu-label">Menú</span></button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
       <nav id="editorMenu" class="fd-document-menu" aria-label="Menú de documento" hidden>
   <button type="button" id="fdMenuNew">Nuevo</button><button type="button" id="fdMenuOpen">Abrir</button><button type="button" id="fdMenuInsert">Insertar</button><button type="button" id="fdMenuSave">Guardar</button><button type="button" id="fdMenuClose">Cerrar</button>
- </nav><div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
+ <div id="fdSaveChoices" hidden role="group" aria-label="Formato de guardado"><button id="fdSaveNative" type="button">Proyecto editable · .fotodatos</button><button id="fdSaveHtml" type="button">Plantilla HTML · .html</button></div>
+ </nav><nav id="fdDocumentTabs" class="fd-tabs" role="tablist" aria-label="Plantillas abiertas"><button id="fdTabAdd" type="button" class="fd-tab-add" aria-label="Crear plantilla nueva" title="Nueva plantilla">+</button></nav><div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
 <div id="fdTextTools" class="fd-text-tools" role="toolbar" aria-label="Formato del texto seleccionado" hidden>
  <button id="fdEditText" type="button" title="Escribir o editar" aria-label="Editar texto">✎</button>
  <button type="button" id="fdFormatClose" title="Cerrar formato" aria-label="Cerrar formato">×</button>
@@ -459,14 +484,14 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
             <button id="toolFiles" type="button" aria-expanded="false" title="Archivo" aria-label="Archivo">▣</button>
             <button id="toolRedo" type="button" title="Rehacer" aria-label="Rehacer">↷</button>
           </div>
-          <div id="toolInsertSub" class="float-subrow" hidden><button id="toolAddImage" type="button">▧ Imagen</button><button id="toolAddText" type="button">T Texto</button><button id="toolInsertClose" type="button" aria-label="Cerrar inserción">×</button></div>
+          <div id="toolInsertSub" class="float-subrow" hidden><button id="toolAddImage" type="button">▧ Imagen</button><button id="toolAddText" type="button">T Texto</button><button id="toolInsertClose" type="button" aria-label="Cerrar inserción">×</button><button id="fdInsertNative" type="button" aria-label="Insertar elementos de otro proyecto" title="Insertar proyecto .fotodatos"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10l5 5v11H4zM14 4v5h5M12 12v7m-3-3.5h6"/></svg></button></div>
           <div id="toolBackgroundSub" class="float-subrow" hidden><button id="toolBackgroundImport" type="button" title="Importar imagen como fondo" aria-label="Importar fondo">▧</button><label>Color <input id="editorBgColor" type="color" value="#ffffff" aria-label="Color de fondo"></label><button id="toolLastCamera" type="button">Última vista</button><button id="toolWhite" type="button">Blanco</button></div>
           <div id="toolFileSub" class="float-subrow" hidden><button id="toolSave" type="button">Guardar</button><button id="toolOpen" type="button">Abrir</button><button id="toolExport" type="button">PNG</button><button id="toolPDF" type="button">PDF</button></div>
           <div id="toolSelectedBar" class="float-subrow selected-controls" hidden>
             <button id="toolCrop" type="button" title="Recortar imagen" aria-label="Recortar imagen">✂</button><button id="toolOrder" type="button" title="Ordenar capas" aria-label="Ordenar capas">⇅</button><button id="toolDuplicate" type="button" title="Duplicar selección" aria-label="Duplicar selección">▢▢</button><button id="toolCopy" type="button" title="Copiar selección" aria-label="Copiar selección">⧉</button><button id="toolTextStyle" type="button" title="Formato de texto" aria-label="Formato de texto">T</button><button id="toolProperties" type="button" title="Propiedades" aria-label="Propiedades">⚙</button><button id="toolDelete" type="button" title="Eliminar" aria-label="Eliminar">⌫</button>
           </div>
           <div id="toolOrderSub" class="float-subrow" hidden><button id="toolBehind" type="button">← Atrás</button><button id="toolAhead" type="button">Adelante →</button><button id="toolOrderClose" type="button">Cerrar</button></div>
-          <div id="toolCropSub" class="float-subrow" hidden><button data-crop="rect" type="button" aria-label="Recorte rectangular" title="Rectángulo">▭</button><button data-crop="circle" type="button" aria-label="Recorte circular" title="Círculo">◯</button><button data-crop="free" type="button" aria-label="Recorte a mano alzada" title="Mano alzada">✎</button><button data-crop="poly" type="button" aria-label="Recorte poligonal" title="Polígono">◇</button><button id="toolTrim" type="button" title="Recortar bordes transparentes" aria-label="Ajustar a píxeles visibles">◫</button><button id="toolCropClose" type="button" aria-label="Salir del menú de recorte" title="Cerrar">×</button></div>
+          <div id="toolCropSub" class="float-subrow" hidden><button data-crop="rect" type="button" aria-label="Recorte rectangular" title="Rectángulo">▭</button><button data-crop="circle" type="button" aria-label="Recorte circular" title="Círculo">◯</button><button data-crop="ellipse" type="button" aria-label="Recorte elíptico" title="Elipse">◯</button><button data-crop="free" type="button" aria-label="Recorte a mano alzada" title="Mano alzada">✎</button><button data-crop="poly" type="button" aria-label="Recorte poligonal" title="Polígono">◇</button><button id="toolTrim" type="button" title="Recortar bordes transparentes" aria-label="Ajustar a píxeles visibles">◫</button><button id="toolCropClose" type="button" aria-label="Salir del menú de recorte" title="Cerrar">×</button></div>
           
           <div id="toolCropFinish" class="float-subrow" hidden><button id="toolCropClosePoly" type="button" aria-label="Cerrar polígono" title="Cerrar polígono">◇</button><button id="toolCropAccept" type="button" aria-label="Aplicar recorte" title="Aplicar recorte">✓</button><button id="toolCropCancel" type="button" aria-label="Cancelar recorte" title="Cancelar recorte">×</button></div>
           
@@ -476,6 +501,8 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
     </section>
   </div>
   <dialog id="fdDimensionsDialog" class="app-dialog fd-dim-dialog" aria-labelledby="fdDimensionsTitle"><form method="dialog" id="fdDimensionsForm"><div class="dialog-head"><h2 id="fdDimensionsTitle">Dimensiones de imagen</h2><button type="button" id="fdDimensionsClose" aria-label="Cerrar dimensiones">×</button></div><div class="fd-dim-body"><div class="fd-dim-fields"><label>Ancho (px)<input type="number" id="fdMeasureW" inputmode="decimal" min="1" step="1" required></label><label>Alto (px)<input type="number" id="fdMeasureH" inputmode="decimal" min="1" step="1" required></label></div><label class="fd-aspect-label"><input type="checkbox" id="fdMeasureLock" checked> Mantener proporción</label><p>Medidas de la imagen dentro del lienzo. No representan dimensiones físicas calibradas.</p><div class="fd-dialog-actions"><button type="button" id="fdMeasureCancel">Cancelar</button><button type="submit" class="primary">Aplicar</button></div></div></form></dialog>
+  <dialog id="fdCloseDialog" class="app-dialog" aria-labelledby="fdCloseTitle"><div class="dialog-head"><h2 id="fdCloseTitle">Cambios pendientes</h2></div><div class="settings-content"><p>¿Qué desea hacer con esta plantilla antes de cerrarla?</p><div class="settings-actions"><button id="fdCloseSave" class="primary" type="button">Guardar</button><button id="fdCloseDiscard" type="button">Descartar</button><button id="fdCloseCancel" type="button">Cancelar</button></div></div></dialog>
+  <dialog id="fdDropDialog" class="app-dialog" aria-labelledby="fdDropTitle"><div class="dialog-head"><h2 id="fdDropTitle">Archivo de plantilla</h2></div><div class="settings-content"><p>¿Desea abrir el archivo en otra pestaña o insertar sus elementos en la plantilla actual?</p><div class="settings-actions"><button id="fdDropOpen" type="button" class="primary">Abrir</button><button id="fdDropInsert" type="button">Insertar</button><button id="fdDropCancel" type="button">Cancelar</button></div></div></dialog>
   <dialog id="settingsDialog" class="app-dialog"><div class="dialog-head"><h2>Configuración</h2><button data-close-dialog="settingsDialog" aria-label="Cerrar" type="button">×</button></div><div class="settings-content">
     <div class="settings-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg><div><strong>FotoDatos</strong><small>por Arley Zarate</small></div></div>
     <fieldset><legend>Plantilla predeterminada</legend><label class="check"><input id="showLogo" type="checkbox" checked> Logotipo superior</label><label class="check"><input id="showDate" type="checkbox" checked> Fecha real</label><label class="check"><input id="showGPS" type="checkbox" checked> Coordenadas GPS</label><label class="check"><input id="showID" type="checkbox" checked> Identificador</label><label class="check"><input id="showNorth" type="checkbox"> Norte, si está disponible</label></fieldset>
@@ -485,6 +512,15 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
       <p class="hint">La imagen con plantilla se guardará en la carpeta autorizada y el original en «Original». Puede desactivar una de las dos versiones aquí.</p>
       <p class="hint">No tendrá que descargar cada fotografía. El guardado se realiza directamente en el dispositivo cuando la carpeta conserve autorización.</p>
     </fieldset>
+
+    <fieldset><legend>Formato de fotografía con plantilla</legend>
+      <div class="settings-row"><label>Formato
+        <select id="imageFormat"><option value="image/webp">WebP · recomendado</option><option value="image/jpeg">JPEG · compatible</option><option value="image/png">PNG · sin pérdida</option></select>
+      </label><label>Calidad de compresión <span id="qualityLabel">94 %</span>
+        <input id="imageQuality" type="range" min="75" max="100" value="94" step="1" aria-label="Calidad de las imágenes con plantilla">
+      </label></div>
+      <p class="hint" id="formatHint">WebP admite transparencia y reduce el peso. El archivo original de la cámara se conserva sin conversión. PNG no utiliza el control de calidad.</p>
+    </fieldset>
     <fieldset class="storage-card"><legend>Destino de almacenamiento</legend>
       <div class="storage-state"><span class="storage-symbol" aria-hidden="true">▣</span><div><strong id="storageRoute">Este dispositivo / Navegador / FotoDatos</strong><small id="storageStatus" aria-live="polite">Revisando acceso a la carpeta…</small></div></div>
       <div class="storage-buttons"><button id="chooseFolder" type="button">Elegir carpeta de destino</button><button id="removeFolder" type="button" hidden>Desvincular carpeta</button></div>
@@ -493,8 +529,8 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.2 (11)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
-  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.3 (12)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. El formato con plantilla inicia en WebP y puede cambiarse a JPEG o PNG en Configuración. Nuevo y Abrir crean pestañas independientes; Guardar permite un archivo editable .fotodatos o HTML con vista incorporada y datos de la plantilla. Insertar agrega elementos al documento actual. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><p id="legalLoading" class="hint" aria-live="polite">Cargando aviso legal…</p><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin" hidden></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal. <a id="legalFallback" href="./aviso-legal.html" target="_blank" rel="noopener">Abrir aviso legal</a></p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
     <header class="workspace-header"><h2>Mis capturas</h2><button id="filesBack" type="button">Volver</button></header>
@@ -521,14 +557,14 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <input id="backgroundInput" type="file" accept="image/*" hidden>
   <input id="layerImageInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
-  <input id="projectInput" type="file" accept=".fotodatos,application/json" hidden>
-  <script>/* FotoDatos 0.8.2 (11) | 14 nov. 2026 | Vista previa fiel y retorno inferior */
+  <input id="projectInput" type="file" accept=".fotodatos,.html,application/json,text/html" hidden><input id="insertProjectInput" type="file" accept=".fotodatos,.html,application/json,text/html" hidden>
+  <script>/* FotoDatos 0.8.3 (12) | 14 nov. 2026 | Geometría consistente y documentos independientes */
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.8.2';
-const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
-const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null,previewOrientationTimer:0};
+const VERSION = '0.8.3';
+const DEFAULTS = {imageFormat:'image/webp',imageQuality:94,prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
+const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null,previewOrientationTimer:0,documents:[],activeDocumentId:null,documentCounter:0};
 // Los rótulos predeterminados son capas editables, no pintura fija.
 function initialDefaults(){return [
  {id:'fd-logo',type:'logo',label:'Logotipo FotoDatos',x:3.2,y:3.2,width:28,rotation:0,order:-5},
@@ -557,10 +593,10 @@ function closeMenu(returnFocus=false){$('menuPanel').hidden=true;$('menuButton')
 function showMenu(){$('menuPanel').hidden=false;$('menuButton').setAttribute('aria-expanded','true');}
 function openDialog(id){closeMenu();const dialog=$(id);if(dialog.open)return;dialog.showModal();}
 function closeDialog(id){const dialog=$(id);if(dialog.open)dialog.close();}
-function saveLocal(){try{const {logoImg,imageLayers,textLayers,...prefs}=state.config;localStorage.setItem('fotodatos-prefs',JSON.stringify(prefs));}catch{} }
-function restoreLocal(){try{const v=JSON.parse(localStorage.getItem('fotodatos-prefs')||'{}');const keys=['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'];for(const k of keys)if(typeof v[k]===typeof DEFAULTS[k])state.config[k]=v[k];}catch{} }
-function syncSettings(){for(const k of ['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])$(k)[$(k).type==='checkbox'?'checked':'value']=state.config[k];}
-function updateFromSettings(){if(!$('saveOriginal').checked && !$('saveComposed').checked){$('saveComposed').checked=true;toast('Debe conservarse al menos una versión.',true);}for(const k of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])state.config[k]=$(k).checked;state.config.prefix=cleanName($('prefix').value)||'fotodatos';state.config.suffix=cleanName($('suffix').value);state.config.counter=Math.min(999999,Math.max(1,Math.floor(Number($('counter').value)||1)));state.config.saveBrowser=false;syncSettings();saveLocal();renderTemplate();renderEditor();}
+function saveLocal(){try{const {logoImg,imageLayers,textLayers,defaultLayers,...prefs}=state.config;localStorage.setItem('fotodatos-prefs',JSON.stringify(prefs));}catch{} }
+function restoreLocal(){try{const v=JSON.parse(localStorage.getItem('fotodatos-prefs')||'{}');const keys=['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','imageFormat','imageQuality'];for(const k of keys)if(typeof v[k]===typeof DEFAULTS[k])state.config[k]=v[k];}catch{} }
+function syncSettings(){for(const k of ['prefix','suffix','counter','showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed','imageFormat','imageQuality'])$(k)[$(k).type==='checkbox'?'checked':'value']=state.config[k];syncFormatHint();}
+function updateFromSettings(){if(!$('saveOriginal').checked && !$('saveComposed').checked){$('saveComposed').checked=true;toast('Debe conservarse al menos una versión.',true);}for(const k of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])state.config[k]=$(k).checked;state.config.prefix=cleanName($('prefix').value)||'fotodatos';state.config.suffix=cleanName($('suffix').value);state.config.counter=Math.min(999999,Math.max(1,Math.floor(Number($('counter').value)||1)));state.config.imageFormat=['image/webp','image/jpeg','image/png'].includes($('imageFormat').value)?$('imageFormat').value:'image/webp';state.config.imageQuality=clamp(Math.round(+$('imageQuality').value||94),75,100);state.config.saveBrowser=false;syncSettings();saveLocal();renderTemplate();renderEditor();}
 function resetSessionResult(){state.resultUrls.forEach((u)=>URL.revokeObjectURL(u));state.resultUrls=[];}
 function assignCameraStatus(msg){$('cameraStatus').textContent=msg;}
 function cameraReady(){return !!(state.stream?.getVideoTracks().find(t=>t.readyState==='live') && $('cameraVideo').videoWidth>0);}
@@ -691,7 +727,8 @@ function drawElements(ctx,w,h,hitboxes=null,config=state.config,opts={}){
    if(img)ctx.drawImage(img,0,0,iw,iw);else{ctx.fillStyle='#103540ca';roundRect(ctx,0,0,iw,iw,iw*.17);ctx.fill();ctx.strokeStyle='#7ff6d5';ctx.lineWidth=Math.max(2,iw*.05);ctx.strokeRect(iw*.2,iw*.2,iw*.6,iw*.6);ctx.beginPath();ctx.arc(iw*.5,iw*.5,iw*.17,0,Math.PI*2);ctx.stroke();}
    ctx.font=`750 ${iw*.49}px system-ui,sans-serif`;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle='#ffffff';ctx.fillText(txt,iw*1.15,iw*.52);box={id:l.id,x,y,w:iw*1.2+ctx.measureText(txt).width,h:iw,rotation:l.rotation||0};
   }else if(l.type==='image'){
-   const img=state.images.get(l.src);if(img){const source=validSourceBox(l),iw=w*(l.width||25)/100,ih=Number.isFinite(l.heightPct)&&l.heightPct>0?h*l.heightPct/100:iw*img.height*source[3]/(img.width*source[2]);
+   const img=state.images.get(l.src);if(img){const source=validSourceBox(l),design=l.referenceSize||editorDims(),dw=Math.max(1,design[0]),dh=Math.max(1,design[1]),fit=Math.min(w/dw,h/dh);
+    const iw=dw*(l.width||25)/100*fit,ih=Number.isFinite(l.heightPct)&&l.heightPct>0?dh*l.heightPct/100*fit:iw*img.height*source[3]/(img.width*source[2]);
     ctx.translate(x+iw/2,y+ih/2);ctx.rotate((Number(l.rotation)||0)*Math.PI/180);ctx.translate(-iw/2,-ih/2);ctx.globalAlpha=clamp(Number.isFinite(l.opacity)?l.opacity:1,0,1);
     if(Array.isArray(l.cropSteps))for(const step of l.cropSteps){if(!Array.isArray(step.points)||step.points.length<3)continue;ctx.beginPath();if(step.inverse)ctx.rect(0,0,iw,ih);step.points.forEach((p,i)=>{const a=clamp(+p[0],-3,4)*iw,b=clamp(+p[1],-3,4)*ih;i?ctx.lineTo(a,b):ctx.moveTo(a,b)});ctx.closePath();ctx.clip(step.inverse?'evenodd':'nonzero');}
     ctx.drawImage(img,source[0]*img.width,source[1]*img.height,source[2]*img.width,source[3]*img.height,0,0,iw,ih);box={id:l.id,x,y,w:iw,h:ih,rotation:l.rotation||0};
@@ -720,7 +757,7 @@ function drawEditorSelection(ctx){const b=state.hitboxes.find(h=>h.id===state.se
   for(const [cx,cy] of [[-b.w/2,-b.h/2],[b.w/2,-b.h/2],[-b.w/2,b.h/2],[b.w/2,b.h/2]]){ctx.fillRect(cx-r/2,cy-r/2,r,r);ctx.strokeRect(cx-r/2,cy-r/2,r,r)}ctx.beginPath();ctx.arc(0,-b.h/2-r*2,r/2,0,2*Math.PI);ctx.fill();ctx.stroke();
  }else{ctx.strokeRect(b.x,b.y,b.w,b.h);}ctx.restore();}
 function drawCropPreview(ctx){const d=state.cropDraft;if(!d||!d.points?.length)return;const b=state.hitboxes.find(h=>h.id===state.selected);if(!b)return;
- ctx.save();ctx.lineWidth=Math.max(2,Math.min(ctx.canvas.width,ctx.canvas.height)*.003);ctx.strokeStyle=state.cropInverse?'#ffc19a':'#ffe18b';ctx.fillStyle=state.cropInverse?'#d43f5b2d':'#ffe18b29';ctx.shadowColor='#09292c';ctx.shadowBlur=5;ctx.setLineDash([10,6]);ctx.beginPath();d.points.forEach(([nx,ny],i)=>{const x=nx*ctx.canvas.width,y=ny*ctx.canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});if(d.closed||d.type!=='poly')ctx.closePath();ctx.stroke();if(d.closed)ctx.fill();ctx.setLineDash([]);const r=Math.max(ctx.canvas.width*.007,7);const visible=d.type==='circle'?d.points.filter((p,i)=>i%6===0):d.type==='free'?d.points.filter((p,i)=>i%Math.max(1,Math.ceil(d.points.length/16))===0):d.points;for(const p of visible){ctx.beginPath();ctx.arc(p[0]*ctx.canvas.width,p[1]*ctx.canvas.height,r,0,Math.PI*2);ctx.fillStyle='#dffff6';ctx.fill();ctx.strokeStyle='#225b6c';ctx.stroke();}ctx.restore();}
+ ctx.save();ctx.lineWidth=Math.max(2,Math.min(ctx.canvas.width,ctx.canvas.height)*.003);ctx.strokeStyle=state.cropInverse?'#ffc19a':'#ffe18b';ctx.fillStyle=state.cropInverse?'#d43f5b2d':'#ffe18b29';ctx.shadowColor='#09292c';ctx.shadowBlur=5;ctx.setLineDash([10,6]);ctx.beginPath();d.points.forEach(([nx,ny],i)=>{const x=nx*ctx.canvas.width,y=ny*ctx.canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});if(d.closed||d.type!=='poly')ctx.closePath();ctx.stroke();if(d.closed)ctx.fill();ctx.setLineDash([]);const r=Math.max(ctx.canvas.width*.007,7);const visible=(d.type==='circle'||d.type==='ellipse')?d.points.filter((p,i)=>i%12===0):d.type==='free'?d.points.filter((p,i)=>i%Math.max(1,Math.ceil(d.points.length/16))===0):d.points;for(const p of visible){ctx.beginPath();ctx.arc(p[0]*ctx.canvas.width,p[1]*ctx.canvas.height,r,0,Math.PI*2);ctx.fillStyle='#dffff6';ctx.fill();ctx.strokeStyle='#225b6c';ctx.stroke();}ctx.restore();}
 function renderEditor(){applyEditorView();const canvas=$('editorCanvas');if(!canvas)return;const [w,h]=editorDims();if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;
  const ctx=canvas.getContext('2d',{alpha:false}),hits=[];compose(ctx,w,h,state.background?.image||null,{backgroundColor:state.editorBgColor},hits);state.hitboxes=hits;drawEditorSelection(ctx);drawCropPreview(ctx);renderLayersListOnly();refreshEditToolbar();positionTextTools();renderMeasures();}
 function renderLayersListOnly(){const list=$('layersList');list.replaceChildren();const layers=getDrawElements();
@@ -741,11 +778,23 @@ function addText(x,y,immediate=true){const c=$('editorCanvas');if(!Number.isFini
  const l={id:nextId(),type:'text',text:'',label:'Texto',color:state.background?'#ffffff':'#173d4b',fontPct:4.3,fontFamily:'sans',bold:false,italic:false,align:'left',x:clamp(x,1,98),y:clamp(y,1,96),order:Math.max(0,...getDrawElements().map(x=>x.order||0))+1};
  state.config.textLayers.push(l);selectLayer(l.id);renderTemplate();if(immediate)beginTextEdit(l,true);
 }
-async function addLayerImage(file){if(!file||!file.type.startsWith('image/'))return;try{const src=await readDataURL(file);const img=await cachedImage(src);if(!img)throw Error();pushHistory();const l={id:nextId(),type:'image',src,width:25,x:15,y:30,order:Math.max(0,...getDrawElements().map(x=>x.order||0))+1,cropSteps:[],rotation:0};state.config.imageLayers.push(l);selectLayer(l.id);renderTemplate();}catch{toast('No se pudo incorporar la imagen.',true);}}
+async function addLayerImage(file){if(!file||!file.type.startsWith('image/'))return;try{const src=await readDataURL(file);const img=await cachedImage(src);if(!img)throw Error();pushHistory();const l={id:nextId(),type:'image',src,width:25,x:15,y:30,order:Math.max(0,...getDrawElements().map(x=>x.order||0))+1,cropSteps:[],rotation:0,referenceSize:editorDims()};state.config.imageLayers.push(l);selectLayer(l.id);renderTemplate();}catch{toast('No se pudo incorporar la imagen.',true);}}
 async function importBackground(file){if(!file||!file.type.startsWith('image/')){toast('Seleccione una imagen válida.',true);return;}try{const src=await readDataURL(file),im=await cachedImage(src);if(!im)throw Error();pushHistory();state.background={src,image:im,name:file.name};state.editorSize=[im.naturalWidth,im.naturalHeight];displayMode('edit');renderEditor();toast(`Imagen importada: ${im.naturalWidth} × ${im.naturalHeight}`);}catch{toast('No se pudo abrir la fotografía.',true);}}
 function exportCanvasBlob(canvas,type='image/png',quality=.95){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('El navegador no pudo exportar la imagen.')),type,quality));}
+function syncFormatHint(){const f=$('imageFormat')?.value||'image/webp',q=$('imageQuality');if(!q)return;
+ q.disabled=f==='image/png';$('qualityLabel').textContent=f==='image/png'?'Sin pérdida':`${q.value} %`;
+ $('formatHint').textContent=f==='image/png'?'PNG guarda los píxeles sin pérdida, pero suele pesar más.':f==='image/jpeg'?'JPEG tiene amplia compatibilidad. La imagen de cámara se conserva sin conversión.':'WebP ofrece buena compresión y admite transparencias. Si no se puede codificar, se utiliza JPEG.';
+}
+async function exportConfiguredPhoto(canvas,format=state.config.imageFormat,quality=state.config.imageQuality){
+ const mime=['image/webp','image/jpeg','image/png'].includes(format)?format:'image/webp';
+ const blob=await exportCanvasBlob(canvas,mime,clamp((Number(quality)||94)/100,.75,1));
+ if(blob.type===mime)return blob;
+ if(mime==='image/webp'){const fallback=await exportCanvasBlob(canvas,'image/jpeg',clamp((Number(quality)||94)/100,.75,1));if(fallback.type==='image/jpeg')return fallback;}
+ if(blob.type==='image/png')return blob;
+ throw Error('La codificación solicitada no está disponible.');
+}
 function getExt(type){if(/png/i.test(type))return 'png';if(/webm/i.test(type))return 'webm';if(/mp4/i.test(type))return 'mp4';if(/webp/i.test(type))return 'webp';return 'jpg';}
-function notice(text){const el=$('captureNotice');$('captureNoticeText').textContent=text;el.hidden=false;clearTimeout(state.noticeTimer);state.noticeTimer=setTimeout(()=>el.hidden=true,6500);}
+function notice(text){const el=$('captureNotice');$('captureNoticeText').textContent=text;el.hidden=false;clearTimeout(state.noticeTimer);state.noticeTimer=setTimeout(()=>el.hidden=true,3500);}
 function openWorkspace(id,origin){closeMenu();$('toast').hidden=true;clearTimeout(state.toastTimer);if(state.record){toast('Detenga primero la grabación.',true);return;}if(id==='filesView'){state.fileOrigin=origin||state.mode;renderFiles();}else{state.mapOrigin=origin||state.mode;state.mapLocation=state.position?{...state.position}:null;state.mapCenter=state.mapLocation?{...state.mapLocation}:null;state.mapZoom=16.2;state.mapDirty=false;state.mapTouches.clear();state.mapTileNodes.clear();state.mapLoaded=false;state.mapTileErrors=0;state.mapBaseLoaded=0;state.mapDetailLoaded=0;state.mapWantsDetail=false;clearTimeout(state.mapFallbackTimer);state.mapFallbackTimer=setTimeout(()=>{if(!$('mapView').hidden&&!state.mapLoaded){$('mapConnection').hidden=false;$('mapLoading').hidden=true;}},8500);state.mapBaseNodes.clear();$('mapBase').replaceChildren();$('mapLoading').hidden=false;$('mapConnection').hidden=true;$('mapTiles').replaceChildren();}$(id).hidden=false;if(id==='mapView')queueMapDraw(true);}
 function closeWorkspace(id){$(id).hidden=true;if(id==='mapView'){clearTimeout(state.mapFallbackTimer);cancelAnimationFrame(state.mapFrame);state.mapFrame=0;state.mapTouches.clear();}}
 function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Almacenamiento no disponible'));const req=indexedDB.open('FotoDatosArchivos',3);req.onupgradeneeded=()=>{const db=req.result;const hadCapturas=db.objectStoreNames.contains('capturas');if(!hadCapturas)db.createObjectStore('capturas',{keyPath:'id'});if(!db.objectStoreNames.contains('preferencias'))db.createObjectStore('preferencias');if(!db.objectStoreNames.contains('indice')){const idx=db.createObjectStore('indice',{keyPath:'id'});if(hadCapturas){const cur=req.transaction.objectStore('capturas').openCursor();cur.onsuccess=()=>{const c=cur.result;if(c){idx.put(toSummary(c.value));c.continue();}};}}};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
@@ -949,6 +998,28 @@ async function enrichImageMetadata(blob,info){
   const chunk=new Uint8Array(12+tiff.length),v=new DataView(chunk.buffer);v.setUint32(0,tiff.length);chunk.set(body,4);v.setUint32(8+tiff.length,crc32(body.buffer));
   return new Blob([raw.slice(0,33),chunk,raw.slice(33)],{type:'image/png'});
  }
+ // Metadatos EXIF en WebP: RIFF extendido según el contenedor oficial.
+ if(raw.length>30&&String.fromCharCode(...raw.slice(0,4))==='RIFF'&&String.fromCharCode(...raw.slice(8,12))==='WEBP'){
+  try{
+   const signature=p=>String.fromCharCode(...raw.slice(p,p+4)),v=new DataView(raw.buffer,raw.byteOffset,raw.byteLength);
+   const first=signature(12);let prefix=new Uint8Array(0);
+   if(first==='VP8X'){
+    prefix=raw.slice();prefix[20]|=0x08;
+   }else if(first==='VP8 '||first==='VP8L'){
+    const start=20;let w=0,h=0;
+    if(first==='VP8 '){w=(raw[start+6]|raw[start+7]<<8)&0x3fff;h=(raw[start+8]|raw[start+9]<<8)&0x3fff;}
+    else{w=1+(raw[start+1]|((raw[start+2]&63)<<8));h=1+((raw[start+2]>>6)|(raw[start+3]<<2)|((raw[start+4]&15)<<10));}
+    if(w<1||h<1||w>16383||h>16383)return blob;
+    const vp8x=new Uint8Array(18);vp8x.set([86,80,56,88,10,0,0,0,8],0);
+    for(let i=0;i<3;i++){vp8x[12+i]=((w-1)>>(8*i))&255;vp8x[15+i]=((h-1)>>(8*i))&255;}
+    prefix=new Uint8Array(raw.length+18);prefix.set(raw.slice(0,12));prefix.set(vp8x,12);prefix.set(raw.slice(12),30);
+   }else return blob;
+   const tiff=metadataTIFF(null,info),payload=new Uint8Array(6+tiff.length);payload.set([69,120,105,102,0,0]);payload.set(tiff,6);
+   const pad=payload.length%2,exif=new Uint8Array(8+payload.length+pad),dv=new DataView(exif.buffer);exif.set([69,88,73,70]);dv.setUint32(4,payload.length,true);exif.set(payload,8);
+   const done=new Uint8Array(prefix.length+exif.length);done.set(prefix);done.set(exif,prefix.length);new DataView(done.buffer).setUint32(4,done.length-8,true);
+   return new Blob([done],{type:'image/webp'});
+  }catch{return blob;}
+ }
  return blob;
 }
 
@@ -968,21 +1039,31 @@ async function makePhoto(){
   const meta={name,date:stamp,position,manual};
   const saved=await enrichImageMetadata(original,meta);
   if(snapshot.saveOriginal){await writeDisk(saved,`${name}_original.${getExt(saved.type)}`,true);}
-  state.config.counter++;syncSettings();saveLocal();renderTemplate();
-  notice(snapshot.saveOriginal?'Original guardado · Preparando plantilla':'Captura recibida · Preparando plantilla');
-  if(snapshot.saveComposed){state.photoQueue.push({original:saved,name,date:stamp,config:snapshot,gpsLabel,northLabel,meta});processPhotoQueue();}
+  state.config.counter++;for(const doc of state.documents)doc.config.counter=state.config.counter;syncSettings();saveLocal();renderTemplate();
+  notice(snapshot.saveOriginal?'Original guardado':'Procesando…');
+  if(snapshot.saveComposed){const live=$('cameraVideo'),previewRatio=live.videoWidth>0&&live.videoHeight>0?live.videoWidth/live.videoHeight:null;state.photoQueue.push({original:saved,name,date:stamp,config:snapshot,gpsLabel,northLabel,meta,previewRatio});processPhotoQueue();}
  }catch(e){toast(`No se guardó la fotografía: ${e.message}`,true);}finally{$('shutter').disabled=false;}
 }
 async function processPhotoQueue(){if(state.photoWorking)return;state.photoWorking=true;
  try{while(state.photoQueue.length){const task=state.photoQueue.shift();try{
   const image=await createImageBitmap(task.original);
   for(const src of [task.config.logoImg,...task.config.imageLayers.map(x=>x.src)].filter(Boolean))await cachedImage(src);
-  const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
-  compose(canvas.getContext('2d',{alpha:false}),canvas.width,canvas.height,image,{date:task.date,id:task.name,config:task.config,gpsLabel:task.gpsLabel,northLabel:task.northLabel});
-  const png=await exportCanvasBlob(canvas,'image/png');image.close?.();canvas.width=canvas.height=1;
-  const tagged=await enrichImageMetadata(png,task.meta);
-  await writeDisk(tagged,`${task.name}.png`,false);
-  notice(`Fotografía ${task.name} guardada con plantilla.`);
+  // El compuesto conserva el mismo encuadre que la cámara previa a la toma.
+  // Solo se recorta el compuesto; el archivo original se conserva íntegro.
+  const goal=Number(task.previewRatio),nativeRatio=image.width/image.height;
+  let cropW=image.width,cropH=image.height;
+  if(Number.isFinite(goal)&&goal>.2&&goal<5&&Math.abs(nativeRatio-goal)/goal>.01){
+   if(nativeRatio>goal)cropW=Math.max(1,Math.round(image.height*goal));
+   else cropH=Math.max(1,Math.round(image.width/goal));
+  }
+  const framed=document.createElement('canvas');framed.width=cropW;framed.height=cropH;
+  framed.getContext('2d',{alpha:false}).drawImage(image,(image.width-cropW)/2,(image.height-cropH)/2,cropW,cropH,0,0,cropW,cropH);
+  const canvas=document.createElement('canvas');canvas.width=cropW;canvas.height=cropH;
+  compose(canvas.getContext('2d',{alpha:false}),canvas.width,canvas.height,framed,{date:task.date,id:task.name,config:task.config,gpsLabel:task.gpsLabel,northLabel:task.northLabel});
+  const encoded=await exportConfiguredPhoto(canvas,task.config.imageFormat,task.config.imageQuality);image.close?.();canvas.width=canvas.height=1;
+  const tagged=await enrichImageMetadata(encoded,task.meta);
+  await writeDisk(tagged,`${task.name}.${getExt(tagged.type)}`,false);
+  notice(`Guardada · ${task.name}`);
  }catch(e){toast(`No se guardó la plantilla de ${task.name}: ${e.message}`,true);}}
  }finally{state.photoWorking=false;}
 }
@@ -1022,14 +1103,58 @@ function setCaptureKind(kind){if(state.record)return;state.captureKind=kind;$('p
 async function shutter(){if(state.record)return stopRecording();if(state.captureKind==='photo')return makePhoto();return startRecording();}
 function bumpCounter(){syncSettings();saveLocal();renderTemplate();}
 function projectData(){return {format:'FotoDatos',schemaVersion:1,appVersion:VERSION,config:JSON.parse(JSON.stringify(state.config)),background:state.background?.src||null,backgroundName:state.background?.name||null,backgroundColor:state.editorBgColor,editorSize:state.editorSize};}
-function saveProject(){if(state.textEditing)finishTextEdit(true);try{const json=JSON.stringify(projectData());downloadBlob(new Blob([json],{type:'application/json'}),`${baseName()}.fotodatos`);toast('Plantilla preparada para descargar.');}catch{toast('No se pudo guardar la plantilla.',true);}}
-async function openProject(file){if(!file)return;let candidate;try{if(file.size>30*1024*1024)throw Error('El proyecto supera 30 MB.');candidate=JSON.parse(await file.text());if(candidate?.format!=='FotoDatos'||candidate?.schemaVersion!==1||typeof candidate.config!=='object')throw Error('Formato de plantilla no reconocido.');const v=candidate.config;
+function activeDoc(){return state.documents.find(d=>d.id===state.activeDocumentId)||null;}
+function docSignature(){const p=projectData();p.config.counter=0;return JSON.stringify(p);}
+function safeDocumentName(name){return String(name||'Plantilla').replace(/\.(fotodatos|html?)$/i,'').replace(/[\/<>:"\|?*\x00-\x1f]/g,'_').trim().slice(0,70)||'Plantilla';}
+function rememberDoc(){const d=activeDoc();if(!d)return;Object.assign(d,{config:state.config,background:state.background,editorBgColor:state.editorBgColor,editorSize:state.editorSize,selected:state.selected,history:state.history,future:state.future,zoom:state.editorZoom,panX:state.editorPanX,panY:state.editorPanY});}
+function initDocumentTabs(){state.documentCounter=1;const d={id:1,name:'Plantilla 1',config:state.config,background:state.background,editorBgColor:state.editorBgColor,editorSize:state.editorSize,selected:state.selected,history:state.history,future:state.future,zoom:state.editorZoom,panX:state.editorPanX,panY:state.editorPanY,signature:docSignature()};state.documents=[d];state.activeDocumentId=d.id;renderDocumentTabs();}
+function activateDocument(id){if(state.activeDocumentId===id)return;if(state.textEditing)finishTextEdit(true);if(state.cropMode)cancelCrop();rememberDoc();const d=state.documents.find(x=>x.id===id);if(!d)return;
+ state.activeDocumentId=d.id;state.config=d.config;state.background=d.background;state.editorBgColor=d.editorBgColor;state.editorSize=d.editorSize;state.selected=d.selected;state.history=d.history;state.future=d.future;state.editorZoom=d.zoom;state.editorPanX=d.panX;state.editorPanY=d.panY;
+ state.toolbarLevel='';state.placingText=false;state.textEditing=null;state.cropMode=null;closeToolbarLevels();syncSettings();renderTemplate();renderEditor();renderDocumentTabs();}
+function createNewDocument(){rememberDoc();const config={...DEFAULTS,prefix:state.config.prefix,suffix:state.config.suffix,counter:state.config.counter,imageFormat:state.config.imageFormat,imageQuality:state.config.imageQuality,saveOriginal:state.config.saveOriginal,saveComposed:state.config.saveComposed,defaultLayers:initialDefaults(),textLayers:[],imageLayers:[],logoImg:null};
+ const id=++state.documentCounter,d={id,name:`Plantilla ${id}`,config,background:null,editorBgColor:'#ffffff',editorSize:state.editorSize,selected:null,history:[],future:[],zoom:1,panX:0,panY:0,signature:null};
+ state.documents.push(d);state.activeDocumentId=null;activateDocument(id);d.signature=docSignature();return d;}
+function renderDocumentTabs(){const nav=$('fdDocumentTabs');if(!nav)return;nav.replaceChildren();for(const d of state.documents){const tab=document.createElement('span');tab.className='fd-tab';tab.setAttribute('role','presentation');
+ const select=document.createElement('button');select.type='button';select.className='fd-tab-activate';select.textContent=d.name;select.title=d.name;select.setAttribute('role','tab');select.setAttribute('aria-selected',String(d.id===state.activeDocumentId));select.setAttribute('aria-controls','editorCanvas');select.tabIndex=d.id===state.activeDocumentId?0:-1;select.onclick=()=>activateDocument(d.id);
+ const close=document.createElement('button');close.type='button';close.className='fd-tab-close';close.textContent='×';close.title=`Cerrar ${d.name}`;close.setAttribute('aria-label',`Cerrar ${d.name}`);close.onclick=()=>closeProjectTab(d.id);
+ tab.append(select,close);nav.append(tab);}const add=document.createElement('button');add.id='fdTabAdd';add.type='button';add.className='fd-tab-add';add.textContent='+';add.setAttribute('aria-label','Crear nueva plantilla');add.title='Nueva plantilla';add.onclick=()=>createNewDocument();nav.append(add);}
+function waitDocumentChoice(id,labels){return new Promise(resolve=>{const dlg=$(id),finish=v=>{dlg.close();resolve(v);};const handlers=[];for(const [button,value] of labels){const el=$(button),cb=()=>finish(value);el.addEventListener('click',cb,{once:true});handlers.push([el,cb]);}
+ dlg.addEventListener('close',()=>{for(const [el,cb] of handlers)el.removeEventListener('click',cb);resolve('cancel');},{once:true});dlg.showModal();});}
+async function closeProjectTab(id){const d=state.documents.find(x=>x.id===id);if(!d)return;const original=state.activeDocumentId;if(id!==original)activateDocument(id);rememberDoc();if(d.signature!==docSignature()){
+ const choice=await waitDocumentChoice('fdCloseDialog',[['fdCloseSave','save'],['fdCloseDiscard','discard'],['fdCloseCancel','cancel']]);if(choice==='cancel'){if(original!==id)activateDocument(original);return;}
+ if(choice==='save'){if(!saveProject()){if(original!==id)activateDocument(original);return;}}
+ }state.documents=state.documents.filter(x=>x.id!==id);
+ if(!state.documents.length){state.activeDocumentId=null;createNewDocument();return;}
+ state.activeDocumentId=null;activateDocument((state.documents.at(-1)||state.documents[0]).id);
+}
+async function openProjectInTab(file){if(!file)return false;const existing=state.documents.find(d=>d.fileIdentity&&d.fileIdentity===`${file.name}:${file.size}:${file.lastModified}`);if(existing){activateDocument(existing.id);return true;}
+ const previous=state.activeDocumentId,d=createNewDocument();const ok=await openProject(file);if(ok){d.name=safeDocumentName(file.name);d.fileIdentity=`${file.name}:${file.size}:${file.lastModified}`;rememberDoc();d.signature=docSignature();renderDocumentTabs();return true;}
+ state.documents=state.documents.filter(x=>x.id!==d.id);state.activeDocumentId=null;activateDocument(previous);return false;}
+async function insertProject(file){if(!file)return;const current=activeDoc();if(!current)return;let candidate;try{if(file.size>30*1024*1024)throw Error('El archivo supera 30 MB.');const raw=await file.text();candidate=/\.html?$/i.test(file.name)?JSON.parse(new DOMParser().parseFromString(raw,'text/html').getElementById('fotodatos-template-data')?.textContent||'null'):JSON.parse(raw);
+ if(candidate?.format!=='FotoDatos'||candidate?.schemaVersion!==1||!Array.isArray(candidate.config?.textLayers)||!Array.isArray(candidate.config?.imageLayers))throw Error('Formato no compatible.');
+ // Validación no destructiva con las mismas reglas del abridor, en una pestaña temporal.
+ const previous=state.activeDocumentId,tmp=createNewDocument();const valid=await openProject(file);rememberDoc();state.documents=state.documents.filter(d=>d.id!==tmp.id);state.activeDocumentId=null;activateDocument(previous);saveLocal();if(!valid)return;
+ const layers=[...candidate.config.textLayers,...candidate.config.imageLayers];if(!layers.length){toast('El proyecto no contiene elementos para insertar.');return;}
+ if(layers.length+state.config.textLayers.length+state.config.imageLayers.length>80)throw Error('El documento superaría 80 elementos.');
+ pushHistory();let order=Math.max(0,...getDrawElements().map(l=>l.order||0))+1;
+ for(const l of layers){const copy=structuredClone(l);copy.id=nextId();copy.order=order++;if(copy.type==='image'){if(!copy.referenceSize)copy.referenceSize=Array.isArray(candidate.editorSize)?candidate.editorSize:editorDims();state.config.imageLayers.push(copy);await cachedImage(copy.src);}else state.config.textLayers.push(copy);}
+ rememberDoc();renderTemplate();renderEditor();toast(`${layers.length} elementos insertados.`);
+ }catch(e){toast('No se pudo insertar: '+(e.message||'archivo inválido'),true);}}
+async function exportHtmlTemplate(){if(state.textEditing)finishTextEdit(true);try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});
+ const type=c.toDataURL('image/webp',.94).startsWith('data:image/webp')?'image/webp':'image/png';const preview=c.toDataURL(type,.94),p=JSON.stringify(projectData()).replace(/</g,'\\u003c');
+ const name=safeDocumentName(activeDoc()?.name||'Plantilla');const html='<!doctype html><html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+name.replace(/&/g,'&amp;').replace(/</g,'&lt;')+' · FotoDatos</title><style>html,body{margin:0;height:100%;background:#08131b;display:grid;place-items:center}img{max-width:100vw;max-height:100vh;object-fit:contain}\n</style></head><body><img alt="Plantilla FotoDatos" src="'+preview+'"><script type="application/json" id="fotodatos-template-data">'+p+'</scr'+'ipt></body></html>';
+ downloadBlob(new Blob([html],{type:'text/html;charset=utf-8'}),`${name}.html`);toast('Plantilla HTML preparada.');return true;
+ }catch(e){toast('No se pudo crear HTML: '+(e.message||'error'),true);return false;}}
+
+function saveProject(){if(state.textEditing)finishTextEdit(true);try{const json=JSON.stringify(projectData()),doc=activeDoc(),name=safeDocumentName(doc?.name||baseName());downloadBlob(new Blob([json],{type:'application/json'}),`${name}.fotodatos`);if(doc)doc.signature=docSignature();renderDocumentTabs();toast('Proyecto editable preparado.');return true;}catch{toast('No se pudo guardar la plantilla.',true);return false;}}
+async function openProject(file){if(!file)return;let candidate;try{if(file.size>30*1024*1024)throw Error('El proyecto supera 30 MB.');const payload=await file.text();if(/\.html?$/i.test(file.name)){const dom=new DOMParser().parseFromString(payload,'text/html'),data=dom.getElementById('fotodatos-template-data');if(!data)throw Error('El HTML no contiene una plantilla FotoDatos editable.');candidate=JSON.parse(data.textContent);}else candidate=JSON.parse(payload);if(candidate?.format!=='FotoDatos'||candidate?.schemaVersion!==1||typeof candidate.config!=='object')throw Error('Formato de plantilla no reconocido.');const v=candidate.config;
   for(const key of ['showLogo','showDate','showGPS','showID','showNorth','saveOriginal','saveComposed'])if(typeof v[key]!=='boolean')throw Error('Ajustes no válidos.');
   for(const key of ['textLayers','imageLayers'])if(!Array.isArray(v[key])||v[key].length>80)throw Error('Elementos no válidos.');
   for(const l of [...v.textLayers,...v.imageLayers])if(!l||!['text','image','logo'].includes(l.type)||!Number.isFinite(l.x)||!Number.isFinite(l.y)||l.x<0||l.x>100||l.y<0||l.y>100||typeof l.id!=='string'||l.id.length>100|| (l.type==='image' && (typeof l.src!=='string'||!l.src.startsWith('data:image/'))) || (l.type==='text' && (typeof l.text!=='string'||l.text.length>1200||typeof l.color!=='string'||!/^(#[0-9a-fA-F]{6})$/.test(l.color))))throw Error('Una capa no es válida.');
   for(const l of [...v.textLayers,...v.imageLayers]){
    if(l.order!==undefined&&(!Number.isInteger(l.order)||l.order<0||l.order>200))throw Error('Orden no válido.');
    if(l.rotation!==undefined&&(!Number.isFinite(l.rotation)||Math.abs(l.rotation)>36000))throw Error('Rotación no válida.');
+   if(l.referenceSize!==undefined&&(l.type!=='image'||!Array.isArray(l.referenceSize)||l.referenceSize.length!==2||l.referenceSize.some(n=>!Number.isInteger(n)||n<1||n>8192)))throw Error('Resolución de capa inválida.');
    if(l.sourceBox!==undefined&&(l.type!=='image'||!Array.isArray(l.sourceBox)||l.sourceBox.length!==4||l.sourceBox.some(n=>!Number.isFinite(n))||l.sourceBox[0]<0||l.sourceBox[1]<0||l.sourceBox[2]<=0||l.sourceBox[3]<=0||l.sourceBox[0]+l.sourceBox[2]>1.000001||l.sourceBox[1]+l.sourceBox[3]>1.000001))throw Error('Origen de imagen inválido.');
    if(l.cropSteps!==undefined){if(l.type!=='image'||!Array.isArray(l.cropSteps)||l.cropSteps.length>20)throw Error('Recortes no válidos.');
     for(const st of l.cropSteps)if(!st||st.kind!=='poly'||typeof st.inverse!=='boolean'||!Array.isArray(st.points)||st.points.length<3||st.points.length>700||st.points.some(q=>!Array.isArray(q)||q.length!==2||q.some(n=>!Number.isFinite(n)||n< -3||n>4)))throw Error('Puntos de recorte no válidos.');
@@ -1039,8 +1164,8 @@ async function openProject(file){if(!file)return;let candidate;try{if(file.size>
   const cfg={...DEFAULTS,...v,defaultLayers:Array.isArray(v.defaultLayers)?v.defaultLayers:initialDefaults(),saveBrowser:false,prefix:cleanName(v.prefix),suffix:cleanName(v.suffix),counter:clamp(Math.floor(Number(v.counter)||1),1,999999)};
   if(cfg.logoImg && (typeof cfg.logoImg!=='string'||!cfg.logoImg.startsWith('data:image/')))throw Error('Logotipo no válido.');
   if(candidate.background && (typeof candidate.background!=='string'||!candidate.background.startsWith('data:image/')))throw Error('Fondo no válido.');
-  const bg=candidate.background?await cachedImage(candidate.background):null;if(candidate.background&&!bg)throw Error('Imagen de fondo no válida.');state.config=cfg;state.background=bg?{src:candidate.background,image:bg,name:candidate.backgroundName||'Imagen'}:null;state.editorBgColor=/^#[0-9a-fA-F]{6}$/.test(candidate.backgroundColor||'')?candidate.backgroundColor:'#ffffff';state.editorSize=Array.isArray(candidate.editorSize)&&candidate.editorSize.length===2&&candidate.editorSize.every(v=>Number.isInteger(v)&&v>=320&&v<=8192)?candidate.editorSize:null;state.selected=null;await preloadLayers();syncSettings();renderTemplate();renderEditor();saveLocal();displayMode('edit');toast('Plantilla abierta.');
- }catch(e){toast(`No se abrió el archivo: ${e.message}`,true);}}
+  const bg=candidate.background?await cachedImage(candidate.background):null;if(candidate.background&&!bg)throw Error('Imagen de fondo no válida.');state.config=cfg;state.background=bg?{src:candidate.background,image:bg,name:candidate.backgroundName||'Imagen'}:null;state.editorBgColor=/^#[0-9a-fA-F]{6}$/.test(candidate.backgroundColor||'')?candidate.backgroundColor:'#ffffff';state.editorSize=Array.isArray(candidate.editorSize)&&candidate.editorSize.length===2&&candidate.editorSize.every(v=>Number.isInteger(v)&&v>=320&&v<=8192)?candidate.editorSize:null;state.selected=null;await preloadLayers();syncSettings();renderTemplate();renderEditor();saveLocal();displayMode('edit');toast('Plantilla abierta.');return true;
+ }catch(e){toast(`No se abrió el archivo: ${e.message}`,true);return false;}}
 function mapWorld(lon,lat,z){const n=256*Math.pow(2,z);const safe=clamp(lat,-85.05112878,85.05112878)*Math.PI/180;return {x:(lon+180)/360*n,y:(1-Math.log(Math.tan(safe)+1/Math.cos(safe))/Math.PI)/2*n};}
 function worldMap(x,y,z){const n=256*Math.pow(2,z);const yy=clamp(y,0,n),r=Math.atan(Math.sinh(Math.PI*(1-2*yy/n)));return {latitude:r*180/Math.PI,longitude:((x/n*360+540)%360)-180};}
 function queueMapDraw(force=false){if($('mapView').hidden)return;if(force){cancelAnimationFrame(state.mapFrame);state.mapFrame=0;updateMap();return;}if(!state.mapFrame)state.mapFrame=requestAnimationFrame(()=>{state.mapFrame=0;updateMap();});}
@@ -1136,12 +1261,15 @@ async function enterEditorFromCamera(){
  displayMode('edit');closeToolbarLevels();renderEditor();
 }
 function shapeRect(a,b){return [[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]]];}
-function shapeCircle(a,b){const cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2,ry=Math.abs(b[1]-a[1])/2;return Array.from({length:48},(_,i)=>[cx+Math.cos(i*Math.PI/24)*rx,cy+Math.sin(i*Math.PI/24)*ry]);}
+function shapeCircle(a,b){const canvas=$('editorCanvas'),rad=Math.hypot((b[0]-a[0])*canvas.width,(b[1]-a[1])*canvas.height);
+ return Array.from({length:96},(_,i)=>[a[0]+Math.cos(i*Math.PI/48)*rad/canvas.width,a[1]+Math.sin(i*Math.PI/48)*rad/canvas.height]);}
+function shapeEllipse(a,b){const cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,rx=(b[0]-a[0])/2,ry=(b[1]-a[1])/2;
+ return Array.from({length:96},(_,i)=>[cx+Math.cos(i*Math.PI/48)*rx,cy+Math.sin(i*Math.PI/48)*ry]);}
 function normalizedCropPoint(x,y){const c=$('editorCanvas');return [clamp(x/c.width,-.8,1.8),clamp(y/c.height,-.8,1.8)];}
 function cropObjectPoint(p,b){const x=p[0]*$('editorCanvas').width,y=p[1]*$('editorCanvas').height,cx=b.x+b.w/2,cy=b.y+b.h/2,a=-(b.rotation||0)*Math.PI/180,dx=x-cx,dy=y-cy;return [(cx+dx*Math.cos(a)-dy*Math.sin(a)-b.x)/b.w,(cy+dx*Math.sin(a)+dy*Math.cos(a)-b.y)/b.h];}
 function startCrop(type){const l=selectedLayer();if(!l||l.type!=='image')return;
  state.cropMode=type;state.cropDraft={type,points:[],start:null,closed:false};state.toolbarLevel='crop';$('toolCropSub').hidden=true;$('editorStageHint').hidden=false;
- $('editorStageHint').textContent=type==='poly'?'Marque los vértices, ajuste y cierre el polígono.':type==='free'?'Dibuje y ajuste el contorno antes de aceptar.':'Arrastre y ajuste el contorno antes de aceptar.';
+ $('editorStageHint').textContent=type==='poly'?'Marque los vértices, ajuste y cierre el polígono.':type==='free'?'Dibuje y ajuste el contorno antes de aceptar.':type==='circle'?'Toque el centro y arrastre hasta el radio del círculo.':type==='ellipse'?'Arrastre entre dos esquinas de la elipse.':'Arrastre y ajuste el contorno antes de aceptar.';
  $('editorMode').querySelector('.edit-stage').classList.add('is-cropping');renderEditor();}
 function closeCropPolygon(){const d=state.cropDraft;if(!d||d.type!=='poly'||d.points.length<3)return;d.closed=true;renderEditor();}
 // Sutherland-Hodgman: intersección geométrica con el marco actual, también para polígonos rotados.
@@ -1195,10 +1323,10 @@ function cropPointerBegin(c,e,x,y){const d=state.cropDraft;if(!d)return;const p=
  if(d.type==='poly'&&!d.closed){d.points.push(p);renderEditor();return;}
  d.start=p;d.points=[p];d.closed=false;state.pointerStart={id:e.pointerId,type:'crop-draw'};c.setPointerCapture(e.pointerId);renderEditor();}
 function cropPointerUpdate(x,y,op){const d=state.cropDraft;if(!d)return;const p=normalizedCropPoint(x,y);
- if(op.type==='crop-draw'){if(d.type==='free'){const prev=d.points.at(-1);if(!prev||Math.hypot(prev[0]-p[0],prev[1]-p[1])>.002)d.points.push(p);}else d.points=d.type==='rect'?shapeRect(d.start,p):shapeCircle(d.start,p);}
+ if(op.type==='crop-draw'){if(d.type==='free'){const prev=d.points.at(-1);if(!prev||Math.hypot(prev[0]-p[0],prev[1]-p[1])>.002)d.points.push(p);}else d.points=d.type==='rect'?shapeRect(d.start,p):d.type==='ellipse'?shapeEllipse(d.start,p):shapeCircle(d.start,p);}
  else if(op.type==='crop-node'){d.points[op.index]=p;}
  else if(op.type==='crop-move'){d.points=op.original.map(q=>[clamp(q[0]+p[0]-op.start[0],-1.5,2.5),clamp(q[1]+p[1]-op.start[1],-1.5,2.5)]);}
- else if(op.type==='crop-scale'){const {minX,minY,maxX,maxY}=op.bounds,anchorX=op.corner%2===0?maxX:minX,anchorY=op.corner<2?maxY:minY;const activeX=op.corner%2===0?minX:maxX,activeY=op.corner<2?minY:maxY;const sx=clamp((activeX+p[0]-op.start[0]-anchorX)/(activeX-anchorX||.0001),.05,5),sy=clamp((activeY+p[1]-op.start[1]-anchorY)/(activeY-anchorY||.0001),.05,5);d.points=op.original.map(q=>[anchorX+(q[0]-anchorX)*sx,anchorY+(q[1]-anchorY)*sy]);}
+ else if(op.type==='crop-scale'){const {minX,minY,maxX,maxY}=op.bounds,anchorX=op.corner%2===0?maxX:minX,anchorY=op.corner<2?maxY:minY;const activeX=op.corner%2===0?minX:maxX,activeY=op.corner<2?minY:maxY;const sx=clamp((activeX+p[0]-op.start[0]-anchorX)/(activeX-anchorX||.0001),.05,5),sy=clamp((activeY+p[1]-op.start[1]-anchorY)/(activeY-anchorY||.0001),.05,5);d.points=op.original.map(q=>[anchorX+(q[0]-anchorX)*(d.type==='circle'?Math.min(sx,sy):sx),anchorY+(q[1]-anchorY)*(d.type==='circle'?Math.min(sx,sy):sy)]);}
  renderEditor();}
 function alphaSample(l,u,v){if(!l?.src||!state.images.has(l.src))return true;if(l.opacity===0)return false;
  let item=state.alphaMasks.get(l.src);if(!item){try{const img=state.images.get(l.src),cv=document.createElement('canvas'),w=clamp(img.naturalWidth||img.width,1,256),h=clamp(img.naturalHeight||img.height,1,256);cv.width=w;cv.height=h;const ctx=cv.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,w,h);item={w,h,data:ctx.getImageData(0,0,w,h).data};state.alphaMasks.set(l.src,item);if(state.alphaMasks.size>25)state.alphaMasks.delete(state.alphaMasks.keys().next().value);}catch{return true;}}
@@ -1370,20 +1498,31 @@ async function copySelectedToClipboard(){const l=selectedLayer();if(!l)return;
   const blob=await exportCanvasBlob(c);await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);toast('Imagen copiada al portapapeles.');
  }catch(e){toast('No se pudo copiar: '+(e?.message||'sin permiso')+'. Use Duplicar como alternativa.',true);}
 }
-function bindDocumentMenu(){const b=$('editorMenuBtn'),nav=$('editorMenu');const close=()=>{nav.hidden=true;b.setAttribute('aria-expanded','false');};
- b.onclick=()=>{nav.hidden=!nav.hidden;b.setAttribute('aria-expanded',String(!nav.hidden));};
+function bindDocumentMenu(){const b=$('editorMenuBtn'),nav=$('editorMenu'),choices=$('fdSaveChoices');const close=()=>{nav.hidden=true;choices.hidden=true;b.setAttribute('aria-expanded','false');};
+ b.onclick=()=>{nav.hidden=!nav.hidden;b.setAttribute('aria-expanded',String(!nav.hidden));choices.hidden=true;};
  document.addEventListener('pointerdown',e=>{if(!nav.hidden&&!e.target.closest('#editorMenu,#editorMenuBtn'))close();});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!nav.hidden){close();b.focus();}});
- $('fdMenuNew').onclick=()=>{close();if(!window.confirm('¿Iniciar una plantilla nueva? Puede guardar la actual antes de continuar.'))return;pushHistory();state.config.textLayers=[];state.config.imageLayers=[];state.config.defaultLayers=initialDefaults();state.selected=null;state.background=null;state.editorBgColor='#ffffff';state.cropMode=null;closeToolbarLevels();renderTemplate();renderEditor();toast('Plantilla nueva preparada.');};
+ $('fdDocumentTabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  const buttons=[...$('fdDocumentTabs').querySelectorAll('[role=tab]')];if(!buttons.length)return;const current=buttons.indexOf(document.activeElement);if(current<0)return;e.preventDefault();
+  const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:e.key==='ArrowRight'?(current+1)%buttons.length:(current+buttons.length-1)%buttons.length;
+  const nextId=state.documents[n]?.id;if(nextId){activateDocument(nextId);$('fdDocumentTabs').querySelectorAll('[role=tab]')[n]?.focus();}});
+ $('fdMenuNew').onclick=()=>{close();createNewDocument();};
  $('fdMenuOpen').onclick=()=>{close();$('projectInput').click();};
  $('fdMenuInsert').onclick=()=>{close();toggleToolbar('insert','toolInsertSub');};
- $('fdMenuSave').onclick=()=>{close();saveProject();};
- $('fdMenuClose').onclick=()=>{close();$('editorBack').click();};
+ $('fdMenuSave').onclick=()=>{choices.hidden=!choices.hidden;};
+ $('fdSaveNative').onclick=()=>{close();saveProject();};
+ $('fdSaveHtml').onclick=()=>{close();exportHtmlTemplate();};
+ $('fdMenuClose').onclick=()=>{close();closeProjectTab(state.activeDocumentId);};
+ $('fdInsertNative').onclick=()=>{$('insertProjectInput').click();closeToolbarLevels();};
 }
+
 function setupEditorIcons(){
  const paths={undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 0 1 0 14"/>',redo:'<path d="m15 4 5 5-5 5"/><path d="M20 9h-9a7 7 0 0 0 0 14"/>',image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 6-5 4 3 3-4 5 6"/>',plus:'<path d="M12 4v16M4 12h16"/>',text:'<path d="M4 6V4h16v2M12 4v16m-4 0h8"/>',layers:'<path d="m12 2-9 5 9 5 9-5-9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/>',crop:'<path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/>',order:'<path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/>',duplicate:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',delete:'<path d="M4 6h16M9 6V4h6v2m3 0-1 14H7L6 6M10 10v7m4-7v7"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2m-3-5 1.5-1.5M5.5 18.5 7 17M7 7 5.5 5.5M18.5 18.5 17 17"/>',file:'<path d="M6 2h8l5 5v15H6zM14 2v6h5M9 14h7m-7 4h7"/>',background:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 14 15 3M10 21l11-11"/>',save:'<path d="M4 3h14l3 3v15H3V3h1Zm3 0v7h9V3M7 21v-8h10v8"/>',open:'<path d="M4 4h6l2 3h8v13H4V4Zm0 8h16"/>',export:'<path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"/>',close:'<path d="m5 5 14 14M19 5 5 19"/>',check:'<path d="m4 12 5 5L20 6"/>',circle:'<circle cx="12" cy="12" r="9"/>',rect:'<rect x="4" y="5" width="16" height="14" rx="1"/>',poly:'<path d="M12 3 22 12l-10 9L2 12Z"/>',pen:'<path d="m4 20 5-2 12-12-3-3L6 15l-2 5Z"/>',copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 16H3V3h13v2"/>',back:'<path d="M15 5 8 12l7 7M8 12h13"/>',forward:'<path d="m9 5 7 7-7 7M16 12H3"/>',trim:'<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2"/><path d="M8 8h8v8H8z"/>',minus:'<path d="M4 12h16"/>',alignLeft:'<path d="M4 5h16M4 10h10M4 15h16M4 20h10"/>',alignCenter:'<path d="M4 5h16M7 10h10M4 15h16M7 20h10"/>',alignRight:'<path d="M4 5h16M10 10h10M4 15h16M10 20h10"/>',clipboard:'<rect x="5" y="5" width="14" height="17" rx="2"/><path d="M9 5V3h6v2M9 12h6m-6 4h5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
  const list={editorBack:'back',editorSettings:'settings',toolUndo:'undo',toolRedo:'redo',toolInsert:'plus',toolAddImage:'image',toolAddText:'text',toolBackground:'background',toolBackgroundImport:'image',toolLayers:'layers',toolFiles:'file',toolCrop:'crop',toolOrder:'order',toolDuplicate:'duplicate',toolCopy:'clipboard',toolTextStyle:'text',toolProperties:'settings',toolDelete:'delete',toolBehind:'back',toolAhead:'forward',toolOrderClose:'close',toolCropAccept:'check',toolCropCancel:'close',toolCropClose:'close',toolCropClosePoly:'poly',toolTrim:'trim',toolSave:'save',toolOpen:'open',toolExport:'export',toolPDF:'file',toolWhite:'background',toolLastCamera:'image',toolInsertClose:'close',fdEditText:'pen',fdFormatClose:'close',fdTextDone:'check',fdTextCancel:'close',fdAlignleft:'alignLeft',fdAligncenter:'alignCenter',fdAlignright:'alignRight',fdZoomIn:'plus',fdZoomOut:'minus'};
- document.querySelectorAll('[data-crop]').forEach(el=>{el.setAttribute('aria-label',el.getAttribute('aria-label')||el.title);el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">${paths[{rect:'rect',circle:'circle',free:'pen',poly:'poly'}[el.dataset.crop]]}</svg>`;});
+ for(const [id,key] of Object.entries({fdMenuNew:'plus',fdMenuOpen:'open',fdMenuInsert:'image',fdMenuSave:'save',fdMenuClose:'close'})){
+  const btn=$(id);if(!btn)continue;btn.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${paths[key]}</svg><span>${btn.textContent}</span>`;
+ }
+ document.querySelectorAll('[data-crop]').forEach(el=>{el.setAttribute('aria-label',el.getAttribute('aria-label')||el.title);el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">${paths[{rect:'rect',circle:'circle',ellipse:'circle',free:'pen',poly:'poly'}[el.dataset.crop]]}</svg>`;});
  for(const [id,key] of Object.entries(list)){const el=$(id);if(!el)continue;if(id==='toolPDF'||id==='toolWhite'||id==='toolLastCamera'||id==='toolAddImage'||id==='toolAddText'){const label=el.textContent.trim();el.setAttribute('aria-label',label);el.title=label;}el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${paths[key]}</svg>`;}
 }
 function bind(){
@@ -1402,7 +1541,8 @@ function bind(){
     }catch{if($('legalDialog').open){loading.hidden=true;err.hidden=false;}}
   });
   $('settingsDone').addEventListener('click',()=>{updateFromSettings();closeDialog('settingsDialog');});$('chooseFolder').addEventListener('click',chooseFolder);$('removeFolder').addEventListener('click',removeFolder);
-  for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed'])$(k).addEventListener('change',updateFromSettings);
+  for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed','imageFormat','imageQuality'])$(k).addEventListener('change',updateFromSettings);
+  $('imageFormat').addEventListener('change',syncFormatHint);$('imageQuality').addEventListener('input',syncFormatHint);
   $('logoUpload').addEventListener('change',async(e)=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Seleccione una imagen.',true);try{state.config.logoImg=await readDataURL(file);await cachedImage(state.config.logoImg);renderTemplate();renderEditor();toast('Logotipo personalizado incorporado.');}catch{toast('No se pudo leer el logotipo.',true);}e.target.value='';});
   $('requestGPS').addEventListener('click',()=>getLocation(true,true));$('requestNorth').addEventListener('click',enableNorth);
   $('audioTest').addEventListener('click',async()=>{if(state.audioTestStream){state.audioTestStream.getTracks().forEach(t=>t.stop());state.audioTestStream=null;stopLevelMeter();$('audioTest').textContent='Comprobar micrófono';return;}try{const s=await navigator.mediaDevices.getUserMedia({audio:true});const t=s.getAudioTracks()[0];if(!audioChecks(t))throw Error('No hay pista activa.');state.audioTestStream=s;startLevelMeter(s,'test');$('audioTest').textContent='Detener prueba';toast('Hable y observe el medidor. No se escucha ni se guarda el audio de prueba.');}catch{toast('No se pudo activar el micrófono.',true);}});
@@ -1424,9 +1564,16 @@ function bind(){
    if(l.type==='logo')state.config.imageLayers.push(c);else state.config[l.type==='text'?'textLayers':'imageLayers'].push(c);state.selected=c.id;renderTemplate();renderEditor();});
   for(const [btn,delta] of [['layerUp',1],['layerDown',-1]])$(btn).addEventListener('click',()=>{const l=selectedLayer();if(!l)return;changeLayerOrder(delta);});
   bindEditorPointers();bindFloatingToolbar();bindTextTools();bindEditorZoom();bindDimensionEditor();setupEditorIcons();
-  $('exportImage').addEventListener('click',async()=>{try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});const blob=await exportCanvasBlob(c,'image/png');downloadBlob(blob,`${baseName()}_plantilla.png`);toast('Imagen PNG preparada.');}catch{toast('No se pudo exportar el PNG.',true);}});
-  $('exportPDF').addEventListener('click',()=>{const c=$('editorCanvas'),ctx=c.getContext('2d',{alpha:false});compose(ctx,c.width,c.height,state.background?.image||null,{backgroundColor:state.editorBgColor});window.print();setTimeout(renderEditor,200);});$('saveProject').addEventListener('click',saveProject);$('loadProject').addEventListener('click',()=>$('projectInput').click());$('projectInput').addEventListener('change',async(e)=>{await openProject(e.target.files[0]);e.target.value='';});
-  document.addEventListener('keydown',onEditorShortcut);$('editorCanvas').addEventListener('dragover',e=>e.preventDefault());$('editorCanvas').addEventListener('drop',e=>{e.preventDefault();importBackground(e.dataTransfer.files[0]);});
+  $('exportImage').addEventListener('click',async()=>{try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});const blob=await exportConfiguredPhoto(c);downloadBlob(blob,`${baseName()}_plantilla.${getExt(blob.type)}`);toast(`Imagen ${getExt(blob.type).toUpperCase()} preparada.`);}catch{toast('No se pudo exportar el PNG.',true);}});
+  $('exportPDF').addEventListener('click',()=>{const c=$('editorCanvas'),ctx=c.getContext('2d',{alpha:false});compose(ctx,c.width,c.height,state.background?.image||null,{backgroundColor:state.editorBgColor});window.print();setTimeout(renderEditor,200);});$('saveProject').addEventListener('click',saveProject);$('loadProject').addEventListener('click',()=>$('projectInput').click());$('projectInput').addEventListener('change',async(e)=>{await openProjectInTab(e.target.files[0]);e.target.value='';});$('insertProjectInput').addEventListener('change',async e=>{await insertProject(e.target.files[0]);e.target.value='';});
+  document.addEventListener('keydown',onEditorShortcut);$('editorCanvas').addEventListener('dragover',e=>e.preventDefault());$('editorCanvas').addEventListener('drop',async e=>{e.preventDefault();const file=e.dataTransfer.files[0];if(!file)return;
+ if(/\.(fotodatos|html?)$/i.test(file.name)){const existing=!!state.background||state.config.textLayers.length>0||state.config.imageLayers.length>0;
+  if(!existing){await openProjectInTab(file);return;}
+  const action=await waitDocumentChoice('fdDropDialog',[['fdDropOpen','open'],['fdDropInsert','insert'],['fdDropCancel','cancel']]);
+  if(action==='open')await openProjectInTab(file);else if(action==='insert')await insertProject(file);
+ }else if(file.type.startsWith('image/'))await importBackground(file);
+ else toast('Formato de archivo no compatible.',true);
+ });
   $('captureNoticeOpen').addEventListener('click',()=>openWorkspace('filesView',state.mode));
   $('captureNoticeClose').addEventListener('click',()=>{$('captureNotice').hidden=true;});
   $('menuFiles').addEventListener('click',()=>openWorkspace('filesView',state.mode));
@@ -1447,7 +1594,7 @@ function bind(){
   surface.addEventListener('wheel',e=>{e.preventDefault();zoomMap(e.deltaY<0?0.25:-0.25);},{passive:false});
   window.addEventListener('resize',()=>{updateViewSize();positionLiveTargets();if(!$('mapView').hidden)queueMapDraw(true);});window.addEventListener('orientationchange',()=>setTimeout(()=>{updateViewSize();positionLiveTargets();},250));
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&state.record)toast('El video sigue grabándose. Evite bloquear la pantalla.');});
-  window.addEventListener('beforeunload',(e)=>{if(state.record||state.photoQueue.length||state.photoWorking){e.preventDefault();e.returnValue='';}});
+  window.addEventListener('beforeunload',(e)=>{if(state.record||state.photoQueue.length||state.photoWorking||state.documents.some(d=>{if(d.id===state.activeDocumentId)return d.signature!==docSignature();const p={format:'FotoDatos',schemaVersion:1,appVersion:VERSION,config:structuredClone(d.config),background:d.background?.src||null,backgroundName:d.background?.name||null,backgroundColor:d.editorBgColor,editorSize:d.editorSize};p.config.counter=0;return d.signature!==JSON.stringify(p);})){e.preventDefault();e.returnValue='';}});
 }
 async function authorizeAll(){
   $('accessActivate').disabled=true;assignCameraStatus('Solicitando dispositivos…');
@@ -1475,7 +1622,7 @@ async function firstStart(){
  if(!state.folderReady){$('storageSetup').hidden=false;assignCameraStatus('Elegir carpeta para guardar');return false;}
  return await continueStartup();
 }
-async function init(){restoreLocal();syncSettings();bind();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;await firstStart();}
+async function init(){restoreLocal();syncSettings();bind();initDocumentTabs();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;await firstStart();}
 
 init();
 })();
