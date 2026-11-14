@@ -327,7 +327,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
 }
 @media(prefers-reduced-motion:reduce){.float-main-row button,.float-subrow button{transition:none!important}}
 
-/* FotoDatos 0.8.3 (12) · Vista previa fiel y retorno junto a las herramientas. */
+/* FotoDatos 0.8.4 (13) · Vista previa fiel y retorno junto a las herramientas. */
 #captureMode .live-template{inset:0;overflow:hidden;pointer-events:none}
 #captureMode .camera-region{bottom:calc(126px + env(safe-area-inset-bottom,0px));height:auto!important}
 #captureMode .camera-visual>video{object-fit:contain!important}
@@ -379,6 +379,33 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
 @media(max-width:420px){.fd-tabs{padding:3px 6px;min-height:42px}.fd-tab .fd-tab-activate{max-width:122px}}
 @media print{.fd-tabs{display:none!important}}
 
+
+/* FotoDatos 0.8.4 (13): barra sin controles repetidos, historial aislado. */
+#editorFloatBar{display:flex!important;flex-direction:column!important;align-items:center!important;gap:5px!important;}
+#editorFloatBar .float-main-row{order:3;justify-content:center;}
+#editorFloatBar .float-subrow{order:1;position:static!important;left:auto!important;bottom:auto!important;transform:none!important;max-width:calc(100vw - 12px);}
+#editorFloatBar .fd-history-row{order:2;display:flex;align-items:center;justify-content:center;gap:clamp(24px,9vw,46px);padding:0 6px;}
+#editorFloatBar .fd-history-row button{width:48px;height:46px;min-width:44px;min-height:44px;display:grid;place-items:center;padding:0;
+ color:#f2ffff;background:#173d4cee;border:1px solid #8dbfbd;border-radius:14px;box-shadow:0 2px 7px #071d2855;}
+#editorFloatBar .fd-history-row button svg{display:block;width:24px;height:24px;stroke:currentColor;stroke-width:1.8;fill:none;}
+#editorFloatBar .fd-history-row button:disabled{opacity:.35;box-shadow:none;}
+#editorFloatBar .fd-history-row button:focus-visible{outline:3px solid #c2fff0;outline-offset:2px;}
+#editorFloatBar #toolFiles,#editorFloatBar #toolFileSub{display:none!important;}
+#editorSidebar .editor-options,#editorSidebar .prop-actions{display:none!important;}
+#editorFloatBar .float-main-row{gap:clamp(8px,3vw,17px)!important;}
+#editorFloatBar .float-main-row button{width:clamp(46px,13vw,56px)!important;flex:0 0 clamp(46px,13vw,56px)!important;height:48px!important;}
+#editorFloatBar .float-main-row #toolInsert{flex:0 0 56px!important;width:56px!important;height:56px!important;}
+#editorFloatBar #editorBack{margin-right:clamp(12px,4vw,24px)!important;border-color:#d1f3e8!important;}
+#editorFloatBar .float-subrow[hidden]{display:none!important;}
+#editorFloatBar .selected-controls{max-width:calc(100vw - 18px);display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+#editorFloatBar .selected-controls::-webkit-scrollbar{display:none;}
+#editorFloatBar .selected-controls button{flex-shrink:0;}
+#editorFloatBar button:active{transform:scale(.93);}
+#editorMode .edit-stage{padding-bottom:clamp(196px,25dvh,240px)!important;}
+@media(max-width:380px){#editorFloatBar .float-main-row{gap:6px!important;}
+ #editorFloatBar .float-main-row button{width:47px!important;flex-basis:47px!important;}
+ #editorFloatBar .float-main-row #toolInsert{width:54px!important;flex-basis:54px!important;height:54px!important;}}
+@media(prefers-reduced-motion:reduce){#editorFloatBar .fd-history-row button{transition:none!important}}
 </style>
 </head>
 <body>
@@ -450,7 +477,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
     <section class="editor-view" id="editorMode" hidden aria-label="Editor de plantilla">
       <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorMenuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="editorMenu" title="Menú"><svg class="fd-menu-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253 288" aria-hidden="true" focusable="false"><path d="M39 30 L96 49 M150 49 L208 30" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/><path d="M123 260 L123 180 C121 160 81 137 56 103 C40 81 30 52 28 32 M123 180 C129 157 165 133 188 103 C207 79 216 52 220 32" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 49 A31 19 0 1 0 92 49 A31 19 0 1 0 154 49 Z M133 49 A10 10 0 1 0 113 49 A10 10 0 1 0 133 49 Z M105.2 48 A4.2 4.2 0 1 0 96.8 48 A4.2 4.2 0 1 0 105.2 48 Z M151.2 48 A4.2 4.2 0 1 0 142.8 48 A4.2 4.2 0 1 0 151.2 48 Z" fill="currentColor" fill-rule="evenodd"/></svg><span class="editor-menu-label">Menú</span></button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
       <nav id="editorMenu" class="fd-document-menu" aria-label="Menú de documento" hidden>
-  <button type="button" id="fdMenuNew">Nuevo</button><button type="button" id="fdMenuOpen">Abrir</button><button type="button" id="fdMenuInsert">Insertar</button><button type="button" id="fdMenuSave">Guardar</button><button type="button" id="fdMenuClose">Cerrar</button>
+  <button type="button" id="fdMenuNew">Nuevo</button><button type="button" id="fdMenuOpen">Abrir</button><button type="button" id="fdMenuInsert">Insertar</button><button type="button" id="fdMenuSave">Guardar</button><button type="button" id="fdMenuClose">Cerrar</button><button type="button" id="fdMenuExport">Exportar imagen</button><button type="button" id="fdMenuPrint">Imprimir / PDF</button>
  <div id="fdSaveChoices" hidden role="group" aria-label="Formato de guardado"><button id="fdSaveNative" type="button">Proyecto editable · .fotodatos</button><button id="fdSaveHtml" type="button">Plantilla HTML · .html</button></div>
  </nav><nav id="fdDocumentTabs" class="fd-tabs" role="tablist" aria-label="Plantillas abiertas"><button id="fdTabAdd" type="button" class="fd-tab-add" aria-label="Crear plantilla nueva" title="Nueva plantilla">+</button></nav><div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
 <div id="fdTextTools" class="fd-text-tools" role="toolbar" aria-label="Formato del texto seleccionado" hidden>
@@ -475,14 +502,16 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
 <textarea id="fdInlineText" aria-label="Escribir texto de la plantilla" spellcheck="true" rows="2" maxlength="1200" hidden></textarea>
 </div>
         <div id="editorFloatBar" class="editor-float-bar" role="toolbar" aria-label="Herramientas de edición">
-          <div class="float-main-row">
-            <button id="editorBack" type="button" title="Volver al modo captura" aria-label="Volver al modo captura">↩</button>
+          <div class="fd-history-row" role="group" aria-label="Historial del editor">
             <button id="toolUndo" type="button" title="Deshacer" aria-label="Deshacer">↶</button>
+            <button id="toolRedo" type="button" title="Rehacer" aria-label="Rehacer">↷</button>
+          </div>
+          <div class="float-main-row">
+            <button id="editorBack" type="button" title="Regresar a captura" aria-label="Regresar a captura">↩</button>
             <button id="toolBackground" type="button" aria-expanded="false" title="Fondo" aria-label="Fondo">◩</button>
             <button id="toolInsert" type="button" aria-expanded="false" aria-controls="toolInsertSub" title="Insertar" aria-label="Insertar"><span aria-hidden="true">＋</span><span class="sr-only">Insertar</span></button>
             <button id="toolLayers" type="button" aria-expanded="false" title="Capas y propiedades" aria-label="Capas y propiedades">▤</button>
             <button id="toolFiles" type="button" aria-expanded="false" title="Archivo" aria-label="Archivo">▣</button>
-            <button id="toolRedo" type="button" title="Rehacer" aria-label="Rehacer">↷</button>
           </div>
           <div id="toolInsertSub" class="float-subrow" hidden><button id="toolAddImage" type="button">▧ Imagen</button><button id="toolAddText" type="button">T Texto</button><button id="toolInsertClose" type="button" aria-label="Cerrar inserción">×</button><button id="fdInsertNative" type="button" aria-label="Insertar elementos de otro proyecto" title="Insertar proyecto .fotodatos"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10l5 5v11H4zM14 4v5h5M12 12v7m-3-3.5h6"/></svg></button></div>
           <div id="toolBackgroundSub" class="float-subrow" hidden><button id="toolBackgroundImport" type="button" title="Importar imagen como fondo" aria-label="Importar fondo">▧</button><label>Color <input id="editorBgColor" type="color" value="#ffffff" aria-label="Color de fondo"></label><button id="toolLastCamera" type="button">Última vista</button><button id="toolWhite" type="button">Blanco</button></div>
@@ -529,7 +558,7 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.3 (12)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.4 (13)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
   <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. El formato con plantilla inicia en WebP y puede cambiarse a JPEG o PNG en Configuración. Nuevo y Abrir crean pestañas independientes; Guardar permite un archivo editable .fotodatos o HTML con vista incorporada y datos de la plantilla. Insertar agrega elementos al documento actual. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><p id="legalLoading" class="hint" aria-live="polite">Cargando aviso legal…</p><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin" hidden></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal. <a id="legalFallback" href="./aviso-legal.html" target="_blank" rel="noopener">Abrir aviso legal</a></p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
@@ -558,11 +587,11 @@ body:has(#editorStageHint:not([hidden])) .toast{top:calc(env(safe-area-inset-top
   <input id="backgroundInput" type="file" accept="image/*" hidden>
   <input id="layerImageInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <input id="projectInput" type="file" accept=".fotodatos,.html,application/json,text/html" hidden><input id="insertProjectInput" type="file" accept=".fotodatos,.html,application/json,text/html" hidden>
-  <script>/* FotoDatos 0.8.3 (12) | 14 nov. 2026 | Geometría consistente y documentos independientes */
+  <script>/* FotoDatos 0.8.4 (13) | 14 nov. 2026 | Geometría consistente y documentos independientes */
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.8.3';
+const VERSION = '0.8.4';
 const DEFAULTS = {imageFormat:'image/webp',imageQuality:94,prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
 const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null,previewOrientationTimer:0,documents:[],activeDocumentId:null,documentCounter:0};
 // Los rótulos predeterminados son capas editables, no pintura fija.
@@ -658,10 +687,13 @@ function onOrientation(e){
  // completo de la plantilla evita cargar innecesariamente el móvil.
  if(!state.previewOrientationTimer){
   state.previewOrientationTimer=setTimeout(()=>{state.previewOrientationTimer=0;
-   if(state.mode==='capture')renderTemplate();},180);
+   if(state.mode==='capture'&&!state.record)renderTemplate();},180);
  }
 }
 function renderTemplate(){
+ // Durante una grabación la composición queda congelada en la pista capturada.
+ // GPS, pestañas y sensores no deben redibujar la capa sobre el video en curso.
+ if(state.record&&state.mode==='capture')return;
  // Vista previa y exportación comparten el motor de dibujo. Así se respetan
  // sourceBox, recortes acumulados, opacidad, rotación, altura y orden de capas.
  const video=$('cameraVideo'),canvas=$('liveCanvas'),live=$('liveExtra');
@@ -1070,36 +1102,160 @@ async function processPhotoQueue(){if(state.photoWorking)return;state.photoWorki
 async function restorePendingPhotos(){// Desde 0.5.0 no se almacenan fotografías nuevas en IndexedDB. No se reanuda trabajo después de cerrar la página.
 }
 
-function usableMime(){if(typeof MediaRecorder==='undefined')return null;const types=['video/mp4;codecs="avc1.42E01E,mp4a.40.2"','video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/mp4','video/webm'];return types.find(t=>MediaRecorder.isTypeSupported(t))||null;}
-function getRecorder(stream,mime){const chunks=[];const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond: Math.min(16000000,Math.max(4000000,stream.getVideoTracks()[0]?.getSettings?.().width*6000||6000000)),audioBitsPerSecond:128000});const finish=new Promise((resolve,reject)=>{rec.addEventListener('dataavailable',e=>{if(e.data.size)chunks.push(e.data);});rec.addEventListener('stop',()=>resolve(new Blob(chunks,{type:rec.mimeType||mime})),{once:true});rec.addEventListener('error',e=>reject(e.error||new Error('Error del codificador')),{once:true});});return {rec,finish};}
-function audioChecks(track){return track && track.readyState==='live' && track.enabled && !track.muted;}
-function startLevelMeter(stream,target='record'){stopLevelMeter();try{const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx)return;const ac=new AudioCtx();const source=ac.createMediaStreamSource(stream),analyser=ac.createAnalyser();analyser.fftSize=512;source.connect(analyser);state.audioContext=ac;state.audioSource=source;state.audioAnalyser=analyser;const bytes=new Uint8Array(analyser.fftSize);const tick=()=>{if(!state.audioAnalyser)return;analyser.getByteTimeDomainData(bytes);let sum=0;for(const s of bytes){const v=(s-128)/128;sum+=v*v;}const rms=Math.sqrt(sum/bytes.length);const pct=clamp(Math.round(rms*360),0,100);$('audioMeterBar').style.width=`${pct}%`;$('micMeterSettingsBar').style.width=`${pct}%`;state.levelId=requestAnimationFrame(tick);};tick();if(ac.state==='suspended')ac.resume().catch(()=>{});}catch{} }
-function stopLevelMeter(){cancelAnimationFrame(state.levelId);state.levelId=0;state.audioAnalyser=null;state.audioSource?.disconnect();state.audioSource=null;state.audioContext?.close().catch(()=>{});state.audioContext=null;$('audioMeterBar').style.width='0%';$('micMeterSettingsBar').style.width='0%';}
-async function startRecording(){if(!await ensureDiskDestination()){toast('Autorice la carpeta antes de grabar.',true);return;}if(!cameraReady()){toast('No hay cámara activa.',true);return;}if(!navigator.mediaDevices?.getUserMedia){toast('No se puede solicitar el micrófono.',true);return;}
-  const mime=usableMime();if(!mime){toast('Este navegador no ofrece un formato de video compatible.',true);return;}
-  $('shutter').disabled=true;assignCameraStatus('Solicitando micrófono…');let audio=null;let canvasStream=null;let clonedAudio=null;
-  try{
-    audio=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false},video:false});const mic=audio.getAudioTracks()[0];if(!audioChecks(mic))throw Error('El micrófono no entregó una pista activa.');
-    await preloadLayers();const video=$('cameraVideo');const frame=document.createElement('canvas');frame.width=video.videoWidth;frame.height=video.videoHeight;const ctx=frame.getContext('2d',{alpha:false});if(!frame.captureStream)throw Error('La grabación con plantilla no es compatible.');
-    // Se prepara un flujo de video compuesto con la misma fuente de audio.
-    compose(ctx,frame.width,frame.height,video,{date:new Date(),id:baseName()});canvasStream=frame.captureStream(30);clonedAudio=mic.clone();const composedTrack=canvasStream.getVideoTracks()[0];if(!composedTrack||!audioChecks(clonedAudio))throw Error('No hay audio o video compuesto disponible.');
-    const originalStream=new MediaStream([state.stream.getVideoTracks()[0],mic]);const finalStream=new MediaStream([composedTrack,clonedAudio]);
-    const original=getRecorder(originalStream,mime),decorated=getRecorder(finalStream,mime);const id=baseName(),date=new Date();
-    const record={original,decorated,canvasStream,clonedAudio,audio,frame,ctx,id,date,stopping:false,drawId:0,timerId:0,interrupted:false};state.record=record;state.audioStream=audio;
-    const draw=()=>{if(state.record!==record||record.stopping)return;if(video.readyState>=2)compose(ctx,frame.width,frame.height,video,{date,id});record.drawId=requestAnimationFrame(draw);};draw();
-    original.rec.start(800);decorated.rec.start(800);record.timerId=setInterval(()=>{const s=Math.floor((Date.now()-state.recordStarted)/1000);$('recordTimer').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;if(!audioChecks(mic)||!audioChecks(clonedAudio)){record.interrupted=true;toast('Se interrumpió el micrófono. Se detiene la grabación.',true);stopRecording();}},600);
-    for(const t of [mic,clonedAudio]){t.addEventListener('ended',()=>{if(state.record===record){record.interrupted=true;toast('Micrófono desconectado. Se detiene el video.',true);stopRecording();}},{once:true});}
-    for(const r of [original.rec,decorated.rec])r.addEventListener('error',()=>{if(state.record===record){record.interrupted=true;stopRecording();}},{once:true});
-    state.recordStarted=Date.now();$('recordTimer').textContent='00:00';$('recordingBanner').hidden=false;$('shutter').classList.add('is-recording');$('shutter').setAttribute('aria-label','Detener video');assignCameraStatus(`${video.videoWidth} × ${video.videoHeight} · Grabando`);startLevelMeter(audio);toast('Grabación iniciada con micrófono.');
-  }catch(e){if(state.record){try{state.record.original.rec.stop();}catch{}try{state.record.decorated.rec.stop();}catch{}cancelAnimationFrame(state.record.drawId);clearInterval(state.record.timerId);state.record=null;}canvasStream?.getTracks().forEach(t=>t.stop());clonedAudio?.stop();audio?.getTracks().forEach(t=>t.stop());toast(`No se inició el video: ${e.message||'micrófono no disponible'}`,true);assignCameraStatus('Cámara activa');}
-  finally{$('shutter').disabled=false;}
+function usableMime(){if(typeof MediaRecorder==='undefined')return null;
+ const types=['video/webm;codecs=vp8,opus','video/mp4;codecs="avc1.42E01E,mp4a.40.2"','video/mp4','video/webm;codecs=vp9,opus','video/webm'];
+ return types.find(t=>MediaRecorder.isTypeSupported(t))||null;}
+// Los segmentos van a un archivo real conforme llegan. No se crean blobs gigantes
+// de video en memoria al finalizar. El permiso y la carpeta se comprobaron antes.
+async function openVideoWriter(filename,original=false){
+ const dir=original?await state.folderHandle.getDirectoryHandle('Original',{create:true}):state.folderHandle;
+ const name=filename.replace(/[^a-zA-Z0-9_.-]/g,'_');
+ const dot=name.lastIndexOf('.'),base=dot<0?name:name.slice(0,dot),ext=dot<0?'':name.slice(dot);
+ let selected=name;
+ for(let i=2;i<=10000;i++){try{await dir.getFileHandle(selected,{create:false});selected=`${base}_${i}${ext}`;}
+  catch(e){if(e?.name==='NotFoundError')break;throw e;}}
+ const handle=await dir.getFileHandle(selected,{create:true}),writable=await handle.createWritable();
+ return {name:selected,dir,writable,bytes:0,queue:Promise.resolve(),closed:false,failed:null,
+  write(blob){if(this.closed||this.failed)return;this.queue=this.queue.then(async()=>{await writable.write(blob);this.bytes+=blob.size;}).catch(e=>{this.failed=e;});},
+  async finish(){await this.queue;if(this.failed)throw this.failed;await writable.close();this.closed=true;if(!this.bytes)throw Error('La grabación no entregó datos.');return {name:this.name,bytes:this.bytes};},
+  async abort(){if(!this.closed){await this.queue.catch(()=>{});await writable.abort().catch(()=>{});this.closed=true;}try{await dir.removeEntry(this.name);}catch{}}
+ };
 }
-async function stopRecording(){const r=state.record;if(!r||r.stopping)return;r.stopping=true;$('shutter').disabled=true;clearInterval(r.timerId);cancelAnimationFrame(r.drawId);$('recordingBanner').hidden=true;$('shutter').classList.remove('is-recording');assignCameraStatus('Finalizando archivos…');stopLevelMeter();
-  try{if(r.original.rec.state!=='inactive')r.original.rec.stop();if(r.decorated.rec.state!=='inactive')r.decorated.rec.stop();const settled=await Promise.allSettled([r.original.finish,r.decorated.finish]);const [a,b]=settled.map(x=>x.status==='fulfilled'?x.value:null);if(!a?.size||!b?.size)throw Error('Uno de los archivos de video no pudo guardarse.');
-    const f=getExt(a.type),f2=getExt(b.type);const message=r.interrupted?'El micrófono o un codificador se interrumpió. Revise ambos archivos antes de usarlos.':'Las dos grabaciones incluyen pistas de audio solicitadas. Compruebe el sonido al reproducir cada archivo.';
-    await showResults('Videos terminados',[{label:'original con audio',blob:a,filename:`${r.id}_original.${f}`},{label:'con plantilla y audio',blob:b,filename:`${r.id}.${f2}`}],message);state.config.counter++;saveLocal();syncSettings();renderTemplate();
-  }catch(e){toast(`Grabación incompleta: ${e.message}`,true);}finally{r.canvasStream?.getTracks().forEach(t=>t.stop());r.clonedAudio?.stop();r.audio?.getTracks().forEach(t=>t.stop());state.audioStream=null;state.record=null;$('shutter').disabled=false;assignCameraStatus(cameraReady()?`Cámara ${$('cameraVideo').videoWidth} × ${$('cameraVideo').videoHeight}`:'Cámara no disponible');}}
-function setCaptureKind(kind){if(state.record)return;state.captureKind=kind;$('photoTab').classList.toggle('is-active',kind==='photo');$('videoTab').classList.toggle('is-active',kind==='video');$('photoTab').setAttribute('aria-pressed',String(kind==='photo'));$('videoTab').setAttribute('aria-pressed',String(kind==='video'));$('shutter').classList.toggle('is-video',kind==='video');$('shutter').setAttribute('aria-label',kind==='video'?'Iniciar video con sonido':'Tomar fotografía');}
+function getRecorder(stream,mime,writer,bitrate){
+ const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:bitrate,audioBitsPerSecond:96000});
+ const finish=new Promise((resolve,reject)=>{
+  rec.addEventListener('dataavailable',e=>{if(e.data?.size)writer.write(e.data);});
+  rec.addEventListener('stop',async()=>{try{resolve(await writer.finish());}catch(err){reject(err);}},{once:true});
+  rec.addEventListener('error',e=>reject(e.error||new Error('Fallo de codificación de video')),{once:true});
+ });
+ // Las rutas de error se esperan al cerrar, también si se detiene antes de comenzar.
+ finish.catch(()=>{});
+ return {rec,finish,writer};
+}
+function audioChecks(track){return track && track.readyState==='live' && track.enabled && !track.muted;}
+function startLevelMeter(stream,target='record'){stopLevelMeter();try{
+ const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx)return;
+ const ac=new AudioCtx();const source=ac.createMediaStreamSource(stream),analyser=ac.createAnalyser();
+ analyser.fftSize=512;source.connect(analyser);state.audioContext=ac;state.audioSource=source;state.audioAnalyser=analyser;
+ const bytes=new Uint8Array(analyser.fftSize);let last=0;
+ const tick=t=>{if(!state.audioAnalyser)return;if(t-last>=160){last=t;analyser.getByteTimeDomainData(bytes);let sum=0;
+  for(const s of bytes){const v=(s-128)/128;sum+=v*v;}const pct=clamp(Math.round(Math.sqrt(sum/bytes.length)*360),0,100);
+  $('audioMeterBar').style.width=`${pct}%`;$('micMeterSettingsBar').style.width=`${pct}%`;}
+  state.levelId=requestAnimationFrame(tick);};state.levelId=requestAnimationFrame(tick);
+ if(ac.state==='suspended')ac.resume().catch(()=>{});
+ }catch{}}
+function stopLevelMeter(){cancelAnimationFrame(state.levelId);state.levelId=0;state.audioAnalyser=null;
+ state.audioSource?.disconnect();state.audioSource=null;state.audioContext?.close().catch(()=>{});state.audioContext=null;
+ $('audioMeterBar').style.width='0%';$('micMeterSettingsBar').style.width='0%';}
+function scheduleVideoRender(record,video){
+ const rate=24,interval=1000/rate;
+ const draw=now=>{if(state.record!==record||record.stopping)return;
+  if(video.readyState>=2&&(record.lastDraw===0||now-record.lastDraw>=interval-1)){
+   record.lastDraw=now;record.ctx.drawImage(video,0,0,record.frame.width,record.frame.height);
+   record.ctx.drawImage(record.overlay,0,0);record.frames++;
+  }
+  if(typeof video.requestVideoFrameCallback==='function')record.frameHandle=video.requestVideoFrameCallback(draw);
+  else record.drawId=requestAnimationFrame(draw);
+ };
+ if(typeof video.requestVideoFrameCallback==='function')record.frameHandle=video.requestVideoFrameCallback(draw);
+ else record.drawId=requestAnimationFrame(draw);
+}
+function stopVideoRender(record,video){if(record.drawId)cancelAnimationFrame(record.drawId);
+ if(record.frameHandle&&typeof video.cancelVideoFrameCallback==='function')video.cancelVideoFrameCallback(record.frameHandle);
+ record.drawId=record.frameHandle=0;}
+async function startRecording(){
+ if(state.cameraProfileReady)await state.cameraProfileReady;
+ if(!await ensureDiskDestination()){toast('Autorice la carpeta antes de grabar.',true);return;}
+ if(!cameraReady()){toast('No hay cámara activa.',true);return;}
+ if(!navigator.mediaDevices?.getUserMedia){toast('No se puede solicitar el micrófono.',true);return;}
+ const mime=usableMime();if(!mime){toast('Este navegador no permite grabar videos compatibles.',true);return;}
+ const saveOriginal=!!state.config.saveOriginal,saveComposed=!!state.config.saveComposed;
+ if(!saveOriginal&&!saveComposed){toast('Active un formato de salida en Configuración.',true);return;}
+ $('shutter').disabled=true;assignCameraStatus('Preparando grabación…');
+ let audio=null,canvasStream=null,clonedAudio=null,original=null,decorated=null;
+ const video=$('cameraVideo'),id=baseName(),date=new Date();
+ try{
+  // El trabajo de la plantilla se hace UNA vez; la cámara se dibuja por fotograma.
+  if(saveComposed)await preloadLayers();
+  audio=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false},video:false});
+  const mic=audio.getAudioTracks()[0];if(!audioChecks(mic))throw Error('No hay una pista activa de micrófono.');
+  let frame=null,ctx=null,overlay=null,videoTrack=null;
+  if(saveComposed){
+   const maxPixels=1280*720,scale=Math.min(1,Math.sqrt(maxPixels/(video.videoWidth*video.videoHeight)));
+   const w=Math.max(2,Math.round(video.videoWidth*scale/2)*2),h=Math.max(2,Math.round(video.videoHeight*scale/2)*2);
+   frame=document.createElement('canvas');frame.width=w;frame.height=h;ctx=frame.getContext('2d',{alpha:false});
+   overlay=document.createElement('canvas');overlay.width=w;overlay.height=h;
+   drawElements(overlay.getContext('2d'),w,h,null,state.config,{date,id,gpsLabel:gpsText(),northLabel:northText()});
+   ctx.drawImage(video,0,0,w,h);ctx.drawImage(overlay,0,0);
+   if(!frame.captureStream)throw Error('No se admite video con plantilla en este navegador.');
+   canvasStream=frame.captureStream(24);videoTrack=canvasStream.getVideoTracks()[0];clonedAudio=mic.clone();
+   if(!videoTrack||!audioChecks(clonedAudio))throw Error('La composición no dispone de video o sonido.');
+  }
+  const ext=/mp4/.test(mime)?'mp4':'webm';
+  // El codificador original mantiene la pista de cámara. El de plantilla
+  // se limita a <= 720p horizontal / 1280p vertical equivalentes (0,92 MP).
+  if(saveOriginal){const writer=await openVideoWriter(`${id}_original.${ext}`,true);
+   try{original=getRecorder(new MediaStream([state.stream.getVideoTracks()[0],mic]),mime,writer,5000000);}
+   catch(e){await writer.abort();throw e;}}
+  if(saveComposed){const writer=await openVideoWriter(`${id}.${ext}`,false);
+   try{decorated=getRecorder(new MediaStream([videoTrack,clonedAudio]),mime,writer,2800000);}
+   catch(e){await writer.abort();throw e;}}
+  const record={original,decorated,canvasStream,clonedAudio,audio,frame,overlay,ctx,id,date,
+   stopping:false,drawId:0,frameHandle:0,lastDraw:0,frames:0,timerId:0,interrupted:false};
+  state.record=record;state.audioStream=audio;
+  original?.rec.start(1800);decorated?.rec.start(1800);
+  if(decorated)scheduleVideoRender(record,video);
+  state.recordStarted=Date.now();$('recordTimer').textContent='00:00';
+  record.timerId=setInterval(()=>{if(state.record!==record||record.stopping)return;
+   const s=Math.floor((Date.now()-state.recordStarted)/1000);
+   $('recordTimer').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+   if(!audioChecks(mic)||(saveComposed&&!audioChecks(clonedAudio))){record.interrupted=true;toast('El micrófono se desconectó.',true);stopRecording();}
+  },1000);
+  for(const t of [mic,clonedAudio].filter(Boolean))t.addEventListener('ended',()=>{if(state.record===record){record.interrupted=true;stopRecording();}},{once:true});
+  for(const item of [original,decorated].filter(Boolean))item.rec.addEventListener('error',()=>{if(state.record===record){record.interrupted=true;stopRecording();}},{once:true});
+  $('recordingBanner').hidden=false;$('shutter').classList.add('is-recording');
+  $('shutter').setAttribute('aria-label','Detener video');assignCameraStatus('Grabando');startLevelMeter(audio);
+ }catch(e){
+  if(state.record){stopVideoRender(state.record,video);clearInterval(state.record.timerId);state.record=null;}
+  for(const item of [original,decorated].filter(Boolean)){try{if(item.rec.state!=='inactive')item.rec.stop();}catch{}await item.writer.abort();}
+  canvasStream?.getTracks().forEach(t=>t.stop());clonedAudio?.stop();audio?.getTracks().forEach(t=>t.stop());state.audioStream=null;
+  toast(`No se inició el video: ${e.message||'error del dispositivo'}`,true);assignCameraStatus('Cámara activa');
+ }finally{$('shutter').disabled=false;}
+}
+async function stopRecording(){const r=state.record;if(!r||r.stopping)return;
+ r.stopping=true;$('shutter').disabled=true;clearInterval(r.timerId);stopVideoRender(r,$('cameraVideo'));
+ $('recordingBanner').hidden=true;$('shutter').classList.remove('is-recording');assignCameraStatus('Finalizando archivos…');stopLevelMeter();
+ try{
+  const items=[r.original,r.decorated].filter(Boolean);
+  for(const item of items)if(item.rec.state!=='inactive')item.rec.stop();
+  const results=await Promise.allSettled(items.map(item=>item.finish));
+  const saved=results.filter(v=>v.status==='fulfilled').map(v=>v.value);
+  const failed=results.some(v=>v.status==='rejected');
+  if(failed){const message=results.find(v=>v.status==='rejected')?.reason?.message||'Fallo del codificador';
+   for(let i=0;i<items.length;i++)if(results[i].status==='rejected')await items[i].writer.abort();
+   if(!saved.length)throw Error(message);toast(`${saved.length} video(s) conservados; otro falló: ${message}`,true);
+  }else if(!saved.length)throw Error('La grabación no generó archivos.');
+  else notice(`${saved.length} video(s) guardados.`);
+  state.config.counter++;for(const doc of state.documents)doc.config.counter=state.config.counter;
+  saveLocal();syncSettings();
+ }catch(e){toast(`Grabación incompleta: ${e.message}`,true);}
+ finally{
+  r.canvasStream?.getTracks().forEach(t=>t.stop());r.clonedAudio?.stop();r.audio?.getTracks().forEach(t=>t.stop());
+  if(r.frame){r.frame.width=r.frame.height=1;}if(r.overlay){r.overlay.width=r.overlay.height=1;}
+  state.audioStream=null;state.record=null;$('shutter').disabled=false;renderTemplate();
+  $('shutter').setAttribute('aria-label','Iniciar video con sonido');
+  assignCameraStatus(cameraReady()?`Cámara ${$('cameraVideo').videoWidth} × ${$('cameraVideo').videoHeight}`:'Cámara no disponible');
+ }
+}
+async function optimizeCaptureProfile(kind){
+ const track=state.stream?.getVideoTracks()[0];if(!track||track.readyState!=='live'||typeof track.applyConstraints!=='function')return;
+ try{
+  if(kind==='video')await track.applyConstraints({width:{ideal:1920},height:{ideal:1080},frameRate:{ideal:30,max:30}});
+  else await track.applyConstraints({width:{ideal:3840},height:{ideal:2160}});
+  if(state.mode==='capture'){renderTemplate();positionLiveTargets();}
+ }catch{ /* Respetar los límites del sensor y del navegador. */ }
+}
+function setCaptureKind(kind){if(state.record)return;state.cameraProfileReady=optimizeCaptureProfile(kind);state.captureKind=kind;$('photoTab').classList.toggle('is-active',kind==='photo');$('videoTab').classList.toggle('is-active',kind==='video');$('photoTab').setAttribute('aria-pressed',String(kind==='photo'));$('videoTab').setAttribute('aria-pressed',String(kind==='video'));$('shutter').classList.toggle('is-video',kind==='video');$('shutter').setAttribute('aria-label',kind==='video'?'Iniciar video con sonido':'Tomar fotografía');}
 async function shutter(){if(state.record)return stopRecording();if(state.captureKind==='photo')return makePhoto();return startRecording();}
 function bumpCounter(){syncSettings();saveLocal();renderTemplate();}
 function projectData(){return {format:'FotoDatos',schemaVersion:1,appVersion:VERSION,config:JSON.parse(JSON.stringify(state.config)),background:state.background?.src||null,backgroundName:state.background?.name||null,backgroundColor:state.editorBgColor,editorSize:state.editorSize};}
@@ -1564,7 +1720,7 @@ function bind(){
    if(l.type==='logo')state.config.imageLayers.push(c);else state.config[l.type==='text'?'textLayers':'imageLayers'].push(c);state.selected=c.id;renderTemplate();renderEditor();});
   for(const [btn,delta] of [['layerUp',1],['layerDown',-1]])$(btn).addEventListener('click',()=>{const l=selectedLayer();if(!l)return;changeLayerOrder(delta);});
   bindEditorPointers();bindFloatingToolbar();bindTextTools();bindEditorZoom();bindDimensionEditor();setupEditorIcons();
-  $('exportImage').addEventListener('click',async()=>{try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});const blob=await exportConfiguredPhoto(c);downloadBlob(blob,`${baseName()}_plantilla.${getExt(blob.type)}`);toast(`Imagen ${getExt(blob.type).toUpperCase()} preparada.`);}catch{toast('No se pudo exportar el PNG.',true);}});
+  $('exportImage').addEventListener('click',async()=>{try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});const blob=await exportConfiguredPhoto(c);downloadBlob(blob,`${baseName()}_plantilla.${getExt(blob.type)}`);toast(`Imagen ${getExt(blob.type).toUpperCase()} preparada.`);}catch{toast('No se pudo exportar la imagen.',true);}});
   $('exportPDF').addEventListener('click',()=>{const c=$('editorCanvas'),ctx=c.getContext('2d',{alpha:false});compose(ctx,c.width,c.height,state.background?.image||null,{backgroundColor:state.editorBgColor});window.print();setTimeout(renderEditor,200);});$('saveProject').addEventListener('click',saveProject);$('loadProject').addEventListener('click',()=>$('projectInput').click());$('projectInput').addEventListener('change',async(e)=>{await openProjectInTab(e.target.files[0]);e.target.value='';});$('insertProjectInput').addEventListener('change',async e=>{await insertProject(e.target.files[0]);e.target.value='';});
   document.addEventListener('keydown',onEditorShortcut);$('editorCanvas').addEventListener('dragover',e=>e.preventDefault());$('editorCanvas').addEventListener('drop',async e=>{e.preventDefault();const file=e.dataTransfer.files[0];if(!file)return;
  if(/\.(fotodatos|html?)$/i.test(file.name)){const existing=!!state.background||state.config.textLayers.length>0||state.config.imageLayers.length>0;
@@ -1576,7 +1732,7 @@ function bind(){
  });
   $('captureNoticeOpen').addEventListener('click',()=>openWorkspace('filesView',state.mode));
   $('captureNoticeClose').addEventListener('click',()=>{$('captureNotice').hidden=true;});
-  $('menuFiles').addEventListener('click',()=>openWorkspace('filesView',state.mode));
+  $('fdMenuExport').addEventListener('click',()=>{ $('exportImage').click();$('editorMenu').hidden=true;$('editorMenuBtn').setAttribute('aria-expanded','false'); });$('fdMenuPrint').addEventListener('click',()=>{ $('exportPDF').click();$('editorMenu').hidden=true;$('editorMenuBtn').setAttribute('aria-expanded','false'); });$('menuFiles').addEventListener('click',()=>openWorkspace('filesView',state.mode));
   $('menuPermissions').addEventListener('click',()=>{closeMenu();$('accessPanel').hidden=false;});
   $('accessActivate').addEventListener('click',authorizeAll);
   $('accessSkip').addEventListener('click',()=>{$('accessPanel').hidden=true;displayMode('edit');});
