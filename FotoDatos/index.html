@@ -67,6 +67,23 @@
 .capture-controls{position:relative;left:auto;right:auto;bottom:auto;flex:0 0 auto;z-index:9;background:#040c10;min-height:115px;padding-top:8px}
 .camera-region{flex:1 1 auto;min-height:0}
 
+/* FotoDatos 0.3.0 (3): biblioteca clara y mapa continuo */
+.storage-card{display:grid;gap:10px}
+.storage-state{display:flex;align-items:center;gap:11px;min-width:0;padding:11px;background:#183846;border-radius:11px;border:1px solid #446c75}
+.storage-symbol{font-size:26px;color:#71f1d3;flex:0 0 auto}
+.storage-state>div{min-width:0;flex:1}.storage-state strong{display:block;font-size:.84rem;overflow-wrap:anywhere}.storage-state small{display:block;margin-top:4px;font-size:.75rem;color:#bbd4db;line-height:1.4}
+.storage-buttons{display:flex;gap:8px;flex-wrap:wrap}.storage-buttons button{font-size:.82rem;flex:1;min-width:140px}.storage-buttons button:disabled{opacity:.58}
+.library-banner{max-width:840px;margin:0 auto 13px;background:#d9eee9;border:1px solid #a7d5c6;color:#184f4f;padding:12px;border-radius:12px;display:grid;gap:4px}
+.library-banner span{font-size:.88rem;font-weight:750}.library-banner small{font-size:.76rem;line-height:1.45;color:#3f6468}
+.map-tiles img{left:0;top:0;will-change:transform;width:256px;height:256px;max-width:none;pointer-events:none}
+.map-surface{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.map-gps-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:2px solid #ed6a52;border-radius:50%;background:#ed6a5215;pointer-events:none}
+.map-gps-ring[hidden]{display:none!important}.map-cross{z-index:4}.map-ring{z-index:3}
+.map-controls{z-index:6}.map-credits{z-index:5}.map-info{min-height:22px}
+@media(max-width:400px){.map-coords{flex-wrap:nowrap;gap:7px}.map-coords label{min-width:0}.map-wrap{height:min(55dvh,500px)}.map-actions button{min-width:0}}
+
+.map-connection{position:absolute;z-index:7;left:8px;bottom:28px;max-width:min(80%,300px);padding:6px 9px;background:#f6f9f3ee;color:#22414a;border-radius:9px;font-size:.74rem;pointer-events:none}.map-connection[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -80,7 +97,7 @@
         </button>
       </div>
       <div id="menuPanel" class="menu-panel" hidden>
-        <button id="menuFiles" type="button"><span aria-hidden="true">▧</span> Archivos guardados</button>
+        <button id="menuFiles" type="button"><span aria-hidden="true">▧</span> Mis capturas</button>
         <button id="menuPermissions" type="button"><span aria-hidden="true">◉</span> Permisos de dispositivos</button>
         <button id="goEdit" type="button"><span aria-hidden="true">✓</span> Confirmar: ir a edición</button>
         <button id="goCapture" type="button"><span aria-hidden="true">◎</span> Modo captura</button>
@@ -109,7 +126,7 @@
       <div class="capture-controls" id="captureControls">
         <button id="switchCamera" class="round-action" title="Cambiar cámara" aria-label="Cambiar cámara" type="button">↻</button>
         <div class="capture-middle"><div class="capture-tabs" role="group" aria-label="Tipo de captura"><button id="photoTab" class="is-active" type="button" aria-pressed="true">Foto</button><button id="videoTab" type="button" aria-pressed="false">Video</button></div><button id="shutter" class="shutter" aria-label="Tomar fotografía" type="button"><span></span></button></div>
-        <button id="openGallery" class="round-action" title="Archivos guardados" aria-label="Archivos guardados" type="button">▧</button>
+        <button id="openGallery" class="round-action" title="Mis capturas" aria-label="Mis capturas" type="button">▧</button>
       </div>
       <div id="captureNotice" class="capture-notice" role="status" aria-live="polite" hidden>
         <span id="captureNoticeText">Captura almacenada</span>
@@ -137,47 +154,52 @@
       <label class="check"><input id="saveOriginal" type="checkbox" checked> Conservar original sin plantilla</label>
       <label class="check"><input id="saveComposed" type="checkbox" checked> Conservar archivo con plantilla</label>
       <label class="check"><input id="saveBrowser" type="checkbox" checked> Guardar automáticamente en este navegador</label>
-      <p class="hint">Los archivos locales se consultan en «Archivos guardados». Descárguelos para tener una copia independiente del navegador.</p>
+      <p class="hint">El guardado ocurre automáticamente aquí, sin descargar archivos. «Exportar copia» envía un archivo a Descargas cuando usted lo necesite.</p>
+    </fieldset>
+    <fieldset class="storage-card"><legend>Destino de almacenamiento</legend>
+      <div class="storage-state"><span class="storage-symbol" aria-hidden="true">▣</span><div><strong id="storageRoute">Este dispositivo / Navegador / FotoDatos</strong><small id="storageStatus" aria-live="polite">Preparando biblioteca local…</small></div></div>
+      <div class="storage-buttons"><button id="chooseFolder" type="button">Elegir carpeta para copia automática</button><button id="removeFolder" type="button" hidden>Quitar carpeta adicional</button></div>
+      <p class="hint" id="storageHint">La biblioteca privada del navegador es el destino predeterminado. No equivale a una carpeta visible del administrador de archivos.</p>
     </fieldset>
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.2.0 (2)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>13 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
-  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra Menú y elija «Confirmar: ir a edición» para modificar la plantilla, agregar textos o imágenes y exportar. Si no hay cámara, se abre el editor. Las capturas se guardan en este navegador cuando la opción está activa; también puede descargarlas desde Archivos guardados. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.3.0 (3)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>13 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra Menú y elija «Confirmar: ir a edición» para modificar la plantilla, agregar textos o imágenes y exportar. Si no hay cámara, se abre el editor. Las capturas se guardan en este navegador cuando la opción está activa; también puede descargarlas desde Archivos guardados. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Las capturas se guardan automáticamente en la biblioteca de FotoDatos; desde Configuración puede elegir una carpeta adicional si su navegador lo admite.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin"></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal desde la ruta del proyecto. Compruebe que está publicado en el directorio principal de Recursos.</p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
-    <header class="workspace-header"><h2>Archivos guardados</h2><button id="filesBack" type="button">Volver</button></header>
-    <p class="workspace-subtitle">Conservados en este navegador. Descargue una copia para guardarla fuera de FotoDatos.</p>
+    <header class="workspace-header"><h2>Mis capturas</h2><button id="filesBack" type="button">Volver</button></header>
+    <div class="library-banner"><span id="libraryLocation">FotoDatos · Almacenamiento del navegador</span><small id="librarySummary">Las capturas se conservan aquí sin descargar archivos.</small></div>
     <div id="filesList" class="files-list" aria-live="polite"></div>
   </section>
   <section id="mapView" class="workspace-view map-view" hidden aria-label="Ajustar coordenadas">
     <header class="workspace-header"><h2>Ubicación</h2><button id="mapBack" type="button">Volver</button></header>
-    <div class="map-info"><span id="mapAccuracy">Precisión GPS no disponible</span><span id="mapZoomInfo">Vista de aproximadamente 100 m</span></div>
+    <div class="map-info"><span id="mapAccuracy">Precisión GPS no disponible</span><span id="mapZoomInfo">Referencia: radio 100 m</span></div>
     <div class="map-wrap">
-      <div id="mapSurface" class="map-surface" role="img" aria-label="Mapa interactivo. Arrastre para desplazar o toque para seleccionar el lugar.">
+      <div id="mapSurface" class="map-surface" role="img" aria-label="Mapa interactivo. Deslice para desplazar, pellizque para acercar y toque para elegir el punto central.">
         <div id="mapTiles" class="map-tiles"></div>
-        <div class="map-ring" aria-hidden="true"></div>
+        <div class="map-ring" aria-hidden="true"></div><div class="map-gps-ring" aria-hidden="true" hidden></div>
         <div class="map-cross" aria-hidden="true">+</div>
       </div>
       <div class="map-controls"><button id="mapZoomIn" type="button" aria-label="Acercar mapa">+</button><button id="mapZoomOut" type="button" aria-label="Alejar mapa">−</button></div>
-      <div class="map-credits">© OpenStreetMap contributors · Mapa de consulta</div>
+      <div id="mapConnection" class="map-connection" role="status" hidden>No fue posible cargar el mapa. Puede editar las coordenadas.</div><div class="map-credits">© OpenStreetMap contributors · Mapa de consulta</div>
     </div>
     <div class="map-coords"><label>Latitud<input id="mapLat" type="number" step="any" inputmode="decimal"></label><label>Longitud<input id="mapLon" type="number" step="any" inputmode="decimal"></label></div>
-    <div class="map-actions"><button id="mapUseGPS" type="button">Usar GPS</button><button id="mapSatellite" type="button">Satélite Google</button><button id="mapConfirm" type="button" class="primary">Aplicar ubicación</button></div>
-    <p class="map-note">Mueva el mapa para colocar el punto central. El enlace satelital abre Google Maps; sus imágenes no se almacenan localmente. Las coordenadas se pueden editar directamente.</p>
+    <div class="map-actions"><button id="mapUseGPS" type="button">Mi ubicación GPS</button><button id="mapConfirm" type="button" class="primary">Usar este punto</button></div>
+    <p class="map-note">Deslice el mapa y sitúe la cruz en el lugar correcto. Pellizque para ampliar; confirme con «Usar este punto». El círculo discontinuo indica 100 m de radio, no la precisión GPS. Los mapas se consultan en línea únicamente cuando abre esta vista.</p>
   </section>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <input id="backgroundInput" type="file" accept="image/*" hidden>
   <input id="layerImageInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <input id="projectInput" type="file" accept=".fotodatos,application/json" hidden>
   <script>
-/* FotoDatos 0.2.0 (2) | 13 nov. 2026 | Sin dependencias de red */
+/* FotoDatos 0.3.0 (3) | 13 nov. 2026 | Mapas solo al abrir, archivo local */
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.2.0';
+const VERSION = '0.3.0';
 const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:true,logoImg:null,textLayers:[],imageLayers:[]};
-const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:18,mapDrag:null,mapLocation:null,mapDirty:false,idb:null,libraryReady:false};
+const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"browser",lastFolderState:"",storageBytes:null};
 const months=['ene.','feb.','mar.','abr.','may.','jun.','jul.','ago.','sept.','oct.','nov.','dic.'];
 const logoVector = `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>`;
 function dateText(d=new Date()){return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;}
@@ -226,7 +248,7 @@ function updateGPSPosition(p,manual=false){
   if(!manual && state.position && !state.manualPosition && Number.isFinite(state.position.accuracy) && Number.isFinite(p.accuracy) && p.accuracy>state.position.accuracy && Date.now()-state.gpsStarted<26000)return;
   state.position={latitude:p.latitude,longitude:p.longitude,accuracy:Number.isFinite(p.accuracy)?p.accuracy:null};
   state.manualPosition=manual;state.gpsError='';renderTemplate();renderEditor();
-  if(!$('mapView').hidden && !manual){state.mapLocation={...state.position};state.mapCenter={latitude:p.latitude,longitude:p.longitude};state.mapDirty=false;updateMap();}
+  if(!$('mapView').hidden && !manual && !state.mapDirty && !state.mapTouches.size){state.mapLocation={...state.position};state.mapCenter={latitude:p.latitude,longitude:p.longitude};state.mapDirty=false;queueMapDraw();}
 }
 function getLocation(showResult=true,force=false){
   if(!navigator.geolocation){state.gpsError='GPS no compatible';if(showResult)toast(state.gpsError,true);renderTemplate();return;}
@@ -283,10 +305,44 @@ async function importBackground(file){if(!file||!file.type.startsWith('image/'))
 function exportCanvasBlob(canvas,type='image/png',quality=.95){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('El navegador no pudo exportar la imagen.')),type,quality));}
 function getExt(type){if(/png/i.test(type))return 'png';if(/webm/i.test(type))return 'webm';if(/mp4/i.test(type))return 'mp4';if(/webp/i.test(type))return 'webp';return 'jpg';}
 function notice(text){const el=$('captureNotice');$('captureNoticeText').textContent=text;el.hidden=false;clearTimeout(state.noticeTimer);state.noticeTimer=setTimeout(()=>el.hidden=true,6500);}
-function openWorkspace(id,origin){closeMenu();if(state.record){toast('Detenga primero la grabación.',true);return;}if(id==='filesView'){state.fileOrigin=origin||state.mode;renderFiles();}else{state.mapOrigin=origin||state.mode;state.mapLocation=state.position?{...state.position}:null;state.mapCenter=state.mapLocation?{...state.mapLocation}:null;state.mapZoom=18;state.mapDirty=false;}$(id).hidden=false;if(id==='mapView')updateMap();}
-function closeWorkspace(id){$(id).hidden=true;}
-function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Almacenamiento no disponible'));const req=indexedDB.open('FotoDatosArchivos',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('capturas'))db.createObjectStore('capturas',{keyPath:'id'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function openWorkspace(id,origin){closeMenu();if(state.record){toast('Detenga primero la grabación.',true);return;}if(id==='filesView'){state.fileOrigin=origin||state.mode;renderFiles();}else{state.mapOrigin=origin||state.mode;state.mapLocation=state.position?{...state.position}:null;state.mapCenter=state.mapLocation?{...state.mapLocation}:null;state.mapZoom=17.3;state.mapDirty=false;state.mapTouches.clear();state.mapTileNodes.clear();state.mapLoaded=false;state.mapTileErrors=0;$('mapConnection').hidden=true;$('mapTiles').replaceChildren();}$(id).hidden=false;if(id==='mapView')queueMapDraw(true);}
+function closeWorkspace(id){$(id).hidden=true;if(id==='mapView'){cancelAnimationFrame(state.mapFrame);state.mapFrame=0;state.mapTouches.clear();}}
+function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(Error('Almacenamiento no disponible'));const req=indexedDB.open('FotoDatosArchivos',2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('capturas'))db.createObjectStore('capturas',{keyPath:'id'});if(!db.objectStoreNames.contains('preferencias'))db.createObjectStore('preferencias');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 async function getDB(){if(!state.idb)state.idb=await openDB();return state.idb;}
+// La ruta privada del navegador no es una carpeta del sistema operativo.
+function platformLabel(){const ua=navigator.userAgent||'';const os=/Android/i.test(ua)?'Android':/iPhone|iPad|iPod/i.test(ua)?'iOS/iPadOS':/Windows/i.test(ua)?'Windows':/Mac OS X/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'Este dispositivo';const browser=/Edg\//.test(ua)?'Edge':/Firefox\//.test(ua)?'Firefox':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'Navegador';return `${os} · ${browser}`;}
+async function getPreference(key){const db=await getDB();return new Promise((resolve,reject)=>{const req=db.transaction('preferencias','readonly').objectStore('preferencias').get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function putPreference(key,val){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('preferencias','readwrite');tx.objectStore('preferencias').put(val,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
+async function folderPermission(handle){if(!handle)return false;try{return (await handle.queryPermission({mode:'readwrite'}))==='granted';}catch{return false;}}
+async function refreshStorageView(){
+ const base=`${platformLabel()} / FotoDatos / Biblioteca local`;const name=state.folderHandle?.name;
+ $('storageRoute').textContent=base;
+ const copied=!!name && state.folderReady;
+ $('storageStatus').textContent=copied?`Guardado local + copia automática en carpeta «${name}»`:state.folderHandle?`Carpeta «${name}» requiere nuevo permiso. Se guarda en FotoDatos.`:'Archivos guardados dentro de este navegador';
+ $('removeFolder').hidden=!state.folderHandle;
+ $('chooseFolder').textContent=state.folderHandle?'Cambiar carpeta de copia':'Elegir carpeta para copia automática';
+ $('chooseFolder').disabled=typeof window.showDirectoryPicker!=='function';
+ $('storageHint').textContent=typeof window.showDirectoryPicker==='function'?'La carpeta elegida recibe una copia de cada captura. El navegador puede pedir autorización de nuevo. La biblioteca sigue siendo el destino principal.':'Este navegador no permite elegir una carpeta desde esta página. Use «Exportar copia» en Archivos para guardar en Descargas.';
+ $('libraryLocation').textContent=copied?`Biblioteca FotoDatos · copia en «${name}»`:'Biblioteca FotoDatos · este navegador';
+ let quota='';try{if(navigator.storage?.estimate){const e=await navigator.storage.estimate();if(Number.isFinite(e.usage)&&Number.isFinite(e.quota)){quota=` · ${(e.usage/1048576).toFixed(1)} MB usados de ${(e.quota/1048576).toFixed(0)} MB estimados`;}}}catch{}
+ $('librarySummary').textContent=`Guardado dentro de ${platformLabel()}${quota}. Exportar copia es opcional.`;
+}
+async function restoreFolder(){try{const h=await getPreference('carpetaCopia');if(h?.kind==='directory'){state.folderHandle=h;state.folderReady=await folderPermission(h);}}catch{}await refreshStorageView();}
+async function chooseFolder(){if(!window.showDirectoryPicker){toast('Este navegador no permite elegir carpeta. La biblioteca de FotoDatos sigue activa.',true);return;}try{
+ const options={id:'fotodatos-capturas',mode:'readwrite',startIn:'pictures'};const handle=await window.showDirectoryPicker(options);
+ // El selector y la primera autorización pertenecen a esta pulsación; no se elude la seguridad del navegador.
+ const authorized=await folderPermission(handle) || (typeof handle.requestPermission==='function' && await handle.requestPermission({mode:'readwrite'})==='granted');
+ if(!authorized){toast('No se autorizó la carpeta. Se mantiene el guardado local.',true);return;}
+ state.folderHandle=handle;state.folderReady=true;
+ try{await putPreference('carpetaCopia',handle);}catch{toast('Carpeta elegida para esta sesión. El navegador no pudo recordar el acceso.',true);}
+ await refreshStorageView();toast(`La biblioteca se mantiene y las próximas capturas se copiarán en «${handle.name}».`);
+ }catch(e){if(e?.name!=='AbortError')toast('No se pudo seleccionar una carpeta. Continúa el guardado local.',true);}}
+async function removeFolder(){state.folderHandle=null;state.folderReady=false;try{await putPreference('carpetaCopia',null);}catch{}await refreshStorageView();toast('Solo se guardará dentro de FotoDatos.');}
+async function copyToFolder(items){if(!state.folderHandle)return {copied:0,skipped:false};if(!await folderPermission(state.folderHandle)){state.folderReady=false;await refreshStorageView();return {copied:0,skipped:true};}
+ let count=0;try{for(const item of items){const raw=item.filename.replace(/[^a-zA-Z0-9_.-]/g,'_');const dot=raw.lastIndexOf('.');const base=dot>=0?raw.slice(0,dot):raw,ext=dot>=0?raw.slice(dot):'';let filename=raw;
+ for(let i=2;i<1000;i++){try{await state.folderHandle.getFileHandle(filename,{create:false});filename=`${base}_${i}${ext}`;}catch(err){if(err?.name==='NotFoundError')break;throw err;}}
+ const file=await state.folderHandle.getFileHandle(filename,{create:true});const writable=await file.createWritable();try{await writable.write(item.blob);await writable.close();}catch(e){try{await writable.abort();}catch{}throw e;}count++;}
+ return {copied:count,skipped:false};}catch(e){state.folderReady=false;await refreshStorageView();return {copied:count,skipped:true};}}
 async function saveEntry(entry){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readwrite');tx.objectStore('capturas').put(entry);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
 async function listEntries(){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readonly');const req=tx.objectStore('capturas').getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.created-a.created));req.onerror=()=>reject(req.error);});}
 async function deleteEntry(id){const db=await getDB();return new Promise((resolve,reject)=>{const tx=db.transaction('capturas','readwrite');tx.objectStore('capturas').delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
@@ -294,17 +350,23 @@ async function showResults(title,items,description){
   const selected=items.filter(i=>i.label.toLowerCase().includes('original')?state.config.saveOriginal:state.config.saveComposed);
   if(!selected.length){toast('Active al menos una versión en Configuración.',true);return;}
   state.lastItems=selected;state.lastSaved=false;
-  if(state.config.saveBrowser){
-    try{await saveEntry({id:`${Date.now()}_${selected[0].filename.replace(/[^\w.\-]/g,'')}`,title,created:Date.now(),description,items:selected.map(i=>({label:i.label,filename:i.filename,blob:i.blob}))});state.lastSaved=true;notice(`${title} · guardados en este navegador`);}catch(e){notice('No se pudo guardar localmente · Ver archivos');toast('Almacenamiento local insuficiente o bloqueado. Descargue los archivos.',true);}
-  }else notice(`${title} · listos para descargar`);
-  // La vista de archivos no interrumpe la cámara; se abre solo a petición del usuario.
+  if(state.config.saveBrowser){try{
+    await saveEntry({id:`${Date.now()}_${selected[0].filename.replace(/[^\w.\-]/g,'')}`,title,created:Date.now(),description,items:selected.map(i=>({label:i.label,filename:i.filename,blob:i.blob}))});
+    state.lastSaved=true;
+  }catch(e){toast('No pudo completarse el guardado en el navegador. Abra Archivos y exporte una copia.',true);}}
+  let copies={copied:0,skipped:false};if(state.folderHandle)copies=await copyToFolder(selected);
+  if(state.lastSaved){notice(copies.copied===selected.length?`${selected.length} archivos guardados · Copias en «${state.folderHandle.name}»`:`${selected.length} archivos guardados en FotoDatos`);}
+  else if(copies.copied===selected.length){notice(`${selected.length} archivos copiados a «${state.folderHandle.name}»`);}
+  else{notice('Captura disponible solo en esta sesión · Exportar copia');}
+  if(copies.skipped)toast('No se pudo escribir en la carpeta adicional. La biblioteca local conserva las capturas si el guardado estaba activo.',true);
+  // El guardado automático no equivale a descargar o compartir un archivo.
 }
-async function renderFiles(){const list=$('filesList');list.replaceChildren();let entries=[];try{entries=await listEntries();}catch{list.textContent='No se pudo consultar el almacenamiento. Revise los permisos o descargue las capturas recientes.';}
-  if(!entries.length && !state.lastItems.length){list.textContent='Todavía no hay archivos guardados.';return;}
+async function renderFiles(){const list=$('filesList');list.replaceChildren();let entries=[];try{entries=await listEntries();}catch{list.textContent='No se pudo consultar la biblioteca local. Exporte las capturas recientes y revise el almacenamiento del navegador.';}
+  if(!entries.length && !state.lastItems.length){list.textContent='Todavía no hay capturas. Se guardarán aquí automáticamente.';return;}
   const all=[...(!state.lastSaved&&state.lastItems.length?[{id:'reciente',title:'Última captura (sin guardar)',created:Date.now(),items:state.lastItems}]:[]),...entries];
   for(const e of all){const row=document.createElement('div');row.className='file-group';const first=e.items.find(x=>x.label.includes('plantilla'))||e.items[0];const preview=document.createElement('div');preview.className='file-preview file-preview-placeholder';preview.textContent='▧';row.appendChild(preview);
     if(first?.blob?.type.startsWith('image/')){const img=document.createElement('img');img.className='file-preview';const u=URL.createObjectURL(first.blob);img.src=u;img.onload=()=>URL.revokeObjectURL(u);img.onerror=()=>URL.revokeObjectURL(u);row.replaceChild(img,preview);}
-    const info=document.createElement('div');info.className='file-details';const name=document.createElement('strong');name.textContent=e.title;info.appendChild(name);const small=document.createElement('small');small.textContent=`${new Date(e.created).toLocaleString('es-CO')} · ${e.items.length} archivo(s)`;info.appendChild(small);const controls=document.createElement('div');controls.className='file-controls';for(const item of e.items){const btn=document.createElement('button');btn.type='button';btn.textContent=`Descargar ${item.label} · ${(item.blob.size/1048576).toFixed(1)} MB`;btn.addEventListener('click',()=>downloadBlob(item.blob,item.filename));controls.appendChild(btn);}
+    const info=document.createElement('div');info.className='file-details';const name=document.createElement('strong');name.textContent=e.title;info.appendChild(name);const small=document.createElement('small');small.textContent=`${new Date(e.created).toLocaleString('es-CO')} · ${e.items.length} archivo(s)`;info.appendChild(small);const controls=document.createElement('div');controls.className='file-controls';for(const item of e.items){const btn=document.createElement('button');btn.type='button';btn.textContent=`Exportar copia: ${item.label} · ${(item.blob.size/1048576).toFixed(1)} MB`;btn.addEventListener('click',()=>downloadBlob(item.blob,item.filename));controls.appendChild(btn);}
     if(e.id!=='reciente'){const del=document.createElement('button');del.className='delete';del.textContent='Eliminar';del.addEventListener('click',async()=>{if(del.dataset.confirm!=='true'){del.dataset.confirm='true';del.textContent='Confirmar eliminación';return;}await deleteEntry(e.id);await renderFiles();});controls.appendChild(del);}info.appendChild(controls);row.appendChild(info);list.appendChild(row);
   }
 }
@@ -316,7 +378,7 @@ async function makePhoto(){if(!cameraReady()||state.record){toast('La cámara no
     if(!original){original=await frameAsBlob($('cameraVideo'));originalNote='Original capturado del fotograma de video; puede tener menos resolución que el sensor.';}
     let image;try{image=await createImageBitmap(original);}catch{const url=URL.createObjectURL(original);try{image=await loadImage(url);}finally{URL.revokeObjectURL(url);}}
     await preloadLayers();const out=document.createElement('canvas');out.width=image.width||image.naturalWidth;out.height=image.height||image.naturalHeight;compose(out.getContext('2d'),out.width,out.height,image,{date:stamp,id:name});const decorated=await exportCanvasBlob(out,'image/png');if(image.close)image.close();
-    await showResults('Fotografías listas',[{label:'original',blob:original,filename:`${name}_original.${getExt(original.type)}`},{label:'con plantilla',blob:decorated,filename:`${name}_plantilla.png`}],`${originalNote} Resolución de salida: ${out.width} × ${out.height}. Descargue ambos archivos.`);
+    await showResults('Fotografías listas',[{label:'original',blob:original,filename:`${name}_original.${getExt(original.type)}`},{label:'con plantilla',blob:decorated,filename:`${name}_plantilla.png`}],`${originalNote} Resolución de salida: ${out.width} × ${out.height}.`);
     state.config.counter++;syncSettings();saveLocal();renderTemplate();
   }catch(e){toast(`No se pudo capturar la fotografía: ${e.message||'error desconocido'}`,true);}finally{$('shutter').disabled=false;}}
 function usableMime(){if(typeof MediaRecorder==='undefined')return null;const types=['video/mp4;codecs="avc1.42E01E,mp4a.40.2"','video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/mp4','video/webm'];return types.find(t=>MediaRecorder.isTypeSupported(t))||null;}
@@ -362,25 +424,44 @@ async function openProject(file){if(!file)return;let candidate;try{if(file.size>
   if(candidate.background && (typeof candidate.background!=='string'||!candidate.background.startsWith('data:image/')))throw Error('Fondo no válido.');
   const bg=candidate.background?await cachedImage(candidate.background):null;if(candidate.background&&!bg)throw Error('Imagen de fondo no válida.');state.config=cfg;state.background=bg?{src:candidate.background,image:bg,name:candidate.backgroundName||'Imagen'}:null;state.selected=null;await preloadLayers();syncSettings();renderTemplate();renderEditor();saveLocal();displayMode('edit');toast('Plantilla abierta.');
  }catch(e){toast(`No se abrió el archivo: ${e.message}`,true);}}
-function gpsMapUrl(){const p=state.mapCenter||state.position;if(!p)return 'https://www.google.com/maps';const center=`${p.latitude.toFixed(7)},${p.longitude.toFixed(7)}`;return `https://www.google.com/maps/@?api=1&map_action=map&center=${encodeURIComponent(center)}&zoom=${state.mapZoom}&basemap=satellite`;}
-function mapWorld(lon,lat,z){const n=256*Math.pow(2,z);const normalized=clamp(lat,-85.05112878,85.05112878);const r=normalized*Math.PI/180;return {x:(lon+180)/360*n,y:(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n};}
-function worldMap(x,y,z){const n=256*Math.pow(2,z);const r=Math.atan(Math.sinh(Math.PI*(1-2*y/n)));return {latitude:r*180/Math.PI,longitude:(x/n*360)-180};}
-function updateMap(){if($('mapView').hidden)return;const p=state.mapCenter;if(!p){$('mapTiles').replaceChildren();$('mapLat').value='';$('mapLon').value='';$('mapAccuracy').textContent='Sin GPS: ingrese las coordenadas o active la ubicación';$('mapZoomInfo').textContent='La vista de 100 m comenzará al elegir un punto';return;}
-  const surface=$('mapSurface');const w=surface.clientWidth||360,h=surface.clientHeight||380;const z=state.mapZoom,origin=mapWorld(p.longitude,p.latitude,z);const tiles=$('mapTiles');tiles.replaceChildren();
-  const firstX=Math.floor((origin.x-w/2)/256),lastX=Math.floor((origin.x+w/2)/256),firstY=Math.floor((origin.y-h/2)/256),lastY=Math.floor((origin.y+h/2)/256),n=Math.pow(2,z);
-  for(let tx=firstX;tx<=lastX;tx++){for(let ty=firstY;ty<=lastY;ty++){if(ty<0||ty>=n)continue;const im=document.createElement('img');im.alt='';im.loading='eager';im.referrerPolicy='strict-origin-when-cross-origin';im.src=`https://tile.openstreetmap.org/${z}/${(tx+n)%n}/${ty}.png`;im.style.left=`${Math.round(w/2+tx*256-origin.x)}px`;im.style.top=`${Math.round(h/2+ty*256-origin.y)}px`;tiles.appendChild(im);}}
-  const metersPerPx=156543.03392*Math.cos(p.latitude*Math.PI/180)/Math.pow(2,z);const diameterPx=Math.max(40,Math.min(0.85*Math.min(w,h),200/metersPerPx));$('mapView').querySelector('.map-ring').style.width=diameterPx+'px';$('mapView').querySelector('.map-ring').style.height=diameterPx+'px';
-  $('mapLat').value=p.latitude.toFixed(7);$('mapLon').value=p.longitude.toFixed(7);$('mapAccuracy').textContent=state.mapDirty?'Punto ajustado manualmente':state.manualPosition?'Punto seleccionado manualmente':Number.isFinite(state.position?.accuracy)?`Precisión GPS aproximada ± ${Math.round(state.position.accuracy)} m`:'Ubicación sin precisión GPS';$('mapZoomInfo').textContent='Círculo de referencia: radio 100 m';
+function mapWorld(lon,lat,z){const n=256*Math.pow(2,z);const safe=clamp(lat,-85.05112878,85.05112878)*Math.PI/180;return {x:(lon+180)/360*n,y:(1-Math.log(Math.tan(safe)+1/Math.cos(safe))/Math.PI)/2*n};}
+function worldMap(x,y,z){const n=256*Math.pow(2,z);const yy=clamp(y,0,n),r=Math.atan(Math.sinh(Math.PI*(1-2*yy/n)));return {latitude:r*180/Math.PI,longitude:((x/n*360+540)%360)-180};}
+function queueMapDraw(force=false){if($('mapView').hidden)return;if(force){cancelAnimationFrame(state.mapFrame);state.mapFrame=0;updateMap();return;}if(!state.mapFrame)state.mapFrame=requestAnimationFrame(()=>{state.mapFrame=0;updateMap();});}
+function updateMap(){if($('mapView').hidden)return;const p=state.mapCenter;const tiles=$('mapTiles');if(!p){tiles.replaceChildren();state.mapTileNodes.clear();$('mapAccuracy').textContent='Sin GPS: ingrese las coordenadas o active ubicación';$('mapZoomInfo').textContent='Mapa en espera de una posición';return;}
+ const surface=$('mapSurface'),w=surface.clientWidth||360,h=surface.clientHeight||380;const z=clamp(state.mapZoom,4,19),zi=Math.floor(z),scale=2**(z-zi);const origin=mapWorld(p.longitude,p.latitude,zi),tx0=Math.floor((origin.x-w/(2*scale))/256)-1,tx1=Math.floor((origin.x+w/(2*scale))/256)+1,ty0=Math.floor((origin.y-h/(2*scale))/256)-1,ty1=Math.floor((origin.y+h/(2*scale))/256)+1,n=2**zi;
+ const visible=new Set();for(let tx=tx0;tx<=tx1;tx++)for(let ty=ty0;ty<=ty1;ty++){
+   if(ty<0||ty>=n)continue;const key=`${zi}/${((tx%n)+n)%n}/${ty}`;visible.add(key);let im=state.mapTileNodes.get(key);
+   if(!im){im=document.createElement('img');im.alt='';im.decoding='async';im.loading='eager';im.draggable=false;im.referrerPolicy='strict-origin-when-cross-origin';im.addEventListener('load',()=>{state.mapLoaded=true;$('mapConnection').hidden=true;},{once:true});im.addEventListener('error',()=>{state.mapTileErrors++;if(!state.mapLoaded&&state.mapTileErrors>=4)$('mapConnection').hidden=false;},{once:true});im.src=`https://tile.openstreetmap.org/${zi}/${((tx%n)+n)%n}/${ty}.png`;tiles.appendChild(im);state.mapTileNodes.set(key,im);}
+   // El tamaño y la posición cambian con transformaciones CSS, sin reconstruir las imágenes al mover el mapa.
+   const x=w/2+(tx*256-origin.x)*scale,y=h/2+(ty*256-origin.y)*scale;im.style.width=`${256*scale+0.6}px`;im.style.height=`${256*scale+0.6}px`;im.style.transform=`translate3d(${x}px,${y}px,0)`;
+ }
+ for(const [key,img] of state.mapTileNodes)if(!visible.has(key)){img.remove();state.mapTileNodes.delete(key);}
+ const metersPerPx=156543.03392*Math.cos(p.latitude*Math.PI/180)/2**z;const d=Math.max(1,Math.min(1200,200/metersPerPx));const ring=$('mapView').querySelector('.map-ring');ring.style.width=`${d}px`;ring.style.height=`${d}px`;
+ const a=$('mapView').querySelector('.map-gps-ring');const accuracy=(!state.mapDirty&&!state.manualPosition&&Number.isFinite(state.position?.accuracy))?state.position.accuracy:null;a.hidden=!Number.isFinite(accuracy);if(Number.isFinite(accuracy)){const r=Math.max(2,Math.min(1400,2*accuracy/metersPerPx));a.style.width=`${r}px`;a.style.height=`${r}px`;}
+ // No se mueve la selección del usuario si se está escribiendo la coordenada.
+ if(document.activeElement!==$('mapLat'))$('mapLat').value=p.latitude.toFixed(7);
+ if(document.activeElement!==$('mapLon'))$('mapLon').value=p.longitude.toFixed(7);
+ $('mapAccuracy').textContent=state.mapDirty?'Ubicación ajustada manualmente':state.manualPosition?'Punto manual':Number.isFinite(accuracy)?`GPS: precisión estimada ± ${Math.round(accuracy)} m`:'GPS sin precisión disponible';
+ $('mapZoomInfo').textContent='Círculo: radio 100 m';
 }
-function shiftMap(dx,dy){const p=state.mapCenter;if(!p)return;const v=mapWorld(p.longitude,p.latitude,state.mapZoom);const next=worldMap(v.x+dx,v.y+dy,state.mapZoom);state.mapDirty=true;if(next.latitude>=-85&&next.latitude<=85)state.mapCenter=next;updateMap();}
-function applyManualCoords(){if(!$('mapLat').value.trim()||!$('mapLon').value.trim()){toast('Ingrese latitud y longitud.',true);return false;}const lat=Number($('mapLat').value),lon=Number($('mapLon').value);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat< -85||lat>85||lon< -180||lon>180){toast('Ingrese coordenadas válidas.',true);return false;}state.mapCenter={latitude:lat,longitude:lon};state.mapDirty=true;updateMap();return true;}
+function shiftMap(dx,dy){if(!state.mapCenter||!Number.isFinite(dx)||!Number.isFinite(dy))return;const z=state.mapZoom,v=mapWorld(state.mapCenter.longitude,state.mapCenter.latitude,z);state.mapCenter=worldMap(v.x-dx,v.y-dy,z);state.mapDirty=true;queueMapDraw();}
+function zoomMap(delta){if(!state.mapCenter)return;state.mapZoom=clamp(state.mapZoom+delta,4,19);queueMapDraw();}
+function applyManualCoords(){if(!$('mapLat').value.trim()||!$('mapLon').value.trim()){toast('Ingrese latitud y longitud.',true);return false;}const lat=Number($('mapLat').value),lon=Number($('mapLon').value);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat< -85.05112878||lat>85.05112878||lon< -180||lon>180){toast('Ingrese coordenadas válidas.',true);return false;}state.mapCenter={latitude:lat,longitude:lon};state.mapDirty=true;queueMapDraw(true);return true;}
+function mapPointerDown(e){if(e.pointerType==='mouse' && e.button!==0)return;if(!state.mapCenter)return;e.preventDefault();$('mapSurface').setPointerCapture(e.pointerId);state.mapTouches.set(e.pointerId,{x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false});state.mapPinch=null;}
+function mapPointerMove(e){const t=state.mapTouches.get(e.pointerId);if(!t)return;e.preventDefault();const dx=e.clientX-t.x,dy=e.clientY-t.y;t.x=e.clientX;t.y=e.clientY;if(Math.hypot(e.clientX-t.startX,e.clientY-t.startY)>7)t.moved=true;
+ if(state.mapTouches.size===1){shiftMap(dx,dy);return;}
+ const pts=[...state.mapTouches.values()];if(pts.length>=2){const dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y),center={x:(pts[0].x+pts[1].x)/2,y:(pts[0].y+pts[1].y)/2};if(state.mapPinch && dist>0 && state.mapPinch.dist>0){const change=Math.log2(dist/state.mapPinch.dist);if(Math.abs(change)>.001){state.mapZoom=clamp(state.mapZoom+change,4,19);state.mapDirty=true;}shiftMap(center.x-state.mapPinch.x,center.y-state.mapPinch.y);}state.mapPinch={dist,x:center.x,y:center.y};queueMapDraw();}}
+function mapPointerUp(e){const t=state.mapTouches.get(e.pointerId);if(!t)return;const wasSingle=state.mapTouches.size===1;state.mapTouches.delete(e.pointerId);state.mapPinch=null;
+ if(wasSingle&&!t.moved&&e.type==='pointerup'&&state.mapCenter){const box=$('mapSurface').getBoundingClientRect();const dx=box.left+box.width/2-e.clientX,dy=box.top+box.height/2-e.clientY;if(Math.hypot(dx,dy)>5)shiftMap(dx,dy);}
+ if(!state.mapTouches.size)queueMapDraw(true);
+}
 function bind(){
   $('menuButton').addEventListener('click',()=> $('menuPanel').hidden?showMenu():closeMenu());document.addEventListener('pointerdown',(e)=>{if(!$('menuPanel').hidden&&!e.target.closest('#menuPanel')&&!e.target.closest('#menuButton'))closeMenu();});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('menuPanel').hidden){e.preventDefault();closeMenu(true);}});
   $('goEdit').addEventListener('click',()=>{if(state.record){toast('Detenga primero el video.',true);return;}displayMode('edit');});$('goCapture').addEventListener('click',()=>{closeMenu();if(cameraReady())displayMode('capture');else startCamera();});
   for(const [btn,dialog] of [['settingsOpen','settingsDialog'],['editorSettings','settingsDialog'],['aboutOpen','aboutDialog'],['helpOpen','helpDialog']])$(btn).addEventListener('click',()=>openDialog(dialog));
   document.querySelectorAll('[data-close-dialog]').forEach(b=>b.addEventListener('click',()=>closeDialog(b.dataset.closeDialog)));
   $('legalLink').addEventListener('click',(e)=>{e.preventDefault();openDialog('legalDialog');const url=$('legalLink').getAttribute('href');$('legalFrame').src=url;const err=$('legalError');err.hidden=true;fetch(url,{method:'HEAD'}).then(r=>{if(!r.ok)err.hidden=false;}).catch(()=>{err.hidden=false;});});
-  $('settingsDone').addEventListener('click',()=>{updateFromSettings();closeDialog('settingsDialog');});
+  $('settingsDone').addEventListener('click',()=>{updateFromSettings();closeDialog('settingsDialog');});$('chooseFolder').addEventListener('click',chooseFolder);$('removeFolder').addEventListener('click',removeFolder);
   for(const k of ['showLogo','showDate','showGPS','showID','showNorth','prefix','suffix','counter','saveOriginal','saveComposed','saveBrowser'])$(k).addEventListener('change',updateFromSettings);
   $('logoUpload').addEventListener('change',async(e)=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Seleccione una imagen.',true);try{state.config.logoImg=await readDataURL(file);await cachedImage(state.config.logoImg);renderTemplate();renderEditor();toast('Logotipo personalizado incorporado.');}catch{toast('No se pudo leer el logotipo.',true);}e.target.value='';});
   $('requestGPS').addEventListener('click',()=>getLocation(true,true));$('requestNorth').addEventListener('click',enableNorth);
@@ -415,16 +496,14 @@ function bind(){
   $('openMapSettings').addEventListener('click',()=>{closeDialog('settingsDialog');openWorkspace('mapView',state.mode);});
   $('mapBack').addEventListener('click',()=>closeWorkspace('mapView'));
   $('mapUseGPS').addEventListener('click',()=>{getLocation(true,true);toast('Actualizando ubicación; observe la precisión.');});
-  $('mapSatellite').addEventListener('click',()=>{if(!state.mapCenter){toast('Obtenga GPS o ingrese coordenadas para abrir el satélite.',true);return;}window.open(gpsMapUrl(),'_blank','noopener,noreferrer');});
+  
   $('mapConfirm').addEventListener('click',()=>{if(!applyManualCoords())return;updateGPSPosition({...state.mapCenter,accuracy:null},true);closeWorkspace('mapView');toast('Ubicación manual aplicada.');});
-  $('mapZoomIn').addEventListener('click',()=>{state.mapZoom=Math.min(20,state.mapZoom+1);updateMap();});
-  $('mapZoomOut').addEventListener('click',()=>{state.mapZoom=Math.max(4,state.mapZoom-1);updateMap();});
+  $('mapZoomIn').addEventListener('click',()=>{zoomMap(0.65);});
+  $('mapZoomOut').addEventListener('click',()=>{zoomMap(-0.65);});
   for(const field of ['mapLat','mapLon'])$(field).addEventListener('change',()=>{if($('mapLat').value.trim()&&$('mapLon').value.trim())applyManualCoords();});
-  const surface=$('mapSurface');surface.addEventListener('pointerdown',e=>{if(e.button!==0)return;state.mapDrag={id:e.pointerId,x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY};surface.setPointerCapture(e.pointerId);});
-  surface.addEventListener('pointerup',e=>{const d=state.mapDrag;if(!d||d.id!==e.pointerId)return;state.mapDrag=null;const dx=d.startX-e.clientX,dy=d.startY-e.clientY;if(Math.hypot(dx,dy)>6)shiftMap(dx,dy);else shiftMap(e.clientX-surface.getBoundingClientRect().left-surface.clientWidth/2,e.clientY-surface.getBoundingClientRect().top-surface.clientHeight/2);});
-  surface.addEventListener('pointercancel',()=>state.mapDrag=null);
-  surface.addEventListener('wheel',e=>{e.preventDefault();state.mapZoom=clamp(state.mapZoom+(e.deltaY<0?1:-1),4,20);updateMap();},{passive:false});
-  window.addEventListener('resize',()=>{updateViewSize();if(!$('mapView').hidden)updateMap();});window.addEventListener('orientationchange',()=>setTimeout(updateViewSize,250));
+  const surface=$('mapSurface');surface.addEventListener('pointerdown',mapPointerDown);surface.addEventListener('pointermove',mapPointerMove);surface.addEventListener('pointerup',mapPointerUp);surface.addEventListener('pointercancel',mapPointerUp);
+  surface.addEventListener('wheel',e=>{e.preventDefault();zoomMap(e.deltaY<0?0.25:-0.25);},{passive:false});
+  window.addEventListener('resize',()=>{updateViewSize();if(!$('mapView').hidden)queueMapDraw(true);});window.addEventListener('orientationchange',()=>setTimeout(updateViewSize,250));
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&state.record)toast('El video sigue grabándose. Evite bloquear la pantalla.');});
   window.addEventListener('beforeunload',(e)=>{if(state.record){e.preventDefault();e.returnValue='';}});
 }
@@ -449,7 +528,7 @@ async function firstStart(){
   try{if(navigator.permissions?.query){const r=await navigator.permissions.query({name:'camera'});if(r.state==='granted')return startCamera();}}catch{}
   $('accessPanel').hidden=false;assignCameraStatus('Dispositivos por autorizar');return false;
 }
-async function init(){restoreLocal();syncSettings();bind();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;await firstStart();}
+async function init(){restoreLocal();syncSettings();bind();renderTemplate();renderEditor();setCaptureKind('photo');$('cameraPlaceholder').hidden=true;restoreFolder().catch(()=>refreshStorageView());await firstStart();}
 init();
 })();
 
