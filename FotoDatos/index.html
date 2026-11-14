@@ -247,6 +247,48 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
 .editor-header,.editor-sidebar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 #editorSidebar{background:rgba(255,255,255,.92)!important;border:1px solid rgba(190,213,222,.74)!important;border-radius:22px!important}
 @media(max-width:640px){.float-main-row{gap:8px}.float-main-row button{width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;font-size:20px!important}#toolInsert{width:62px!important;height:62px!important;min-width:62px!important;min-height:62px!important;font-size:28px!important}.float-subrow,.fd-text-tools{max-width:calc(100vw - 10px)}.float-subrow{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.fd-text-tools{bottom:calc(158px + env(safe-area-inset-bottom,0px))}}
+
+/* FotoDatos 0.8.0 (9): acciones SVG, recortes de varios pasos y cotas editables. */
+#editorMode .edit-stage{padding-bottom:clamp(126px,17dvh,160px);background:radial-gradient(ellipse at 52% 32%,#ddeaf0,#ccdee6 76%,#c2d3df);}
+#editorMode .edit-stage:after{content:"";position:absolute;bottom:0;left:0;right:0;height:clamp(120px,17dvh,160px);background:linear-gradient(180deg,transparent,#0c263a65 95%);pointer-events:none;z-index:0;}
+.float-main-row button:not(#toolInsert){background:linear-gradient(160deg,#1c4456eb,#113043e8)!important;border-color:#a4d8d4a8!important;box-shadow:0 5px 20px #001b2c64,inset 0 1px 0 #e7fffd3d!important;color:#eafbff!important}
+.float-main-row button:not(#toolInsert):hover{background:#2c6673!important}
+.float-main-row #toolInsert{background:linear-gradient(160deg,#88f6e4,#49c8bd)!important;color:#053039!important}
+
+.editor-view{position:relative;overflow:hidden}.editor-header{position:relative;z-index:37}
+.fd-document-menu[hidden],.fd-crop-sense[hidden],.fd-measure-overlay[hidden]{display:none!important}
+.fd-document-menu{position:absolute;top:55px;right:58px;z-index:55;display:grid;gap:2px;width:max-content;max-width:calc(100vw - 20px);padding:9px;background:#13343deF;border:1px solid #94c9c8a6;border-radius:15px;box-shadow:0 15px 35px #061c27a6}
+.fd-document-menu button{text-align:left;min-width:150px;min-height:44px;background:transparent;border:0;padding:9px 17px;font-weight:650}
+.fd-document-menu button:hover,.fd-document-menu button:focus-visible{background:#39726d}
+.editor-header #editorMenuBtn .fd-menu-symbol{width:25px;height:29px;flex:0 0 auto}.editor-header #editorMenuBtn{display:flex;align-items:center;gap:8px;background:var(--glass-bg);border:1px solid var(--glass-line);min-height:44px}
+.editor-header #editorBack{font-size:21px;min-height:44px;min-width:44px;border-radius:13px}
+.editor-float-bar button svg,.fd-text-tools button svg,.fd-zoom button svg{display:block;width:23px;height:23px;flex:none;stroke:currentColor}
+.float-subrow button{display:inline-flex!important;align-items:center;justify-content:center;gap:5px;min-width:44px!important;min-height:44px!important}
+.float-subrow[hidden],.fd-text-tools[hidden],.fd-measure-overlay[hidden],#toolSelectedBar[hidden],#toolCrop[hidden],#toolCropClosePoly[hidden],#toolTextStyle[hidden]{display:none!important}
+.float-subrow{flex-wrap:nowrap!important;overflow-x:auto;max-width:calc(100vw - 12px);scrollbar-width:thin;scrollbar-color:#9cd9d0 transparent;overscroll-behavior-x:contain}
+#toolSelectedBar{gap:5px!important}#toolSelectedBar button{flex:0 0 46px}
+#toolCropSub button{flex:0 0 45px}#toolCropSense{background:#d4f6ed22;border:1px solid #b8dfd0aa;color:#fff;font-size:12px;font-weight:650;min-height:44px;padding:9px 13px;border-radius:13px}
+.fd-crop-sense{position:fixed;z-index:28;bottom:calc(148px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 10px);text-align:center}
+.fd-crop-sense button[aria-pressed=true]{background:#6b4056;border-color:#ffcbaf}
+.fd-measure-overlay{position:absolute;z-index:24;transform:translate(-50%,-50%) rotate(var(--measure-angle,0deg));pointer-events:none;box-sizing:content-box;border:1.5px dashed #f0faff;box-shadow:0 0 0 1px #105361b0,0 0 16px #0a3035b0}
+.fd-measure-frame{position:relative;width:100%;height:100%;pointer-events:none}
+.fd-measure-width,.fd-measure-height{pointer-events:auto;position:absolute;min-height:40px;min-width:70px;padding:7px 9px;border:1px solid #d9efffac;border-radius:11px;background:#153e57eb;color:#fff;font-weight:700;font-size:12px;white-space:nowrap;box-shadow:0 4px 16px #0c263ac5;font-variant-numeric:tabular-nums}
+.fd-measure-width{left:50%;top:-49px;transform:translateX(-50%) rotate(var(--measure-inverse,0deg))}
+.fd-measure-height{left:calc(100% + 22px);top:50%;transform:translateY(-50%) rotate(var(--measure-inverse,0deg))}
+.fd-dim-dialog{width:min(380px,calc(100vw - 18px))}.fd-dim-body{padding:16px;display:grid;gap:12px}.fd-dim-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fd-dim-fields label{display:grid;gap:6px;font-size:12px;color:#c9e2e5}.fd-dim-fields input{width:100%;min-width:0;background:#f8ffff;border:1px solid #bad4db;color:#14333c;border-radius:8px;min-height:45px;padding:8px}
+.fd-aspect-label{display:flex;align-items:center;gap:9px;min-height:38px}.fd-aspect-label input{height:19px;width:19px;accent-color:#5ce9d0}.fd-dim-body p{font-size:12px;color:#b8d0d9;margin:0}.fd-dialog-actions{display:flex;justify-content:flex-end;gap:8px}
+.fd-text-tools{flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain;justify-content:flex-start!important;scrollbar-width:thin;max-width:min(100vw - 12px,690px)!important;min-height:56px}
+.fd-text-tools select,.fd-text-tools button{flex:0 0 auto;min-height:44px!important}.fd-text-tools #fdFont{width:83px}.fd-text-tools #fdLineHeight{width:70px}
+.fd-text-tools #fdTextSize{height:44px!important;flex:0 0 62px;color:#fff!important;background:#264c55!important}
+.fd-text-tools input[type=color]{flex:0 0 44px}
+.fd-zoom{z-index:35}.editor-stage-hint{max-width:calc(100vw - 20px);pointer-events:none;bottom:calc(156px + env(safe-area-inset-bottom,0px));font-size:12px}
+button:focus-visible{outline:2px solid #c7fff0;outline-offset:2px}
+.float-subrow button:active,.float-main-row button:active{transform:scale(.92)!important;filter:brightness(1.2)}
+@media(max-width:640px){.float-main-row{gap:clamp(2px,1vw,5px)!important}.float-main-row button{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important}.float-main-row #toolInsert{width:58px!important;height:58px!important;min-width:58px!important;min-height:58px!important}.fd-measure-width,.fd-measure-height{font-size:11px;min-width:64px;min-height:37px}.fd-measure-height{left:calc(100% + 5px)}.fd-text-tools{bottom:calc(151px + env(safe-area-inset-bottom,0px))!important}.fd-document-menu{right:7px}.editor-menu-label{display:none}.editor-stage-hint{bottom:calc(153px + env(safe-area-inset-bottom,0px))}}
+@media(max-width:340px){.float-main-row{gap:1px!important}.float-main-row button{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important}.float-main-row #toolInsert{width:55px!important;height:55px!important;min-width:55px!important;min-height:55px!important}}
+@media(prefers-reduced-motion:reduce){.fd-document-menu,.fd-measure-overlay,.fd-crop-sense{animation:none!important;transition:none!important}}
+@media print{#fdMeasureOverlay,#fdTextTools,#fdInlineText,#editorFloatBar,.fd-zoom,#editorMenu,.fd-crop-sense,.editor-stage-hint{display:none!important}}
 </style>
 </head>
 <body>
@@ -315,21 +357,26 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
       <div class="recording-banner" id="recordingBanner" hidden><span class="rec-dot"></span><span id="recordTimer">00:00</span><span id="audioLive">Micrófono activo</span><div class="audio-meter"><div id="audioMeterBar"></div></div></div>
     </div>
     <section class="editor-view" id="editorMode" hidden aria-label="Editor de plantilla">
-      <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorImport" type="button">Importar</button><button id="editorBack" class="primary" type="button">Captura</button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
-      <div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
+      <header class="editor-header"><div class="editor-logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg>FotoDatos</div><div class="editor-actions"><button id="editorMenuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="editorMenu" title="Menú"><svg class="fd-menu-symbol" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253 288" aria-hidden="true" focusable="false"><path d="M39 30 L96 49 M150 49 L208 30" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/><path d="M123 260 L123 180 C121 160 81 137 56 103 C40 81 30 52 28 32 M123 180 C129 157 165 133 188 103 C207 79 216 52 220 32" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><path d="M154 49 A31 19 0 1 0 92 49 A31 19 0 1 0 154 49 Z M133 49 A10 10 0 1 0 113 49 A10 10 0 1 0 133 49 Z M105.2 48 A4.2 4.2 0 1 0 96.8 48 A4.2 4.2 0 1 0 105.2 48 Z M151.2 48 A4.2 4.2 0 1 0 142.8 48 A4.2 4.2 0 1 0 151.2 48 Z" fill="currentColor" fill-rule="evenodd"/></svg><span class="editor-menu-label">Menú</span></button><button id="editorBack" class="primary" type="button" aria-label="Volver a captura" title="Volver a captura">↩</button><button id="editorSettings" title="Configuración" aria-label="Configuración" type="button">⚙</button></div></header>
+      <nav id="editorMenu" class="fd-document-menu" aria-label="Menú de documento" hidden>
+  <button type="button" id="fdMenuNew">Nuevo</button><button type="button" id="fdMenuOpen">Abrir</button><button type="button" id="fdMenuInsert">Insertar</button><button type="button" id="fdMenuSave">Guardar</button><button type="button" id="fdMenuClose">Cerrar</button>
+ </nav><div class="editor-body"><div class="canvas-column"><div class="edit-stage"><canvas id="editorCanvas" width="900" height="1600" tabindex="0" aria-label="Lienzo de edición. Puede arrastrar textos e imágenes para cambiar su posición."></canvas>
 <div id="fdTextTools" class="fd-text-tools" role="toolbar" aria-label="Formato del texto seleccionado" hidden>
  <button id="fdEditText" type="button" title="Escribir o editar" aria-label="Editar texto">✎</button>
- <select id="fdFont" aria-label="Tipo de letra"><option value="sans">Sans</option><option value="serif">Serif</option><option value="mono">Mono</option></select>
+ <button type="button" id="fdFormatClose" title="Cerrar formato" aria-label="Cerrar formato">×</button>
+ <button type="button" id="fdTextDone" title="Aceptar texto" aria-label="Aceptar texto" hidden>✓</button>
+ <button type="button" id="fdTextCancel" title="Cancelar edición" aria-label="Cancelar texto" hidden>×</button>
+ <select id="fdFont" aria-label="Tipo de letra"><option value="sans">Sans</option><option value="serif">Serif</option><option value="mono">Mono</option><option value="arial">Arial</option><option value="verdana">Verdana</option><option value="trebuchet">Trebuchet</option><option value="times">Times</option></select>
  <input id="fdTextSize" type="number" min="1" max="13" step=".2" value="3" aria-label="Tamaño de letra porcentual" title="Tamaño relativo a la foto"/>
  <button type="button" id="fdBold" aria-label="Negrita" aria-pressed="false" title="Negrita"><strong>N</strong></button>
  <button type="button" id="fdItalic" aria-label="Cursiva" aria-pressed="false" title="Cursiva"><i>C</i></button>
  <button type="button" id="fdAlignleft" aria-label="Alinear a la izquierda" title="Alinear a la izquierda">≡</button>
  <button type="button" id="fdAligncenter" aria-label="Centrar texto" title="Centrar">☷</button>
  <button type="button" id="fdAlignright" aria-label="Alinear a la derecha" title="Derecha">≡</button>
- <input id="fdColor" type="color" value="#ffffff" aria-label="Color del texto" title="Color del texto"/>
- <button type="button" id="fdTextDone" title="Aceptar texto" aria-label="Aceptar texto" hidden>✓</button>
- <button type="button" id="fdTextCancel" title="Cancelar edición" aria-label="Cancelar texto" hidden>×</button>
+ <select id="fdLineHeight" title="Interlineado" aria-label="Altura de línea"><option value="1">1×</option><option value="1.28" selected>1,28×</option><option value="1.5">1,5×</option><option value="1.75">1,75×</option><option value="2">2×</option></select><input id="fdColor" type="color" value="#ffffff" aria-label="Color del texto" title="Color del texto"/>
+
 </div>
+<div id="fdMeasureOverlay" class="fd-measure-overlay" hidden aria-label="Dimensiones del elemento seleccionado"><div class="fd-measure-frame"><button id="fdDimWidth" type="button" class="fd-measure-width" aria-label="Editar ancho"></button><button id="fdDimHeight" type="button" class="fd-measure-height" aria-label="Editar alto"></button></div></div>
 <div class="fd-zoom" role="group" aria-label="Zoom del editor"><button id="fdZoomOut" type="button" aria-label="Alejar">−</button><button id="fdZoomReset" type="button" aria-label="Restablecer escala"><span id="fdZoomValue">100 %</span></button><button id="fdZoomIn" type="button" aria-label="Acercar">+</button></div>
 <textarea id="fdInlineText" aria-label="Escribir texto de la plantilla" spellcheck="true" rows="2" maxlength="1200" hidden></textarea>
 </div>
@@ -343,20 +390,22 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
             <button id="toolRedo" type="button" title="Rehacer" aria-label="Rehacer">↷</button>
           </div>
           <div id="toolInsertSub" class="float-subrow" hidden><button id="toolAddImage" type="button">▧ Imagen</button><button id="toolAddText" type="button">T Texto</button><button id="toolInsertClose" type="button" aria-label="Cerrar inserción">×</button></div>
-          <div id="toolBackgroundSub" class="float-subrow" hidden><label>Color <input id="editorBgColor" type="color" value="#ffffff" aria-label="Color de fondo"></label><button id="toolLastCamera" type="button">Última vista</button><button id="toolWhite" type="button">Blanco</button></div>
+          <div id="toolBackgroundSub" class="float-subrow" hidden><button id="toolBackgroundImport" type="button" title="Importar imagen como fondo" aria-label="Importar fondo">▧</button><label>Color <input id="editorBgColor" type="color" value="#ffffff" aria-label="Color de fondo"></label><button id="toolLastCamera" type="button">Última vista</button><button id="toolWhite" type="button">Blanco</button></div>
           <div id="toolFileSub" class="float-subrow" hidden><button id="toolSave" type="button">Guardar</button><button id="toolOpen" type="button">Abrir</button><button id="toolExport" type="button">PNG</button><button id="toolPDF" type="button">PDF</button></div>
           <div id="toolSelectedBar" class="float-subrow selected-controls" hidden>
-            <button id="toolCrop" type="button">✂ Recortar</button><button id="toolOrder" type="button">⇅ Ordenar</button><button id="toolDuplicate" type="button" title="Duplicar">▢▢</button><button id="toolProperties" type="button" title="Propiedades">⚙</button><button id="toolDelete" type="button" title="Eliminar">⌫</button>
+            <button id="toolCrop" type="button" title="Recortar imagen" aria-label="Recortar imagen">✂</button><button id="toolOrder" type="button" title="Ordenar capas" aria-label="Ordenar capas">⇅</button><button id="toolDuplicate" type="button" title="Duplicar selección" aria-label="Duplicar selección">▢▢</button><button id="toolCopy" type="button" title="Copiar selección" aria-label="Copiar selección">⧉</button><button id="toolTextStyle" type="button" title="Formato de texto" aria-label="Formato de texto">T</button><button id="toolProperties" type="button" title="Propiedades" aria-label="Propiedades">⚙</button><button id="toolDelete" type="button" title="Eliminar" aria-label="Eliminar">⌫</button>
           </div>
           <div id="toolOrderSub" class="float-subrow" hidden><button id="toolBehind" type="button">← Atrás</button><button id="toolAhead" type="button">Adelante →</button><button id="toolOrderClose" type="button">Cerrar</button></div>
-          <div id="toolCropSub" class="float-subrow" hidden><button data-crop="rect" type="button">▭ Rectángulo</button><button data-crop="circle" type="button">◯ Círculo</button><button data-crop="free" type="button">✎ Libre</button><button data-crop="poly" type="button">◇ Polígono</button><button id="toolCropSense" type="button">Conservar interior</button></div>
-          <div id="toolCropFinish" class="float-subrow" hidden><button id="toolCropAccept" type="button">✓ Aceptar</button><button id="toolCropCancel" type="button">× Cancelar</button></div>
+          <div id="toolCropSub" class="float-subrow" hidden><button data-crop="rect" type="button" aria-label="Recorte rectangular" title="Rectángulo">▭</button><button data-crop="circle" type="button" aria-label="Recorte circular" title="Círculo">◯</button><button data-crop="free" type="button" aria-label="Recorte a mano alzada" title="Mano alzada">✎</button><button data-crop="poly" type="button" aria-label="Recorte poligonal" title="Polígono">◇</button><button id="toolTrim" type="button" title="Recortar bordes transparentes" aria-label="Ajustar a píxeles visibles">◫</button><button id="toolCropClose" type="button" aria-label="Salir del menú de recorte" title="Cerrar">×</button></div>
+          <div id="toolCropSenseDock" class="fd-crop-sense" hidden><button id="toolCropSense" type="button" aria-pressed="false">Cortar exterior</button></div>
+          <div id="toolCropFinish" class="float-subrow" hidden><button id="toolCropClosePoly" type="button" aria-label="Cerrar polígono" title="Cerrar polígono">◇</button><button id="toolCropAccept" type="button" aria-label="Aplicar recorte" title="Aplicar recorte">✓</button><button id="toolCropCancel" type="button" aria-label="Cancelar recorte" title="Cancelar recorte">×</button></div>
           <div id="editorStageHint" class="editor-stage-hint" role="status" hidden></div>
         </div>
 <div class="canvas-tools" id="editorFileTools"><button id="exportImage" type="button">Exportar PNG</button><button id="exportPDF" type="button">Imprimir / PDF</button><button id="saveProject" type="button">Guardar plantilla</button><button id="loadProject" type="button">Abrir plantilla</button></div></div>
-      <aside class="editor-sidebar" id="editorSidebar"><h2>Plantilla</h2><p class="hint">Arrastre un elemento sobre el lienzo o cambie sus propiedades.</p><div class="editor-options"><button id="addText" class="primary" type="button">+ Texto</button><button id="addImage" type="button">+ Imagen</button><button id="clearBackground" type="button">Fondo blanco</button></div><div id="layersList" class="layers-list"></div><div id="layerProperties" class="layer-props" hidden><h3>Propiedades del elemento</h3><label id="textLayerLabel">Texto<textarea id="propText" maxlength="1200" rows="4"></textarea></label><label id="colorLayerLabel">Color<input id="propColor" type="color" value="#ffffff"></label><label id="sizeLayerLabel">Tamaño<select id="propSize"><option value="1">Título</option><option value="2">Subtítulo</option><option value="3">Texto</option></select></label><label>Posición X (%)<input id="propX" type="range" min="0" max="95" step="1"></label><label>Posición Y (%)<input id="propY" type="range" min="0" max="95" step="1"></label><label id="widthLayerLabel">Ancho (%)<input id="propWidth" type="range" min="10" max="95" step="1"></label><div class="prop-actions"><button id="layerUp" type="button">Subir</button><button id="layerDown" type="button">Bajar</button><button id="layerDuplicate" type="button">Duplicar</button><button id="layerDelete" class="danger" type="button">Eliminar</button></div></div><p class="hint">Los archivos PDF como capa y el mapa de Google dentro de la imagen se encuentran pendientes de integración.</p></aside></div>
+      <aside class="editor-sidebar" id="editorSidebar"><h2>Plantilla</h2><p class="hint">Arrastre un elemento sobre el lienzo o cambie sus propiedades.</p><div class="editor-options"><button id="addText" class="primary" type="button">+ Texto</button><button id="addImage" type="button">+ Imagen</button><button id="clearBackground" type="button">Fondo blanco</button></div><div id="layersList" class="layers-list"></div><div id="layerProperties" class="layer-props" hidden><h3>Propiedades del elemento</h3><label id="textLayerLabel">Texto<textarea id="propText" maxlength="1200" rows="4"></textarea></label><label id="colorLayerLabel">Color<input id="propColor" type="color" value="#ffffff"></label><label id="sizeLayerLabel">Tamaño<select id="propSize"><option value="1">Título</option><option value="2">Subtítulo</option><option value="3">Texto</option></select></label><label>Posición X (%)<input id="propX" type="range" min="0" max="95" step="1"></label><label>Posición Y (%)<input id="propY" type="range" min="0" max="95" step="1"></label><label id="widthLayerLabel">Ancho (%)<input id="propWidth" type="range" min="3" max="95" step="1"></label><label id="opacityLayerLabel">Opacidad (%)<input id="propOpacity" type="range" min="0" max="100" step="1" value="100"></label><div class="prop-actions"><button id="layerUp" type="button">Subir</button><button id="layerDown" type="button">Bajar</button><button id="layerDuplicate" type="button">Duplicar</button><button id="layerDelete" class="danger" type="button">Eliminar</button></div></div><p class="hint">Los archivos PDF como capa y el mapa de Google dentro de la imagen se encuentran pendientes de integración.</p></aside></div>
     </section>
   </div>
+  <dialog id="fdDimensionsDialog" class="app-dialog fd-dim-dialog" aria-labelledby="fdDimensionsTitle"><form method="dialog" id="fdDimensionsForm"><div class="dialog-head"><h2 id="fdDimensionsTitle">Dimensiones de imagen</h2><button type="button" id="fdDimensionsClose" aria-label="Cerrar dimensiones">×</button></div><div class="fd-dim-body"><div class="fd-dim-fields"><label>Ancho (px)<input type="number" id="fdMeasureW" inputmode="decimal" min="1" step="1" required></label><label>Alto (px)<input type="number" id="fdMeasureH" inputmode="decimal" min="1" step="1" required></label></div><label class="fd-aspect-label"><input type="checkbox" id="fdMeasureLock" checked> Mantener proporción</label><p>Medidas de la imagen dentro del lienzo. No representan dimensiones físicas calibradas.</p><div class="fd-dialog-actions"><button type="button" id="fdMeasureCancel">Cancelar</button><button type="submit" class="primary">Aplicar</button></div></div></form></dialog>
   <dialog id="settingsDialog" class="app-dialog"><div class="dialog-head"><h2>Configuración</h2><button data-close-dialog="settingsDialog" aria-label="Cerrar" type="button">×</button></div><div class="settings-content">
     <div class="settings-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 26V12h14M38 12h14v14M52 38v14H38M26 52H12V38" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="13" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="32" cy="32" r="5" fill="currentColor"/></svg><div><strong>FotoDatos</strong><small>por Arley Zarate</small></div></div>
     <fieldset><legend>Plantilla predeterminada</legend><label class="check"><input id="showLogo" type="checkbox" checked> Logotipo superior</label><label class="check"><input id="showDate" type="checkbox" checked> Fecha real</label><label class="check"><input id="showGPS" type="checkbox" checked> Coordenadas GPS</label><label class="check"><input id="showID" type="checkbox" checked> Identificador</label><label class="check"><input id="showNorth" type="checkbox"> Norte, si está disponible</label></fieldset>
@@ -374,8 +423,8 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
     <div class="settings-row"><label>Prefijo<input id="prefix" type="text" value="fotodatos" maxlength="42" spellcheck="false"></label><label>Sufijo<input id="suffix" type="text" maxlength="42" spellcheck="false"></label></div><div class="settings-row"><label>Consecutivo inicial<input id="counter" type="number" min="1" max="999999" value="1"></label><label>Logotipo personalizado<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label></div>
     <div class="settings-actions"><button id="requestGPS" type="button">Actualizar GPS</button><button id="openMapSettings" type="button">Ajustar ubicación</button><button id="requestNorth" type="button">Activar brújula</button><button id="audioTest" type="button">Comprobar micrófono</button></div><p id="deviceInfo" class="hint" aria-live="polite"></p><div id="micMeterSettings" class="audio-meter settings-meter"><div id="micMeterSettingsBar"></div></div><p class="hint">La cámara y el micrófono dependen de los permisos del dispositivo. Los datos no se envían a servidores por FotoDatos.</p><button id="settingsDone" class="primary full" type="button">Confirmar</button>
   </div></dialog>
-  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.7.0 (7)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>13 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
-  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
+  <dialog id="aboutDialog" class="app-dialog"><div class="dialog-head"><h2>Acerca de</h2><button data-close-dialog="aboutDialog" aria-label="Cerrar" type="button">×</button></div><div class="about-content"><div class="about-logo"><svg data-recursos-logo="principal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 86" role="img" aria-label="Logotipo de FotoDatos"><rect x="5" y="7" width="70" height="70" rx="16" fill="#153140"/><path d="M19 28V21h13M48 21h13v13M61 50v13H48M32 63H19V50" fill="none" stroke="#62dfc4" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="42" r="16" fill="none" stroke="#f1fffb" stroke-width="3"/><circle cx="40" cy="42" r="7" fill="#62dfc4"/><text x="84" y="50" font-family="Arial,sans-serif" font-weight="700" font-size="27" fill="#f4f7fc">FotoDatos</text></svg></div><p>FotoDatos permite capturar fotografías y videos con sonido, aplicar plantillas y conservar archivos originales y compuestos. También ofrece un editor sobre imágenes importadas.</p><dl><dt>Versión</dt><dd>0.8.0 (9)</dd><dt>Creación</dt><dd>12 nov. 2026</dd><dt>Actualización</dt><dd>14 nov. 2026</dd><dt>Autor</dt><dd>Arley Zarate</dd></dl><a id="legalLink" href="./aviso-legal.html">Aviso legal</a></div></dialog>
+  <dialog id="helpDialog" class="app-dialog"><div class="dialog-head"><h2>Instrucciones e intención</h2><button data-close-dialog="helpDialog" aria-label="Cerrar" type="button">×</button></div><div class="help-content"><p>FotoDatos permite documentar imágenes y videos con una plantilla editable, conservando una copia original y otra con los datos superpuestos. En el editor, los elementos seleccionados muestran controles de edición y, en las imágenes, cotas en píxeles que se pueden tocar para modificar sus dimensiones.</p><p>Al iniciar se intenta activar la cámara principal. En Foto, toque la imagen o el botón circular para capturar. En Video, use el botón circular para iniciar y detener. La grabación exige micrófono activo.</p><p>Abra el editor con el botón inferior derecho. La barra flotante permite insertar imágenes y textos, seleccionar y ordenar capas, duplicarlas, recortar imágenes, deshacer y rehacer. El fondo inicial muestra la última vista de cámara; también puede escoger un color. Si no hay cámara, se abre el editor. Las capturas nuevas se guardan en una carpeta del dispositivo elegida previamente. En «Archivos» podrá ver los archivos físicos sin descargarlos uno por uno. Los permisos de cámara, micrófono y ubicación son independientes y los administra el navegador. Si se revoca el acceso a la carpeta, la aplicación pedirá renovarlo; no ocultará capturas nuevas en el almacenamiento privado del navegador.</p><p>Para video, revise la pista de audio reproduciendo ambos archivos. La calidad y los formatos dependen del navegador y de la capacidad del equipo.</p></div></dialog>
   <dialog id="legalDialog" class="app-dialog legal-dialog"><div class="dialog-head"><h2>Aviso legal</h2><button data-close-dialog="legalDialog" aria-label="Cerrar" type="button">×</button></div><iframe id="legalFrame" title="Aviso legal de Recursos" loading="lazy" sandbox="allow-same-origin"></iframe><p id="legalError" class="hint" hidden>No fue posible cargar el aviso legal desde la ruta del proyecto. Compruebe que está publicado en el directorio principal de Recursos.</p></dialog>
   <section id="filesView" class="workspace-view" hidden aria-label="Archivos guardados">
     <header class="workspace-header"><h2>Mis capturas</h2><button id="filesBack" type="button">Volver</button></header>
@@ -403,13 +452,13 @@ body:has(#filesView:not([hidden])) .toast{top:calc(env(safe-area-inset-top,0px) 
   <input id="backgroundInput" type="file" accept="image/*" hidden>
   <input id="layerImageInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
   <input id="projectInput" type="file" accept=".fotodatos,application/json" hidden>
-  <script>/* FotoDatos 0.7.0 (7) | 13 nov. 2026 | Cámara, editor contextual y guardado directo */
+  <script>/* FotoDatos 0.8.0 (9) | 14 nov. 2026 | Edición por niveles, cotas y recortes ajustables */
 (() => {
 'use strict';
 const $ = (id) => document.getElementById(id);
-const VERSION = '0.7.0';
+const VERSION = '0.8.0';
 const DEFAULTS = {prefix:'fotodatos',suffix:'',counter:1,showLogo:true,showDate:true,showGPS:true,showID:true,showNorth:false,saveOriginal:true,saveComposed:true,saveBrowser:false,logoImg:null,textLayers:[],imageLayers:[],defaultLayers:initialDefaults()};
-const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null};
+const state = {config:{...DEFAULTS},mode:'capture',captureKind:'photo',stream:null,audioStream:null,audioTestStream:null,record:null,position:null,gpsError:'',heading:null,background:null,selected:null,dragging:null,images:new Map(),cameraFacing:'environment',cameraError:null,resultUrls:[],frameId:0,saveTimer:0,levelId:0,audioContext:null,audioSource:null,audioAnalyser:null,recordStarted:0,toastTimer:0,previewStamp:null,sessionId:0,manualPosition:false,gpsWatch:null,gpsStarted:0,noticeTimer:0,lastItems:[],lastSaved:false,fileOrigin:'capture',mapOrigin:'capture',mapCenter:null,mapZoom:17.3,mapDrag:null,mapTouches:new Map(),mapPinch:null,mapFrame:0,mapTileNodes:new Map(),mapLoaded:false,mapTileErrors:0,mapLocation:null,mapDirty:false,idb:null,libraryReady:false,folderHandle:null,folderReady:false,storageMode:"folder",lastFolderState:"",storageBytes:null,photoQueue:[],photoWorking:false,batchGroups:[],batchIndex:0,mapBaseNodes:new Map(),mapBaseLoaded:0,mapDetailLoaded:0,mapWantsDetail:false,mapFallbackTimer:0,folderBusy:false,diskItems:[],legacyVisible:false,folderPromptDone:false,lastWriteOK:false,galleryLimit:100,editorSize:null,editorBgColor:'#ffffff',lastCamera:null,history:[],future:[],cropMode:null,cropDraft:null,cropInverse:false,toolbarLevel:'',pointerStart:null,placingText:false,textEditing:null,textEditSnapshot:null,textPlacement:null,editorZoom:1,editorPanX:0,editorPanY:0,editorPointers:new Map(),editorPinch:null,alphaMasks:new Map(),cropGesture:null,dimensionStart:null};
 // Los rótulos predeterminados son capas editables, no pintura fija.
 function initialDefaults(){return [
  {id:'fd-logo',type:'logo',label:'Logotipo FotoDatos',x:3.2,y:3.2,width:28,rotation:0,order:-5},
@@ -421,7 +470,7 @@ function initialDefaults(){return [
 function isBuiltIn(l){return !!l?.id?.startsWith('fd-')}
 function builtinEnabled(l,c=state.config){const mapping={'fd-logo':'showLogo','fd-date':'showDate','fd-gps':'showGPS','fd-north':'showNorth','fd-id':'showID'};return !mapping[l.id]||!!c[mapping[l.id]];}
 function sourceText(l,opts={}){if(l.source==='date')return dateText(opts.date||new Date());if(l.source==='gps')return (opts.gpsLabel||gpsText()).replace(' · ajustar','');if(l.source==='north')return opts.northLabel||northText();if(l.source==='id')return opts.id||baseName();return String(l.text||'');}
-function fontFamily(l){return ({sans:'system-ui, sans-serif',serif:'Georgia, serif',mono:'ui-monospace, SFMono-Regular, Consolas, monospace'})[l.fontFamily]||'system-ui, sans-serif';}
+function fontFamily(l){return ({sans:'system-ui, sans-serif',serif:'Georgia, serif',mono:'ui-monospace, SFMono-Regular, Consolas, monospace',arial:'Arial, sans-serif',verdana:'Verdana, sans-serif',trebuchet:'"Trebuchet MS", sans-serif',times:'"Times New Roman", serif'})[l.fontFamily]||'system-ui, sans-serif';}
 function textFontSize(l,w,h){return Math.max(12,Math.round(Math.min(w,h)*(Number(l.fontPct)||({1:5.5,2:3.9,3:2.8}[l.level]||2.8))/100));}
 function allEditableLayers(c=state.config){return [...(c.defaultLayers||initialDefaults()).filter(l=>builtinEnabled(l,c)),...c.imageLayers,...c.textLayers];}
 const months=['ene.','feb.','mar.','abr.','may.','jun.','jul.','ago.','sept.','oct.','nov.','dic.'];
@@ -433,7 +482,7 @@ function gpsText(){if(!state.position)return 'GPS no disponible · ajustar';cons
 function northText(){return Number.isFinite(state.heading) ? `N · ${Math.round(state.heading)}° aprox.` : '' ;}
 function toast(msg,bad=false){const el=$('toast');el.textContent=msg;el.style.background=bad?'#62313c':'#13473fe8';el.hidden=false;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>el.hidden=true,4200);}
 function failMessage(err){const x=err?.name||'';if(x==='NotAllowedError'||x==='PermissionDeniedError')return 'Permiso de cámara denegado. Puede habilitarlo en su navegador.';if(x==='NotFoundError'||x==='DevicesNotFoundError')return 'No se encontró una cámara disponible.';if(x==='NotReadableError'||x==='TrackStartError')return 'La cámara está ocupada o no se puede abrir.';if(x==='OverconstrainedError')return 'La cámara no admite la resolución solicitada.';if(!navigator.mediaDevices?.getUserMedia)return 'La cámara requiere HTTPS o un navegador compatible.';return 'No fue posible activar la cámara.';}
-function displayMode(mode){if(mode!=='edit'&&state.textEditing)finishTextEdit(true);if(mode!=='edit'){state.placingText=false;$('editorCanvas')?.classList.remove('placing-text');$('editorStageHint').hidden=true;}state.mode=mode;$('app').dataset.mode=mode;$('captureMode').hidden=mode!=='capture';$('editorMode').hidden=mode!=='edit';if(mode==='edit'){closeMenu();renderEditor();}else{updateViewSize();} }
+function displayMode(mode){if(mode!=='edit'&&state.cropMode)cancelCrop();if(mode!=='edit'&&state.textEditing)finishTextEdit(true);if(mode!=='edit'){state.placingText=false;$('editorCanvas')?.classList.remove('placing-text');$('editorStageHint').hidden=true;}state.mode=mode;$('app').dataset.mode=mode;$('captureMode').hidden=mode!=='capture';$('editorMode').hidden=mode!=='edit';if(mode==='edit'){closeMenu();renderEditor();}else{updateViewSize();} }
 function closeMenu(returnFocus=false){$('menuPanel').hidden=true;$('menuButton').setAttribute('aria-expanded','false');if(returnFocus)$('menuButton').focus();}
 function showMenu(){$('menuPanel').hidden=false;$('menuButton').setAttribute('aria-expanded','true');}
 function openDialog(id){closeMenu();const dialog=$(id);if(dialog.open)return;dialog.showModal();}
@@ -533,13 +582,13 @@ function drawElements(ctx,w,h,hitboxes=null,config=state.config,opts={}){
    if(img)ctx.drawImage(img,0,0,iw,iw);else{ctx.fillStyle='#103540ca';roundRect(ctx,0,0,iw,iw,iw*.17);ctx.fill();ctx.strokeStyle='#7ff6d5';ctx.lineWidth=Math.max(2,iw*.05);ctx.strokeRect(iw*.2,iw*.2,iw*.6,iw*.6);ctx.beginPath();ctx.arc(iw*.5,iw*.5,iw*.17,0,Math.PI*2);ctx.stroke();}
    ctx.font=`750 ${iw*.49}px system-ui,sans-serif`;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle='#ffffff';ctx.fillText(txt,iw*1.15,iw*.52);box={id:l.id,x,y,w:iw*1.2+ctx.measureText(txt).width,h:iw,rotation:l.rotation||0};
   }else if(l.type==='image'){
-   const img=state.images.get(l.src);if(img){const iw=w*(l.width||25)/100,ih=iw*img.height/img.width;
-    ctx.translate(x+iw/2,y+ih/2);ctx.rotate((Number(l.rotation)||0)*Math.PI/180);ctx.translate(-iw/2,-ih/2);
-    if(Array.isArray(l.cropSteps))for(const step of l.cropSteps){if(!Array.isArray(step.points)||step.points.length<3)continue;ctx.beginPath();if(step.inverse)ctx.rect(0,0,iw,ih);step.points.forEach((p,i)=>{const a=clamp(+p[0],0,1)*iw,b=clamp(+p[1],0,1)*ih;i?ctx.lineTo(a,b):ctx.moveTo(a,b)});ctx.closePath();ctx.clip(step.inverse?'evenodd':'nonzero');}
+   const img=state.images.get(l.src);if(img){const iw=w*(l.width||25)/100,ih=Number.isFinite(l.heightPct)&&l.heightPct>0?h*l.heightPct/100:iw*img.height/img.width;
+    ctx.translate(x+iw/2,y+ih/2);ctx.rotate((Number(l.rotation)||0)*Math.PI/180);ctx.translate(-iw/2,-ih/2);ctx.globalAlpha=clamp(Number.isFinite(l.opacity)?l.opacity:1,0,1);
+    if(Array.isArray(l.cropSteps))for(const step of l.cropSteps){if(!Array.isArray(step.points)||step.points.length<3)continue;ctx.beginPath();if(step.inverse)ctx.rect(0,0,iw,ih);step.points.forEach((p,i)=>{const a=clamp(+p[0],-3,4)*iw,b=clamp(+p[1],-3,4)*ih;i?ctx.lineTo(a,b):ctx.moveTo(a,b)});ctx.closePath();ctx.clip(step.inverse?'evenodd':'nonzero');}
     ctx.drawImage(img,0,0,iw,ih);box={id:l.id,x,y,w:iw,h:ih,rotation:l.rotation||0};
    }
   }else{
-   const sz=textFontSize(l,w,h),lh=sz*1.28;
+   const sz=textFontSize(l,w,h),lh=sz*clamp(Number(l.lineHeight)||1.28,1,2);
    ctx.font=`${l.italic?'italic ':''}${l.bold?'750':'400'} ${sz}px ${fontFamily(l)}`;ctx.textAlign='left';ctx.textBaseline='top';ctx.fillStyle=l.color||'#fff';ctx.shadowColor='#0007';ctx.shadowBlur=Math.max(1,sz*.15);
    const lines=sourceText(l,opts).split('\n').slice(0,20),width=Math.max(sz*.8,...lines.map(t=>ctx.measureText(t).width));
    const ax=l.align==='right'?x-width:l.align==='center'?x-width/2:x;
@@ -555,25 +604,25 @@ function compose(ctx,w,h,source,opts={},hitboxes){ctx.clearRect(0,0,w,h);if(sour
 function editorDims(){if(state.background?.image)return [state.background.image.naturalWidth,state.background.image.naturalHeight];if(state.editorSize)return state.editorSize;
  const dpr=Math.min(3,window.devicePixelRatio||1),sw=window.screen?.width||window.innerWidth||390,sh=window.screen?.height||window.innerHeight||844;
  const cap=4096,k=Math.min(1,cap/Math.max(sw*dpr,sh*dpr));return [Math.max(320,Math.round(sw*dpr*k)),Math.max(320,Math.round(sh*dpr*k))];}
-function drawEditorSelection(ctx){const b=state.hitboxes.find(h=>h.id===state.selected);if(!b||state.textEditing)return;
+function drawEditorSelection(ctx){const b=state.hitboxes.find(h=>h.id===state.selected);if(!b||state.textEditing||state.cropMode)return;
  const l=selectedLayer();ctx.save();ctx.strokeStyle='#009e90';ctx.lineWidth=Math.max(2,Math.min(ctx.canvas.width,ctx.canvas.height)*.003);ctx.setLineDash([ctx.lineWidth*3,ctx.lineWidth*2]);
  if(l?.type==='image'||l?.type==='logo'){
   ctx.translate(b.x+b.w/2,b.y+b.h/2);ctx.rotate((Number(l.rotation)||0)*Math.PI/180);ctx.strokeRect(-b.w/2,-b.h/2,b.w,b.h);ctx.setLineDash([]);const r=Math.max(13,ctx.lineWidth*4);ctx.fillStyle='#f8fffd';ctx.strokeStyle='#126b66';
   for(const [cx,cy] of [[-b.w/2,-b.h/2],[b.w/2,-b.h/2],[-b.w/2,b.h/2],[b.w/2,b.h/2]]){ctx.fillRect(cx-r/2,cy-r/2,r,r);ctx.strokeRect(cx-r/2,cy-r/2,r,r)}ctx.beginPath();ctx.arc(0,-b.h/2-r*2,r/2,0,2*Math.PI);ctx.fill();ctx.stroke();
  }else{ctx.strokeRect(b.x,b.y,b.w,b.h);}ctx.restore();}
 function drawCropPreview(ctx){const d=state.cropDraft;if(!d||!d.points?.length)return;const b=state.hitboxes.find(h=>h.id===state.selected);if(!b)return;
- ctx.save();ctx.lineWidth=Math.max(3,ctx.canvas.width*.003);ctx.strokeStyle='#fff';ctx.shadowColor='#00463c';ctx.shadowBlur=5;ctx.setLineDash([10,6]);ctx.beginPath();d.points.forEach(([nx,ny],i)=>{const x=b.x+nx*b.w,y=b.y+ny*b.h;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});if(d.type!=='free')ctx.closePath();ctx.stroke();ctx.restore();}
+ ctx.save();ctx.lineWidth=Math.max(2,Math.min(ctx.canvas.width,ctx.canvas.height)*.003);ctx.strokeStyle=state.cropInverse?'#ffc19a':'#ffe18b';ctx.fillStyle=state.cropInverse?'#d43f5b2d':'#ffe18b29';ctx.shadowColor='#09292c';ctx.shadowBlur=5;ctx.setLineDash([10,6]);ctx.beginPath();d.points.forEach(([nx,ny],i)=>{const x=nx*ctx.canvas.width,y=ny*ctx.canvas.height;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});if(d.closed||d.type!=='poly')ctx.closePath();ctx.stroke();if(d.closed)ctx.fill();ctx.setLineDash([]);const r=Math.max(ctx.canvas.width*.007,7);const visible=d.type==='circle'?d.points.filter((p,i)=>i%6===0):d.type==='free'?d.points.filter((p,i)=>i%Math.max(1,Math.ceil(d.points.length/16))===0):d.points;for(const p of visible){ctx.beginPath();ctx.arc(p[0]*ctx.canvas.width,p[1]*ctx.canvas.height,r,0,Math.PI*2);ctx.fillStyle='#dffff6';ctx.fill();ctx.strokeStyle='#225b6c';ctx.stroke();}ctx.restore();}
 function renderEditor(){applyEditorView();const canvas=$('editorCanvas');if(!canvas)return;const [w,h]=editorDims();if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;
- const ctx=canvas.getContext('2d',{alpha:false}),hits=[];compose(ctx,w,h,state.background?.image||null,{backgroundColor:state.editorBgColor},hits);state.hitboxes=hits;drawEditorSelection(ctx);drawCropPreview(ctx);renderLayersListOnly();refreshEditToolbar();positionTextTools();}
+ const ctx=canvas.getContext('2d',{alpha:false}),hits=[];compose(ctx,w,h,state.background?.image||null,{backgroundColor:state.editorBgColor},hits);state.hitboxes=hits;drawEditorSelection(ctx);drawCropPreview(ctx);renderLayersListOnly();refreshEditToolbar();positionTextTools();renderMeasures();}
 function renderLayersListOnly(){const list=$('layersList');list.replaceChildren();const layers=getDrawElements();
  if(!layers.length){const p=document.createElement('p');p.className='hint';p.textContent='Plantilla vacía. Inserte texto o imagen.';list.append(p);}
  for(const l of [...layers].reverse()){const b=document.createElement('button');b.type='button';b.className='layer-entry'+(state.selected===l.id?' selected':'');b.textContent=`${l.type==='logo'?'▣':l.type==='image'?'▧':'T'} · ${l.label||sourceText(l).slice(0,30)||'Texto'}`;b.onclick=()=>selectLayer(l.id);list.append(b);}
- const selected=selectedLayer();$('layerProperties').hidden=!selected;if(selected){const isText=selected.type==='text';$('textLayerLabel').hidden=!isText;$('colorLayerLabel').hidden=!isText;$('sizeLayerLabel').hidden=!isText;$('widthLayerLabel').hidden=isText;
+ const selected=selectedLayer();$('layerProperties').hidden=!selected;if(selected){const isText=selected.type==='text';$('textLayerLabel').hidden=!isText;$('colorLayerLabel').hidden=!isText;$('sizeLayerLabel').hidden=!isText;$('widthLayerLabel').hidden=isText;$('opacityLayerLabel').hidden=selected.type!=='image';$('propOpacity').value=Math.round((Number.isFinite(selected.opacity)?selected.opacity:1)*100);
  if(isText){$('propText').value=sourceText(selected);$('propText').readOnly=!!selected.source;$('propColor').value=selected.color||'#ffffff';$('propSize').value=String(selected.level||3);}else $('propWidth').value=selected.width||25;
  $('propX').value=selected.x;$('propY').value=selected.y;
  }
 }
-function selectLayer(id){state.selected=id;state.cropMode=null;state.cropDraft=null;renderEditor();}
+function selectLayer(id){if(state.cropMode)cancelCrop();state.selected=id;closeToolbarLevels();renderEditor();}
 function selectedLayer(){return getDrawElements().find(l=>l.id===state.selected);}
 function editLayer(prop,value){const l=selectedLayer();if(!l)return;if(['x','y','width','level'].includes(prop))value=Number(value);l[prop]=value;renderTemplate();renderEditor();}
 function addText(x,y,immediate=true){const c=$('editorCanvas');if(!Number.isFinite(x)||!Number.isFinite(y)){
@@ -862,7 +911,7 @@ async function openProject(file){if(!file)return;let candidate;try{if(file.size>
    if(l.order!==undefined&&(!Number.isInteger(l.order)||l.order<0||l.order>200))throw Error('Orden no válido.');
    if(l.rotation!==undefined&&(!Number.isFinite(l.rotation)||Math.abs(l.rotation)>36000))throw Error('Rotación no válida.');
    if(l.cropSteps!==undefined){if(l.type!=='image'||!Array.isArray(l.cropSteps)||l.cropSteps.length>20)throw Error('Recortes no válidos.');
-    for(const st of l.cropSteps)if(!st||st.kind!=='poly'||typeof st.inverse!=='boolean'||!Array.isArray(st.points)||st.points.length<3||st.points.length>700||st.points.some(q=>!Array.isArray(q)||q.length!==2||q.some(n=>!Number.isFinite(n)||n<0||n>1)))throw Error('Puntos de recorte no válidos.');
+    for(const st of l.cropSteps)if(!st||st.kind!=='poly'||typeof st.inverse!=='boolean'||!Array.isArray(st.points)||st.points.length<3||st.points.length>700||st.points.some(q=>!Array.isArray(q)||q.length!==2||q.some(n=>!Number.isFinite(n)||n< -3||n>4)))throw Error('Puntos de recorte no válidos.');
    }
   }
   if(v.defaultLayers!==undefined){if(!Array.isArray(v.defaultLayers)||v.defaultLayers.length!==5)throw Error('Elementos predeterminados inválidos.');for(const l of v.defaultLayers){if(!l||!['logo','text'].includes(l.type)||!['fd-logo','fd-date','fd-gps','fd-north','fd-id'].includes(l.id)||!Number.isFinite(l.x)||!Number.isFinite(l.y)||Math.abs(l.x)>100||Math.abs(l.y)>100)throw Error('Elemento predeterminado inválido.');}}
@@ -931,17 +980,26 @@ function undoEditor(){if(!state.history.length)return;state.future.push(snapshot
 function redoEditor(){if(!state.future.length)return;state.history.push(snapshotEditor());restoreHistory(state.future.pop());}
 function changeLayerOrder(delta){const layers=getDrawElements(),l=selectedLayer();if(!l)return;const i=layers.indexOf(l),n=i+delta;if(n<0||n>=layers.length)return;pushHistory();layers.forEach((layer,j)=>layer.order=j);[layers[i].order,layers[n].order]=[layers[n].order,layers[i].order];renderTemplate();renderEditor();}
 function refreshEditToolbar(){
- const selected=!!selectedLayer(),img=selectedLayer()?.type==='image';
- $('toolSelectedBar').hidden=!selected||state.cropMode!==null;
- $('toolCrop').disabled=!img;$('toolProperties').setAttribute('aria-label',selectedLayer()?.type==='text'?'Propiedades de texto':'Propiedades');$('toolCropFinish').hidden=!state.cropMode;
- $('toolCropSub').hidden=!(state.toolbarLevel==='crop'&&img&&!state.cropMode);
- $('toolOrderSub').hidden=!(state.toolbarLevel==='order'&&selected&&!state.cropMode);
- const layers=getDrawElements(),i=layers.findIndex(l=>l.id===state.selected);
- $('toolBehind').disabled=i<=0;$('toolAhead').disabled=i===layers.length-1;
+ const l=selectedLayer(),selected=!!l,img=l?.type==='image',cropping=!!state.cropMode,level=state.toolbarLevel;
+ $('toolSelectedBar').hidden=!selected||cropping||!!level;
+ $('toolCrop').hidden=!img;$('toolCrop').disabled=!img;
+ $('toolTextStyle').hidden=l?.type!=='text';
+ $('toolProperties').setAttribute('aria-label',l?.type==='text'?'Propiedades de texto':'Propiedades');
+ $('toolCropFinish').hidden=!cropping;
+ $('toolCropClosePoly').hidden=state.cropMode!=='poly'||!!state.cropDraft?.closed;
+ $('toolCropClosePoly').disabled=(state.cropDraft?.points?.length||0)<3;
+ $('toolCropAccept').disabled=!cropping||(state.cropDraft?.points?.length||0)<3||(state.cropMode==='poly'&&!state.cropDraft?.closed);
+ $('toolCropSub').hidden=!(level==='crop'&&img&&!cropping);
+ $('toolOrderSub').hidden=!(level==='order'&&selected&&!cropping);
+ $('toolCropSenseDock').hidden=!(img&&(level==='crop'||cropping));
+ $('toolCropSense').setAttribute('aria-pressed',String(state.cropInverse));
+ $('toolCropSense').textContent=state.cropInverse?'Cortar interior · conservar exterior':'Cortar exterior · conservar interior';
+ const layers=getDrawElements(),i=layers.findIndex(v=>v.id===state.selected);
+ $('toolBehind').disabled=i<=0;$('toolAhead').disabled=i<0||i===layers.length-1;
  $('toolUndo').disabled=!state.history.length;$('toolRedo').disabled=!state.future.length;
 }
-function closeToolbarLevels(){for(const id of ['toolInsertSub','toolBackgroundSub','toolFileSub','toolCropSub','toolOrderSub'])$(id).hidden=true;state.toolbarLevel='';for(const id of ['toolInsert','toolBackground','toolFiles'])$(id).setAttribute('aria-expanded','false');}
-function toggleToolbar(which,sub){const opened=!$(sub).hidden;closeToolbarLevels();if(!opened){$(sub).hidden=false;state.toolbarLevel=which;const id={insert:'toolInsert',background:'toolBackground',file:'toolFiles'}[which];if(id)$(id).setAttribute('aria-expanded','true');}refreshEditToolbar();}
+function closeToolbarLevels(){for(const id of ['toolInsertSub','toolBackgroundSub','toolFileSub','toolCropSub','toolOrderSub'])$(id).hidden=true;state.toolbarLevel='';for(const id of ['toolInsert','toolBackground','toolFiles'])$(id).setAttribute('aria-expanded','false');refreshEditToolbar();positionTextTools();}
+function toggleToolbar(which,sub){if(state.cropMode){toast('Aplique o cancele el recorte para continuar.');return;}const opened=!$(sub).hidden;closeToolbarLevels();if(!opened){$(sub).hidden=false;state.toolbarLevel=which;const id={insert:'toolInsert',background:'toolBackground',file:'toolFiles'}[which];if(id)$(id).setAttribute('aria-expanded','true');}refreshEditToolbar();positionTextTools();}
 function setSidebar(on){$('editorSidebar').classList.toggle('is-open',on);$('toolLayers').setAttribute('aria-expanded',String(on));}
 async function captureCameraBackground(){
  if(!cameraReady())return false;
@@ -958,61 +1016,102 @@ async function enterEditorFromCamera(){
 }
 function shapeRect(a,b){return [[a[0],a[1]],[b[0],a[1]],[b[0],b[1]],[a[0],b[1]]];}
 function shapeCircle(a,b){const cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,rx=Math.abs(b[0]-a[0])/2,ry=Math.abs(b[1]-a[1])/2;return Array.from({length:48},(_,i)=>[cx+Math.cos(i*Math.PI/24)*rx,cy+Math.sin(i*Math.PI/24)*ry]);}
-function normalizedCropPoint(x,y){const b=state.hitboxes.find(v=>v.id===state.selected);if(!b)return null;const nx=(x-b.x)/b.w,ny=(y-b.y)/b.h;return [clamp(nx,0,1),clamp(ny,0,1)];}
+function normalizedCropPoint(x,y){const c=$('editorCanvas');return [clamp(x/c.width,-.8,1.8),clamp(y/c.height,-.8,1.8)];}
+function cropObjectPoint(p,b){const x=p[0]*$('editorCanvas').width,y=p[1]*$('editorCanvas').height,cx=b.x+b.w/2,cy=b.y+b.h/2,a=-(b.rotation||0)*Math.PI/180,dx=x-cx,dy=y-cy;return [(cx+dx*Math.cos(a)-dy*Math.sin(a)-b.x)/b.w,(cy+dx*Math.sin(a)+dy*Math.cos(a)-b.y)/b.h];}
 function startCrop(type){const l=selectedLayer();if(!l||l.type!=='image')return;
- state.cropMode=type;state.cropDraft={type,points:[],start:null};state.toolbarLevel='crop';$('toolCropSub').hidden=true;$('editorStageHint').hidden=false;
- $('editorStageHint').textContent=(type==='poly'?'Toque cada vértice y luego Aceptar.':type==='free'?'Dibuje el contorno con el dedo.':'Arrastre para definir el recorte.')+' Puede cambiar el sentido antes de aceptar.';
+ state.cropMode=type;state.cropDraft={type,points:[],start:null,closed:false};state.toolbarLevel='crop';$('toolCropSub').hidden=true;$('editorStageHint').hidden=false;
+ $('editorStageHint').textContent=(type==='poly'?'Toque los vértices y cierre el polígono.':type==='free'?'Dibuje el contorno con el dedo.':'Arrastre para dibujar en la pantalla.')+' Puede mover el contorno y ajustar sus nodos antes de aceptar.';
  $('editorMode').querySelector('.edit-stage').classList.add('is-cropping');renderEditor();}
-function acceptCrop(){if(!state.cropMode||!selectedLayer())return;const pts=state.cropDraft?.points||[];if(pts.length<3){toast('Trace primero un contorno cerrado.',true);return;}
+function closeCropPolygon(){const d=state.cropDraft;if(!d||d.type!=='poly'||d.points.length<3)return;d.closed=true;renderEditor();}
+function acceptCrop(){if(!state.cropMode||!selectedLayer())return;const d=state.cropDraft,pts=d?.points||[];if(pts.length<3||(d.type==='poly'&&!d.closed)){toast('Cierre primero el contorno.',true);return;}
+ const b=state.hitboxes.find(h=>h.id===state.selected);if(!b)return;
+ const converted=pts.map(p=>cropObjectPoint(p,b)).map(p=>p.map(v=>clamp(v,-3,4)));
  pushHistory();const l=selectedLayer();if(!Array.isArray(l.cropSteps))l.cropSteps=[];
- l.cropSteps.push({kind:'poly',points:pts.map(v=>[clamp(v[0],0,1),clamp(v[1],0,1)]),inverse:state.cropInverse});cancelCrop();renderTemplate();renderEditor();toast('Recorte aplicado. Puede deshacerlo.');}
-function cancelCrop(){state.cropMode=null;state.cropDraft=null;state.toolbarLevel='';$('toolCropSub').hidden=true;$('toolCropFinish').hidden=true;$('editorStageHint').hidden=true;$('editorMode').querySelector('.edit-stage').classList.remove('is-cropping');renderEditor();}
+ l.cropSteps.push({kind:'poly',points:converted,inverse:state.cropInverse});cancelCrop();renderTemplate();renderEditor();toast('Recorte aplicado. Puede deshacerlo.');}
+function cancelCrop(){state.cropMode=null;state.cropDraft=null;state.pointerStart=null;state.toolbarLevel='';$('toolCropSub').hidden=true;$('toolCropFinish').hidden=true;$('editorStageHint').hidden=true;$('editorMode').querySelector('.edit-stage').classList.remove('is-cropping');renderEditor();}
+function insidePolygon(p,pts){let hit=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))hit=!hit;}return hit;}
+function cropPointerBegin(c,e,x,y){const d=state.cropDraft;if(!d)return;const p=normalizedCropPoint(x,y),rad=19/c.getBoundingClientRect().width,original=d.points.map(v=>v.slice());
+ const minX=Math.min(...d.points.map(q=>q[0])),minY=Math.min(...d.points.map(q=>q[1])),maxX=Math.max(...d.points.map(q=>q[0])),maxY=Math.max(...d.points.map(q=>q[1]));
+ if(d.points.length>=3){
+  const near=d.points.findIndex(q=>Math.hypot((p[0]-q[0])*c.getBoundingClientRect().width,(p[1]-q[1])*c.getBoundingClientRect().height)<22);
+  if(d.type==='poly'&&!d.closed&&near===0){d.closed=true;renderEditor();return;}
+  if((d.closed||d.type!=='poly')&&near>=0&&d.type==='poly'){state.pointerStart={id:e.pointerId,type:'crop-node',index:near,original,start:p};c.setPointerCapture(e.pointerId);return;}
+  if(d.closed){const corners=[[minX,minY],[maxX,minY],[minX,maxY],[maxX,maxY]];const corner=corners.findIndex(q=>Math.hypot((p[0]-q[0])*c.getBoundingClientRect().width,(p[1]-q[1])*c.getBoundingClientRect().height)<22);
+   if(corner>=0&&d.type!=='poly'){state.pointerStart={id:e.pointerId,type:'crop-scale',original,start:p,corner,bounds:{minX,minY,maxX,maxY}};c.setPointerCapture(e.pointerId);return;}
+   if(insidePolygon(p,d.points)){state.pointerStart={id:e.pointerId,type:'crop-move',original,start:p};c.setPointerCapture(e.pointerId);return;}
+  }
+ }
+ if(d.type==='poly'&&!d.closed){d.points.push(p);renderEditor();return;}
+ d.start=p;d.points=[p];d.closed=false;state.pointerStart={id:e.pointerId,type:'crop-draw'};c.setPointerCapture(e.pointerId);renderEditor();}
+function cropPointerUpdate(x,y,op){const d=state.cropDraft;if(!d)return;const p=normalizedCropPoint(x,y);
+ if(op.type==='crop-draw'){if(d.type==='free'){const prev=d.points.at(-1);if(!prev||Math.hypot(prev[0]-p[0],prev[1]-p[1])>.002)d.points.push(p);}else d.points=d.type==='rect'?shapeRect(d.start,p):shapeCircle(d.start,p);}
+ else if(op.type==='crop-node'){d.points[op.index]=p;}
+ else if(op.type==='crop-move'){d.points=op.original.map(q=>[clamp(q[0]+p[0]-op.start[0],-1.5,2.5),clamp(q[1]+p[1]-op.start[1],-1.5,2.5)]);}
+ else if(op.type==='crop-scale'){const {minX,minY,maxX,maxY}=op.bounds,anchorX=op.corner%2===0?maxX:minX,anchorY=op.corner<2?maxY:minY;const activeX=op.corner%2===0?minX:maxX,activeY=op.corner<2?minY:maxY;const sx=clamp((activeX+p[0]-op.start[0]-anchorX)/(activeX-anchorX||.0001),.05,5),sy=clamp((activeY+p[1]-op.start[1]-anchorY)/(activeY-anchorY||.0001),.05,5);d.points=op.original.map(q=>[anchorX+(q[0]-anchorX)*sx,anchorY+(q[1]-anchorY)*sy]);}
+ renderEditor();}
+function alphaSample(l,u,v){if(!l?.src||!state.images.has(l.src))return true;if(l.opacity===0)return false;
+ let item=state.alphaMasks.get(l.src);if(!item){try{const img=state.images.get(l.src),cv=document.createElement('canvas'),w=clamp(img.naturalWidth||img.width,1,256),h=clamp(img.naturalHeight||img.height,1,256);cv.width=w;cv.height=h;const ctx=cv.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,w,h);item={w,h,data:ctx.getImageData(0,0,w,h).data};state.alphaMasks.set(l.src,item);if(state.alphaMasks.size>25)state.alphaMasks.delete(state.alphaMasks.keys().next().value);}catch{return true;}}
+ const i=(Math.min(item.h-1,Math.max(0,Math.floor(v*item.h)))*item.w+Math.min(item.w-1,Math.max(0,Math.floor(u*item.w))))*4;return item.data[i+3]>16;
+}
+function hitAt(x,y,h){const l=getDrawElements().find(v=>v.id===h.id);if(!l)return false;const pt=cropObjectPoint([x/$('editorCanvas').width,y/$('editorCanvas').height],h),[u,v]=pt;
+ if(u<0||u>1||v<0||v>1)return false;
+ if(l.type==='image'){for(const step of l.cropSteps||[]){const inside=insidePolygon([u,v],step.points);if(step.inverse?inside:!inside)return false;}return alphaSample(l,u,v);}
+ return true;
+}
+function trimImageTransparency(){const l=selectedLayer(),img=l?.type==='image'?state.images.get(l.src):null;if(!img){toast('Seleccione una imagen.',true);return;}try{
+ const w=Math.max(1,Math.min(512,img.naturalWidth)),h=Math.max(1,Math.min(512,img.naturalHeight)),c=document.createElement('canvas');c.width=w;c.height=h;const ct=c.getContext('2d',{willReadFrequently:true});ct.drawImage(img,0,0,w,h);const a=ct.getImageData(0,0,w,h).data;let minX=w,minY=h,maxX=-1,maxY=-1;
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(a[(y*w+x)*4+3]>12){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
+ if(maxX<0){toast('La imagen es completamente transparente.',true);return;}
+ if(minX===0&&minY===0&&maxX===w-1&&maxY===h-1){toast('No se encontraron bordes transparentes para retirar.');return;}
+ pushHistory();(l.cropSteps??=[]).push({kind:'poly',inverse:false,points:shapeRect([minX/w,minY/h],[(maxX+1)/w,(maxY+1)/h])});closeToolbarLevels();renderEditor();renderTemplate();toast('Bordes transparentes recortados sin alterar la imagen original.');
+ }catch{toast('No se pudo analizar la transparencia.',true);}}
 function getCanvasPoint(c,e){const r=c.getBoundingClientRect();return {x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height,ratio:c.width/r.width};}
 function bindEditorPointers(){const c=$('editorCanvas');
  c.addEventListener('pointerdown',e=>{
-  if(e.pointerType==='mouse'&&e.button!==0||state.textEditing)return;
+  if((e.pointerType==='mouse'&&e.button!==0)||state.textEditing||state.editorPointers.size>=2)return;
   const {x,y,ratio}=getCanvasPoint(c,e);
   if(state.placingText){e.preventDefault();addText(x/c.width*100,y/c.height*100);return;}
-  if(state.cropMode){const pt=normalizedCropPoint(x,y);if(!pt)return;e.preventDefault();c.setPointerCapture(e.pointerId);const d=state.cropDraft;if(state.cropMode==='poly'){d.points.push(pt);renderEditor();return;}d.start=pt;d.points=[pt];state.pointerStart={id:e.pointerId,type:'crop'};renderEditor();return;}
+  if(state.cropMode){e.preventDefault();cropPointerBegin(c,e,x,y);return;}
   const curr=state.hitboxes.find(v=>v.id===state.selected),currentLayer=selectedLayer(),hits=[...state.hitboxes].reverse();
   const radius=Math.max(18*ratio,Math.min(c.width,c.height)*.012);
   let action=null,hit=null;
   if(curr&&(currentLayer?.type==='image'||currentLayer?.type==='logo')){
    const cx=curr.x+curr.w/2,cy=curr.y+curr.h/2;
-   if(Math.hypot(x-cx,y-(curr.y-radius*2))<radius)action='rotate';
-   for(const [corner,hx,hy] of [['tl',curr.x,curr.y],['tr',curr.x+curr.w,curr.y],['bl',curr.x,curr.y+curr.h],['br',curr.x+curr.w,curr.y+curr.h]])if(Math.hypot(x-hx,y-hy)<radius){action='scale';state.resizeCorner=corner;break;}
+   const a=-(curr.rotation||0)*Math.PI/180,ddx=x-cx,ddy=y-cy,ux=cx+ddx*Math.cos(a)-ddy*Math.sin(a),uy=cy+ddx*Math.sin(a)+ddy*Math.cos(a);if(Math.hypot(ux-cx,uy-(curr.y-radius*2))<radius)action='rotate';
+   for(const [corner,hx,hy] of [['tl',curr.x,curr.y],['tr',curr.x+curr.w,curr.y],['bl',curr.x,curr.y+curr.h],['br',curr.x+curr.w,curr.y+curr.h]])if(Math.hypot(ux-hx,uy-hy)<radius){action='scale';state.resizeCorner=corner;break;}
    if(action)hit=curr;
   }
-  if(!hit)hit=hits.find(h=>x>=h.x&&x<=h.x+h.w&&y>=h.y&&y<=h.y+h.h);
-  if(!hit){const pad=14*ratio;hit=hits.find(h=>x>=h.x-pad&&x<=h.x+h.w+pad&&y>=h.y-pad&&y<=h.y+h.h+pad);}
+  if(!hit)hit=hits.find(h=>hitAt(x,y,h));
+  if(!hit){const pad=9*ratio;hit=hits.find(h=>{const v=getDrawElements().find(l=>l.id===h.id);return v?.type==='text'&&x>=h.x-pad&&x<=h.x+h.w+pad&&y>=h.y-pad&&y<=h.y+h.h+pad;});}
   if(!hit){state.selected=null;closeToolbarLevels();state.pointerStart={id:e.pointerId,type:'pan',x:e.clientX,y:e.clientY,panX:state.editorPanX,panY:state.editorPanY,moved:false};try{c.setPointerCapture(e.pointerId);}catch{}renderEditor();return;}
   const l=getDrawElements().find(v=>v.id===hit.id);if(!l)return;
   if(l.type==='text'&&l.id===state.selected&&e.detail>=2){beginTextEdit(l);return;}
   state.selected=l.id;const mode=action||'move';
-  pushHistory();state.pointerStart={id:e.pointerId,type:mode,x,y,lx:l.x,ly:l.y,width:l.width||25,rotation:l.rotation||0,centerX:hit.x+hit.w/2,centerY:hit.y+hit.h/2,angle:Math.atan2(y-(hit.y+hit.h/2),x-(hit.x+hit.w/2)),startBox:{...hit},corner:state.resizeCorner,moved:false};
+  pushHistory();state.pointerStart={id:e.pointerId,type:mode,x,y,lx:l.x,ly:l.y,width:l.width||25,heightPct:Number.isFinite(l.heightPct)?l.heightPct:(hit.h/c.height*100),rotation:l.rotation||0,centerX:hit.x+hit.w/2,centerY:hit.y+hit.h/2,angle:Math.atan2(y-(hit.y+hit.h/2),x-(hit.x+hit.w/2)),startBox:{...hit},corner:state.resizeCorner,moved:false};
   c.setPointerCapture(e.pointerId);renderEditor();
  });
  c.addEventListener('pointermove',e=>{const op=state.pointerStart;if(!op||op.id!==e.pointerId)return;
   const {x,y}=getCanvasPoint(c,e);
   if(op.type==='pan'){const dx=e.clientX-op.x,dy=e.clientY-op.y;state.editorPanX=op.panX+dx;state.editorPanY=op.panY+dy;op.moved=Math.abs(dx)+Math.abs(dy)>4;applyEditorView();return;}
-  if(op.type==='crop'){const d=state.cropDraft;if(!d)return;const p=normalizedCropPoint(x,y);if(!p)return;if(d.type==='free'){const prev=d.points.at(-1);if(!prev||Math.hypot(prev[0]-p[0],prev[1]-p[1])>.002)d.points.push(p);}else d.points=d.type==='rect'?shapeRect(d.start,p):shapeCircle(d.start,p);renderEditor();return;}
+  if(op.type.startsWith('crop-')){cropPointerUpdate(x,y,op);return;}
   const l=selectedLayer();if(!l)return;if(Math.abs(x-op.x)+Math.abs(y-op.y)>c.width*.002)op.moved=true;
   if(op.type==='move'){l.x=clamp(op.lx+(x-op.x)/c.width*100,0,99);l.y=clamp(op.ly+(y-op.y)/c.height*100,0,99);}
-  else if(op.type==='scale'){const dx=(x-op.x)/c.width*100,dy=(y-op.y)/c.height*100;const sign=op.corner?.includes('l')?-1:1;l.width=clamp(op.width+sign*dx,3,95);if(op.corner?.includes('l'))l.x=clamp(op.lx+dx,0,99);}
+  else if(op.type==='scale'){const dx=(x-op.x)/c.width*100,dy=(y-op.y)/c.height*100;const sign=op.corner?.includes('l')?-1:1;l.width=clamp(op.width+sign*dx,3,95);if(op.corner?.includes('l'))l.x=clamp(op.lx+dx,0,99);if(l.type==='image'&&l.lockRatio===false){const sy=op.corner?.includes('t')?-1:1;l.heightPct=clamp(op.heightPct+sy*dy,1,95);if(op.corner?.includes('t'))l.y=clamp(op.ly+dy,0,99);}else if(l.type==='image'){delete l.heightPct;}}
   else if(op.type==='rotate')l.rotation=op.rotation+(Math.atan2(y-op.centerY,x-op.centerX)-op.angle)*180/Math.PI;
   renderTemplate();renderEditor();
  });
  const finish=e=>{const op=state.pointerStart;if(!op||op.id!==e.pointerId)return;state.pointerStart=null;if(op.type==='pan'){positionTextTools();return;}
-  if(!op.moved&&op.type!=='crop'){state.history.pop();if(selectedLayer()?.type==='text'&&e.pointerType==='touch'&&state.lastTouchText===state.selected){beginTextEdit(selectedLayer());}else state.lastTouchText=selectedLayer()?.type==='text'?state.selected:null;}
+  if(op.type.startsWith('crop-')){if(op.type==='crop-draw'&&state.cropDraft){state.cropDraft.closed=state.cropDraft.points.length>=3&&state.cropMode!=='poly';}renderEditor();return;}
+  if(!op.moved){state.history.pop();if(selectedLayer()?.type==='text'&&e.pointerType==='touch'&&state.lastTouchText===state.selected){beginTextEdit(selectedLayer());}else state.lastTouchText=selectedLayer()?.type==='text'?state.selected:null;}
   renderEditor();};
  c.addEventListener('pointerup',finish);c.addEventListener('pointercancel',finish);
  c.addEventListener('dblclick',e=>{const l=selectedLayer();if(l?.type==='text')beginTextEdit(l);});
 }
-function positionTextTools(){const tools=$('fdTextTools'),l=selectedLayer();if(!tools||!l||l.type!=='text'||state.mode!=='edit'||state.cropMode){if(tools)tools.hidden=true;return;}
+function positionTextTools(){const tools=$('fdTextTools'),l=selectedLayer();if(!tools||!l||l.type!=='text'||state.mode!=='edit'||state.cropMode||(!state.textEditing&&state.toolbarLevel!=='text')){if(tools)tools.hidden=true;return;}
  tools.hidden=false;tools.style.left='50%';tools.style.top='auto';tools.style.bottom='calc(168px + env(safe-area-inset-bottom,0px))';tools.style.transform='translateX(-50%)';
- $('fdFont').value=l.fontFamily||'sans';$('fdTextSize').value=Number(l.fontPct)||3; $('fdBold').setAttribute('aria-pressed',String(!!l.bold));$('fdItalic').setAttribute('aria-pressed',String(!!l.italic));$('fdColor').value=l.color||'#ffffff';
+ $('fdFont').value=l.fontFamily||'sans';$('fdTextSize').value=Number(l.fontPct)||3;$('fdLineHeight').value=String(Number(l.lineHeight)||1.28); $('fdBold').setAttribute('aria-pressed',String(!!l.bold));$('fdItalic').setAttribute('aria-pressed',String(!!l.italic));$('fdColor').value=l.color||'#ffffff';
  for(const a of ['left','center','right'])$('fdAlign'+a).setAttribute('aria-pressed',String((l.align||'left')===a));
- $('fdTextDone').hidden=!state.textEditing;$('fdTextCancel').hidden=!state.textEditing;
+ $('fdTextDone').hidden=!state.textEditing;$('fdTextCancel').hidden=!state.textEditing;$('fdFormatClose').hidden=!!state.textEditing;
 }
 function beginTextEdit(l,created=false){if(!l||l.type!=='text')return;if(state.textEditing)finishTextEdit(true);
  const b=state.hitboxes?.find(h=>h.id===l.id);if(!b)return;
@@ -1020,7 +1119,7 @@ function beginTextEdit(l,created=false){if(!l||l.type!=='text')return;if(state.t
  const canvas=$('editorCanvas'),stage=$('editorMode').querySelector('.edit-stage'),field=$('fdInlineText'),cr=canvas.getBoundingClientRect(),sr=stage.getBoundingClientRect(),scale=cr.width/canvas.width;
  let x=cr.left-sr.left+b.x*scale,y=cr.top-sr.top+b.y*scale;
  const fontPx=Math.max(16,textFontSize(l,canvas.width,canvas.height)*scale);
- field.hidden=false;field.value=l.source?sourceText(l):l.text||'';field.readOnly=!!l.source;field.title=l.source?'El valor se actualiza automáticamente. Puede moverlo y cambiar su formato.':'';field.style.font=`${l.italic?'italic ':''}${l.bold?'750':'400'} ${fontPx}px ${fontFamily(l)}`;field.style.lineHeight='1.28';field.style.textAlign=l.align||'left';field.style.color=l.color||'#fff';field.style.left=clamp(x,2,Math.max(2,stage.clientWidth-175))+'px';field.style.top=clamp(y,2,Math.max(2,stage.clientHeight-55))+'px';field.style.width=Math.min(Math.max(190,b.w*scale+35),stage.clientWidth-12)+'px';field.style.height=Math.min(Math.max(57,b.h*scale+fontPx*2),Math.max(65,stage.clientHeight-y-5))+'px';
+ field.hidden=false;field.value=l.source?sourceText(l):l.text||'';field.readOnly=!!l.source;field.title=l.source?'El valor se actualiza automáticamente. Puede moverlo y cambiar su formato.':'';field.style.font=`${l.italic?'italic ':''}${l.bold?'750':'400'} ${fontPx}px ${fontFamily(l)}`;field.style.lineHeight=String(clamp(Number(l.lineHeight)||1.28,1,2));field.style.textAlign=l.align||'left';field.style.color=l.color||'#fff';field.style.left=clamp(x,2,Math.max(2,stage.clientWidth-175))+'px';field.style.top=clamp(y,2,Math.max(2,stage.clientHeight-55))+'px';field.style.width=Math.min(Math.max(190,b.w*scale+35),stage.clientWidth-12)+'px';field.style.height=Math.min(Math.max(57,b.h*scale+fontPx*2),Math.max(65,stage.clientHeight-y-5))+'px';
  renderEditor();field.focus();if(!l.source)field.setSelectionRange(field.value.length,field.value.length);
 }
 function finishTextEdit(accept){if(!state.textEditing)return;const e=state.textEditing,field=$('fdInlineText'),l=selectedLayer();
@@ -1032,13 +1131,13 @@ function finishTextEdit(accept){if(!state.textEditing)return;const e=state.textE
  state.textEditing=null;state.textEditSnapshot=null;field.hidden=true;field.blur();renderTemplate();renderEditor();
 }
 function updateTextFormat(key,value){const l=selectedLayer();if(!l||l.type!=='text')return;if(!state.textEditing)pushHistory();
- l[key]=value;renderTemplate();renderEditor();if(state.textEditing){const field=$('fdInlineText');const size=Math.max(16,textFontSize(l,$('editorCanvas').width,$('editorCanvas').height)*$('editorCanvas').getBoundingClientRect().width/$('editorCanvas').width);field.style.font=`${l.italic?'italic ':''}${l.bold?'750':'400'} ${size}px ${fontFamily(l)}`;field.style.textAlign=l.align||'left';field.style.color=l.color||'#ffffff';}
+ l[key]=value;renderTemplate();renderEditor();if(state.textEditing){const field=$('fdInlineText');const size=Math.max(16,textFontSize(l,$('editorCanvas').width,$('editorCanvas').height)*$('editorCanvas').getBoundingClientRect().width/$('editorCanvas').width);field.style.font=`${l.italic?'italic ':''}${l.bold?'750':'400'} ${size}px ${fontFamily(l)}`;field.style.textAlign=l.align||'left';field.style.color=l.color||'#ffffff';field.style.lineHeight=String(clamp(Number(l.lineHeight)||1.28,1,2));}
 }
 function bindTextTools(){const field=$('fdInlineText');field.addEventListener('input',()=>{const l=selectedLayer();if(!l||l.source)return;l.text=field.value.slice(0,1200);renderEditor();});
  field.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();finishTextEdit(false);}else if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();finishTextEdit(true);}});
  document.addEventListener('pointerdown',e=>{if(state.textEditing&&!e.target.closest('#fdTextTools,#fdInlineText'))finishTextEdit(true);},true);
- $('fdTextDone').onclick=()=>finishTextEdit(true);$('fdTextCancel').onclick=()=>finishTextEdit(false);$('fdEditText').onclick=()=>beginTextEdit(selectedLayer());
- $('fdFont').addEventListener('change',e=>updateTextFormat('fontFamily',e.target.value));$('fdTextSize').addEventListener('change',e=>updateTextFormat('fontPct',clamp(+e.target.value||3,1,13)));
+ $('fdFormatClose').onclick=()=>{state.toolbarLevel='';renderEditor();};$('fdTextDone').onclick=()=>finishTextEdit(true);$('fdTextCancel').onclick=()=>finishTextEdit(false);$('fdEditText').onclick=()=>beginTextEdit(selectedLayer());
+ $('fdFont').addEventListener('change',e=>updateTextFormat('fontFamily',e.target.value));$('fdTextSize').addEventListener('change',e=>updateTextFormat('fontPct',clamp(+e.target.value||3,1,13)));$('fdLineHeight').addEventListener('change',e=>updateTextFormat('lineHeight',clamp(+e.target.value||1.28,1,2)));
  $('fdBold').onclick=()=>updateTextFormat('bold',!selectedLayer()?.bold);$('fdItalic').onclick=()=>updateTextFormat('italic',!selectedLayer()?.italic);
  $('fdColor').addEventListener('input',e=>updateTextFormat('color',e.target.value));
  for(const name of ['left','center','right'])$('fdAlign'+name).onclick=()=>updateTextFormat('align',name);
@@ -1072,7 +1171,7 @@ function bindFloatingToolbar(){
  $('toolOpen').addEventListener('click',()=>{$('loadProject').click();closeToolbarLevels();});
  $('toolExport').addEventListener('click',()=>{$('exportImage').click();closeToolbarLevels();});
  $('toolPDF').addEventListener('click',()=>{$('exportPDF').click();closeToolbarLevels();});
- $('toolWhite').addEventListener('click',()=>{$('clearBackground').click();closeToolbarLevels();});
+ $('toolWhite').addEventListener('click',()=>{$('clearBackground').click();closeToolbarLevels();});$('toolBackgroundImport').addEventListener('click',()=>{$('backgroundInput').click();closeToolbarLevels();});
  $('editorBgColor').addEventListener('input',e=>{pushHistory();state.background=null;state.editorBgColor=e.target.value;renderEditor();});
  $('toolLastCamera').addEventListener('click',()=>{if(!state.lastCamera){toast('Abra el editor desde la cámara para obtener una vista.',true);return;}pushHistory();state.background=state.lastCamera;state.editorSize=[state.lastCamera.image.naturalWidth,state.lastCamera.image.naturalHeight];renderEditor();closeToolbarLevels();});
  $('toolCrop').addEventListener('click',()=>{const open=state.toolbarLevel==='crop';closeToolbarLevels();state.toolbarLevel=open?'':'crop';refreshEditToolbar();});
@@ -1084,8 +1183,53 @@ function bindFloatingToolbar(){
  $('toolAhead').addEventListener('click',()=>changeLayerOrder(1));
  $('toolOrderClose').addEventListener('click',closeToolbarLevels);
  document.querySelectorAll('[data-crop]').forEach(b=>b.addEventListener('click',()=>startCrop(b.dataset.crop)));
- $('toolCropSense').addEventListener('click',()=>{state.cropInverse=!state.cropInverse;$('toolCropSense').textContent=state.cropInverse?'Conservar exterior':'Conservar interior';});
- $('toolCropAccept').addEventListener('click',acceptCrop);$('toolCropCancel').addEventListener('click',cancelCrop);
+ $('toolCropSense').addEventListener('click',()=>{state.cropInverse=!state.cropInverse;renderEditor();});
+ $('toolCropAccept').addEventListener('click',acceptCrop);$('toolCropCancel').addEventListener('click',cancelCrop);$('toolCropClosePoly').addEventListener('click',closeCropPolygon);$('toolCropClose').addEventListener('click',closeToolbarLevels);$('toolTrim').addEventListener('click',trimImageTransparency);$('toolTextStyle').addEventListener('click',()=>{state.toolbarLevel=state.toolbarLevel==='text'?'':'text';refreshEditToolbar();positionTextTools();});$('toolCopy').addEventListener('click',copySelectedToClipboard);
+}
+function renderMeasures(){
+ const root=$('fdMeasureOverlay'),l=selectedLayer(),b=state.hitboxes?.find(h=>h.id===state.selected);
+ if(!root||state.mode!=='edit'||state.cropMode||state.textEditing||!b||l.type!=='image'){if(root)root.hidden=true;return;}
+ const canvas=$('editorCanvas'),r=canvas.getBoundingClientRect(),stage=$('editorMode').querySelector('.edit-stage').getBoundingClientRect(),scaleX=r.width/canvas.width,scaleY=r.height/canvas.height;
+ const cx=r.left-stage.left+(b.x+b.w/2)*scaleX,cy=r.top-stage.top+(b.y+b.h/2)*scaleY;
+ root.hidden=false;root.style.left=cx+'px';root.style.top=cy+'px';root.style.width=Math.max(2,b.w*scaleX)+'px';root.style.height=Math.max(2,b.h*scaleY)+'px';root.style.setProperty('--measure-angle',(l.rotation||0)+'deg');root.style.setProperty('--measure-inverse',(-(l.rotation||0))+'deg');
+ $('fdDimWidth').textContent=Math.round(b.w)+' px';$('fdDimHeight').textContent=Math.round(b.h)+' px';
+}
+function bindDimensionEditor(){
+ const dialog=$('fdDimensionsDialog'),width=$('fdMeasureW'),height=$('fdMeasureH'),lock=$('fdMeasureLock');let changing=false;
+ const currentBox=()=>state.hitboxes?.find(v=>v.id===state.selected);
+ const open=()=>{const l=selectedLayer(),b=currentBox();if(!l||!b||l.type!=='image')return;
+  state.dimensionStart={id:l.id,w:b.w,h:b.h};width.value=Math.round(b.w);height.value=Math.round(b.h);lock.checked=l.lockRatio!==false;lock.disabled=false;dialog.showModal();};
+ $('fdDimWidth').addEventListener('click',open);$('fdDimHeight').addEventListener('click',open);
+ function sync(which){if(!lock.checked||changing||!state.dimensionStart)return;changing=true;const {w,h}=state.dimensionStart;if(which==='w')height.value=Math.max(1,Math.round((+width.value||w)*h/w));else width.value=Math.max(1,Math.round((+height.value||h)*w/h));changing=false;}
+ width.addEventListener('input',()=>sync('w'));height.addEventListener('input',()=>sync('h'));
+ const close=()=>dialog.close();$('fdDimensionsClose').onclick=close;$('fdMeasureCancel').onclick=close;
+ $('fdDimensionsForm').addEventListener('submit',e=>{e.preventDefault();const l=selectedLayer(),b=currentBox(),c=$('editorCanvas');if(!l||!b||!state.dimensionStart||l.id!==state.dimensionStart.id){close();return;}
+  const w=+width.value,h=+height.value;if(!(w>=1&&h>=1&&Number.isFinite(w)&&Number.isFinite(h))){toast('Ingrese dimensiones válidas.',true);return;}
+  pushHistory();l.width=clamp(w/c.width*100,1,200);if(l.type==='image'){l.lockRatio=lock.checked;if(!lock.checked)l.heightPct=clamp(h/c.height*100,0.1,200);else delete l.heightPct;}renderTemplate();renderEditor();close();toast('Dimensiones modificadas.');});
+}
+async function copySelectedToClipboard(){const l=selectedLayer();if(!l)return;
+ try{if(l.type==='text'){if(!navigator.clipboard?.writeText)throw Error('Portapapeles no disponible');await navigator.clipboard.writeText(sourceText(l));toast('Texto copiado al portapapeles.');return;}
+  if(!navigator.clipboard?.write||!window.ClipboardItem)throw Error('El navegador no permite copiar imágenes.');
+  const b=state.hitboxes.find(v=>v.id===l.id),w=Math.max(1,Math.ceil(b.w)),h=Math.max(1,Math.ceil(b.h)),c=document.createElement('canvas');c.width=w;c.height=h;
+  const ctx=c.getContext('2d');ctx.translate(-b.x,-b.y);const cfg={...state.config,defaultLayers:l.type==='logo'?[l]:[],imageLayers:l.type==='image'?[l]:[],textLayers:[],showLogo:true};drawElements(ctx,$('editorCanvas').width,$('editorCanvas').height,null,cfg);
+  const blob=await exportCanvasBlob(c);await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);toast('Imagen copiada al portapapeles.');
+ }catch(e){toast('No se pudo copiar: '+(e?.message||'sin permiso')+'. Use Duplicar como alternativa.',true);}
+}
+function bindDocumentMenu(){const b=$('editorMenuBtn'),nav=$('editorMenu');const close=()=>{nav.hidden=true;b.setAttribute('aria-expanded','false');};
+ b.onclick=()=>{nav.hidden=!nav.hidden;b.setAttribute('aria-expanded',String(!nav.hidden));};
+ document.addEventListener('pointerdown',e=>{if(!nav.hidden&&!e.target.closest('#editorMenu,#editorMenuBtn'))close();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!nav.hidden){close();b.focus();}});
+ $('fdMenuNew').onclick=()=>{close();if(!window.confirm('¿Iniciar una plantilla nueva? Puede guardar la actual antes de continuar.'))return;pushHistory();state.config.textLayers=[];state.config.imageLayers=[];state.config.defaultLayers=initialDefaults();state.selected=null;state.background=null;state.editorBgColor='#ffffff';state.cropMode=null;closeToolbarLevels();renderTemplate();renderEditor();toast('Plantilla nueva preparada.');};
+ $('fdMenuOpen').onclick=()=>{close();$('projectInput').click();};
+ $('fdMenuInsert').onclick=()=>{close();toggleToolbar('insert','toolInsertSub');};
+ $('fdMenuSave').onclick=()=>{close();saveProject();};
+ $('fdMenuClose').onclick=()=>{close();$('editorBack').click();};
+}
+function setupEditorIcons(){
+ const paths={undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 0 1 0 14"/>',redo:'<path d="m15 4 5 5-5 5"/><path d="M20 9h-9a7 7 0 0 0 0 14"/>',image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 6-5 4 3 3-4 5 6"/>',plus:'<path d="M12 4v16M4 12h16"/>',text:'<path d="M4 6V4h16v2M12 4v16m-4 0h8"/>',layers:'<path d="m12 2-9 5 9 5 9-5-9-5Zm-9 10 9 5 9-5M3 17l9 5 9-5"/>',crop:'<path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/>',order:'<path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/>',duplicate:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',delete:'<path d="M4 6h16M9 6V4h6v2m3 0-1 14H7L6 6M10 10v7m4-7v7"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2m-3-5 1.5-1.5M5.5 18.5 7 17M7 7 5.5 5.5M18.5 18.5 17 17"/>',file:'<path d="M6 2h8l5 5v15H6zM14 2v6h5M9 14h7m-7 4h7"/>',background:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 14 15 3M10 21l11-11"/>',save:'<path d="M4 3h14l3 3v15H3V3h1Zm3 0v7h9V3M7 21v-8h10v8"/>',open:'<path d="M4 4h6l2 3h8v13H4V4Zm0 8h16"/>',export:'<path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"/>',close:'<path d="m5 5 14 14M19 5 5 19"/>',check:'<path d="m4 12 5 5L20 6"/>',circle:'<circle cx="12" cy="12" r="9"/>',rect:'<rect x="4" y="5" width="16" height="14" rx="1"/>',poly:'<path d="M12 3 22 12l-10 9L2 12Z"/>',pen:'<path d="m4 20 5-2 12-12-3-3L6 15l-2 5Z"/>',copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 16H3V3h13v2"/>',back:'<path d="M15 5 8 12l7 7M8 12h13"/>',forward:'<path d="m9 5 7 7-7 7M16 12H3"/>',trim:'<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2"/><path d="M8 8h8v8H8z"/>',minus:'<path d="M4 12h16"/>',alignLeft:'<path d="M4 5h16M4 10h10M4 15h16M4 20h10"/>',alignCenter:'<path d="M4 5h16M7 10h10M4 15h16M7 20h10"/>',alignRight:'<path d="M4 5h16M10 10h10M4 15h16M10 20h10"/>',clipboard:'<rect x="5" y="5" width="14" height="17" rx="2"/><path d="M9 5V3h6v2M9 12h6m-6 4h5"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>'};
+ const list={toolUndo:'undo',toolRedo:'redo',toolInsert:'plus',toolAddImage:'image',toolAddText:'text',toolBackground:'background',toolBackgroundImport:'image',toolLayers:'layers',toolFiles:'file',toolCrop:'crop',toolOrder:'order',toolDuplicate:'duplicate',toolCopy:'clipboard',toolTextStyle:'text',toolProperties:'settings',toolDelete:'delete',toolBehind:'back',toolAhead:'forward',toolOrderClose:'close',toolCropAccept:'check',toolCropCancel:'close',toolCropClose:'close',toolCropClosePoly:'poly',toolTrim:'trim',toolSave:'save',toolOpen:'open',toolExport:'export',toolPDF:'file',toolWhite:'background',toolLastCamera:'image',toolInsertClose:'close',fdEditText:'pen',fdFormatClose:'close',fdTextDone:'check',fdTextCancel:'close',fdAlignleft:'alignLeft',fdAligncenter:'alignCenter',fdAlignright:'alignRight',fdZoomIn:'plus',fdZoomOut:'minus'};
+ document.querySelectorAll('[data-crop]').forEach(el=>{el.setAttribute('aria-label',el.getAttribute('aria-label')||el.title);el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">${paths[{rect:'rect',circle:'circle',free:'pen',poly:'poly'}[el.dataset.crop]]}</svg>`;});
+ for(const [id,key] of Object.entries(list)){const el=$(id);if(!el)continue;if(id==='toolPDF'||id==='toolWhite'||id==='toolLastCamera'||id==='toolAddImage'||id==='toolAddText'){const label=el.textContent.trim();el.setAttribute('aria-label',label);el.title=label;}el.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${paths[key]}</svg>`;}
 }
 function bind(){
   $('menuButton').addEventListener('click',()=> $('menuPanel').hidden?showMenu():closeMenu());document.addEventListener('pointerdown',(e)=>{if(!$('menuPanel').hidden&&!e.target.closest('#menuPanel')&&!e.target.closest('#menuButton'))closeMenu();});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('menuPanel').hidden){e.preventDefault();closeMenu(true);}});
@@ -1103,18 +1247,18 @@ function bind(){
   $('photoTab').addEventListener('click',()=>setCaptureKind('photo'));$('videoTab').addEventListener('click',()=>setCaptureKind('video'));$('shutter').addEventListener('click',shutter);
   $('cameraRegion').addEventListener('click',e=>{if(e.target.closest('button')||!cameraReady()||state.captureKind!=='photo'||state.record)return;shutter();});
   $('cameraRegion').addEventListener('keydown',e=>{if(e.target===e.currentTarget && (e.key==='Enter'||e.key===' ')){e.preventDefault();if(state.captureKind==='photo')shutter();}});
-  $('retryCamera').addEventListener('click',e=>{e.stopPropagation();startCamera();});$('switchEditor').addEventListener('click',e=>{e.stopPropagation();displayMode('edit');});$('switchCamera').addEventListener('click',()=>{const facing=state.cameraFacing==='environment'?'user':'environment';startCamera(facing);});$('quickEditor').addEventListener('click',enterEditorFromCamera);$('filesTab').addEventListener('click',()=>openWorkspace('filesView',state.mode));$('editorImport').addEventListener('click',()=>$('backgroundInput').click());
+  $('retryCamera').addEventListener('click',e=>{e.stopPropagation();startCamera();});$('switchEditor').addEventListener('click',e=>{e.stopPropagation();displayMode('edit');});$('switchCamera').addEventListener('click',()=>{const facing=state.cameraFacing==='environment'?'user':'environment';startCamera(facing);});$('quickEditor').addEventListener('click',enterEditorFromCamera);$('filesTab').addEventListener('click',()=>openWorkspace('filesView',state.mode));bindDocumentMenu();
   $('backgroundInput').addEventListener('change',async e=>{await importBackground(e.target.files[0]);e.target.value='';});
   $('editorBack').addEventListener('click',()=>{if(cameraReady())displayMode('capture');else startCamera();});
   $('addText').addEventListener('click',()=>addText());$('addImage').addEventListener('click',()=>$('layerImageInput').click());$('layerImageInput').addEventListener('change',async e=>{await addLayerImage(e.target.files[0]);e.target.value='';});
   $('clearBackground').addEventListener('click',()=>{pushHistory();state.background=null;state.editorBgColor='#ffffff';$('editorBgColor').value='#ffffff';renderEditor();toast('Lienzo blanco restaurado.');});
   for(const [id,p] of [['propText','text'],['propColor','color'],['propSize','level'],['propX','x'],['propY','y'],['propWidth','width']])$(id).addEventListener('input',(e)=>{const l=selectedLayer();if(!l)return;l[p]=['level','x','y','width'].includes(p)?Number(e.target.value):e.target.value;renderTemplate();renderEditor();});
-  $('layerDelete').addEventListener('click',()=>{const l=selectedLayer();if(!l)return;pushHistory();if(isBuiltIn(l)){const prop={'fd-logo':'showLogo','fd-date':'showDate','fd-gps':'showGPS','fd-id':'showID','fd-north':'showNorth'}[l.id];if(prop)state.config[prop]=false;syncSettings();}
+  $('propOpacity').addEventListener('change',e=>{const l=selectedLayer();if(l?.type!=='image')return;pushHistory();l.opacity=clamp(+e.target.value/100,0,1);renderTemplate();renderEditor();});$('layerDelete').addEventListener('click',()=>{const l=selectedLayer();if(!l)return;pushHistory();if(isBuiltIn(l)){const prop={'fd-logo':'showLogo','fd-date':'showDate','fd-gps':'showGPS','fd-id':'showID','fd-north':'showNorth'}[l.id];if(prop)state.config[prop]=false;syncSettings();}
   else {state.config.textLayers=state.config.textLayers.filter(x=>x.id!==l.id);state.config.imageLayers=state.config.imageLayers.filter(x=>x.id!==l.id);}state.selected=null;renderTemplate();renderEditor();});
   $('layerDuplicate').addEventListener('click',()=>{const l=selectedLayer();if(!l)return;pushHistory();const c={...structuredClone(l),id:nextId(),source:null,text:sourceText(l),x:clamp(l.x+4,0,95),y:clamp(l.y+4,0,95),order:Math.max(0,...getDrawElements().map(x=>x.order||0))+1,label:(l.label||'Elemento')+' (copia)'};
    if(l.type==='logo')state.config.imageLayers.push(c);else state.config[l.type==='text'?'textLayers':'imageLayers'].push(c);state.selected=c.id;renderTemplate();renderEditor();});
   for(const [btn,delta] of [['layerUp',1],['layerDown',-1]])$(btn).addEventListener('click',()=>{const l=selectedLayer();if(!l)return;changeLayerOrder(delta);});
-  bindEditorPointers();bindFloatingToolbar();bindTextTools();bindEditorZoom();
+  bindEditorPointers();bindFloatingToolbar();bindTextTools();bindEditorZoom();bindDimensionEditor();setupEditorIcons();
   $('exportImage').addEventListener('click',async()=>{try{await preloadLayers();const c=document.createElement('canvas'),[w,h]=editorDims();c.width=w;c.height=h;compose(c.getContext('2d',{alpha:false}),w,h,state.background?.image||null,{backgroundColor:state.editorBgColor});const blob=await exportCanvasBlob(c,'image/png');downloadBlob(blob,`${baseName()}_plantilla.png`);toast('Imagen PNG preparada.');}catch{toast('No se pudo exportar el PNG.',true);}});
   $('exportPDF').addEventListener('click',()=>{const c=$('editorCanvas'),ctx=c.getContext('2d',{alpha:false});compose(ctx,c.width,c.height,state.background?.image||null,{backgroundColor:state.editorBgColor});window.print();setTimeout(renderEditor,200);});$('saveProject').addEventListener('click',saveProject);$('loadProject').addEventListener('click',()=>$('projectInput').click());$('projectInput').addEventListener('change',async(e)=>{await openProject(e.target.files[0]);e.target.value='';});
   document.addEventListener('keydown',onEditorShortcut);$('editorCanvas').addEventListener('dragover',e=>e.preventDefault());$('editorCanvas').addEventListener('drop',e=>{e.preventDefault();importBackground(e.dataTransfer.files[0]);});
